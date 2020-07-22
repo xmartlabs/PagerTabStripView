@@ -17,10 +17,6 @@ struct NavBar: View {
     }
 }
 
-struct PagerData {
-    internal static var pageItems = [Any]()
-}
-
 public enum PagerType {
     case twitter
     case youtube
@@ -59,21 +55,3 @@ public struct XLPagerView<Content> : View where Content : View {
         }
     }
 }
-
-@available(iOS 14.0, *)
-struct XLPagerView_Previews: PreviewProvider {
-
-    static var previews: some View {
-        XLPagerView(.youtube) {
-            ForEach(1...5, id: \.self) { idx in
-                Text("Pager")
-                    .onAppear {
-                        print("Page: \(idx)")
-                    }
-            }
-
-        }
-        .frame(alignment: .center)
-    }
-}
-
