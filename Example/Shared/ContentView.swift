@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
-#if iOS
 import PagerTabStrip
-#endif
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!").padding()
+        XLPagerView(.youtube) {
+            ForEach(1...5, id: \.self) { idx in
+                Text("Pager")
+                    .onAppear {
+                        print("Page: \(idx)")
+                    }
+            }
+
+        }
+        .frame(alignment: .center)
     }
 }
 
