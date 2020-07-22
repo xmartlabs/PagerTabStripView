@@ -10,7 +10,7 @@ import PagerTabStrip
 
 struct ContentView: View {
     var body: some View {
-        XLPagerTabView(.youtube) {
+        XLPagerView(.youtube) {
             ForEach(1...5, id: \.self) { idx in
                 Text("Pager")
                     .onAppear {

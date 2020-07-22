@@ -1,5 +1,5 @@
 //
-//  XLPagerTabView.swift
+//  XLPagerView.swift
 //  PagerTabStrip
 //
 //  Created by Manuel Lorenze on 7/22/20.
@@ -27,7 +27,7 @@ public enum PagerType {
 }
 
 @available(iOS 14.0, *)
-public struct XLPagerTabView<Content> : View where Content : View {
+public struct XLPagerView<Content> : View where Content : View {
 
     private var type: PagerType
     private var content: () -> Content
@@ -61,10 +61,10 @@ public struct XLPagerTabView<Content> : View where Content : View {
 }
 
 @available(iOS 14.0, *)
-struct XLPagerTabView_Previews: PreviewProvider {
+struct XLPagerView_Previews: PreviewProvider {
 
     static var previews: some View {
-        XLPagerTabView(.youtube) {
+        XLPagerView(.youtube) {
             ForEach(1...5, id: \.self) { idx in
                 Text("Pager")
                     .onAppear {
@@ -76,3 +76,4 @@ struct XLPagerTabView_Previews: PreviewProvider {
         .frame(alignment: .center)
     }
 }
+

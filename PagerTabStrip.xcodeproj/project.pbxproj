@@ -11,8 +11,8 @@
 		28F828811C494B2C00330CF4 /* PagerTabStrip.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F828801C494B2C00330CF4 /* PagerTabStrip.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28F828881C494B2C00330CF4 /* PagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStrip.framework */; };
 		28F8289A1C494B4200330CF4 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F828991C494B4200330CF4 /* iOS.swift */; };
-		E1FA588B24C895780081FBE7 /* XLPagerTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA588A24C895780081FBE7 /* XLPagerTabView.swift */; };
-		E1FA588C24C895780081FBE7 /* XLPagerTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA588A24C895780081FBE7 /* XLPagerTabView.swift */; };
+		E1FA589924C8BC1B0081FBE7 /* XLPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */; };
+		E1FA589A24C8BC1B0081FBE7 /* XLPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,7 +33,7 @@
 		28F828871C494B2C00330CF4 /* PagerTabStripTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagerTabStripTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F8288E1C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F828991C494B4200330CF4 /* iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
-		E1FA588A24C895780081FBE7 /* XLPagerTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLPagerTabView.swift; sourceTree = "<group>"; };
+		E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLPagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				28F828991C494B4200330CF4 /* iOS.swift */,
-				E1FA588A24C895780081FBE7 /* XLPagerTabView.swift */,
+				E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1FA588B24C895780081FBE7 /* XLPagerTabView.swift in Sources */,
+				E1FA589924C8BC1B0081FBE7 /* XLPagerView.swift in Sources */,
 				28F8289A1C494B4200330CF4 /* iOS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,7 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1FA588C24C895780081FBE7 /* XLPagerTabView.swift in Sources */,
+				E1FA589A24C8BC1B0081FBE7 /* XLPagerView.swift in Sources */,
 				287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
