@@ -9,17 +9,19 @@ import SwiftUI
 import PagerTabStrip
 
 struct ContentView: View {
+    
+    @State var index: Int = 3
+    
     var body: some View {
-        XLPagerView(.youtube) {
+        XLPagerView(.youtube, selection: $index) {
+            Text("First")
             ForEach(1...5, id: \.self) { idx in
-                Text("Pager")
-                    .onAppear {
-                        print("Page: \(idx)")
-                    }
+                Text("Page \(idx)")
             }
-
+            Text("Last")
         }
         .frame(alignment: .center)
+        Text("Page \(index) of 7")
     }
 }
 

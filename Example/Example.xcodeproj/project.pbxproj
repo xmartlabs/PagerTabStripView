@@ -15,6 +15,8 @@
 		2857502C24C21EB400ED22AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857500124C21EB200ED22AD /* ContentView.swift */; };
 		2857502D24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
 		2857502E24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
+		E1F58C4424D0848100A3E642 /* PagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */; };
+		E1F58C4524D0848100A3E642 /* PagerTabStrip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +34,35 @@
 			remoteGlobalIDString = 2857500E24C21EB400ED22AD;
 			remoteInfo = "Example (macOS)";
 		};
+		E1F58C3C24D083C500A3E642 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28F8287D1C494B2C00330CF4;
+			remoteInfo = PagerTabStrip;
+		};
+		E1F58C3E24D083C500A3E642 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28F828871C494B2C00330CF4;
+			remoteInfo = PagerTabStripTests;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1F58C4624D0848100A3E642 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E1F58C4524D0848100A3E642 /* PagerTabStrip.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2857500024C21EB200ED22AD /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; };
@@ -49,6 +79,7 @@
 		2857502224C21EB400ED22AD /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2857502624C21EB400ED22AD /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		2857502824C21EB400ED22AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagerTabStrip.xcodeproj; path = ../PagerTabStrip.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1F58C4424D0848100A3E642 /* PagerTabStrip.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,12 +118,14 @@
 		28574FFA24C21EB200ED22AD = {
 			isa = PBXGroup;
 			children = (
+				E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */,
 				28574FFF24C21EB200ED22AD /* Shared */,
 				2857500924C21EB400ED22AD /* iOS */,
 				2857501024C21EB400ED22AD /* macOS */,
 				2857501A24C21EB400ED22AD /* Tests iOS */,
 				2857502524C21EB400ED22AD /* Tests macOS */,
 				2857500824C21EB400ED22AD /* Products */,
+				E1F58C4124D0848100A3E642 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,6 +185,22 @@
 			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
+		E1F58C3824D083C500A3E642 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */,
+				E1F58C3F24D083C500A3E642 /* PagerTabStripTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1F58C4124D0848100A3E642 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -161,6 +211,7 @@
 				2857500324C21EB400ED22AD /* Sources */,
 				2857500424C21EB400ED22AD /* Frameworks */,
 				2857500524C21EB400ED22AD /* Resources */,
+				E1F58C4624D0848100A3E642 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -260,6 +311,12 @@
 			mainGroup = 28574FFA24C21EB200ED22AD;
 			productRefGroup = 2857500824C21EB400ED22AD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E1F58C3824D083C500A3E642 /* Products */;
+					ProjectRef = E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2857500624C21EB400ED22AD /* Example (iOS) */,
@@ -269,6 +326,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PagerTabStrip.framework;
+			remoteRef = E1F58C3C24D083C500A3E642 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E1F58C3F24D083C500A3E642 /* PagerTabStripTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PagerTabStripTests.xctest;
+			remoteRef = E1F58C3E24D083C500A3E642 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2857500524C21EB400ED22AD /* Resources */ = {
