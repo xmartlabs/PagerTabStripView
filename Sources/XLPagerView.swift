@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-struct NavBar<SelectionValue>: View where SelectionValue : Hashable {
+struct NavBar: View {
     
-    @State var nextPage: Int = 0
-    @Binding var selected: SelectionValue
+    @State private var nextPage = 0
+    @Binding private var indexSelected: Int
     
-    public init(selection: Binding<SelectionValue>) {
-        self._selected = selection
+    public init(selection: Binding<Int>) {
+        self._indexSelected = selection
     }
     
     var body: some View {
         HStack(){
             Button("Go To \(self.nextPage)") {
-                self.selected = nextPage as! SelectionValue
+                self.indexSelected = nextPage
             }
-            .onChange(of: self.selected) { value in
+            .onChange(of: self.indexSelected) { value in
                 let newPage = Int.random(in: 1..<5)
                 self.nextPage = newPage != self.nextPage ? newPage : newPage + 1
             }
@@ -35,25 +35,25 @@ public enum PagerType {
 }
 
 @available(iOS 14.0, *)
-public struct XLPagerView<SelectionValue, Content> : View where SelectionValue : Hashable, Content : View {
+public struct XLPagerView<Content> : View where Content : View {
 
     private var type: PagerType
     private var content: () -> Content
     
-    @Binding var selected: SelectionValue
+    @State private var indexSelected: Int
     
     public init(_ type: PagerType = .twitter,
-                selection: Binding<SelectionValue>,
+                selection: Int = 1,
                 @ViewBuilder content: @escaping () -> Content) {
         self.type = type
         self.content = content
-        self._selected = selection
+        self._indexSelected = State(initialValue: selection)
     }
     
     public var body: some View {
         VStack {
             if type == .youtube {
-                NavBar(selection: self.$selected)
+                NavBar(selection: self.$indexSelected)
                     .frame(width: 100, height: 40, alignment: .center)
                     .background(Color.red)
             }
@@ -66,9 +66,9 @@ public struct XLPagerView<SelectionValue, Content> : View where SelectionValue :
                         }
                         .background(Color.blue)
                     }
-                    .onChange(of: self.selected) { index in
+                    .onChange(of: self.indexSelected) { index in
                         withAnimation {
-                            sproxy.scrollTo(selected)
+                            sproxy.scrollTo(indexSelected)
                         }
                     }
                 }

@@ -10,10 +10,8 @@ import PagerTabStrip
 
 struct ContentView: View {
     
-    @State var index: Int = 3
-    
     var body: some View {
-        XLPagerView(.youtube, selection: $index) {
+        XLPagerView(.youtube) {
             Text("First")
             ForEach(1...5, id: \.self) { idx in
                 Text("Page \(idx)")
@@ -21,7 +19,6 @@ struct ContentView: View {
             Text("Last")
         }
         .frame(alignment: .center)
-        Text("Page \(index) of 7")
     }
 }
 
