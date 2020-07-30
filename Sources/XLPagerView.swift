@@ -61,11 +61,14 @@ public struct XLPagerView<Content> : View where Content : View {
             GeometryReader { gproxy in
                 ScrollViewReader { sproxy in
                     ScrollView(.horizontal) {
-                        LazyHStack {
-                            let a = self.content()
-                            a.frame(width: gproxy.size.width, alignment: .center)
+                        GeometryReader { pproxy in
+                            //self.currentOffset = pproxy.frame(in: .global).minX
+                            LazyHStack {
+                                let a = self.content()
+                                a.frame(width: gproxy.size.width, alignment: .center)
+                            }
+                            .background(Color.blue)
                         }
-                        .background(Color.blue)
                     }
                     .onChange(of: self.currentPage) { index in
                         withAnimation {
@@ -74,6 +77,7 @@ public struct XLPagerView<Content> : View where Content : View {
                     }
                 }
             }
+            Text("\(self.currentOffset)")
         }
     }
 }
