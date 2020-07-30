@@ -61,17 +61,16 @@ public struct XLPagerView<Content> : View where Content : View {
             GeometryReader { gproxy in
                 ScrollViewReader { sproxy in
                     ScrollView(.horizontal) {
-                        HStack {
+                        ZStack(alignment: .leading){
+                            LazyHStack {
+                                self.content().frame(width: gproxy.size.width, alignment: .center)
+                                    .background(Color.blue)
+                            }
                             GeometryReader { pproxy in
-                                LazyHStack {
-                                    let a = self.content()
-                                    a.frame(width: gproxy.size.width, alignment: .center)
-                                }
-                                .background(Color.blue)
-                                .preference(key: ContentOffsetPreferenceKey.self,
+                                Color.yellow.frame(width: 10, height: 10, alignment: .leading)
+                                    .preference(key: ContentOffsetPreferenceKey.self,
                                             value: pproxy.frame(in: .global).minX)
                             }
-                            .frame(width: 1000, height: 1000)
                         }
                     }
                     .onChange(of: self.currentPage) { index in
