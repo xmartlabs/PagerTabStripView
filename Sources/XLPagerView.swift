@@ -61,13 +61,17 @@ public struct XLPagerView<Content> : View where Content : View {
             GeometryReader { gproxy in
                 ScrollViewReader { sproxy in
                     ScrollView(.horizontal) {
-                        GeometryReader { pproxy in
-                            //self.currentOffset = pproxy.frame(in: .global).minX
-                            LazyHStack {
-                                let a = self.content()
-                                a.frame(width: gproxy.size.width, alignment: .center)
+                        HStack {
+                            GeometryReader { pproxy in
+                                LazyHStack {
+                                    let a = self.content()
+                                    a.frame(width: gproxy.size.width, alignment: .center)
+                                }
+                                .background(Color.blue)
+                                .preference(key: ContentOffsetPreferenceKey.self,
+                                            value: pproxy.frame(in: .global).minX)
                             }
-                            .background(Color.blue)
+                            .frame(width: 1000, height: 1000)
                         }
                     }
                     .onChange(of: self.currentPage) { index in
@@ -75,9 +79,22 @@ public struct XLPagerView<Content> : View where Content : View {
                             sproxy.scrollTo(currentPage)
                         }
                     }
+                    .onPreferenceChange(ContentOffsetPreferenceKey.self) { value in
+                        self.currentOffset = value
+                    }
                 }
             }
             Text("\(self.currentOffset)")
         }
+    }
+}
+
+struct ContentOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    
+    typealias Value = CGFloat
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }
