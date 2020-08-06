@@ -71,12 +71,9 @@ public struct XLPagerView<Content> : View where Content : View {
         return min(computedIndex, self.itemCount - 1)
     }
     
-    func move(to index: Int) {
-        if self.currentIndex != index {
-            self.currentIndex = index
-        }
+    func move() {
         withAnimation {
-            self.currentOffset = self.offsetForPageIndex(index)
+            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
         }
     }
     
@@ -107,10 +104,11 @@ public struct XLPagerView<Content> : View where Content : View {
                                     // TODO: manage velocity!!!
                                     let dragged = value.translation.width
                                     if dragged < 0 {
-                                        move(to: min(self.currentIndex + 1, self.itemCount - 1))
+                                        self.currentIndex = min(self.currentIndex + 1, self.itemCount - 1)
                                     } else if self.dragOffset > 0 {
-                                        move(to: max(self.currentIndex - 1, 0))
+                                        self.currentIndex = max(self.currentIndex - 1, 0)
                                     }
+                                    move()
                                     self.dragOffset = 0
                                 }
                             )
