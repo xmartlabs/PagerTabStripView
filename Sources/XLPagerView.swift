@@ -83,7 +83,7 @@ public struct XLPagerView<Content> : View where Content : View {
                     ScrollView(.horizontal) {
                         ZStack(alignment: .leading){
                             LazyHStack(spacing: 0) {
-                                self.content().frame(width: gproxy.size.width, alignment: .center)
+                                self.content().frame(width: gproxy.size.width, height: gproxy.size.height, alignment: .center)
                                     .background(Color.blue)
                             }
                             .offset(x: self.currentOffset, y: 0)
