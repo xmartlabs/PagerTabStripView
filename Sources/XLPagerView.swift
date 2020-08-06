@@ -82,7 +82,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 ScrollViewReader { sproxy in
                     ScrollView(.horizontal) {
                         ZStack(alignment: .leading){
-                            LazyHStack {
+                            LazyHStack(spacing: 0) {
                                 self.content().frame(width: gproxy.size.width, alignment: .center)
                                     .background(Color.blue)
                             }
