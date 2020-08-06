@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavBar: View {
     
-    @State private var nextPage = 0
+    @State private var nextIndex = 0
     @Binding private var indexSelected: Int
     
     public init(selection: Binding<Int>) {
@@ -18,12 +18,12 @@ struct NavBar: View {
     
     var body: some View {
         HStack(){
-            Button("Go To \(self.nextPage)") {
-                self.indexSelected = nextPage
+            Button("Go To \(self.nextIndex + 1)") {
+                self.indexSelected = nextIndex
             }
             .onChange(of: self.indexSelected) { value in
-                let newPage = Int.random(in: 1..<5)
-                self.nextPage = newPage != self.nextPage ? newPage : newPage + 1
+                let newIndex = Int.random(in: 0..<5)
+                self.nextIndex = newIndex
             }
         }
     }
@@ -40,13 +40,13 @@ public struct XLPagerView<Content> : View where Content : View {
     private var type: PagerType
     private var content: () -> Content
     
-    @State private var currentPage: Int
+    @State private var currentIndex: Int
     @State private var currentOffset: CGFloat = 0
     
     @State private var pageWidth : CGFloat = 0
     @State private var contentWidth : CGFloat = 0
     @State private var itemCount : Int = 0
-    @State private var dragOffset : CGFloat = 0
+    @State var dragOffset : CGFloat = 0
     
     
     public init(_ type: PagerType = .twitter,
@@ -54,7 +54,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 @ViewBuilder content: @escaping () -> Content) {
         self.type = type
         self.content = content
-        self._currentPage = State(initialValue: selection)
+        self._currentIndex = State(initialValue: selection)
     }
     
     func offsetForPageIndex(_ index: Int) -> CGFloat {
@@ -71,10 +71,19 @@ public struct XLPagerView<Content> : View where Content : View {
         return min(computedIndex, self.itemCount - 1)
     }
     
+    func move(to index: Int) {
+        if self.currentIndex != index {
+            self.currentIndex = index
+        }
+        withAnimation {
+            self.currentOffset = self.offsetForPageIndex(index)
+        }
+    }
+    
     public var body: some View {
         VStack {
             if type == .youtube {
-                NavBar(selection: self.$currentPage)
+                NavBar(selection: self.$currentIndex)
                     .frame(width: 100, height: 40, alignment: .center)
                     .background(Color.red)
             }
@@ -87,36 +96,38 @@ public struct XLPagerView<Content> : View where Content : View {
                                                      height: gproxy.size.height,
                                                      alignment: .center)
                             }
-                            .gesture( DragGesture(minimumDistance: 1, coordinateSpace: .global)
+                            .offset(x: self.currentOffset)
+                            .gesture( DragGesture(minimumDistance: 1, coordinateSpace: .local)
                                 .onChanged { value in
                                     let previousTranslation = self.dragOffset
+                                    self.currentOffset += value.translation.width - previousTranslation
                                     self.dragOffset = value.translation.width
-                                    self.currentOffset += self.dragOffset - previousTranslation
                                 }
                                 .onEnded { value in
-                                    if self.dragOffset < 0 {
-                                        self.currentPage =  min(self.currentPage + 1, self.itemCount - 1)
+                                    // TODO: manage velocity!!!
+                                    let dragged = value.translation.width
+                                    if dragged < 0 {
+                                        move(to: min(self.currentIndex + 1, self.itemCount - 1))
                                     } else if self.dragOffset > 0 {
-                                        self.currentPage = max(self.currentPage - 1, 0)
+                                        move(to: max(self.currentIndex - 1, 0))
                                     }
-                                    self.currentOffset = self.offsetForPageIndex(currentPage)
                                     self.dragOffset = 0
                                 }
                             )
                             GeometryReader { pproxy in
                                 Color.clear.frame(width: 10, height: 10, alignment: .leading)
                                     .onAppear {
-                                        self.currentOffset = pproxy.frame(in: .global).minX
-                                        self.contentWidth = pproxy.frame(in: .global).width
+                                        self.currentOffset = pproxy.frame(in: .local).minX
+                                        self.contentWidth = pproxy.frame(in: .local).width
                                     }
                             }
                         }
                     }
-                    .onChange(of: self.currentPage) { index in
-                        withAnimation {
-                            sproxy.scrollTo(currentPage)
-                        }
-                    }
+//                    .onChange(of: self.currentIndex) { index in
+//                        withAnimation {
+//
+//                        }
+//                    }
                 }
                 .onAppear {
                     self.pageWidth = gproxy.size.width
@@ -124,7 +135,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 }
             }
             HStack {
-                Text("Offset: \(self.currentOffset) Page: \(self.currentPage)")
+                Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
             }
         }
     }

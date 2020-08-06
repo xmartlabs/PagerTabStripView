@@ -15,17 +15,17 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { proxy in
             XLPagerView(.youtube) {
-                Text("First")
-                    .frame(width: proxy.size.width, height: 100)
-                    .padding([.leading, .trailing], 20)
-                    .background(Color.orange)
+//                Text("First")
+//                    .frame(width: proxy.size.width, height: 100)
+//                    .padding([.leading, .trailing], 20)
+//                    .background(Color.orange)
                 ForEach(0...4, id: \.self) { idx in
-                    Text("Page \(idx)")
+                    Text("Page \(idx+1)")
                         .frame(width: proxy.size.width, height: 400)
                         .background(colors[idx])
                 }
-                Text("Last")
-                    .frame(width: proxy.size.width, height: 100)
+//                Text("Last")
+//                    .frame(width: proxy.size.width, height: 100)
                     .background(Color.purple)
             }
             .frame(alignment: .center)
