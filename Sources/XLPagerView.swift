@@ -43,12 +43,32 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var currentPage: Int
     @State private var currentOffset: CGFloat = 0
     
+    @State private var pageWidth : CGFloat = 0
+    @State private var contentWidth : CGFloat = 0
+    @State private var itemCount : Int = 0
+    @State private var dragOffset : CGFloat = 0ahora subo
+    
+    
     public init(_ type: PagerType = .twitter,
-                selection: Int = 1,
+                selection: Int = 0,
                 @ViewBuilder content: @escaping () -> Content) {
         self.type = type
         self.content = content
         self._currentPage = State(initialValue: selection)
+    }
+    
+    func offsetForPageIndex(_ index: Int) -> CGFloat {
+        return (CGFloat(index) * pageWidth) * -1.0
+    }
+    
+    func indexPageForOffset(_ offset : CGFloat) -> Int {
+        guard self.itemCount > 0 else {
+            return 0
+        }
+        let floatIndex = (offset * -1) / pageWidth
+        var computedIndex = Int(round(floatIndex))
+        computedIndex = max(computedIndex, 0)
+        return min(computedIndex, self.itemCount - 1)
     }
     
     public var body: some View {
@@ -66,34 +86,48 @@ public struct XLPagerView<Content> : View where Content : View {
                                 self.content().frame(width: gproxy.size.width, alignment: .center)
                                     .background(Color.blue)
                             }
+                            .offset(x: self.currentOffset, y: 0)
+                            .simultaneousGesture( DragGesture(minimumDistance: 1, coordinateSpace: .local)
+                                .onChanged { value in
+                                    let previousTranslation = self.dragOffset
+                                    self.dragOffset = value.translation.width
+                                    self.currentOffset += self.dragOffset - previousTranslation
+                                }
+                                .onEnded { value in
+                                    if self.dragOffset < 0 {
+                                        self.currentPage =  min(self.currentPage + 1, self.itemCount - 1)
+                                    } else if self.dragOffset > 0 {
+                                        self.currentPage = max(self.currentPage - 1, 0)
+                                    }
+                                    self.currentOffset = self.offsetForPageIndex(currentPage)
+                                    
+                                    self.dragOffset = 0
+                                }
+                            )
                             GeometryReader { pproxy in
-                                Color.yellow.frame(width: 10, height: 10, alignment: .leading)
-                                    .preference(key: ContentOffsetPreferenceKey.self,
-                                            value: pproxy.frame(in: .global).minX)
+                                Color.clear.frame(width: 10, height: 10, alignment: .leading)
+                                    .onAppear {
+                                        self.currentOffset = pproxy.frame(in: .global).minX
+                                        self.contentWidth = pproxy.frame(in: .global).width
+                                    }
                             }
                         }
                     }
                     .onChange(of: self.currentPage) { index in
                         withAnimation {
                             sproxy.scrollTo(currentPage)
+                            self.currentOffset = self.offsetForPageIndex(currentPage)
                         }
                     }
-                    .onPreferenceChange(ContentOffsetPreferenceKey.self) { value in
-                        self.currentOffset = value
-                    }
+                }
+                .onAppear {
+                    self.pageWidth = gproxy.size.width
+                    self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                 }
             }
-            Text("\(self.currentOffset)")
+            HStack {
+                Text("Offset: \(self.currentOffset) Page: \(self.currentPage)")
+            }
         }
-    }
-}
-
-struct ContentOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    
-    typealias Value = CGFloat
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
     }
 }
