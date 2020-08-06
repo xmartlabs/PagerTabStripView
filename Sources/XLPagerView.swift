@@ -46,7 +46,7 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var pageWidth : CGFloat = 0
     @State private var contentWidth : CGFloat = 0
     @State private var itemCount : Int = 0
-    @State private var dragOffset : CGFloat = 0ahora subo
+    @State private var dragOffset : CGFloat = 0
     
     
     public init(_ type: PagerType = .twitter,
