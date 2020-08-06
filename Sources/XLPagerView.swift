@@ -83,11 +83,11 @@ public struct XLPagerView<Content> : View where Content : View {
                     ScrollView(.horizontal) {
                         ZStack(alignment: .leading){
                             LazyHStack(spacing: 0) {
-                                self.content().frame(width: gproxy.size.width, height: gproxy.size.height, alignment: .center)
-                                    .background(Color.blue)
+                                self.content().frame(width: gproxy.size.width,
+                                                     height: gproxy.size.height,
+                                                     alignment: .center)
                             }
-                            .offset(x: self.currentOffset, y: 0)
-                            .simultaneousGesture( DragGesture(minimumDistance: 1, coordinateSpace: .local)
+                            .gesture( DragGesture(minimumDistance: 1, coordinateSpace: .global)
                                 .onChanged { value in
                                     let previousTranslation = self.dragOffset
                                     self.dragOffset = value.translation.width
@@ -100,7 +100,6 @@ public struct XLPagerView<Content> : View where Content : View {
                                         self.currentPage = max(self.currentPage - 1, 0)
                                     }
                                     self.currentOffset = self.offsetForPageIndex(currentPage)
-                                    
                                     self.dragOffset = 0
                                 }
                             )
@@ -116,7 +115,6 @@ public struct XLPagerView<Content> : View where Content : View {
                     .onChange(of: self.currentPage) { index in
                         withAnimation {
                             sproxy.scrollTo(currentPage)
-                            self.currentOffset = self.offsetForPageIndex(currentPage)
                         }
                     }
                 }

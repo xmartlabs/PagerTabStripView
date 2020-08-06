@@ -10,15 +10,26 @@ import PagerTabStrip
 
 struct ContentView: View {
     
+    let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
+    
     var body: some View {
-        XLPagerView(.youtube) {
-            Text("First")
-            ForEach(1...5, id: \.self) { idx in
-                Text("Page \(idx)")
+        GeometryReader { proxy in
+            XLPagerView(.youtube) {
+                Text("First")
+                    .frame(width: proxy.size.width, height: 100)
+                    .padding([.leading, .trailing], 20)
+                    .background(Color.orange)
+                ForEach(0...4, id: \.self) { idx in
+                    Text("Page \(idx)")
+                        .frame(width: proxy.size.width, height: 400)
+                        .background(colors[idx])
+                }
+                Text("Last")
+                    .frame(width: proxy.size.width, height: 100)
+                    .background(Color.purple)
             }
-            Text("Last")
+            .frame(alignment: .center)
         }
-        .frame(alignment: .center)
     }
 }
 
