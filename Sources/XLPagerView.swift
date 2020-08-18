@@ -71,12 +71,6 @@ public struct XLPagerView<Content> : View where Content : View {
         return min(computedIndex, self.itemCount - 1)
     }
     
-    func move() {
-        withAnimation {
-            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-        }
-    }
-    
     public var body: some View {
         VStack {
             if type == .youtube {
@@ -93,7 +87,7 @@ public struct XLPagerView<Content> : View where Content : View {
                                                      height: gproxy.size.height,
                                                      alignment: .center)
                             }
-                            .offset(x: self.currentOffset)
+                            //.offset(x: self.currentOffset)
                             .gesture( DragGesture(minimumDistance: 1, coordinateSpace: .local)
                                 .onChanged { value in
                                     let previousTranslation = self.dragOffset
@@ -102,13 +96,14 @@ public struct XLPagerView<Content> : View where Content : View {
                                 }
                                 .onEnded { value in
                                     // TODO: manage velocity!!!
+                                    print(value)
                                     let dragged = value.translation.width
                                     if dragged < 0 {
                                         self.currentIndex = min(self.currentIndex + 1, self.itemCount - 1)
                                     } else if self.dragOffset > 0 {
                                         self.currentIndex = max(self.currentIndex - 1, 0)
                                     }
-                                    move()
+                                    self.currentOffset = self.offsetForPageIndex(self.currentIndex)
                                     self.dragOffset = 0
                                 }
                             )
@@ -121,11 +116,11 @@ public struct XLPagerView<Content> : View where Content : View {
                             }
                         }
                     }
-//                    .onChange(of: self.currentIndex) { index in
-//                        withAnimation {
-//
-//                        }
-//                    }
+                    .onChange(of: self.currentIndex) { index in
+                        withAnimation {
+                            sproxy.scrollTo(index)
+                        }
+                    }
                 }
                 .onAppear {
                     self.pageWidth = gproxy.size.width
