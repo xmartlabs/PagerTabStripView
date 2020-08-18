@@ -96,7 +96,6 @@ public struct XLPagerView<Content> : View where Content : View {
                                 }
                                 .onEnded { value in
                                     // TODO: manage velocity!!!
-                                    print(value)
                                     let dragged = value.translation.width
                                     if dragged < 0 {
                                         self.currentIndex = min(self.currentIndex + 1, self.itemCount - 1)
