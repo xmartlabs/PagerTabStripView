@@ -87,7 +87,7 @@ public struct XLPagerView<Content> : View where Content : View {
                                                      height: gproxy.size.height,
                                                      alignment: .center)
                             }
-                            //.offset(x: self.currentOffset)
+                            .offset(x: self.currentOffset)
                             .gesture( DragGesture(minimumDistance: 1, coordinateSpace: .local)
                                 .onChanged { value in
                                     let previousTranslation = self.dragOffset
