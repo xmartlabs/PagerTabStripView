@@ -18,12 +18,16 @@ struct NavBar: View {
     
     var body: some View {
         HStack(){
-            Button("Go To \(self.nextIndex + 1)") {
-                self.indexSelected = nextIndex
-            }
-            .onChange(of: self.indexSelected) { value in
-                let newIndex = Int.random(in: 0..<5)
-                self.nextIndex = newIndex
+            if #available(iOS 14.0, *) {
+                Button("Go To \(self.nextIndex + 1)") {
+                    self.indexSelected = nextIndex
+                }
+                .onChange(of: self.indexSelected) { value in
+                    let newIndex = Int.random(in: 0..<5)
+                    self.nextIndex = newIndex
+                }
+            } else {
+                // Fallback on earlier versions
             }
         }
     }
@@ -102,8 +106,6 @@ public struct XLPagerView<Content> : View where Content : View {
                                     } else if self.dragOffset > 0 {
                                         self.currentIndex = max(self.currentIndex - 1, 0)
                                     }
-                                    self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                                    self.dragOffset = 0
                                 }
                             )
                             GeometryReader { pproxy in
@@ -116,6 +118,8 @@ public struct XLPagerView<Content> : View where Content : View {
                         }
                     }
                     .onChange(of: self.currentIndex) { index in
+                        self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                        self.dragOffset = 0
                         withAnimation {
                             sproxy.scrollTo(index)
                         }
