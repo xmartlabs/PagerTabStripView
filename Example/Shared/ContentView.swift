@@ -8,13 +8,31 @@
 import SwiftUI
 import PagerTabStrip
 
+struct PagerTabItem<PagerTabView: View> : ViewModifier {
+    
+    var pagerTabView: () -> PagerTabView
+    
+    func body(content: Content) -> some View {
+        VStack {
+            pagerTabView()
+            content
+        }
+    }
+}
+
+extension View {
+    public func pagerTabItem<V>(@ViewBuilder _ label: @escaping () -> V) -> some View where V : View {
+        return self.modifier(PagerTabItem(pagerTabView: label))
+    }
+}
+
 struct ContentView: View {
     
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
     
     var body: some View {
         GeometryReader { proxy in
-            XLPagerView(.youtube) {
+            XLPagerView(.youtube, selection: 1) {
 //                Text("First")
 //                    .frame(width: proxy.size.width, height: 100)
 //                    .padding([.leading, .trailing], 20)
@@ -23,6 +41,14 @@ struct ContentView: View {
                     Text("Page \(idx+1)")
                         .frame(width: proxy.size.width, height: 400)
                         .background(colors[idx])
+                        .pagerTabItem {
+                            if 1 == 2 {
+                                Text("Martin")
+                            }
+                            else {
+                                Text("Chechu")
+                            }
+                        }
                 }
 //                Text("Last")
 //                    .frame(width: proxy.size.width, height: 100)
