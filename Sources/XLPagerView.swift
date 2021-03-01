@@ -7,6 +7,25 @@
 
 import SwiftUI
 
+struct PagerTabItem<PagerTabView: View> : ViewModifier {
+
+    var pagerTabView: () -> PagerTabView
+
+    func body(content: Content) -> some View {
+        VStack {
+            pagerTabView()
+            content
+        }
+    }
+}
+
+extension View {
+    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V : View {
+        return self.modifier(PagerTabItem(pagerTabView: pagerTabView))
+    }
+}
+
+
 struct NavBar: View {
     
     @State private var nextIndex = 0
@@ -38,6 +57,25 @@ public enum PagerType {
     case youtube
 }
 
+public class BasePagerTabInfo {
+
+    func createView<V>() -> V where V: View {
+        preconditionFailure("This method must be overridden")
+    }
+}
+
+public class PagerTabInfo<V>: BasePagerTabInfo, ObservableObject where V: View {
+    var item: () -> V
+
+    init(@ViewBuilder item: @escaping () -> V) {
+        self.item = item
+    }
+
+    override func createView<V>() -> V {
+        return self.item()
+    }
+}
+
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
 
@@ -51,6 +89,8 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var contentWidth : CGFloat = 0
     @State private var itemCount : Int = 0
     @State var dragOffset : CGFloat = 0
+
+//    @EnvironmentObject var tabBarContentViews : PagerTabInfo
     
     
     public init(_ type: PagerType = .twitter,

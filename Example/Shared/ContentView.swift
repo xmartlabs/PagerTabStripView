@@ -8,26 +8,8 @@
 import SwiftUI
 import PagerTabStrip
 
-struct PagerTabItem<PagerTabView: View> : ViewModifier {
-    
-    var pagerTabView: () -> PagerTabView
-    
-    func body(content: Content) -> some View {
-        VStack {
-            pagerTabView()
-            content
-        }
-    }
-}
-
-extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ label: @escaping () -> V) -> some View where V : View {
-        return self.modifier(PagerTabItem(pagerTabView: label))
-    }
-}
-
 struct ContentView: View {
-    
+
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
     
     var body: some View {
