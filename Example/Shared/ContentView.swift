@@ -24,12 +24,7 @@ struct ContentView: View {
                         .frame(width: proxy.size.width, height: 400)
                         .background(colors[idx])
                         .pagerTabItem {
-                            if 1 == 2 {
-                                Text("Martin")
-                            }
-                            else {
-                                Text("Chechu")
-                            }
+                            Text("Chechu")
                         }
                 }
 //                Text("Last")

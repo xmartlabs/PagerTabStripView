@@ -7,27 +7,55 @@
 
 import SwiftUI
 
-struct PagerTabItem<PagerTabView: View> : ViewModifier {
+//class  : EnvironmentObject {
+//
+//}
 
-    var pagerTabView: () -> PagerTabView
+struct PagerTabView<Content : View, NavTabView : View> : View {
+
+    @EnvironmentObject var navContentViews : PagerTabInfo
+    var content: () -> Content
+    var navTabView : () -> NavTabView
+
+    init(@ViewBuilder navTabView: @escaping () -> NavTabView ,@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+        self.navTabView = navTabView
+        self.navContentViews.item = "Mile"
+    }
+
+    var body: some View {
+        content()
+    }
+}
+
+struct PagerTabItem<NavTabView: View> : ViewModifier {
+
+    var navTabView: () -> NavTabView
+
+    init(navTabView: @escaping () -> NavTabView) {
+        self.navTabView = navTabView
+    }
 
     func body(content: Content) -> some View {
         VStack {
-            pagerTabView()
-            content
+            PagerTabView(navTabView: navTabView) {
+                content
+            }
+            Text("ahola")
         }
     }
 }
 
 extension View {
     public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V : View {
-        return self.modifier(PagerTabItem(pagerTabView: pagerTabView))
+        return self.modifier(PagerTabItem(navTabView: pagerTabView))
     }
 }
 
 
 struct NavBar: View {
-    
+
+    @EnvironmentObject var navContentViews : PagerTabInfo
     @State private var nextIndex = 0
     @Binding private var indexSelected: Int
     
@@ -38,7 +66,7 @@ struct NavBar: View {
     var body: some View {
         HStack(){
             if #available(iOS 14.0, *) {
-                Button("Go To \(self.nextIndex + 1)") {
+                Button("Go To \(self.nextIndex + 1) \(navContentViews.item)") {
                     self.indexSelected = nextIndex
                 }
                 .onChange(of: self.indexSelected) { value in
@@ -57,27 +85,16 @@ public enum PagerType {
     case youtube
 }
 
-public class BasePagerTabInfo {
 
-    func createView<V>() -> V where V: View {
-        preconditionFailure("This method must be overridden")
-    }
+public class PagerTabInfo: ObservableObject {
+    @Published var item: String = "Chechu"
 }
 
-public class PagerTabInfo<V>: BasePagerTabInfo, ObservableObject where V: View {
-    var item: () -> V
-
-    init(@ViewBuilder item: @escaping () -> V) {
-        self.item = item
-    }
-
-    override func createView<V>() -> V {
-        return self.item()
-    }
-}
 
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
+
+    @StateObject var navContentViews = PagerTabInfo()
 
     private var type: PagerType
     private var content: () -> Content
@@ -90,9 +107,7 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var itemCount : Int = 0
     @State var dragOffset : CGFloat = 0
 
-//    @EnvironmentObject var tabBarContentViews : PagerTabInfo
-    
-    
+
     public init(_ type: PagerType = .twitter,
                 selection: Int = 0,
                 @ViewBuilder content: @escaping () -> Content) {
@@ -173,6 +188,6 @@ public struct XLPagerView<Content> : View where Content : View {
             HStack {
                 Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
             }
-        }
+        }.environmentObject(self.navContentViews)
     }
 }
