@@ -11,6 +11,7 @@ import PagerTabStrip
 struct ContentView: View {
 
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
+    let titles = ["Mile", "Chechu", "Martin", "Nico", "Manu"]
     
     var body: some View {
         GeometryReader { proxy in
@@ -23,8 +24,8 @@ struct ContentView: View {
                     Text("Page \(idx+1)")
                         .frame(width: proxy.size.width, height: 400)
                         .background(colors[idx])
-                        .pagerTabItem {
-                            Text("Chechu")
+                        .pagerTabItem(title: titles[idx]) {
+                            Text(titles[idx])
                         }
                 }
 //                Text("Last")

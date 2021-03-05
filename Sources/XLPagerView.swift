@@ -7,48 +7,46 @@
 
 import SwiftUI
 
-//class  : EnvironmentObject {
-//
-//}
-
 struct PagerTabView<Content : View, NavTabView : View> : View {
 
     @EnvironmentObject var navContentViews : PagerTabInfo
     var content: () -> Content
     var navTabView : () -> NavTabView
+    var title: String
 
-    init(@ViewBuilder navTabView: @escaping () -> NavTabView ,@ViewBuilder content: @escaping () -> Content) {
+    init(title: String, @ViewBuilder navTabView: @escaping () -> NavTabView ,@ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.navTabView = navTabView
-        self.navContentViews.item = "Mile"
+        self.title = title
     }
 
     var body: some View {
-        content()
+        content().onAppear {
+            navContentViews.item = title
+        }
     }
 }
 
 struct PagerTabItem<NavTabView: View> : ViewModifier {
 
     var navTabView: () -> NavTabView
+    var title: String
 
-    init(navTabView: @escaping () -> NavTabView) {
+    init(title: String, navTabView: @escaping () -> NavTabView) {
         self.navTabView = navTabView
+        self.title = title
     }
 
     func body(content: Content) -> some View {
-        VStack {
-            PagerTabView(navTabView: navTabView) {
-                content
-            }
-            Text("ahola")
+        PagerTabView(title: title, navTabView: navTabView) {
+            content
         }
     }
 }
 
 extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V : View {
-        return self.modifier(PagerTabItem(navTabView: pagerTabView))
+    public func pagerTabItem<V>(title: String, @ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V : View {
+        return self.modifier(PagerTabItem(title: title, navTabView: pagerTabView))
     }
 }
 
