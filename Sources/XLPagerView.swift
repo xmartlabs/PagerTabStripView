@@ -153,12 +153,19 @@ public struct XLPagerView<Content> : View where Content : View {
                                     self.dragOffset = value.translation.width
                                 }
                                 .onEnded { value in
-                                    // TODO: manage velocity!!!
                                     let dragged = value.translation.width
                                     if dragged < 0 {
                                         self.currentIndex = min(self.currentIndex + 1, self.itemCount - 1)
+                                        if self.currentIndex == self.itemCount - 1 {
+                                            self.currentOffset = self.offsetForPageIndex(self.itemCount - 1)
+                                            self.dragOffset = 0
+                                        }
                                     } else if self.dragOffset > 0 {
                                         self.currentIndex = max(self.currentIndex - 1, 0)
+                                        if currentIndex == 0 {
+                                            self.currentOffset = 0
+                                            self.dragOffset = 0
+                                        }
                                     }
                                 }
                             )
