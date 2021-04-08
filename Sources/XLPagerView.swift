@@ -56,9 +56,11 @@ struct NavBar: View {
     @EnvironmentObject var navContentViews : PagerTabInfo
     @State private var nextIndex = 0
     @Binding private var indexSelected: Int
+    private var id: Int
     
-    public init(selection: Binding<Int>) {
+    public init(id: Int, selection: Binding<Int>) {
         self._indexSelected = selection
+        self.id = id
     }
     
     var body: some View {
@@ -131,9 +133,19 @@ public struct XLPagerView<Content> : View where Content : View {
     public var body: some View {
         VStack {
             if type == .youtube {
-                NavBar(selection: self.$currentIndex)
-                    .frame(width: 100, height: 40, alignment: .center)
-                    .background(Color.red)
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 5) {
+                        NavBar(id: 0, selection: $currentIndex)
+                            .frame(width: 100, height: 40, alignment: .center)
+                            .background(Color.red)
+                        NavBar(id: 1, selection: $currentIndex)
+                            .frame(width: 100, height: 40, alignment: .center)
+                            .background(Color.red)
+                        NavBar(id: 2, selection: $currentIndex)
+                            .frame(width: 100, height: 40, alignment: .center)
+                            .background(Color.red)
+                    }
+                }
             }
             GeometryReader { gproxy in
                 ScrollViewReader { sproxy in
