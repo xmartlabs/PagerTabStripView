@@ -22,7 +22,8 @@ struct PagerTabView<Content : View, NavTabView : View> : View {
 
     var body: some View {
         content().onAppear {
-            navContentViews.item = title
+            navContentViews.itemSelected = title
+            navContentViews.items.append(title)
         }
     }
 }
@@ -66,12 +67,11 @@ struct NavBar: View {
     var body: some View {
         HStack(){
             if #available(iOS 14.0, *) {
-                Button("Go To \(self.nextIndex + 1) \(navContentViews.item)") {
+                Button("Go To \(self.nextIndex + 1) \(navContentViews.itemSelected)") {
                     self.indexSelected = nextIndex
                 }
                 .onChange(of: self.indexSelected) { value in
-                    let newIndex = Int.random(in: 0..<5)
-                    self.nextIndex = newIndex
+                    self.nextIndex = id
                 }
             } else {
                 // Fallback on earlier versions
@@ -87,7 +87,8 @@ public enum PagerType {
 
 
 public class PagerTabInfo: ObservableObject {
-    @Published var item: String = "Chechu"
+    @Published var itemSelected: String = "nil"
+    @Published var items: [String] = []
 }
 
 
@@ -151,7 +152,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 ScrollViewReader { sproxy in
                     ScrollView(.horizontal) {
                         ZStack(alignment: .leading){
-                            LazyHStack(spacing: 0) {
+                            HStack(spacing: 0) {
                                 self.content().frame(width: gproxy.size.width,
                                                      height: gproxy.size.height,
                                                      alignment: .center)
