@@ -100,7 +100,21 @@ extension View {
     public func pagerTabItem<V>(title: String, @ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V : View {
         return self.modifier(PagerTabItem(title: title, navTabView: pagerTabView))
     }
+}
 
+struct PagerContainerView<Content: View>: View {
+    let content: () -> Content
+
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+
+    var body: some View {
+        content()
+    }
+}
+
+extension PagerContainerView {
     @available(iOS 14.0, *)
     public func navBarTabItem(itemCount: Int, selection: Binding<Int>) -> some View {
         return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
@@ -201,60 +215,62 @@ public struct XLPagerView<Content> : View where Content : View {
 //                    }
 //                }
 //            }
-            GeometryReader { gproxy in
-                ScrollViewReader { sproxy in
-                    ScrollView(.horizontal) {
-                        ZStack(alignment: .leading){
-                            HStack(spacing: 0) {
-                                self.content().frame(width: gproxy.size.width,
-                                                     height: gproxy.size.height,
-                                                     alignment: .center)
+            PagerContainerView {
+                GeometryReader { gproxy in
+                    ScrollViewReader { sproxy in
+                        ScrollView(.horizontal) {
+                            ZStack(alignment: .leading){
+                                HStack(spacing: 0) {
+                                    self.content().frame(width: gproxy.size.width,
+                                                         height: gproxy.size.height,
+                                                         alignment: .center)
+                                }
+                                .offset(x: self.currentOffset)
+                                .animation(.interactiveSpring())
+                                .gesture( DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                    .onChanged { value in
+                                        let previousTranslation = self.dragOffset
+                                        self.currentOffset += value.translation.width - previousTranslation
+                                        self.dragOffset = value.translation.width
+                                    }
+                                    .onEnded { value in
+                                        let dragged = value.translation.width
+                                        if dragged < 0 {
+                                            self.currentIndex = min(self.currentIndex + 1, self.itemCount - 1)
+                                            if self.currentIndex == self.itemCount - 1 {
+                                                self.currentOffset = self.offsetForPageIndex(self.itemCount - 1)
+                                                self.dragOffset = 0
+                                            }
+                                        } else if self.dragOffset > 0 {
+                                            self.currentIndex = max(self.currentIndex - 1, 0)
+                                            if currentIndex == 0 {
+                                                self.currentOffset = 0
+                                                self.dragOffset = 0
+                                            }
+                                        }
+                                    }
+                                )
+                                GeometryReader { pproxy in
+                                    Color.clear.frame(width: 10, height: 10, alignment: .leading)
+                                        .onAppear {
+                                            self.currentOffset = pproxy.frame(in: .local).minX
+                                            self.contentWidth = pproxy.frame(in: .local).width
+                                        }
+                                }
                             }
-                            .offset(x: self.currentOffset)
-                            .animation(.interactiveSpring())
-                            .gesture( DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                                .onChanged { value in
-                                    let previousTranslation = self.dragOffset
-                                    self.currentOffset += value.translation.width - previousTranslation
-                                    self.dragOffset = value.translation.width
-                                }
-                                .onEnded { value in
-                                    let dragged = value.translation.width
-                                    if dragged < 0 {
-                                        self.currentIndex = min(self.currentIndex + 1, self.itemCount - 1)
-                                        if self.currentIndex == self.itemCount - 1 {
-                                            self.currentOffset = self.offsetForPageIndex(self.itemCount - 1)
-                                            self.dragOffset = 0
-                                        }
-                                    } else if self.dragOffset > 0 {
-                                        self.currentIndex = max(self.currentIndex - 1, 0)
-                                        if currentIndex == 0 {
-                                            self.currentOffset = 0
-                                            self.dragOffset = 0
-                                        }
-                                    }
-                                }
-                            )
-                            GeometryReader { pproxy in
-                                Color.clear.frame(width: 10, height: 10, alignment: .leading)
-                                    .onAppear {
-                                        self.currentOffset = pproxy.frame(in: .local).minX
-                                        self.contentWidth = pproxy.frame(in: .local).width
-                                    }
+                        }
+                        .onChange(of: self.currentIndex) { index in
+                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                            self.dragOffset = 0
+                            withAnimation {
+                                sproxy.scrollTo(index)
                             }
                         }
                     }
-                    .onChange(of: self.currentIndex) { index in
-                        self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                        self.dragOffset = 0
-                        withAnimation {
-                            sproxy.scrollTo(index)
-                        }
+                    .onAppear {
+                        self.pageWidth = gproxy.size.width
+                        self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                     }
-                }
-                .onAppear {
-                    self.pageWidth = gproxy.size.width
-                    self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                 }
             }.navBarTabItem(itemCount: itemCount, selection: $currentIndex)
             HStack {
