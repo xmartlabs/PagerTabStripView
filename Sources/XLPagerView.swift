@@ -57,7 +57,7 @@ struct NavBarView: ViewModifier {
 
     func body(content: Content) -> some View {
         VStack {
-            NavBar(id: 0, selection: $indexSelected)
+            NavBarItem(id: 0, selection: $indexSelected)
                 .frame(width: 100, height: 40, alignment: .center)
                 .background(Color.red)
             content
@@ -68,8 +68,6 @@ struct NavBarView: ViewModifier {
 
 @available(iOS 14.0, *)
 struct NavBarModifier: ViewModifier {
-    @EnvironmentObject var navContentViews : PagerTabInfo
-    @State private var nextIndex = 0
     @Binding private var indexSelected: Int
     private var itemCount: Int
 
@@ -80,11 +78,11 @@ struct NavBarModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         VStack {
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
                     if itemCount > 0 {
                         ForEach(0...itemCount-1, id: \.self) { idx in
-                            NavBar(id: idx, selection: $indexSelected)
+                            NavBarItem(id: idx, selection: $indexSelected)
                                 .frame(width: 120, height: 40, alignment: .center)
                                 .background(Color.red)
                         }
@@ -116,13 +114,13 @@ struct PagerContainerView<Content: View>: View {
 
 extension PagerContainerView {
     @available(iOS 14.0, *)
-    public func navBarTabItem(itemCount: Int, selection: Binding<Int>) -> some View {
+    public func navBar(itemCount: Int, selection: Binding<Int>) -> some View {
         return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
     }
 }
 
 
-struct NavBar: View {
+struct NavBarItem: View {
 
     @EnvironmentObject var navContentViews : PagerTabInfo
     @State private var nextIndex = 0
@@ -259,6 +257,13 @@ public struct XLPagerView<Content> : View where Content : View {
                                 }
                             }
                         }
+                        .onAppear {
+                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                            self.dragOffset = 0
+                            withAnimation {
+                                sproxy.scrollTo(currentIndex)
+                            }
+                        }
                         .onChange(of: self.currentIndex) { index in
                             self.currentOffset = self.offsetForPageIndex(self.currentIndex)
                             self.dragOffset = 0
@@ -272,7 +277,7 @@ public struct XLPagerView<Content> : View where Content : View {
                         self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                     }
                 }
-            }.navBarTabItem(itemCount: itemCount, selection: $currentIndex)
+            }.navBar(itemCount: itemCount, selection: $currentIndex)
             HStack {
                 Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
             }

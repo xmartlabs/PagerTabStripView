@@ -15,7 +15,7 @@ struct ContentView: View {
     
     var body: some View {
         GeometryReader { proxy in
-            XLPagerView(.youtube, selection: 1) {
+            XLPagerView(.youtube, selection: 2) {
 //                Text("First")
 //                    .frame(width: proxy.size.width, height: 100)
 //                    .padding([.leading, .trailing], 20)
