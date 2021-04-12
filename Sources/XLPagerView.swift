@@ -22,8 +22,7 @@ struct PagerTabView<Content : View, NavTabView : View> : View {
 
     var body: some View {
         content().onAppear {
-            navContentViews.itemSelected = title
-            navContentViews.items.append(title)
+            navContentViews.items.insert(title, at: 0)
         }
     }
 }
@@ -45,9 +44,66 @@ struct PagerTabItem<NavTabView: View> : ViewModifier {
     }
 }
 
+struct NavBarView: ViewModifier {
+    @EnvironmentObject var navContentViews : PagerTabInfo
+    @State private var nextIndex = 0
+    @Binding private var indexSelected: Int
+    private var id: Int
+
+    public init(id: Int, selection: Binding<Int>) {
+        self._indexSelected = selection
+        self.id = id
+    }
+
+    func body(content: Content) -> some View {
+        VStack {
+            NavBar(id: 0, selection: $indexSelected)
+                .frame(width: 100, height: 40, alignment: .center)
+                .background(Color.red)
+            content
+        }
+    }
+
+}
+
+@available(iOS 14.0, *)
+struct NavBarModifier: ViewModifier {
+    @EnvironmentObject var navContentViews : PagerTabInfo
+    @State private var nextIndex = 0
+    @Binding private var indexSelected: Int
+    private var itemCount: Int
+
+    public init(itemCount: Int, selection: Binding<Int>) {
+        self._indexSelected = selection
+        self.itemCount = itemCount
+    }
+
+    func body(content: Content) -> some View {
+        VStack {
+            ScrollView(.horizontal) {
+                LazyHStack {
+                    if itemCount > 0 {
+                        ForEach(0...itemCount-1, id: \.self) { idx in
+                            NavBar(id: idx, selection: $indexSelected)
+                                .frame(width: 120, height: 40, alignment: .center)
+                                .background(Color.red)
+                        }
+                    }
+                }
+            }
+            content
+        }
+    }
+}
+
 extension View {
     public func pagerTabItem<V>(title: String, @ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V : View {
         return self.modifier(PagerTabItem(title: title, navTabView: pagerTabView))
+    }
+
+    @available(iOS 14.0, *)
+    public func navBarTabItem(itemCount: Int, selection: Binding<Int>) -> some View {
+        return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
     }
 }
 
@@ -65,18 +121,16 @@ struct NavBar: View {
     }
     
     var body: some View {
-        HStack(){
             if #available(iOS 14.0, *) {
-                Button("Go To \(self.nextIndex + 1) \(navContentViews.itemSelected)") {
-                    self.indexSelected = nextIndex
-                }
+                Button("\(self.id + 1) \(navContentViews.items[id])") {
+                    self.indexSelected = id
+                }.background(indexSelected == id ? Color.yellow : Color.red )
                 .onChange(of: self.indexSelected) { value in
-                    self.nextIndex = id
+
                 }
             } else {
                 // Fallback on earlier versions
             }
-        }
     }
 }
 
@@ -87,7 +141,6 @@ public enum PagerType {
 
 
 public class PagerTabInfo: ObservableObject {
-    @Published var itemSelected: String = "nil"
     @Published var items: [String] = []
 }
 
@@ -133,21 +186,21 @@ public struct XLPagerView<Content> : View where Content : View {
     
     public var body: some View {
         VStack {
-            if type == .youtube {
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: 5) {
-                        NavBar(id: 0, selection: $currentIndex)
-                            .frame(width: 100, height: 40, alignment: .center)
-                            .background(Color.red)
-                        NavBar(id: 1, selection: $currentIndex)
-                            .frame(width: 100, height: 40, alignment: .center)
-                            .background(Color.red)
-                        NavBar(id: 2, selection: $currentIndex)
-                            .frame(width: 100, height: 40, alignment: .center)
-                            .background(Color.red)
-                    }
-                }
-            }
+//            if type == .youtube {
+//                ScrollView(.horizontal) {
+//                    LazyHStack(spacing: 5) {
+//                        NavBar(id: 0, selection: $currentIndex)
+//                            .frame(width: 100, height: 40, alignment: .center)
+//                            .background(Color.red)
+//                        NavBar(id: 1, selection: $currentIndex)
+//                            .frame(width: 100, height: 40, alignment: .center)
+//                            .background(Color.red)
+//                        NavBar(id: 2, selection: $currentIndex)
+//                            .frame(width: 100, height: 40, alignment: .center)
+//                            .background(Color.red)
+//                    }
+//                }
+//            }
             GeometryReader { gproxy in
                 ScrollViewReader { sproxy in
                     ScrollView(.horizontal) {
@@ -203,7 +256,7 @@ public struct XLPagerView<Content> : View where Content : View {
                     self.pageWidth = gproxy.size.width
                     self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                 }
-            }
+            }.navBarTabItem(itemCount: itemCount, selection: $currentIndex)
             HStack {
                 Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
             }
