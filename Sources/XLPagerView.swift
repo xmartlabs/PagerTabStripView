@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import Combine
 
 struct PagerTabView<Content : View, NavTabView : View> : View {
 
-    @EnvironmentObject var navContentViews : PagerTabInfo
+    @EnvironmentObject var navContentViews : NavContentViews
     var content: () -> Content
     var navTabView : () -> NavTabView
     var title: String
@@ -22,13 +23,13 @@ struct PagerTabView<Content : View, NavTabView : View> : View {
 
     var body: some View {
         content().onAppear {
-            navContentViews.items.insert(title, at: 0)
+//            navContentViews.items.insert(title, at: 0)
         }
     }
 }
 
 struct PagerTabItem<NavTabView: View> : ViewModifier {
-
+    @EnvironmentObject var navContentViews : NavContentViews
     var navTabView: () -> NavTabView
     var title: String
 
@@ -40,12 +41,20 @@ struct PagerTabItem<NavTabView: View> : ViewModifier {
     func body(content: Content) -> some View {
         PagerTabView(title: title, navTabView: navTabView) {
             content
+        }.onAppear {
+            var a = navContentViews.items.value
+            a.insert(title, at: 0)
+            navContentViews.items.send(a)
+        }.onDisappear {
+            var a = navContentViews.items.value
+            a.removeAll(where: { $0 == title })
+            navContentViews.items.send(a)
         }
     }
 }
 
 struct NavBarView: ViewModifier {
-    @EnvironmentObject var navContentViews : PagerTabInfo
+    @EnvironmentObject var navContentViews : NavContentViews
     @State private var nextIndex = 0
     @Binding private var indexSelected: Int
     private var id: Int
@@ -122,8 +131,8 @@ extension PagerContainerView {
 
 struct NavBarItem: View {
 
-    @EnvironmentObject var navContentViews : PagerTabInfo
-    @State private var nextIndex = 0
+    @EnvironmentObject var navContentViews : NavContentViews
+//    @State private var nextIndex = 0
     @Binding private var indexSelected: Int
     private var id: Int
     
@@ -134,11 +143,13 @@ struct NavBarItem: View {
     
     var body: some View {
             if #available(iOS 14.0, *) {
-                Button("\(self.id + 1) \(navContentViews.items[id])") {
-                    self.indexSelected = id
-                }.background(indexSelected == id ? Color.yellow : Color.red )
-                .onChange(of: self.indexSelected) { value in
+                if id < navContentViews.items.value.count {
+                    Button("\(self.id + 1) \(navContentViews.items.value[id])") {
+                        self.indexSelected = id
+                    }.background(indexSelected == id ? Color.yellow : Color.red )
+                    .onChange(of: self.indexSelected) { value in
 
+                    }
                 }
             } else {
                 // Fallback on earlier versions
@@ -152,15 +163,16 @@ public enum PagerType {
 }
 
 
-public class PagerTabInfo: ObservableObject {
-    @Published var items: [String] = []
+public class NavContentViews: ObservableObject {
+    var items = CurrentValueSubject<[String], Never>([])
+
 }
 
 
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
 
-    @StateObject var navContentViews = PagerTabInfo()
+    @StateObject var navContentViews = NavContentViews()
 
     private var type: PagerType
     private var content: () -> Content
@@ -170,7 +182,7 @@ public struct XLPagerView<Content> : View where Content : View {
     
     @State private var pageWidth : CGFloat = 0
     @State private var contentWidth : CGFloat = 0
-    @State private var itemCount : Int = 0
+//    @State private var itemCount : Int = 0
     @State var dragOffset : CGFloat = 0
 
 
@@ -186,15 +198,15 @@ public struct XLPagerView<Content> : View where Content : View {
         return (CGFloat(index) * pageWidth) * -1.0
     }
     
-    func indexPageForOffset(_ offset : CGFloat) -> Int {
-        guard self.itemCount > 0 else {
-            return 0
-        }
-        let floatIndex = (offset * -1) / pageWidth
-        var computedIndex = Int(round(floatIndex))
-        computedIndex = max(computedIndex, 0)
-        return min(computedIndex, self.itemCount - 1)
-    }
+//    func indexPageForOffset(_ offset : CGFloat) -> Int {
+//        guard self.itemCount > 0 else {
+//            return 0
+//        }
+//        let floatIndex = (offset * -1) / pageWidth
+//        var computedIndex = Int(round(floatIndex))
+//        computedIndex = max(computedIndex, 0)
+//        return min(computedIndex, self.itemCount - 1)
+//    }
     
     public var body: some View {
         VStack {
@@ -234,9 +246,9 @@ public struct XLPagerView<Content> : View where Content : View {
                                     .onEnded { value in
                                         let dragged = value.translation.width
                                         if dragged < 0 {
-                                            self.currentIndex = min(self.currentIndex + 1, self.itemCount - 1)
-                                            if self.currentIndex == self.itemCount - 1 {
-                                                self.currentOffset = self.offsetForPageIndex(self.itemCount - 1)
+                                            self.currentIndex = min(self.currentIndex + 1, self.navContentViews.items.value.count - 1)
+                                            if self.currentIndex == self.navContentViews.items.value.count - 1 {
+                                                self.currentOffset = self.offsetForPageIndex(self.navContentViews.items.value.count - 1)
                                                 self.dragOffset = 0
                                             }
                                         } else if self.dragOffset > 0 {
@@ -274,10 +286,10 @@ public struct XLPagerView<Content> : View where Content : View {
                     }
                     .onAppear {
                         self.pageWidth = gproxy.size.width
-                        self.itemCount = Int(round(self.contentWidth / self.pageWidth))
+//                        self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                     }
                 }
-            }.navBar(itemCount: itemCount, selection: $currentIndex)
+            }.navBar(itemCount: self.navContentViews.items.value.count, selection: $currentIndex)
             HStack {
                 Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
             }
