@@ -8,14 +8,14 @@
 import SwiftUI
 import Combine
 
-struct PagerTabView<Content : View, NavTabView : View> : View {
+struct PagerTabView<Content: View, NavTabView: View, W: View>: View {
 
-    @EnvironmentObject var navContentViews : NavContentViews
+    @EnvironmentObject var navContentViews : NavContentViews<W>
     var content: () -> Content
     var navTabView : () -> NavTabView
-    var title: String
+    var title: W
 
-    init(title: String, @ViewBuilder navTabView: @escaping () -> NavTabView ,@ViewBuilder content: @escaping () -> Content) {
+    init(title: W, @ViewBuilder navTabView: @escaping () -> NavTabView ,@ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.navTabView = navTabView
         self.title = title
@@ -28,12 +28,12 @@ struct PagerTabView<Content : View, NavTabView : View> : View {
     }
 }
 
-struct PagerTabItem<NavTabView: View> : ViewModifier {
-    @EnvironmentObject var navContentViews : NavContentViews
+struct PagerTabItem<NavTabView: View, W: View> : ViewModifier where W: Equatable {
+    @EnvironmentObject var navContentViews : NavContentViews<W>
     var navTabView: () -> NavTabView
-    var title: String
+    var title: W
 
-    init(title: String, navTabView: @escaping () -> NavTabView) {
+    init(title: W, navTabView: @escaping () -> NavTabView) {
         self.navTabView = navTabView
         self.title = title
     }
@@ -53,30 +53,30 @@ struct PagerTabItem<NavTabView: View> : ViewModifier {
     }
 }
 
-struct NavBarView: ViewModifier {
-    @EnvironmentObject var navContentViews : NavContentViews
-    @State private var nextIndex = 0
-    @Binding private var indexSelected: Int
-    private var id: Int
-
-    public init(id: Int, selection: Binding<Int>) {
-        self._indexSelected = selection
-        self.id = id
-    }
-
-    func body(content: Content) -> some View {
-        VStack {
-            NavBarItem(id: 0, selection: $indexSelected)
-                .frame(width: 100, height: 40, alignment: .center)
-                .background(Color.red)
-            content
-        }
-    }
-
-}
+//struct NavBarView: ViewModifier {
+//    @EnvironmentObject var navContentViews : NavContentViews
+//    @State private var nextIndex = 0
+//    @Binding private var indexSelected: Int
+//    private var id: Int
+//
+//    public init(id: Int, selection: Binding<Int>) {
+//        self._indexSelected = selection
+//        self.id = id
+//    }
+//
+//    func body(content: Content) -> some View {
+//        VStack {
+//            NavBarItem(id: 0, selection: $indexSelected)
+//                .frame(width: 100, height: 40, alignment: .center)
+//                .background(Color.red)
+//            content
+//        }
+//    }
+//
+//}
 
 @available(iOS 14.0, *)
-struct NavBarModifier: ViewModifier {
+struct NavBarModifier<W: View>: ViewModifier {
     @Binding private var indexSelected: Int
     private var itemCount: Int
 
@@ -91,7 +91,7 @@ struct NavBarModifier: ViewModifier {
                 LazyHStack {
                     if itemCount > 0 {
                         ForEach(0...itemCount-1, id: \.self) { idx in
-                            NavBarItem(id: idx, selection: $indexSelected)
+                            NavBarItem<W>(id: idx, selection: $indexSelected)
                                 .frame(width: 120, height: 40, alignment: .center)
                                 .background(Color.red)
                         }
@@ -104,7 +104,7 @@ struct NavBarModifier: ViewModifier {
 }
 
 extension View {
-    public func pagerTabItem<V>(title: String, @ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V : View {
+    public func pagerTabItem<V, W>(title: W, @ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View, W: View, W: Equatable {
         return self.modifier(PagerTabItem(title: title, navTabView: pagerTabView))
     }
 }
@@ -123,15 +123,15 @@ struct PagerContainerView<Content: View>: View {
 
 extension PagerContainerView {
     @available(iOS 14.0, *)
-    public func navBar(itemCount: Int, selection: Binding<Int>) -> some View {
-        return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
+    public func navBar<W: View>(itemCount: Int, selection: Binding<Int>, hack this: W.Type) -> some View {
+        return self.modifier(NavBarModifier<W>(itemCount: itemCount, selection: selection))
     }
 }
 
 
-struct NavBarItem: View {
+struct NavBarItem<W: View>: View {
 
-    @EnvironmentObject var navContentViews : NavContentViews
+    @EnvironmentObject var navContentViews : NavContentViews<W>
 //    @State private var nextIndex = 0
     @Binding private var indexSelected: Int
     private var id: Int
@@ -144,9 +144,18 @@ struct NavBarItem: View {
     var body: some View {
             if #available(iOS 14.0, *) {
                 if id < navContentViews.items.value.count {
-                    Button("\(self.id + 1) \(navContentViews.items.value[id])") {
+                    Button(action: {
                         self.indexSelected = id
-                    }.background(indexSelected == id ? Color.yellow : Color.red )
+                    }, label: {
+                        navContentViews.items.value[id]
+                    })
+//                    Button("\(self.id + 1)") {
+//
+//                    } label: {
+//
+//                    }
+                    .background(indexSelected == id ? Color.yellow : Color.red )
+
                     .onChange(of: self.indexSelected) { value in
 
                     }
@@ -163,16 +172,15 @@ public enum PagerType {
 }
 
 
-public class NavContentViews: ObservableObject {
-    var items = CurrentValueSubject<[String], Never>([])
-
+public class NavContentViews<W: View>: ObservableObject {
+    var items = CurrentValueSubject<[W], Never>([])
 }
 
 
 @available(iOS 14.0, *)
-public struct XLPagerView<Content> : View where Content : View {
+public struct XLPagerView<Content, W: View> : View where Content : View {
 
-    @StateObject var navContentViews = NavContentViews()
+    @StateObject var navContentViews = NavContentViews<W>()
 
     private var type: PagerType
     private var content: () -> Content
@@ -289,7 +297,8 @@ public struct XLPagerView<Content> : View where Content : View {
 //                        self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                     }
                 }
-            }.navBar(itemCount: self.navContentViews.items.value.count, selection: $currentIndex)
+            }
+            .navBar(itemCount: self.navContentViews.items.value.count, selection: $currentIndex, hack: W.self)
             HStack {
                 Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
             }
