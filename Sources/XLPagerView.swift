@@ -48,11 +48,11 @@ struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable
                 .frame(width: pagerSettings.width, height: pagerSettings.height)
         }.onAppear {
             var a = navContentViews.items.value
-            a.insert(navTabView, at: 0)
+            a.insert(navTabView(), at: 0)
             navContentViews.items.send(a)
         }.onDisappear {
             var a = navContentViews.items.value
-            a.removeAll(/*where: { true $0 == navTabView }*/)
+            a.removeAll(where: { $0 == navTabView() })
             navContentViews.items.send(a)
         }
     }
@@ -125,7 +125,7 @@ struct NavBarItem<W: View>: View {
                     Button(action: {
                         self.indexSelected = id
                     }, label: {
-                        navContentViews.items.value[id]()                            
+                        navContentViews.items.value[id]
                     })
 //                    Button("\(self.id + 1)") {
 //
@@ -151,7 +151,7 @@ public enum PagerType {
 
 
 public class NavContentViews<W: View>: ObservableObject {
-    var items = CurrentValueSubject<[() -> W], Never>([])
+    var items = CurrentValueSubject<[W], Never>([])
 }
 
 public class PagerSettings: ObservableObject {
