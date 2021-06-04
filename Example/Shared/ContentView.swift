@@ -21,6 +21,7 @@ struct MyNavItem: View, Equatable {
             Text(subtitle)
                 .foregroundColor(.red)
         }
+        .frame(maxWidth: .infinity)
         .background(Color.green)
     }
 
@@ -45,17 +46,13 @@ struct ContentView: View {
             change = change == 4 ? 2 : 4
         }
         GeometryReader { proxy in
-            MyPagerView(.youtube, selection: 2) {
-//                Text("First")
-//                    .frame(width: proxy.size.width, height: 100)
-//                    .padding([.leading, .trailing], 20)
-//                    .background(Color.orange)
+            MyPagerView(.youtube, selection: 2, size: CGSize(width: proxy.size.width, height: 400)) {
+
                 ForEach(0...change, id: \.self) { idx in
                     Text("Page \(idx+1)")
-                        .frame(width: proxy.size.width, height: 400)
                         .background(colors[idx])
-                        .pagerTabItem(title: titles[idx]) {
-                            Text("titles[idx]")
+                        .pagerTabItem {
+                            titles[idx]
                         }
                 }
 //                Text("Last")
