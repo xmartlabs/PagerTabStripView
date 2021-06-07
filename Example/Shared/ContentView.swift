@@ -8,10 +8,37 @@
 import SwiftUI
 import PagerTabStrip
 
+typealias MyPagerView<T: View> = XLPagerView<T, MyNavItem>
+
+struct MyNavItem: View, Equatable {
+    let title: String
+    let subtitle: String
+
+    var body: some View {
+        VStack {
+            Text(title)
+                .foregroundColor(.blue)
+            Text(subtitle)
+                .foregroundColor(.red)
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color.green)
+    }
+
+    static func ==(lhs: MyNavItem, rhs: MyNavItem) -> Bool {
+        return lhs.title == rhs.title && lhs.subtitle == rhs.subtitle
+    }
+}
+
 struct ContentView: View {
 
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
-    let titles = ["Mile", "Chechu", "Martin", "Nico", "Manu"]
+    let titles = [MyNavItem(title: "Mile", subtitle: "Dev"),
+                  MyNavItem(title: "Chechu", subtitle: "Dev"),
+                  MyNavItem(title: "Martin", subtitle: "Marketing"),
+                  MyNavItem(title: "Nico", subtitle: "Dev"),
+                  MyNavItem(title: "Manu", subtitle: "Dev")]
+
     @State var change = 4
     
     var body: some View {
@@ -19,17 +46,13 @@ struct ContentView: View {
             change = change == 4 ? 2 : 4
         }
         GeometryReader { proxy in
-            XLPagerView(.youtube, selection: 2) {
-//                Text("First")
-//                    .frame(width: proxy.size.width, height: 100)
-//                    .padding([.leading, .trailing], 20)
-//                    .background(Color.orange)
+            MyPagerView(.youtube, selection: 2, size: CGSize(width: proxy.size.width, height: 400)) {
+
                 ForEach(0...change, id: \.self) { idx in
                     Text("Page \(idx+1)")
-                        .frame(width: proxy.size.width, height: 400)
                         .background(colors[idx])
-                        .pagerTabItem(title: titles[idx]) {
-                            Text(titles[idx])
+                        .pagerTabItem {
+                            titles[idx]
                         }
                 }
 //                Text("Last")
