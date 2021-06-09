@@ -71,17 +71,17 @@ struct NavBarModifier<W: View>: ViewModifier {
 
     func body(content: Content) -> some View {
         VStack(alignment: .leading) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack {
-                    if itemCount > 0 {
+            LazyHStack(spacing: pagerSettings.navBarSettings.tabItemSpacing) {
+                if itemCount > 0 && pagerSettings.width > 0 {
+                        let totalItemWidth = (pagerSettings.width - (pagerSettings.navBarSettings.tabItemSpacing * CGFloat(itemCount - 1)))
+                        let navBarItemWidth: CGFloat = totalItemWidth / CGFloat(itemCount)
                         ForEach(0...itemCount-1, id: \.self) { idx in
                             NavBarItem<W>(id: idx, selection: $indexSelected)
-                                .frame(width: 120, height: 40, alignment: .center)
-                                .background(Color.red)
+                                .frame(width: navBarItemWidth, height: pagerSettings.navBarSettings.height, alignment: .center)
                         }
                     }
                 }
-            }.frame(width: pagerSettings.width, height: 40)
+            .frame(width: pagerSettings.width, height: pagerSettings.navBarSettings.height, alignment: .center)
             content
         }
     }
@@ -157,6 +157,34 @@ public class NavContentViews<W: View>: ObservableObject {
 public class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
     @Published var height: CGFloat = 0
+    @Published var navBarSettings: NavBarSettings = NavBarSettings()
+}
+
+public class NavBarSettings: ObservableObject {
+    @Published var tabItemSpacing: CGFloat = 5
+    @Published var height: CGFloat = 100
+}
+
+public struct PagerStyleSettings {
+    var width: CGFloat
+    var height: CGFloat
+    var navBarSettings: NavBarStyleSettings
+
+    public init(width: CGFloat = 0, height: CGFloat = 0, navBarSettings: NavBarStyleSettings = NavBarStyleSettings()) {
+        self.width = width
+        self.height = height
+        self.navBarSettings = navBarSettings
+    }
+}
+
+public struct NavBarStyleSettings {
+    var tabItemSpacing: CGFloat
+    var height: CGFloat
+
+    public init(tabItemSpacing: CGFloat = 5, height: CGFloat = 100) {
+        self.tabItemSpacing = tabItemSpacing
+        self.height = height
+    }
 }
 
 
@@ -177,15 +205,18 @@ public struct XLPagerView<Content, W: View> : View where Content : View {
 //    @State private var itemCount : Int = 0
     @State var dragOffset : CGFloat = 0
     private var startSize: CGSize
+    private var startPagerSettings: PagerStyleSettings
 
     public init(_ type: PagerType = .twitter,
                 selection: Int = 0,
                 size: CGSize,
+                pagerSettings: PagerStyleSettings,
                 @ViewBuilder content: @escaping () -> Content) {
         self.type = type
         self.content = content
         self._currentIndex = State(initialValue: selection)
         self.startSize = size
+        self.startPagerSettings = pagerSettings
     }
     
     func offsetForPageIndex(_ index: Int) -> CGFloat {
@@ -281,8 +312,12 @@ public struct XLPagerView<Content, W: View> : View where Content : View {
                     }
                     .onAppear {
 //                        self.pageWidth = gproxy.size.width
-                        self.pagerSettings.width = self.startSize.width
-                        self.pagerSettings.height = self.startSize.height
+                        self.pagerSettings.width = self.startPagerSettings.width
+                        self.pagerSettings.height = self.startPagerSettings.height
+                        let navBarSettings = NavBarSettings()
+                        navBarSettings.height = self.startPagerSettings.navBarSettings.height
+                        navBarSettings.tabItemSpacing = self.startPagerSettings.navBarSettings.tabItemSpacing
+                        self.pagerSettings.navBarSettings = navBarSettings
 //                        self.itemCount = Int(round(self.contentWidth / self.pageWidth))
                     }
                 }
