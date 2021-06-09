@@ -40,9 +40,7 @@ struct ContentView: View {
                   MyNavItem(title: "Martin", subtitle: "Marketing"),
                   MyNavItem(title: "Nico", subtitle: "Dev"),
                   MyNavItem(title: "Manu", subtitle: "Dev")]
-
-//    let pagerSettings = PagerStyleSettings(width: proxy.size.width, height: 400, navBarSettings: NavBarStyleSettings(tabItemSpacing: 10, height: 50))
-
+    
     @State var change = 4
     
     var body: some View {
@@ -50,8 +48,7 @@ struct ContentView: View {
             change = change == 4 ? 2 : 4
         }
         GeometryReader { proxy in
-            MyPagerView(.youtube, selection: 2, size: CGSize(width: 300, height: 400), pagerSettings: PagerStyleSettings(width: proxy.size.width, height: 400, navBarSettings: NavBarStyleSettings(tabItemSpacing: 10, height: 50))) {
-
+            MyPagerView(.youtube, selection: 2, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
                 ForEach(0...change, id: \.self) { idx in
                     Text("Page \(idx+1)")
                         .background(colors[idx])
