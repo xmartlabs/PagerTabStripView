@@ -8,8 +8,6 @@
 import SwiftUI
 import PagerTabStrip
 
-typealias MyPagerView<T: View> = XLPagerView<T, MyNavItem>
-
 struct MyNavItem: View, Equatable {
     let title: String
     let subtitle: String
@@ -30,8 +28,6 @@ struct MyNavItem: View, Equatable {
     }
 }
 
-//var 
-
 struct ContentView: View {
 
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
@@ -48,17 +44,15 @@ struct ContentView: View {
             change = change == 4 ? 2 : 4
         }
         GeometryReader { proxy in
-            MyPagerView(.youtube, selection: 2, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
+            XLPagerView(.youtube, selection: 0, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
                 ForEach(0...change, id: \.self) { idx in
-                    Text("Page \(idx+1)")
-                        .background(colors[idx])
-                        .pagerTabItem {
-                            titles[idx]
+                        Text("Page \(idx+1)")
+                            .background(colors[idx])
+                            .pagerTabItem {
+                                titles[idx]
+                            }
                         }
-                }
-//                Text("Last")
-//                    .frame(width: proxy.size.width, height: 100)
-                    .background(Color.purple)
+                        .background(Color.purple)
             }
             .frame(alignment: .center)
         }
