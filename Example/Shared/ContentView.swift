@@ -21,7 +21,7 @@ struct MyNavItem: View, Equatable {
             Text(subtitle)
                 .foregroundColor(.red)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.green)
     }
 
@@ -29,6 +29,8 @@ struct MyNavItem: View, Equatable {
         return lhs.title == rhs.title && lhs.subtitle == rhs.subtitle
     }
 }
+
+//var 
 
 struct ContentView: View {
 
@@ -38,7 +40,7 @@ struct ContentView: View {
                   MyNavItem(title: "Martin", subtitle: "Marketing"),
                   MyNavItem(title: "Nico", subtitle: "Dev"),
                   MyNavItem(title: "Manu", subtitle: "Dev")]
-
+    
     @State var change = 4
     
     var body: some View {
@@ -46,8 +48,7 @@ struct ContentView: View {
             change = change == 4 ? 2 : 4
         }
         GeometryReader { proxy in
-            MyPagerView(.youtube, selection: 2, size: CGSize(width: proxy.size.width, height: 400)) {
-
+            MyPagerView(.youtube, selection: 2, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
                 ForEach(0...change, id: \.self) { idx in
                     Text("Page \(idx+1)")
                         .background(colors[idx])

@@ -71,17 +71,17 @@ struct NavBarModifier<W: View>: ViewModifier {
 
     func body(content: Content) -> some View {
         VStack(alignment: .leading) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack {
-                    if itemCount > 0 {
+            LazyHStack(spacing: pagerSettings.tabItemSpacing) {
+                if itemCount > 0 && pagerSettings.width > 0 {
+                        let totalItemWidth = (pagerSettings.width - (pagerSettings.tabItemSpacing * CGFloat(itemCount - 1)))
+                        let navBarItemWidth: CGFloat = totalItemWidth / CGFloat(itemCount)
                         ForEach(0...itemCount-1, id: \.self) { idx in
                             NavBarItem<W>(id: idx, selection: $indexSelected)
-                                .frame(width: 120, height: 40, alignment: .center)
-                                .background(Color.red)
+                                .frame(width: navBarItemWidth, height: pagerSettings.tabItemHeight, alignment: .center)
                         }
                     }
                 }
-            }.frame(width: pagerSettings.width, height: 40)
+            .frame(width: pagerSettings.width, height: pagerSettings.tabItemHeight, alignment: .center)
             content
         }
     }
@@ -155,8 +155,17 @@ public class NavContentViews<W: View>: ObservableObject {
 }
 
 public class PagerSettings: ObservableObject {
-    @Published var width: CGFloat = 0
-    @Published var height: CGFloat = 0
+    @Published var width: CGFloat
+    @Published var height: CGFloat
+    @Published var tabItemSpacing: CGFloat
+    @Published var tabItemHeight: CGFloat
+    
+    public init(width: CGFloat = 0, height: CGFloat = 0, tabItemSpacing: CGFloat = 5, tabItemHeight: CGFloat = 100) {
+        self.width = width
+        self.height = height
+        self.tabItemSpacing = tabItemSpacing
+        self.tabItemHeight = tabItemHeight
+    }
 }
 
 
@@ -172,20 +181,18 @@ public struct XLPagerView<Content, W: View> : View where Content : View {
     @State private var currentIndex: Int
     @State private var currentOffset: CGFloat = 0
     
-//    @State private var pageWidth : CGFloat = 0
     @State private var contentWidth : CGFloat = 0
 //    @State private var itemCount : Int = 0
     @State var dragOffset : CGFloat = 0
-    private var startSize: CGSize
 
     public init(_ type: PagerType = .twitter,
                 selection: Int = 0,
-                size: CGSize,
+                pagerSettings: PagerSettings,
                 @ViewBuilder content: @escaping () -> Content) {
         self.type = type
         self.content = content
         self._currentIndex = State(initialValue: selection)
-        self.startSize = size
+        self._pagerSettings = StateObject(wrappedValue: pagerSettings)
     }
     
     func offsetForPageIndex(_ index: Int) -> CGFloat {
@@ -280,10 +287,9 @@ public struct XLPagerView<Content, W: View> : View where Content : View {
                         }
                     }
                     .onAppear {
-//                        self.pageWidth = gproxy.size.width
-                        self.pagerSettings.width = self.startSize.width
-                        self.pagerSettings.height = self.startSize.height
-//                        self.itemCount = Int(round(self.contentWidth / self.pageWidth))
+                        if pagerSettings.width == 0 {
+                            pagerSettings.width = gproxy.size.width
+                        }
                     }
                 }
             }
