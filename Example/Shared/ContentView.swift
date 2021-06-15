@@ -8,46 +8,52 @@
 import SwiftUI
 import PagerTabStrip
 
-struct PagerTabItem<PagerTabView: View> : ViewModifier {
-    
-    var pagerTabView: () -> PagerTabView
-    
-    func body(content: Content) -> some View {
+typealias MyPagerView<T: View> = XLPagerView<T, MyNavItem>
+
+struct MyNavItem: View, Equatable {
+    let title: String
+    let subtitle: String
+
+    var body: some View {
         VStack {
-            pagerTabView()
-            content
+            Text(title)
+                .foregroundColor(.blue)
+            Text(subtitle)
+                .foregroundColor(.red)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.green)
+    }
+
+    static func ==(lhs: MyNavItem, rhs: MyNavItem) -> Bool {
+        return lhs.title == rhs.title && lhs.subtitle == rhs.subtitle
     }
 }
 
-extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ label: @escaping () -> V) -> some View where V : View {
-        return self.modifier(PagerTabItem(pagerTabView: label))
-    }
-}
+//var 
 
 struct ContentView: View {
-    
+
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
+    let titles = [MyNavItem(title: "Mile", subtitle: "Dev"),
+                  MyNavItem(title: "Chechu", subtitle: "Dev"),
+                  MyNavItem(title: "Martin", subtitle: "Marketing"),
+                  MyNavItem(title: "Nico", subtitle: "Dev"),
+                  MyNavItem(title: "Manu", subtitle: "Dev")]
+    
+    @State var change = 4
     
     var body: some View {
+        Button("change") {
+            change = change == 4 ? 2 : 4
+        }
         GeometryReader { proxy in
-            XLPagerView(.youtube, selection: 1) {
-//                Text("First")
-//                    .frame(width: proxy.size.width, height: 100)
-//                    .padding([.leading, .trailing], 20)
-//                    .background(Color.orange)
-                ForEach(0...4, id: \.self) { idx in
+            MyPagerView(.youtube, selection: 2, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
+                ForEach(0...change, id: \.self) { idx in
                     Text("Page \(idx+1)")
-                        .frame(width: proxy.size.width, height: 400)
                         .background(colors[idx])
                         .pagerTabItem {
-                            if 1 == 2 {
-                                Text("Martin")
-                            }
-                            else {
-                                Text("Chechu")
-                            }
+                            titles[idx]
                         }
                 }
 //                Text("Last")
