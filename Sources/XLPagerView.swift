@@ -225,7 +225,7 @@ public struct XLPagerView<Content> : View where Content : View {
                                 }
                                 .offset(x: self.currentOffset)
                                 .animation(.interactiveSpring())
-                                .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                .gesture(DragGesture( minimumDistance: 0, coordinateSpace: .local)
                                     .onChanged { value in
                                         let previousTranslation = self.dragOffset
                                         self.currentOffset += value.translation.width - previousTranslation

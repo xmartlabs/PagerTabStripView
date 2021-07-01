@@ -31,28 +31,33 @@ struct MyNavItem: View, Equatable {
 struct ContentView: View {
 
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
-    let titles = [MyNavItem(title: "Mile", subtitle: "Dev"),
-                  MyNavItem(title: "Chechu", subtitle: "Dev"),
-                  MyNavItem(title: "Martin", subtitle: "Marketing"),
-                  MyNavItem(title: "Nico", subtitle: "Dev"),
-                  MyNavItem(title: "Manu", subtitle: "Dev")]
+    let titlesIG = [InstagramNav(title: "FOLLOWING"),
+                  InstagramNav(title: "YOU")]
+    let titles = [YoutubeNavWithTitle(title: "Home", imageName: "home"),
+                  YoutubeNavWithTitle(title: "Trending", imageName: "trending"),
+                  YoutubeNavWithTitle(title: "Account", imageName: "account")]
     
-    @State var change = 4
+   // @State var change = 4
     
     var body: some View {
-        Button("change") {
-            change = change == 4 ? 2 : 4
-        }
+//        Button("change") {
+//            change = change == 4 ? 2 : 4
+//        }
         GeometryReader { proxy in
-            XLPagerView(.youtube, selection: 0, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
-                ForEach(0...change, id: \.self) { idx in
-                        Text("Page \(idx+1)")
-                            .background(colors[idx])
-                            .pagerTabItem {
-                                titles[idx]
-                            }
-                        }
-                        .background(Color.purple)
+            XLPagerView(.youtube, selection: 0, pagerSettings: PagerSettings(height: 700, tabItemSpacing: 0, tabItemHeight: 50)) {
+                ForEach(0...titles.count - 1, id: \.self) { idx in
+                    
+                    PostsList().pagerTabItem {
+                        titles[idx]
+                    }
+//                        Text("Page \(idx+1)")
+//                            .background(colors[idx])
+//                            .pagerTabItem {
+//                                titles[idx]
+//                            }
+//                        }
+//                        .background(Color.purple)
+                }
             }
             .frame(alignment: .center)
         }
