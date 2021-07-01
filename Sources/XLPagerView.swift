@@ -10,7 +10,7 @@ import Combine
 
 
 extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View, V: Equatable {
+    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View, V: Equatable, V: PagerTabViewProtocol {
         return self.modifier(PagerTabItem(navTabView: pagerTabView))
     }
 }
@@ -122,7 +122,6 @@ extension PagerContainerView {
 struct NavBarItem: View {
 
     @EnvironmentObject var navContentViews: NavContentViews
-//    @State private var nextIndex = 0
     @Binding private var indexSelected: Int
     private var id: Int
     
@@ -137,8 +136,7 @@ struct NavBarItem: View {
                 self.indexSelected = id
             }, label: {
                 navContentViews.items.value[id]
-            })
-            .background(indexSelected == id ? Color.yellow : Color.red )
+            })//.font(indexSelected == id ? Font.footnote.weight(.bold) : Font.footnote.weight(.regular))
         }
     }
 }
@@ -198,7 +196,8 @@ public struct XLPagerView<Content> : View where Content : View {
     }
     
     func offsetForPageIndex(_ index: Int) -> CGFloat {
-        return (CGFloat(index) * pagerSettings.width) * -1.0
+        let value = (CGFloat(index) * pagerSettings.width) * -1.0
+        return value
     }
     
 //    func indexPageForOffset(_ offset : CGFloat) -> Int {
@@ -259,19 +258,22 @@ public struct XLPagerView<Content> : View where Content : View {
                         }
                         .coordinateSpace(name: "XLPagerViewScrollView")
                         .frame(width: self.pagerSettings.width, height: self.pagerSettings.height)
-                        .onAppear {
-                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                            self.dragOffset = 0
-                            withAnimation {
-                                sproxy.scrollTo(currentIndex)
-                            }
-                        }
                         .onChange(of: self.currentIndex) { index in
                             self.currentOffset = self.offsetForPageIndex(self.currentIndex)
                             self.dragOffset = 0
                             withAnimation {
                                 sproxy.scrollTo(index)
                             }
+                        }
+                        .onChange(of: self.pagerSettings.width) { _ in
+                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                            self.dragOffset = 0
+                            withAnimation {
+                                sproxy.scrollTo(currentIndex)
+                            }
+                        }
+                        .onChange(of: itemCount) { _ in
+                            currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
                         }
                     }
                     .onAppear {
@@ -292,4 +294,14 @@ public struct XLPagerView<Content> : View where Content : View {
             self.itemCount = items.keys.count
         }
     }
+}
+
+public enum PagerTabViewState {
+    case selected
+    case hightlighted
+    case normal
+}
+
+public protocol PagerTabViewProtocol {
+    func setState(state: PagerTabViewState)
 }

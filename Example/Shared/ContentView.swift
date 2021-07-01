@@ -8,14 +8,16 @@
 import SwiftUI
 import PagerTabStrip
 
-struct MyNavItem: View, Equatable {
+struct MyNavItem: View, PagerTabViewProtocol, Equatable {
     let title: String
     let subtitle: String
+
+    @State var textColor = Color.gray
 
     var body: some View {
         VStack {
             Text(title)
-                .foregroundColor(.blue)
+                .foregroundColor(textColor)
             Text(subtitle)
                 .foregroundColor(.red)
         }
@@ -25,6 +27,15 @@ struct MyNavItem: View, Equatable {
 
     static func ==(lhs: MyNavItem, rhs: MyNavItem) -> Bool {
         return lhs.title == rhs.title && lhs.subtitle == rhs.subtitle
+    }
+
+    func setState(state: PagerTabViewState) {
+        switch state {
+        case .selected:
+            textColor = .blue
+        default:
+            textColor = .gray
+        }
     }
 }
 
@@ -44,7 +55,7 @@ struct ContentView: View {
             change = change == 4 ? 2 : 4
         }
         GeometryReader { proxy in
-            XLPagerView(.youtube, selection: 0, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
+            XLPagerView(.youtube, selection: 2, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
                 ForEach(0...change, id: \.self) { idx in
                         Text("Page \(idx+1)")
                             .background(colors[idx])
