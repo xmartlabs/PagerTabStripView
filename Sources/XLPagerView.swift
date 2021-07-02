@@ -136,7 +136,7 @@ struct NavBarItem: View {
                 self.indexSelected = id
             }, label: {
                 navContentViews.items.value[id]
-            })//.font(indexSelected == id ? Font.footnote.weight(.bold) : Font.footnote.weight(.regular))
+            }).font(indexSelected == id ? Font.footnote.weight(.bold) : Font.footnote.weight(.regular))
         }
     }
 }
@@ -216,45 +216,34 @@ public struct XLPagerView<Content> : View where Content : View {
                 GeometryReader { gproxy in
                     ScrollViewReader { sproxy in
                         ScrollView(.horizontal) {
-                            ZStack(alignment: .leading) {
-                                HStack(spacing: 0) {
-                                    self.content().frame(width: self.pagerSettings.width,
-                                                         height: self.pagerSettings.height,
-                                                         alignment: .center)
-                                }
-                                .offset(x: self.currentOffset)
-                                .animation(.interactiveSpring())
-                                .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                                    .onChanged { value in
-                                        let previousTranslation = self.dragOffset
-                                        self.currentOffset += value.translation.width - previousTranslation
-                                        self.dragOffset = value.translation.width
-                                    }
-                                    .onEnded { value in
-                                        let dragged = value.translation.width
-                                        if dragged < 0 {
-                                            self.currentIndex = min(self.currentIndex + 1, self.navContentViews.items.value.count - 1)
-                                            if self.currentIndex == self.navContentViews.items.value.count - 1 {
-                                                self.currentOffset = self.offsetForPageIndex(self.navContentViews.items.value.count - 1)
-                                                self.dragOffset = 0
-                                            }
-                                        } else if self.dragOffset > 0 {
-                                            self.currentIndex = max(self.currentIndex - 1, 0)
-                                            if currentIndex == 0 {
-                                                self.currentOffset = 0
-                                                self.dragOffset = 0
-                                            }
-                                        }
-                                    }
-                                )
-                                GeometryReader { pproxy in
-                                    Color.clear.frame(width: 10, height: 10, alignment: .leading)
-                                        .onAppear {
-                                            self.currentOffset = pproxy.frame(in: .local).minX
-                                            self.contentWidth = pproxy.frame(in: .local).width
-                                        }
-                                }
+                            HStack(spacing: 0) {
+                                self.content()
                             }
+                            .offset(x: self.currentOffset)
+                            .animation(.interactiveSpring())
+                            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                        .onChanged { value in
+                                            let previousTranslation = self.dragOffset
+                                            self.currentOffset += value.translation.width - previousTranslation
+                                            self.dragOffset = value.translation.width
+                                        }
+                                        .onEnded { value in
+                                            let dragged = value.translation.width
+                                            if dragged < 0 {
+                                                self.currentIndex = min(self.currentIndex + 1, self.navContentViews.items.value.count - 1)
+                                                if self.currentIndex == self.navContentViews.items.value.count - 1 {
+                                                    self.currentOffset = self.offsetForPageIndex(self.navContentViews.items.value.count - 1)
+                                                    self.dragOffset = 0
+                                                }
+                                            } else if self.dragOffset > 0 {
+                                                self.currentIndex = max(self.currentIndex - 1, 0)
+                                                if currentIndex == 0 {
+                                                    self.currentOffset = 0
+                                                    self.dragOffset = 0
+                                                }
+                                            }
+                                        }
+                            )
                         }
                         .coordinateSpace(name: "XLPagerViewScrollView")
                         .frame(width: self.pagerSettings.width, height: self.pagerSettings.height)
