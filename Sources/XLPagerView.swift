@@ -38,7 +38,7 @@ struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable
     @EnvironmentObject var pagerSettings: PagerSettings
     var navTabView: () -> NavTabView
     @State var index = -1
-    
+
     init(navTabView: @escaping () -> NavTabView) {
         self.navTabView = navTabView
         self.index = index
@@ -124,12 +124,12 @@ struct NavBarItem: View {
     @EnvironmentObject var navContentViews: NavContentViews
     @Binding private var indexSelected: Int
     private var id: Int
-    
+
     public init(id: Int, selection: Binding<Int>) {
         self._indexSelected = selection
         self.id = id
     }
-    
+
     var body: some View {
         if id < navContentViews.items.value.keys.count {
             Button(action: {
@@ -156,7 +156,7 @@ public class PagerSettings: ObservableObject {
     @Published var tabItemSpacing: CGFloat
     @Published var tabItemHeight: CGFloat
     @Published var contentOffset: CGFloat = 0
-    
+
     public init(width: CGFloat = 0, height: CGFloat = 0, tabItemSpacing: CGFloat = 5, tabItemHeight: CGFloat = 100) {
         self.width = width
         self.height = height
@@ -173,7 +173,7 @@ public struct XLPagerView<Content> : View where Content : View {
 
     private var type: PagerType
     private var content: () -> Content
-    
+
     @State private var currentIndex: Int
     @State private var currentOffset: CGFloat = 0 {
         didSet {
@@ -194,12 +194,12 @@ public struct XLPagerView<Content> : View where Content : View {
         self._currentIndex = State(initialValue: selection)
         self._pagerSettings = StateObject(wrappedValue: pagerSettings)
     }
-    
+
     func offsetForPageIndex(_ index: Int) -> CGFloat {
         let value = (CGFloat(index) * pagerSettings.width) * -1.0
         return value
     }
-    
+
 //    func indexPageForOffset(_ offset : CGFloat) -> Int {
 //        guard self.itemCount > 0 else {
 //            return 0
