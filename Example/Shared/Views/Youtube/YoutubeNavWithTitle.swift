@@ -19,7 +19,7 @@ struct YoutubeNavWithTitle: View, PagerTabViewProtocol, Equatable {
         Image(imageName)
     }
 
-    @State var textColor = Color.gray
+    @State var textColor = redColor
 
     
     var body: some View {
@@ -29,7 +29,7 @@ struct YoutubeNavWithTitle: View, PagerTabViewProtocol, Equatable {
                 .foregroundColor(unselectedIconColor)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(redColor)
+        .background(textColor)
     }
 
     static func ==(lhs: YoutubeNavWithTitle, rhs: YoutubeNavWithTitle) -> Bool {
@@ -42,7 +42,7 @@ struct YoutubeNavWithTitle: View, PagerTabViewProtocol, Equatable {
         case .selected:
             textColor = .blue
         default:
-            textColor = .gray
+            textColor = redColor
         }
     }
 

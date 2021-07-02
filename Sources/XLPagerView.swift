@@ -27,9 +27,7 @@ struct PagerTabView<Content: View, NavTabView: View>: View {
     }
 
     var body: some View {
-        content().onAppear {
-//            navContentViews.items.insert(title, at: 0)
-        }
+        content()
     }
 }
 
@@ -174,7 +172,15 @@ public struct XLPagerView<Content> : View where Content : View {
     private var type: PagerType
     private var content: () -> Content
 
-    @State private var currentIndex: Int
+    @State private var currentIndex: Int {
+        didSet {
+            let tabItem = navContentViews.items.value[currentIndex] as? PagerTabViewProtocol
+            print(navContentViews.items.value[currentIndex])
+            if (tabItem != nil) {
+                tabItem?.setState(state: .selected)
+            }
+        }
+    }
     @State private var currentOffset: CGFloat = 0 {
         didSet {
             self.pagerSettings.contentOffset = currentOffset
@@ -184,6 +190,7 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var contentWidth : CGFloat = 0
     @State private var itemCount : Int = 0
     @State var dragOffset : CGFloat = 0
+    @GestureState private var translation: CGFloat = 0
 
     public init(_ type: PagerType = .twitter,
                 selection: Int = 0,
@@ -200,70 +207,39 @@ public struct XLPagerView<Content> : View where Content : View {
         return value
     }
 
-//    func indexPageForOffset(_ offset : CGFloat) -> Int {
-//        guard self.itemCount > 0 else {
-//            return 0
-//        }
-//        let floatIndex = (offset * -1) / pageWidth
-//        var computedIndex = Int(round(floatIndex))
-//        computedIndex = max(computedIndex, 0)
-//        return min(computedIndex, self.itemCount - 1)
-//    }
-
     public var body: some View {
         VStack {
             PagerContainerView {
                 GeometryReader { gproxy in
-                    ScrollViewReader { sproxy in
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 0) {
-                                self.content()
-                            }
-                            .offset(x: self.currentOffset)
-                            .animation(.interactiveSpring())
-                            .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                                        .onChanged { value in
-                                            let previousTranslation = self.dragOffset
-                                            self.currentOffset += value.translation.width - previousTranslation
-                                            self.dragOffset = value.translation.width
-                                        }
-                                        .onEnded { value in
-                                            let dragged = value.translation.width
-                                            if dragged < 0 {
-                                                self.currentIndex = min(self.currentIndex + 1, self.navContentViews.items.value.count - 1)
-                                                if self.currentIndex == self.navContentViews.items.value.count - 1 {
-                                                    self.currentOffset = self.offsetForPageIndex(self.navContentViews.items.value.count - 1)
-                                                    self.dragOffset = 0
-                                                }
-                                            } else if self.dragOffset > 0 {
-                                                self.currentIndex = max(self.currentIndex - 1, 0)
-                                                if currentIndex == 0 {
-                                                    self.currentOffset = 0
-                                                    self.dragOffset = 0
-                                                }
-                                            }
-                                        }
-                            )
-                        }
-                        .coordinateSpace(name: "XLPagerViewScrollView")
-                        .frame(width: self.pagerSettings.width, height: self.pagerSettings.height)
-                        .onChange(of: self.currentIndex) { index in
-                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                            self.dragOffset = 0
-                            withAnimation {
-                                sproxy.scrollTo(index)
+                    HStack(spacing: 0) {
+                        content()
+                    }
+                    .frame(width: pagerSettings.width, height: pagerSettings.height, alignment: .leading)
+                    .offset(x: -CGFloat(self.currentIndex) * pagerSettings.width)
+                    .offset(x: self.translation)
+                    .animation(.interactiveSpring())
+                    .gesture(
+                        DragGesture().updating(self.$translation) { value, state, _ in
+                            state = value.translation.width
+                        }.onEnded { value in
+                            let offset = value.translation.width / pagerSettings.width
+                            let newIndex = (CGFloat(self.currentIndex) - offset).rounded()
+                            self.currentIndex = min(max(Int(newIndex), 0), self.itemCount - 1)
+                            if translation > 0 {
+                                self.currentOffset = translation
                             }
                         }
-                        .onChange(of: self.pagerSettings.width) { _ in
-                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                            self.dragOffset = 0
-                            withAnimation {
-                                sproxy.scrollTo(currentIndex)
-                            }
-                        }
-                        .onChange(of: itemCount) { _ in
-                            currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
-                        }
+                    )
+                    .onChange(of: self.currentIndex) { index in
+                        self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                        self.dragOffset = 0
+                    }
+                    .onChange(of: self.pagerSettings.width) { _ in
+                        self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                        self.dragOffset = 0
+                    }
+                    .onChange(of: itemCount) { _ in
+                        currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
                     }
                     .onAppear {
                         if pagerSettings.width == 0 {
@@ -274,7 +250,7 @@ public struct XLPagerView<Content> : View where Content : View {
             }
             .navBar(itemCount: $itemCount, selection: $currentIndex)
             HStack {
-                Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
+                Text("Offset: \(self.currentOffset), Translation: \(self.translation) Page: \(self.currentIndex + 1)")
             }
         }
         .environmentObject(self.navContentViews)
