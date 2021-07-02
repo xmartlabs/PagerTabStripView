@@ -37,27 +37,19 @@ struct ContentView: View {
                   YoutubeNavWithTitle(title: "Trending", imageName: "trending"),
                   YoutubeNavWithTitle(title: "Account", imageName: "account")]
     
-   // @State var change = 4
+    @State var change = 2
     @State var index = 0
     
     var body: some View {
-//        Button("change") {
-//            change = change == 4 ? 2 : 4
-//        }
+        Button("change") {
+            change = change == 2 ? 1 : 2
+        }
         GeometryReader { proxy in
-            XLPagerView(.youtube, selection: 0, currentIndex: $index, pagerSettings: PagerSettings(height: 700, tabItemSpacing: 0, tabItemHeight: 50)) {
-                ForEach(0...titles.count - 1, id: \.self) { idx in
-                    
+            XLPagerView(.youtube, selection: 1, pagerSettings: PagerSettings(height: 500, tabItemSpacing: 0, tabItemHeight: 50)) {
+                ForEach(0...change, id: \.self) { idx in
                     PostsList().pagerTabItem {
                         titles[idx]
                     }
-//                        Text("Page \(idx+1)")
-//                            .background(colors[idx])
-//                            .pagerTabItem {
-//                                titles[idx]
-//                            }
-//                        }
-//                        .background(Color.purple)
                 }
             }
             .frame(alignment: .center)
