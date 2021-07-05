@@ -11,6 +11,7 @@
 		28F828811C494B2C00330CF4 /* PagerTabStrip.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F828801C494B2C00330CF4 /* PagerTabStrip.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28F828881C494B2C00330CF4 /* PagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStrip.framework */; };
 		28F8289A1C494B4200330CF4 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F828991C494B4200330CF4 /* iOS.swift */; };
+		C7A02C01269377D400BFE31B /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A02C00269377D400BFE31B /* DataStore.swift */; };
 		E1BB678226270E26006CC3E2 /* Bool+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB678126270E26006CC3E2 /* Bool+Extension.swift */; };
 		E1BB678326270E26006CC3E2 /* Bool+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB678126270E26006CC3E2 /* Bool+Extension.swift */; };
 		E1BB678926270F87006CC3E2 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB678826270F87006CC3E2 /* View+Extension.swift */; };
@@ -37,6 +38,7 @@
 		28F828871C494B2C00330CF4 /* PagerTabStripTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagerTabStripTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F8288E1C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F828991C494B4200330CF4 /* iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
+		C7A02C00269377D400BFE31B /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		E1BB678126270E26006CC3E2 /* Bool+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extension.swift"; sourceTree = "<group>"; };
 		E1BB678826270F87006CC3E2 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLPagerView.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				28F828991C494B4200330CF4 /* iOS.swift */,
 				E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */,
+				C7A02C00269377D400BFE31B /* DataStore.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				E1BB678226270E26006CC3E2 /* Bool+Extension.swift in Sources */,
 				E1FA589924C8BC1B0081FBE7 /* XLPagerView.swift in Sources */,
 				E1BB678926270F87006CC3E2 /* View+Extension.swift in Sources */,
+				C7A02C01269377D400BFE31B /* DataStore.swift in Sources */,
 				28F8289A1C494B4200330CF4 /* iOS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

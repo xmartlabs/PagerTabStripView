@@ -8,7 +8,7 @@
 import SwiftUI
 import PagerTabStrip
 
-struct MyNavItem: View, PagerTabViewProtocol, Equatable {
+struct MyNavItem: View, PagerTabViewDelegate, Equatable {
     let title: String
     let subtitle: String
 
