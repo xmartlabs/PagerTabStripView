@@ -166,16 +166,7 @@ public struct XLPagerView<Content> : View where Content : View {
     private var type: PagerType
     private var content: () -> Content
 
-    @State private var currentIndex: Int {
-        didSet {
-            if let tabViewDelegate = navContentViews.items.value[oldValue]?.tabViewDelegate {
-                tabViewDelegate.setState(state: .normal)
-            }
-            if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
-                tabViewDelegate.setState(state: .selected)
-            }
-        }
-    }
+    @State private var currentIndex: Int
     @State private var currentOffset: CGFloat = 0 {
         didSet {
             self.pagerSettings.contentOffset = currentOffset
@@ -225,9 +216,15 @@ public struct XLPagerView<Content> : View where Content : View {
                             }
                         }
                     )
-                    .onChange(of: self.currentIndex) { index in
-                        self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                    .onChange(of: self.currentIndex) { [currentIndex] newIndex in
+                        self.currentOffset = self.offsetForPageIndex(newIndex)
                         self.dragOffset = 0
+                        if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
+                            tabViewDelegate.setSelectedState(state: .normal)
+                        }
+                        if let tabViewDelegate = navContentViews.items.value[newIndex]?.tabViewDelegate {
+                            tabViewDelegate.setSelectedState(state: .selected)
+                        }
                     }
                     .onChange(of: self.pagerSettings.width) { _ in
                         self.currentOffset = self.offsetForPageIndex(self.currentIndex)
@@ -264,5 +261,5 @@ public enum PagerTabViewState {
 }
 
 public protocol PagerTabViewDelegate {
-    func setState(state: PagerTabViewState)
+    func setSelectedState(state: PagerTabViewState)
 }

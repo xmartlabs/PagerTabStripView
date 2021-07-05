@@ -5,12 +5,18 @@
 //  Created by Milena Zabaleta on 6/22/21.
 //
 
+import Combine
 import SwiftUI
 import PagerTabStrip
 
 
 let redColor = Color(red: 221/255.0, green: 0/255.0, blue: 19/255.0, opacity: 1.0)
 let unselectedIconColor = Color(red: 73/255.0, green: 8/255.0, blue: 10/255.0, opacity: 1.0)
+
+private class ButtonTheme: ObservableObject {
+    @Published var backgroundColor = redColor
+    @Published var textColor = unselectedIconColor
+}
 
 struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
     let title: String
@@ -19,28 +25,28 @@ struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
         Image(imageName)
     }
 
-    @State var backgroundColor = redColor
+    @ObservedObject fileprivate var theme = ButtonTheme()
     
     var body: some View {
         VStack {
             image
             Text(title.uppercased())
-                .foregroundColor(unselectedIconColor)
+                .foregroundColor(theme.textColor)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(backgroundColor)
+        .background(theme.backgroundColor)
     }
 
     static func ==(lhs: YoutubeNavWithTitle, rhs: YoutubeNavWithTitle) -> Bool {
         return lhs.title == rhs.title
     }
 
-    func setState(state: PagerTabViewState) {
+    func setSelectedState(state: PagerTabViewState) {
         switch state {
         case .selected:
-            backgroundColor = .blue
+            self.theme.backgroundColor = .blue
         default:
-            backgroundColor = redColor
+            self.theme.backgroundColor = redColor
         }
     }
 }

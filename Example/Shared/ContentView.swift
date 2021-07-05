@@ -29,7 +29,7 @@ struct MyNavItem: View, PagerTabViewDelegate, Equatable {
         return lhs.title == rhs.title && lhs.subtitle == rhs.subtitle
     }
 
-    func setState(state: PagerTabViewState) {
+    func setSelectedState(state: PagerTabViewState) {
         switch state {
         case .selected:
             textColor = .blue
