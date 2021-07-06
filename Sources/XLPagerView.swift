@@ -8,16 +8,15 @@
 import SwiftUI
 import Combine
 
-
 extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View, V: Equatable {
+    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View, V: Equatable, V: PagerTabViewDelegate {
         return self.modifier(PagerTabItem(navTabView: pagerTabView))
     }
 }
 
 struct PagerTabView<Content: View, NavTabView: View>: View {
 
-    @EnvironmentObject var navContentViews : NavContentViews
+    @EnvironmentObject var navContentViews : DataStore
     var content: () -> Content
     var navTabView : () -> NavTabView
 
@@ -27,18 +26,16 @@ struct PagerTabView<Content: View, NavTabView: View>: View {
     }
 
     var body: some View {
-        content().onAppear {
-//            navContentViews.items.insert(title, at: 0)
-        }
+        content()
     }
 }
 
-struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable {
-    @EnvironmentObject var navContentViews : NavContentViews
+struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable, NavTabView: PagerTabViewDelegate  {
+    @EnvironmentObject var navContentViews : DataStore
     @EnvironmentObject var pagerSettings: PagerSettings
     var navTabView: () -> NavTabView
     @State var index = -1
-    
+
     init(navTabView: @escaping () -> NavTabView) {
         self.navTabView = navTabView
         self.index = index
@@ -55,14 +52,13 @@ struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable
                             DispatchQueue.main.async {
                                 let frame = reader.frame(in: .named("XLPagerViewScrollView"))
                                 index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
-                                var views = navContentViews.items.value
-                                views[index] = AnyView(navTabView())
-                                navContentViews.items.send(views)
+                                let tabView = navTabView()
+                                navContentViews.setView(AnyView(tabView),
+                                                        tabViewDelegate: tabView,
+                                                        at: index)
                             }
                         }.onDisappear {
-                            var views = navContentViews.items.value
-                            views[index] = nil
-                            navContentViews.items.send(views)
+                            navContentViews.remove(at: index)
                         }
                     }
                 )
@@ -121,24 +117,22 @@ extension PagerContainerView {
 
 struct NavBarItem: View {
 
-    @EnvironmentObject var navContentViews: NavContentViews
-//    @State private var nextIndex = 0
+    @EnvironmentObject var navContentViews: DataStore
     @Binding private var indexSelected: Int
     private var id: Int
-    
+
     public init(id: Int, selection: Binding<Int>) {
         self._indexSelected = selection
         self.id = id
     }
-    
+
     var body: some View {
         if id < navContentViews.items.value.keys.count {
             Button(action: {
                 self.indexSelected = id
             }, label: {
-                navContentViews.items.value[id]
-            })
-            .background(indexSelected == id ? Color.yellow : Color.red )
+                navContentViews.items.value[id]?.view
+            }).font(indexSelected == id ? Font.footnote.weight(.bold) : Font.footnote.weight(.regular))
         }
     }
 }
@@ -148,17 +142,13 @@ public enum PagerType {
     case youtube
 }
 
-public class NavContentViews: ObservableObject {
-    var items = CurrentValueSubject<[Int: AnyView], Never>([:])
-}
-
 public class PagerSettings: ObservableObject {
     @Published var width: CGFloat
     @Published var height: CGFloat
     @Published var tabItemSpacing: CGFloat
     @Published var tabItemHeight: CGFloat
     @Published var contentOffset: CGFloat = 0
-    
+
     public init(width: CGFloat = 0, height: CGFloat = 0, tabItemSpacing: CGFloat = 5, tabItemHeight: CGFloat = 100) {
         self.width = width
         self.height = height
@@ -170,12 +160,12 @@ public class PagerSettings: ObservableObject {
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
 
-    @StateObject var navContentViews = NavContentViews()
+    @StateObject var navContentViews = DataStore()
     @StateObject var pagerSettings = PagerSettings()
 
     private var type: PagerType
     private var content: () -> Content
-    
+
     @State private var currentIndex: Int
     @State private var currentOffset: CGFloat = 0 {
         didSet {
@@ -186,6 +176,7 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var contentWidth : CGFloat = 0
     @State private var itemCount : Int = 0
     @State var dragOffset : CGFloat = 0
+    @GestureState private var translation: CGFloat = 0
 
     public init(_ type: PagerType = .twitter,
                 selection: Int = 0,
@@ -196,94 +187,63 @@ public struct XLPagerView<Content> : View where Content : View {
         self._currentIndex = State(initialValue: selection)
         self._pagerSettings = StateObject(wrappedValue: pagerSettings)
     }
-    
+
     func offsetForPageIndex(_ index: Int) -> CGFloat {
-        return (CGFloat(index) * pagerSettings.width) * -1.0
+        let value = (CGFloat(index) * pagerSettings.width) * -1.0
+        return value
     }
-    
-//    func indexPageForOffset(_ offset : CGFloat) -> Int {
-//        guard self.itemCount > 0 else {
-//            return 0
-//        }
-//        let floatIndex = (offset * -1) / pageWidth
-//        var computedIndex = Int(round(floatIndex))
-//        computedIndex = max(computedIndex, 0)
-//        return min(computedIndex, self.itemCount - 1)
-//    }
 
     public var body: some View {
         VStack {
             PagerContainerView {
                 GeometryReader { gproxy in
-                    ScrollViewReader { sproxy in
-                        ScrollView(.horizontal) {
-                            ZStack(alignment: .leading) {
-                                HStack(spacing: 0) {
-                                    self.content().frame(width: self.pagerSettings.width,
-                                                         height: self.pagerSettings.height,
-                                                         alignment: .center)
-                                }
-                                .offset(x: self.currentOffset)
-                                .animation(.interactiveSpring())
-                                .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                                    .onChanged { value in
-                                        let previousTranslation = self.dragOffset
-                                        self.currentOffset += value.translation.width - previousTranslation
-                                        self.dragOffset = value.translation.width
-                                    }
-                                    .onEnded { value in
-                                        let dragged = value.translation.width
-                                        if dragged < 0 {
-                                            self.currentIndex = min(self.currentIndex + 1, self.navContentViews.items.value.count - 1)
-                                            if self.currentIndex == self.navContentViews.items.value.count - 1 {
-                                                self.currentOffset = self.offsetForPageIndex(self.navContentViews.items.value.count - 1)
-                                                self.dragOffset = 0
-                                            }
-                                        } else if self.dragOffset > 0 {
-                                            self.currentIndex = max(self.currentIndex - 1, 0)
-                                            if currentIndex == 0 {
-                                                self.currentOffset = 0
-                                                self.dragOffset = 0
-                                            }
-                                        }
-                                    }
-                                )
-                                GeometryReader { pproxy in
-                                    Color.clear.frame(width: 10, height: 10, alignment: .leading)
-                                        .onAppear {
-                                            self.currentOffset = pproxy.frame(in: .local).minX
-                                            self.contentWidth = pproxy.frame(in: .local).width
-                                        }
-                                }
+                    HStack(spacing: 0) {
+                        content()
+                    }
+                    .frame(width: pagerSettings.width, height: pagerSettings.height, alignment: .leading)
+                    .offset(x: -CGFloat(self.currentIndex) * pagerSettings.width)
+                    .offset(x: self.translation)
+                    .animation(.interactiveSpring())
+                    .gesture(
+                        DragGesture().updating(self.$translation) { value, state, _ in
+                            state = value.translation.width
+                        }.onEnded { value in
+                            let offset = value.translation.width / pagerSettings.width
+                            let newIndex = (CGFloat(self.currentIndex) - offset).rounded()
+                            self.currentIndex = min(max(Int(newIndex), 0), self.itemCount - 1)
+                            if translation > 0 {
+                                self.currentOffset = translation
                             }
                         }
-                        .coordinateSpace(name: "XLPagerViewScrollView")
-                        .frame(width: self.pagerSettings.width, height: self.pagerSettings.height)
-                        .onAppear {
-                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                            self.dragOffset = 0
-                            withAnimation {
-                                sproxy.scrollTo(currentIndex)
-                            }
+                    )
+                    .onChange(of: self.currentIndex) { [currentIndex] newIndex in
+                        self.currentOffset = self.offsetForPageIndex(newIndex)
+                        self.dragOffset = 0
+                        if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
+                            tabViewDelegate.setSelectedState(state: .normal)
                         }
-                        .onChange(of: self.currentIndex) { index in
-                            self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                            self.dragOffset = 0
-                            withAnimation {
-                                sproxy.scrollTo(index)
-                            }
+                        if let tabViewDelegate = navContentViews.items.value[newIndex]?.tabViewDelegate {
+                            tabViewDelegate.setSelectedState(state: .selected)
                         }
+                    }
+                    .onChange(of: self.pagerSettings.width) { _ in
+                        self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                        self.dragOffset = 0
+                    }
+                    .onChange(of: itemCount) { _ in
+                        currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
                     }
                     .onAppear {
                         if pagerSettings.width == 0 {
                             pagerSettings.width = gproxy.size.width
                         }
                     }
+                    .clipped()
                 }
             }
             .navBar(itemCount: $itemCount, selection: $currentIndex)
             HStack {
-                Text("Offset: \(self.currentOffset) Page: \(self.currentIndex + 1)")
+                Text("Offset: \(self.currentOffset), Translation: \(self.translation) Page: \(self.currentIndex + 1)")
             }
         }
         .environmentObject(self.navContentViews)
@@ -292,4 +252,14 @@ public struct XLPagerView<Content> : View where Content : View {
             self.itemCount = items.keys.count
         }
     }
+}
+
+public enum PagerTabViewState {
+    case selected
+    case hightlighted
+    case normal
+}
+
+public protocol PagerTabViewDelegate {
+    func setSelectedState(state: PagerTabViewState)
 }

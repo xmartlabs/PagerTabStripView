@@ -8,14 +8,16 @@
 import SwiftUI
 import PagerTabStrip
 
-struct MyNavItem: View, Equatable {
+struct MyNavItem: View, PagerTabViewDelegate, Equatable {
     let title: String
     let subtitle: String
+
+    @State var textColor = Color.gray
 
     var body: some View {
         VStack {
             Text(title)
-                .foregroundColor(.blue)
+                .foregroundColor(textColor)
             Text(subtitle)
                 .foregroundColor(.red)
         }
@@ -26,33 +28,40 @@ struct MyNavItem: View, Equatable {
     static func ==(lhs: MyNavItem, rhs: MyNavItem) -> Bool {
         return lhs.title == rhs.title && lhs.subtitle == rhs.subtitle
     }
+
+    func setSelectedState(state: PagerTabViewState) {
+        switch state {
+        case .selected:
+            textColor = .blue
+        default:
+            textColor = .gray
+        }
+    }
 }
 
 struct ContentView: View {
 
     let colors = [Color.blue, Color.red, Color.gray, Color.yellow, Color.green]
-    let titles = [MyNavItem(title: "Mile", subtitle: "Dev"),
-                  MyNavItem(title: "Chechu", subtitle: "Dev"),
-                  MyNavItem(title: "Martin", subtitle: "Marketing"),
-                  MyNavItem(title: "Nico", subtitle: "Dev"),
-                  MyNavItem(title: "Manu", subtitle: "Dev")]
+    let titlesIG = [InstagramNav(title: "FOLLOWING"),
+                  InstagramNav(title: "YOU")]
+    let titles = [YoutubeNavWithTitle(title: "Home", imageName: "home"),
+                  YoutubeNavWithTitle(title: "Trending", imageName: "trending"),
+                  YoutubeNavWithTitle(title: "Account", imageName: "account")]
     
-    @State var change = 4
+    @State var change = 2
+    @State var index = 0
     
     var body: some View {
         Button("change") {
-            change = change == 4 ? 2 : 4
+            change = change == 2 ? 1 : 2
         }
         GeometryReader { proxy in
-            XLPagerView(.youtube, selection: 0, pagerSettings: PagerSettings(height: 400, tabItemSpacing: 10, tabItemHeight: 50)) {
+            XLPagerView(.youtube, selection: 2, pagerSettings: PagerSettings(height: 500, tabItemSpacing: 0, tabItemHeight: 50)) {
                 ForEach(0...change, id: \.self) { idx in
-                        Text("Page \(idx+1)")
-                            .background(colors[idx])
-                            .pagerTabItem {
-                                titles[idx]
-                            }
-                        }
-                        .background(Color.purple)
+                    PostsList().pagerTabItem {
+                        titles[idx]
+                    }
+                }
             }
             .frame(alignment: .center)
         }
