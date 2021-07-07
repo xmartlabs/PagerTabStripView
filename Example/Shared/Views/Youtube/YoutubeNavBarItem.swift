@@ -19,7 +19,7 @@ private class ButtonTheme: ObservableObject {
     @Published var textColor = unselectedColor
 }
 
-struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
+struct YoutubeNavBarItem: View, PagerTabViewDelegate {
     let title: String
     let imageName: String
     var image: Image {
@@ -41,10 +41,6 @@ struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
         .background(theme.backgroundColor)
     }
 
-    static func ==(lhs: YoutubeNavWithTitle, rhs: YoutubeNavWithTitle) -> Bool {
-        return lhs.title == rhs.title
-    }
-
     func setSelectedState(state: PagerTabViewState) {
         switch state {
         case .selected:
@@ -55,8 +51,8 @@ struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
     }
 }
 
-struct YoutubeNavWithTitle_Previews: PreviewProvider {
+struct YoutubeNavBarItem_Previews: PreviewProvider {
     static var previews: some View {
-        YoutubeNavWithTitle(title: "Home", imageName: "home")
+        YoutubeNavBarItem(title: "Home", imageName: "home")
     }
 }

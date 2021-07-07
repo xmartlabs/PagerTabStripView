@@ -12,7 +12,7 @@ private class ButtonTheme: ObservableObject {
     @Published var imageColor = Color.gray
 }
 
-struct InstagramNav: View, PagerTabViewDelegate, Equatable {
+struct InstagramNavBarItem: View, PagerTabViewDelegate {
     let imageName: String
     var image: Image {
         Image(imageName)
@@ -32,10 +32,6 @@ struct InstagramNav: View, PagerTabViewDelegate, Equatable {
         .background(Color.white)
     }
     
-    static func ==(lhs: InstagramNav, rhs: InstagramNav) -> Bool {
-        return lhs.imageName == rhs.imageName
-    }
-    
     func setSelectedState(state: PagerTabViewState) {
         switch state {
         case .selected:
@@ -46,8 +42,8 @@ struct InstagramNav: View, PagerTabViewDelegate, Equatable {
     }
 }
 
-struct InstagramNav_Previews: PreviewProvider {
+struct InstagramNavBarItem_Previews: PreviewProvider {
     static var previews: some View {
-        InstagramNav(imageName: "gallery")
+        InstagramNavBarItem(imageName: "gallery")
     }
 }

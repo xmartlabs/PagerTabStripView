@@ -12,7 +12,7 @@ private class ButtonTheme: ObservableObject {
     @Published var textColor = Color.gray
 }
 
-struct TwitterNav: View, PagerTabViewDelegate, Equatable {
+struct TwitterNavBarItem: View, PagerTabViewDelegate {
     let title: String
     
     @ObservedObject fileprivate var theme = ButtonTheme()
@@ -27,10 +27,6 @@ struct TwitterNav: View, PagerTabViewDelegate, Equatable {
         .background(Color.white)
     }
     
-    static func ==(lhs: TwitterNav, rhs: TwitterNav) -> Bool {
-        return lhs.title == rhs.title
-    }
-    
     func setSelectedState(state: PagerTabViewState) {
         switch state {
         case .selected:
@@ -41,8 +37,8 @@ struct TwitterNav: View, PagerTabViewDelegate, Equatable {
     }
 }
 
-struct TwitterNav_Previews: PreviewProvider {
+struct TwitterNavBarItem_Previews: PreviewProvider {
     static var previews: some View {
-        TwitterNav(title: "Tweets")
+        TwitterNavBarItem(title: "Tweets")
     }
 }

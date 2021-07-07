@@ -8,13 +8,13 @@ import SwiftUI
 import PagerTabStrip
 
 struct InstagramView: View {
-    let titles = [InstagramNav(imageName: "gallery"),
-                  InstagramNav(imageName: "list"),
-                  InstagramNav(imageName: "liked"),
-                  InstagramNav(imageName: "saved")]
+    let titles = [InstagramNavBarItem(imageName: "gallery"),
+                  InstagramNavBarItem(imageName: "list"),
+                  InstagramNavBarItem(imageName: "liked"),
+                  InstagramNavBarItem(imageName: "saved")]
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(height: 500, tabItemSpacing: 0, tabItemHeight: 50)) {
+        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50)) {
             ForEach(0...3, id: \.self) { idx in
                 PostsList().pagerTabItem {
                     titles[idx]
