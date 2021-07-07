@@ -11,11 +11,12 @@ import PagerTabStrip
 
 
 let redColor = Color(red: 221/255.0, green: 0/255.0, blue: 19/255.0, opacity: 1.0)
-let unselectedIconColor = Color(red: 73/255.0, green: 8/255.0, blue: 10/255.0, opacity: 1.0)
+let unselectedColor = Color(red: 73/255.0, green: 8/255.0, blue: 10/255.0, opacity: 1.0)
+let selectedColor = Color(red: 234/255.0, green: 234/255.0, blue: 234/255.0, opacity: 0.7)
 
 private class ButtonTheme: ObservableObject {
     @Published var backgroundColor = redColor
-    @Published var textColor = unselectedIconColor
+    @Published var textColor = unselectedColor
 }
 
 struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
@@ -30,8 +31,11 @@ struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
     var body: some View {
         VStack {
             image
+                .renderingMode(.template)
+                .foregroundColor(theme.textColor)
             Text(title.uppercased())
                 .foregroundColor(theme.textColor)
+                .fontWeight(.regular)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.backgroundColor)
@@ -44,9 +48,9 @@ struct YoutubeNavWithTitle: View, PagerTabViewDelegate, Equatable {
     func setSelectedState(state: PagerTabViewState) {
         switch state {
         case .selected:
-            self.theme.backgroundColor = .blue
+            self.theme.textColor = selectedColor
         default:
-            self.theme.backgroundColor = redColor
+            self.theme.textColor = unselectedColor
         }
     }
 }

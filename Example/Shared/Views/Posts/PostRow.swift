@@ -9,7 +9,9 @@ import SwiftUI
 
 struct PostRow: View {
     var post: Post
-
+    
+    @State private var showingDetail = false
+    
     var body: some View {
         HStack (alignment: .top){
             post.user.image
@@ -23,6 +25,12 @@ struct PostRow: View {
                 Text(post.text)
             }
             .padding()
+        }
+        .onTapGesture {
+            showingDetail.toggle()
+        }
+        .sheet(isPresented: $showingDetail) {
+            PostDetail(post: post)
         }
     }
 }

@@ -15,16 +15,16 @@ extension View {
 }
 
 struct PagerTabView<Content: View, NavTabView: View>: View {
-
+    
     @EnvironmentObject var navContentViews : DataStore
     var content: () -> Content
     var navTabView : () -> NavTabView
-
+    
     init(@ViewBuilder navTabView: @escaping () -> NavTabView, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.navTabView = navTabView
     }
-
+    
     var body: some View {
         content()
     }
@@ -35,12 +35,12 @@ struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable
     @EnvironmentObject var pagerSettings: PagerSettings
     var navTabView: () -> NavTabView
     @State var index = -1
-
+    
     init(navTabView: @escaping () -> NavTabView) {
         self.navTabView = navTabView
         self.index = index
     }
-
+    
     func body(content: Content) -> some View {
         PagerTabView(navTabView: navTabView) {
             content
@@ -73,12 +73,12 @@ struct NavBarModifier: ViewModifier {
     @EnvironmentObject var pagerSettings: PagerSettings
     @Binding private var indexSelected: Int
     @Binding private var itemCount: Int
-
+    
     public init(itemCount: Binding<Int>, selection: Binding<Int>) {
         self._indexSelected = selection
         self._itemCount = itemCount
     }
-
+    
     func body(content: Content) -> some View {
         VStack(alignment: .leading) {
             LazyHStack(spacing: pagerSettings.tabItemSpacing) {
@@ -99,11 +99,11 @@ struct NavBarModifier: ViewModifier {
 
 struct PagerContainerView<Content: View>: View {
     let content: () -> Content
-
+    
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
-
+    
     var body: some View {
         content()
     }
@@ -118,16 +118,16 @@ extension PagerContainerView {
 
 
 struct NavBarItem: View {
-
+    
     @EnvironmentObject var navContentViews: DataStore
     @Binding private var indexSelected: Int
     private var id: Int
-
+    
     public init(id: Int, selection: Binding<Int>) {
         self._indexSelected = selection
         self.id = id
     }
-
+    
     var body: some View {
         if id < navContentViews.items.value.keys.count {
             Button(action: {
@@ -150,7 +150,7 @@ public class PagerSettings: ObservableObject {
     @Published var tabItemSpacing: CGFloat
     @Published var tabItemHeight: CGFloat
     @Published var contentOffset: CGFloat = 0
-
+    
     public init(width: CGFloat = 0, height: CGFloat = 0, tabItemSpacing: CGFloat = 5, tabItemHeight: CGFloat = 100) {
         self.width = width
         self.height = height
@@ -161,23 +161,28 @@ public class PagerSettings: ObservableObject {
 
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
-
+    
     @StateObject var navContentViews = DataStore()
     @StateObject var pagerSettings = PagerSettings()
-
+    
     private var type: PagerType
     private var content: () -> Content
-
+    
     @State private var currentIndex: Int
     @State private var currentOffset: CGFloat = 0 {
         didSet {
             self.pagerSettings.contentOffset = currentOffset
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+    @State private var contentWidth : CGFloat = 0
+>>>>>>> styles finished
     @State private var itemCount : Int = 0
     @GestureState private var translation: CGFloat = 0
-
+    
     public init(_ type: PagerType = .twitter,
                 selection: Int = 0,
                 pagerSettings: PagerSettings,
@@ -187,12 +192,12 @@ public struct XLPagerView<Content> : View where Content : View {
         self._currentIndex = State(initialValue: selection)
         self._pagerSettings = StateObject(wrappedValue: pagerSettings)
     }
-
+    
     func offsetForPageIndex(_ index: Int) -> CGFloat {
         let value = (CGFloat(index) * pagerSettings.width) * -1.0
         return value
     }
-
+    
     public var body: some View {
         VStack {
             PagerContainerView {
@@ -233,22 +238,26 @@ public struct XLPagerView<Content> : View where Content : View {
                     .onChange(of: self.pagerSettings.width) { _ in
                         self.currentOffset = self.offsetForPageIndex(self.currentIndex)
                     }
-                    .onChange(of: itemCount) { _ in
-                        currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
+                    if let tabViewDelegate = navContentViews.items.value[newIndex]?.tabViewDelegate {
+                        tabViewDelegate.setSelectedState(state: .selected)
                     }
-                    .onAppear {
-                        if pagerSettings.width == 0 {
-                            pagerSettings.width = gproxy.size.width
-                        }
-                    }
-                    .clipped()
                 }
-            }
-            .navBar(itemCount: $itemCount, selection: $currentIndex)
-            HStack {
-                Text("Offset: \(self.currentOffset), Translation: \(self.translation) Page: \(self.currentIndex + 1)")
+                .onChange(of: self.pagerSettings.width) { _ in
+                    self.currentOffset = self.offsetForPageIndex(self.currentIndex)
+                    self.dragOffset = 0
+                }
+                .onChange(of: itemCount) { _ in
+                    currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
+                }
+                .onAppear {
+                    if pagerSettings.width == 0 {
+                        pagerSettings.width = gproxy.size.width
+                    }
+                }
+                .clipped()
             }
         }
+        .navBar(itemCount: $itemCount, selection: $currentIndex)
         .environmentObject(self.navContentViews)
         .environmentObject(self.pagerSettings)
         .onReceive(self.navContentViews.items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in

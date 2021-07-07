@@ -4,7 +4,6 @@
 //
 //  Created by Milena Zabaleta on 6/22/21.
 //
-
 import Foundation
 import SwiftUI
 
@@ -16,21 +15,17 @@ struct PostsList: View {
         modelData.posts
     }
     
+    
     var body: some View {
-       // NavigationView {
-            List {
-                ForEach(posts) { post in
-                    //NavigationLink(destination: LandmarkDetail(landmark: landmark)) {
-                        PostRow(post: post)
-                    //}
-                }
+        List {
+            ForEach(posts) { post in
+                PostRow(post: post)
             }
-           .navigationTitle("Landmarks")
-      //  }
-   }
+        }
+    }
 }
 
-struct LandmarkList_Previews: PreviewProvider {
+struct PostsList_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(["iPhone SE", "iPhone XS Max"], id: \.self) { deviceName in
             PostsList()
