@@ -173,9 +173,7 @@ public struct XLPagerView<Content> : View where Content : View {
         }
     }
 
-    @State private var contentWidth : CGFloat = 0
     @State private var itemCount : Int = 0
-    @State var dragOffset : CGFloat = 0
     @GestureState private var translation: CGFloat = 0
 
     public init(_ type: PagerType = .twitter,
@@ -208,9 +206,14 @@ public struct XLPagerView<Content> : View where Content : View {
                         DragGesture().updating(self.$translation) { value, state, _ in
                             state = value.translation.width
                         }.onEnded { value in
-                            let offset = value.translation.width / pagerSettings.width
-                            let newIndex = (CGFloat(self.currentIndex) - offset).rounded()
-                            self.currentIndex = min(max(Int(newIndex), 0), self.itemCount - 1)
+                            let offset = value.predictedEndTranslation.width / pagerSettings.width
+                            let newPredictedIndex = (CGFloat(self.currentIndex) - offset).rounded()
+                            let newIndex = min(max(Int(newPredictedIndex), 0), self.itemCount - 1)
+                            if newIndex != self.currentIndex && abs(self.currentIndex - newIndex) > 1 {
+                                self.currentIndex = newIndex > currentIndex ? currentIndex + 1 : currentIndex - 1
+                            } else {
+                                self.currentIndex = newIndex
+                            }
                             if translation > 0 {
                                 self.currentOffset = translation
                             }
@@ -218,7 +221,6 @@ public struct XLPagerView<Content> : View where Content : View {
                     )
                     .onChange(of: self.currentIndex) { [currentIndex] newIndex in
                         self.currentOffset = self.offsetForPageIndex(newIndex)
-                        self.dragOffset = 0
                         if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
                             tabViewDelegate.setSelectedState(state: .normal)
                         }
@@ -228,7 +230,6 @@ public struct XLPagerView<Content> : View where Content : View {
                     }
                     .onChange(of: self.pagerSettings.width) { _ in
                         self.currentOffset = self.offsetForPageIndex(self.currentIndex)
-                        self.dragOffset = 0
                     }
                     .onChange(of: itemCount) { _ in
                         currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
