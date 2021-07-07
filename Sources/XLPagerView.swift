@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View, V: Equatable, V: PagerTabViewDelegate {
+    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View, V: Equatable {
         return self.modifier(PagerTabItem(navTabView: pagerTabView))
     }
 }
@@ -30,7 +30,7 @@ struct PagerTabView<Content: View, NavTabView: View>: View {
     }
 }
 
-struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable, NavTabView: PagerTabViewDelegate  {
+struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable {
     @EnvironmentObject var navContentViews : DataStore
     @EnvironmentObject var pagerSettings: PagerSettings
     var navTabView: () -> NavTabView
@@ -53,11 +53,13 @@ struct PagerTabItem<NavTabView: View> : ViewModifier where NavTabView: Equatable
                                 let frame = reader.frame(in: .named("XLPagerViewScrollView"))
                                 index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
                                 let tabView = navTabView()
+                                let tabViewDelegate = navTabView() as? PagerTabViewDelegate
                                 navContentViews.setView(AnyView(tabView),
-                                                        tabViewDelegate: tabView,
+                                                        tabViewDelegate: tabViewDelegate,
                                                         at: index)
                             }
                         }.onDisappear {
+                            navContentViews.items.value[index]?.tabViewDelegate?.setSelectedState(state: .normal)
                             navContentViews.remove(at: index)
                         }
                     }
@@ -132,7 +134,7 @@ struct NavBarItem: View {
                 self.indexSelected = id
             }, label: {
                 navContentViews.items.value[id]?.view
-            }).font(indexSelected == id ? Font.footnote.weight(.bold) : Font.footnote.weight(.regular))
+            })
         }
     }
 }
@@ -251,6 +253,9 @@ public struct XLPagerView<Content> : View where Content : View {
         .environmentObject(self.pagerSettings)
         .onReceive(self.navContentViews.items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
             self.itemCount = items.keys.count
+            if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
+                tabViewDelegate.setSelectedState(state: .selected)
+            }
         }
     }
 }
