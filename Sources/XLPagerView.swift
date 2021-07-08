@@ -133,7 +133,12 @@ struct NavBarItem: View {
                 self.indexSelected = id
             }, label: {
                 navContentViews.items.value[id]?.view
-            })
+            }).buttonStyle(PlainButtonStyle())
+            .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
+                if pressing {
+                    navContentViews.items.value[id]?.tabViewDelegate?.setSelectedState(state: .hightlighted)
+                }
+            } perform: {}
         }
     }
 }
