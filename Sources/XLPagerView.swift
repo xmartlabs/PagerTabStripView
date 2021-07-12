@@ -233,7 +233,8 @@ public struct XLPagerView<Content> : View where Content : View {
                 .frame(width: pagerSettings.width, height: pagerSettings.height, alignment: .leading)
                 .offset(x: -CGFloat(self.currentIndex) * pagerSettings.width)
                 .offset(x: self.translation)
-                .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25))
+                .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: currentIndex)
+                .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: translation)
                 .gesture(
                     DragGesture().updating(self.$translation) { value, state, _ in
                         state = value.translation.width
