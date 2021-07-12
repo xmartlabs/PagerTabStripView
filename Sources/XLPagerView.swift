@@ -179,11 +179,7 @@ struct NavBarItem: View {
                 navContentViews.items.value[id]?.view
             }).buttonStyle(PlainButtonStyle())
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                if pressing {
-                    navContentViews.items.value[id]?.tabViewDelegate?.setSelectedState(state: .hightlighted)
-                } else {
-                    navContentViews.items.value[id]?.tabViewDelegate?.setSelectedState(state: .selected)
-                }
+                navContentViews.items.value[id]?.tabViewDelegate?.setSelectedState(state: pressing ? .highlighted : .selected)
             } perform: {}
         }
     }
@@ -314,7 +310,7 @@ public struct XLPagerView<Content> : View where Content : View {
 
 public enum PagerTabViewState {
     case selected
-    case hightlighted
+    case highlighted
     case normal
 }
 
