@@ -233,7 +233,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 .frame(width: pagerSettings.width, height: pagerSettings.height, alignment: .leading)
                 .offset(x: -CGFloat(self.currentIndex) * pagerSettings.width)
                 .offset(x: self.translation)
-                .animation(.interactiveSpring())
+                .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25))
                 .gesture(
                     DragGesture().updating(self.$translation) { value, state, _ in
                         state = value.translation.width
@@ -241,7 +241,7 @@ public struct XLPagerView<Content> : View where Content : View {
                         let offset = value.predictedEndTranslation.width / pagerSettings.width
                         let newPredictedIndex = (CGFloat(self.currentIndex) - offset).rounded()
                         let newIndex = min(max(Int(newPredictedIndex), 0), self.itemCount - 1)
-                        if newIndex != self.currentIndex && abs(self.currentIndex - newIndex) > 1 {
+                        if abs(self.currentIndex - newIndex) > 1 {
                             self.currentIndex = newIndex > currentIndex ? currentIndex + 1 : currentIndex - 1
                         } else {
                             self.currentIndex = newIndex
