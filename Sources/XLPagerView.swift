@@ -229,7 +229,7 @@ public struct XLPagerView<Content> : View where Content : View {
     
     @State private var itemCount : Int = 0
     @GestureState private var translation: CGFloat = 0
-    
+
     public init(_ type: PagerType = .twitter,
                 selection: Int = 0,
                 pagerSettings: PagerSettings,
@@ -272,30 +272,32 @@ public struct XLPagerView<Content> : View where Content : View {
                         }
                     }
                 )
+                .clipped()
                 .onChange(of: self.currentIndex) { [currentIndex] newIndex in
                     self.currentOffset = self.offsetForPageIndex(newIndex)
+                    if let callback = navContentViews.items.value[currentIndex]?.appearCallback {
+                        callback()
+                    }
                     if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
                         tabViewDelegate.setSelectedState(state: .normal)
                     }
-                    if let tabViewDelegate = navContentViews.items.value[newIndex]?.tabViewDelegate {
+                    if let tabViewDelegate = navContentViews.items.value[newIndex]?.tabViewDelegate, newIndex != currentIndex {
                         tabViewDelegate.setSelectedState(state: .selected)
                     }
                 }
-                .onChange(of: self.pagerSettings.width) { _ in
+                .onChange(of: translation) { _ in
+                    self.pagerSettings.contentOffset = translation - CGFloat(currentIndex)*pagerSettings.width
+                }
+                .onChange(of: pagerSettings.width) { _ in
                     self.currentOffset = self.offsetForPageIndex(self.currentIndex)
                 }
                 .onChange(of: itemCount) { _ in
                     currentIndex = currentIndex >= itemCount ? itemCount - 1 : currentIndex
                 }
                 .onAppear {
-                    if pagerSettings.width == 0 {
-                        pagerSettings.width = gproxy.size.width
-                    }
-                    if pagerSettings.height == 0 {
-                        pagerSettings.height = gproxy.size.height
-                    }
+                    pagerSettings.width = gproxy.size.width
+                    pagerSettings.height = gproxy.size.height
                 }
-                .clipped()
             }
         }
         .navBar(itemCount: $itemCount, selection: $currentIndex)
