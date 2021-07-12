@@ -2,7 +2,7 @@
 //  DataStore.swift
 //  PagerTabStrip
 //
-//  Copyright © 2020 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import Combine
