@@ -104,6 +104,10 @@ struct NavBarModifier: ViewModifier {
     @EnvironmentObject var pagerSettings: PagerSettings
     @Binding private var indexSelected: Int
     @Binding private var itemCount: Int
+    private var navBarItemWidth: CGFloat {
+        let totalItemWidth = (pagerSettings.width - (pagerSettings.tabItemSpacing * CGFloat(itemCount - 1)))
+        return totalItemWidth / CGFloat(itemCount)
+    }
     
     public init(itemCount: Binding<Int>, selection: Binding<Int>) {
         self._indexSelected = selection
@@ -111,11 +115,9 @@ struct NavBarModifier: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             LazyHStack(spacing: pagerSettings.tabItemSpacing) {
                 if itemCount > 0 && pagerSettings.width > 0 {
-                    let totalItemWidth = (pagerSettings.width - (pagerSettings.tabItemSpacing * CGFloat(itemCount - 1)))
-                    let navBarItemWidth: CGFloat = totalItemWidth / CGFloat(itemCount)
                     ForEach(0...itemCount-1, id: \.self) { idx in
                         NavBarItem(id: idx, selection: $indexSelected)
                             .frame(width: navBarItemWidth, height: pagerSettings.tabItemHeight, alignment: .center)
@@ -123,6 +125,16 @@ struct NavBarModifier: ViewModifier {
                 }
             }
             .frame(width: pagerSettings.width, height: pagerSettings.tabItemHeight, alignment: .center)
+            HStack {
+                if let width = navBarItemWidth, width > 0, width <= pagerSettings.width {
+                    let x = -self.pagerSettings.contentOffset / CGFloat(itemCount) + width / 2
+                    Rectangle()
+                        .fill(pagerSettings.indicatorBarColor)
+                        .frame(width: width)
+                        .position(x: x, y: 0)
+                }
+            }
+            .frame(width: pagerSettings.width, height: pagerSettings.indicatorBarHeight)
             content
         }
     }
@@ -169,6 +181,8 @@ struct NavBarItem: View {
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
                 if pressing {
                     navContentViews.items.value[id]?.tabViewDelegate?.setSelectedState(state: .hightlighted)
+                } else {
+                    navContentViews.items.value[id]?.tabViewDelegate?.setSelectedState(state: .selected)
                 }
             } perform: {}
         }
@@ -181,17 +195,19 @@ public enum PagerType {
 }
 
 public class PagerSettings: ObservableObject {
-    @Published var width: CGFloat
-    @Published var height: CGFloat
+    @Published var width: CGFloat = 0
+    @Published var height: CGFloat = 0
     @Published var tabItemSpacing: CGFloat
     @Published var tabItemHeight: CGFloat
+    @Published var indicatorBarHeight: CGFloat
+    @Published var indicatorBarColor: Color
     @Published var contentOffset: CGFloat = 0
     
-    public init(width: CGFloat = 0, height: CGFloat = 0, tabItemSpacing: CGFloat = 5, tabItemHeight: CGFloat = 100) {
-        self.width = width
-        self.height = height
+    public init(tabItemSpacing: CGFloat = 5, tabItemHeight: CGFloat = 100, indicatorBarHeight: CGFloat = 1.5, indicatorBarColor: Color = .blue) {
         self.tabItemSpacing = tabItemSpacing
         self.tabItemHeight = tabItemHeight
+        self.indicatorBarHeight = indicatorBarHeight
+        self.indicatorBarColor = indicatorBarColor
     }
 }
 
