@@ -2,7 +2,7 @@
 //  XLPagerView.swift
 //  PagerTabStrip
 //
-//  Created by Manuel Lorenze on 7/22/20.
+//  Copyright © 2020 Xmartlabs SRL. All rights reserved.
 //
 import SwiftUI
 import Combine
@@ -12,16 +12,15 @@ extension View {
         return self.modifier(PagerTabItem(navTabView: pagerTabView))
     }
 
-    public func onPageAppear(perform action: (() -> Void)? = nil) -> some View {
+    public func onPageAppear(perform action: (() -> Void)?) -> some View {
         return self.modifier(PagerSetAppearItem(onPageAppear: action ?? {}))
     }
 }
 
-struct PagerTabView<Content: View, NavTabView: View>: View {
-    
-    @EnvironmentObject var navContentViews : DataStore
-    var content: () -> Content
-    var navTabView : () -> NavTabView
+private struct PagerTabView<Content: View, NavTabView: View>: View {
+    @EnvironmentObject internal var navContentViews : DataStore
+    private var content: () -> Content
+    private var navTabView : () -> NavTabView
     
     init(@ViewBuilder navTabView: @escaping () -> NavTabView, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
@@ -33,7 +32,7 @@ struct PagerTabView<Content: View, NavTabView: View>: View {
     }
 }
 
-struct PagerSetAppearItem: ViewModifier {
+private struct PagerSetAppearItem: ViewModifier {
     @EnvironmentObject var navContentViews : DataStore
     @EnvironmentObject var pagerSettings: PagerSettings
     var onPageAppear: () -> Void
@@ -61,7 +60,7 @@ struct PagerSetAppearItem: ViewModifier {
     }
 }
 
-struct PagerTabItem<NavTabView: View> : ViewModifier {
+private struct PagerTabItem<NavTabView: View> : ViewModifier {
     @EnvironmentObject var navContentViews : DataStore
     @EnvironmentObject var pagerSettings: PagerSettings
     var navTabView: () -> NavTabView
@@ -100,7 +99,7 @@ struct PagerTabItem<NavTabView: View> : ViewModifier {
 }
 
 @available(iOS 14.0, *)
-struct NavBarModifier: ViewModifier {
+private struct NavBarModifier: ViewModifier {
     @EnvironmentObject var pagerSettings: PagerSettings
     @Binding private var indexSelected: Int
     @Binding private var itemCount: Int
@@ -140,7 +139,7 @@ struct NavBarModifier: ViewModifier {
     }
 }
 
-struct PagerContainerView<Content: View>: View {
+private struct PagerContainerView<Content: View>: View {
     let content: () -> Content
     
     init(@ViewBuilder content: @escaping () -> Content) {
@@ -154,13 +153,13 @@ struct PagerContainerView<Content: View>: View {
 
 extension PagerContainerView {
     @available(iOS 14.0, *)
-    public func navBar(itemCount: Binding<Int>, selection: Binding<Int>) -> some View {
+    internal func navBar(itemCount: Binding<Int>, selection: Binding<Int>) -> some View {
         return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
     }
 }
 
 
-struct NavBarItem: View {
+private struct NavBarItem: View {
     
     @EnvironmentObject var navContentViews: DataStore
     @Binding private var indexSelected: Int
@@ -185,11 +184,6 @@ struct NavBarItem: View {
     }
 }
 
-public enum PagerType {
-    case twitter
-    case youtube
-}
-
 public class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
     @Published var height: CGFloat = 0
@@ -210,10 +204,9 @@ public class PagerSettings: ObservableObject {
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
     
-    @StateObject var navContentViews = DataStore()
-    @StateObject var pagerSettings = PagerSettings()
-    
-    private var type: PagerType
+    @StateObject private var navContentViews = DataStore()
+    @StateObject private var pagerSettings = PagerSettings()
+
     private var content: () -> Content
     
     @State private var currentIndex: Int
@@ -226,17 +219,15 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var itemCount : Int = 0
     @GestureState private var translation: CGFloat = 0
 
-    public init(_ type: PagerType = .twitter,
-                selection: Int = 0,
+    public init(selection: Int = 0,
                 pagerSettings: PagerSettings,
                 @ViewBuilder content: @escaping () -> Content) {
-        self.type = type
         self.content = content
         self._currentIndex = State(initialValue: selection)
         self._pagerSettings = StateObject(wrappedValue: pagerSettings)
     }
     
-    func offsetForPageIndex(_ index: Int) -> CGFloat {
+    private func offsetForPageIndex(_ index: Int) -> CGFloat {
         let value = (CGFloat(index) * pagerSettings.width) * -1.0
         return value
     }
