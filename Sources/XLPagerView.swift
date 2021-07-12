@@ -11,6 +11,10 @@ extension View {
     public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View {
         return self.modifier(PagerTabItem(navTabView: pagerTabView))
     }
+
+    public func onPageAppear(perform action: (() -> Void)? = nil) -> some View {
+        return self.modifier(PagerSetAppearItem(onPageAppear: action ?? {}))
+    }
 }
 
 struct PagerTabView<Content: View, NavTabView: View>: View {
@@ -26,6 +30,34 @@ struct PagerTabView<Content: View, NavTabView: View>: View {
     
     var body: some View {
         content()
+    }
+}
+
+struct PagerSetAppearItem: ViewModifier {
+    @EnvironmentObject var navContentViews : DataStore
+    @EnvironmentObject var pagerSettings: PagerSettings
+    var onPageAppear: () -> Void
+    @State var index = -1
+
+    init(onPageAppear: @escaping () -> Void) {
+        self.onPageAppear = onPageAppear
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .frame(width: pagerSettings.width, height: pagerSettings.height)
+            .overlay(
+                GeometryReader { reader in
+                    Color.clear
+                        .onAppear {
+                            DispatchQueue.main.async {
+                                let frame = reader.frame(in: .named("XLPagerViewScrollView"))
+                                index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
+                                navContentViews.setAppear(callback: onPageAppear, at: index)
+                            }
+                        }
+                }
+            )
     }
 }
 
