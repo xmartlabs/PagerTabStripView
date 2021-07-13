@@ -2,7 +2,7 @@
 //  DataStore.swift
 //  PagerTabStrip
 //
-//  Created by Mathias Claassen on 5/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import Combine

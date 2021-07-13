@@ -12,10 +12,6 @@
 		28F828881C494B2C00330CF4 /* PagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStrip.framework */; };
 		28F8289A1C494B4200330CF4 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F828991C494B4200330CF4 /* iOS.swift */; };
 		C7A02C01269377D400BFE31B /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A02C00269377D400BFE31B /* DataStore.swift */; };
-		E1BB678226270E26006CC3E2 /* Bool+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB678126270E26006CC3E2 /* Bool+Extension.swift */; };
-		E1BB678326270E26006CC3E2 /* Bool+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB678126270E26006CC3E2 /* Bool+Extension.swift */; };
-		E1BB678926270F87006CC3E2 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB678826270F87006CC3E2 /* View+Extension.swift */; };
-		E1BB678A26270F87006CC3E2 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BB678826270F87006CC3E2 /* View+Extension.swift */; };
 		E1FA589924C8BC1B0081FBE7 /* XLPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */; };
 		E1FA589A24C8BC1B0081FBE7 /* XLPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */; };
 /* End PBXBuildFile section */
@@ -39,8 +35,6 @@
 		28F8288E1C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F828991C494B4200330CF4 /* iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
 		C7A02C00269377D400BFE31B /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
-		E1BB678126270E26006CC3E2 /* Bool+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extension.swift"; sourceTree = "<group>"; };
-		E1BB678826270F87006CC3E2 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		E1FA589824C8BC1B0081FBE7 /* XLPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLPagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,7 +60,6 @@
 		28F828731C494B2C00330CF4 = {
 			isa = PBXGroup;
 			children = (
-				E1BB678026270E00006CC3E2 /* Extensions */,
 				28F828971C494B4200330CF4 /* Sources */,
 				E1FA589724C8BA020081FBE7 /* PagerTabStrip */,
 				28F8288B1C494B2C00330CF4 /* Tests */,
@@ -100,15 +93,6 @@
 				C7A02C00269377D400BFE31B /* DataStore.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		E1BB678026270E00006CC3E2 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				E1BB678126270E26006CC3E2 /* Bool+Extension.swift */,
-				E1BB678826270F87006CC3E2 /* View+Extension.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		E1FA589724C8BA020081FBE7 /* PagerTabStrip */ = {
@@ -231,9 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1BB678226270E26006CC3E2 /* Bool+Extension.swift in Sources */,
 				E1FA589924C8BC1B0081FBE7 /* XLPagerView.swift in Sources */,
-				E1BB678926270F87006CC3E2 /* View+Extension.swift in Sources */,
 				C7A02C01269377D400BFE31B /* DataStore.swift in Sources */,
 				28F8289A1C494B4200330CF4 /* iOS.swift in Sources */,
 			);
@@ -243,9 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1BB678326270E26006CC3E2 /* Bool+Extension.swift in Sources */,
 				E1FA589A24C8BC1B0081FBE7 /* XLPagerView.swift in Sources */,
-				E1BB678A26270F87006CC3E2 /* View+Extension.swift in Sources */,
 				287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

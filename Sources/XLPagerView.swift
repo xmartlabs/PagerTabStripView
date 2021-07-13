@@ -2,26 +2,19 @@
 //  XLPagerView.swift
 //  PagerTabStrip
 //
-//  Created by Manuel Lorenze on 7/22/20.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 import SwiftUI
 import Combine
 
-extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View {
-        return self.modifier(PagerTabItem(navTabView: pagerTabView))
-    }
+///
+/// Private Source Code
+///
 
-    public func onPageAppear(perform action: (() -> Void)? = nil) -> some View {
-        return self.modifier(PagerSetAppearItem(onPageAppear: action ?? {}))
-    }
-}
-
-struct PagerTabView<Content: View, NavTabView: View>: View {
-    
-    @EnvironmentObject var navContentViews : DataStore
-    var content: () -> Content
-    var navTabView : () -> NavTabView
+private struct PagerTabView<Content: View, NavTabView: View>: View {
+    @EnvironmentObject internal var navContentViews : DataStore
+    private var content: () -> Content
+    private var navTabView : () -> NavTabView
     
     init(@ViewBuilder navTabView: @escaping () -> NavTabView, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
@@ -33,7 +26,7 @@ struct PagerTabView<Content: View, NavTabView: View>: View {
     }
 }
 
-struct PagerSetAppearItem: ViewModifier {
+private struct PagerSetAppearItem: ViewModifier {
     @EnvironmentObject var navContentViews : DataStore
     @EnvironmentObject var pagerSettings: PagerSettings
     var onPageAppear: () -> Void
@@ -61,7 +54,7 @@ struct PagerSetAppearItem: ViewModifier {
     }
 }
 
-struct PagerTabItem<NavTabView: View> : ViewModifier {
+private struct PagerTabItem<NavTabView: View> : ViewModifier {
     @EnvironmentObject var navContentViews : DataStore
     @EnvironmentObject var pagerSettings: PagerSettings
     var navTabView: () -> NavTabView
@@ -99,8 +92,7 @@ struct PagerTabItem<NavTabView: View> : ViewModifier {
     }
 }
 
-@available(iOS 14.0, *)
-struct NavBarModifier: ViewModifier {
+private struct NavBarModifier: ViewModifier {
     @EnvironmentObject var pagerSettings: PagerSettings
     @Binding private var indexSelected: Int
     @Binding private var itemCount: Int
@@ -140,7 +132,7 @@ struct NavBarModifier: ViewModifier {
     }
 }
 
-struct PagerContainerView<Content: View>: View {
+private struct PagerContainerView<Content: View>: View {
     let content: () -> Content
     
     init(@ViewBuilder content: @escaping () -> Content) {
@@ -154,14 +146,13 @@ struct PagerContainerView<Content: View>: View {
 
 extension PagerContainerView {
     @available(iOS 14.0, *)
-    public func navBar(itemCount: Binding<Int>, selection: Binding<Int>) -> some View {
+    internal func navBar(itemCount: Binding<Int>, selection: Binding<Int>) -> some View {
         return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
     }
 }
 
 
-struct NavBarItem: View {
-    
+private struct NavBarItem: View {
     @EnvironmentObject var navContentViews: DataStore
     @Binding private var indexSelected: Int
     private var id: Int
@@ -185,10 +176,6 @@ struct NavBarItem: View {
     }
 }
 
-public enum PagerType {
-    case twitter
-    case youtube
-}
 
 public class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
@@ -207,15 +194,18 @@ public class PagerSettings: ObservableObject {
     }
 }
 
+///
+/// Public Source Cide
+///
+
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
     
-    @StateObject var navContentViews = DataStore()
-    @StateObject var pagerSettings = PagerSettings()
-    
-    private var type: PagerType
     private var content: () -> Content
     
+    @StateObject private var navContentViews = DataStore()
+    @StateObject private var pagerSettings = PagerSettings()
+
     @State private var currentIndex: Int
     @State private var currentOffset: CGFloat = 0 {
         didSet {
@@ -226,19 +216,12 @@ public struct XLPagerView<Content> : View where Content : View {
     @State private var itemCount : Int = 0
     @GestureState private var translation: CGFloat = 0
 
-    public init(_ type: PagerType = .twitter,
-                selection: Int = 0,
+    public init(selection: Int = 0,
                 pagerSettings: PagerSettings,
                 @ViewBuilder content: @escaping () -> Content) {
-        self.type = type
         self.content = content
         self._currentIndex = State(initialValue: selection)
         self._pagerSettings = StateObject(wrappedValue: pagerSettings)
-    }
-    
-    func offsetForPageIndex(_ index: Int) -> CGFloat {
-        let value = (CGFloat(index) * pagerSettings.width) * -1.0
-        return value
     }
     
     public var body: some View {
@@ -250,7 +233,8 @@ public struct XLPagerView<Content> : View where Content : View {
                 .frame(width: pagerSettings.width, height: pagerSettings.height, alignment: .leading)
                 .offset(x: -CGFloat(self.currentIndex) * pagerSettings.width)
                 .offset(x: self.translation)
-                .animation(.interactiveSpring())
+                .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: currentIndex)
+                .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: translation)
                 .gesture(
                     DragGesture().updating(self.$translation) { value, state, _ in
                         state = value.translation.width
@@ -258,7 +242,7 @@ public struct XLPagerView<Content> : View where Content : View {
                         let offset = value.predictedEndTranslation.width / pagerSettings.width
                         let newPredictedIndex = (CGFloat(self.currentIndex) - offset).rounded()
                         let newIndex = min(max(Int(newPredictedIndex), 0), self.itemCount - 1)
-                        if newIndex != self.currentIndex && abs(self.currentIndex - newIndex) > 1 {
+                        if abs(self.currentIndex - newIndex) > 1 {
                             self.currentIndex = newIndex > currentIndex ? currentIndex + 1 : currentIndex - 1
                         } else {
                             self.currentIndex = newIndex
@@ -306,6 +290,11 @@ public struct XLPagerView<Content> : View where Content : View {
             }
         }
     }
+    
+    private func offsetForPageIndex(_ index: Int) -> CGFloat {
+        let value = (CGFloat(index) * pagerSettings.width) * -1.0
+        return value
+    }
 }
 
 public enum PagerTabViewState {
@@ -316,4 +305,14 @@ public enum PagerTabViewState {
 
 public protocol PagerTabViewDelegate {
     func setSelectedState(state: PagerTabViewState)
+}
+
+extension View {
+    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View {
+        return self.modifier(PagerTabItem(navTabView: pagerTabView))
+    }
+
+    public func onPageAppear(perform action: (() -> Void)?) -> some View {
+        return self.modifier(PagerSetAppearItem(onPageAppear: action ?? {}))
+    }
 }
