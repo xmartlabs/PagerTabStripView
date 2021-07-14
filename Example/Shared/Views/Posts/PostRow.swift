@@ -15,7 +15,7 @@ struct PostRow: View {
     var body: some View {
         HStack (alignment: .top){
             post.user.image
-                .resizable()
+                .cornerRadius(5)
                 .frame(width: 70, height: 70, alignment: .leading)
                 .padding(.vertical)
             
