@@ -16,7 +16,8 @@ struct PostDetail: View {
     
     var body: some View {
         ScrollView {
-            post.user.image.resizable().frame(width: 100.0, height: 100.0)
+            post.user.image
+                .frame(width: 100.0, height: 100.0)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.white, lineWidth: 4))
                 .shadow(radius: 7)

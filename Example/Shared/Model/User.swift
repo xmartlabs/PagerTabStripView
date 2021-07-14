@@ -14,7 +14,7 @@ struct User: Hashable, Codable, Identifiable {
     var id: Int
     var name: String
     var imageURL: String
-    var image: Image {
-        Image("margeSimpson")
+    var image: URLImageView {
+        URLImageView(urlString: imageURL)
     }
 }
