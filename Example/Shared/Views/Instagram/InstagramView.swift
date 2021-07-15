@@ -16,9 +16,9 @@ struct InstagramView: View {
     var body: some View {
         XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50)) {
             ForEach(0...3, id: \.self) { idx in
-                PostsList().pagerTabItem {
-                    titles[idx]
-                }
+//                PostsList().pagerTabItem {
+//                    titles[idx]
+//                }
             }
         }
         .frame(alignment: .center)
