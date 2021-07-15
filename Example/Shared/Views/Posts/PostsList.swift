@@ -10,6 +10,11 @@ import SwiftUI
 struct PostsList: View {
     @EnvironmentObject var modelData: ModelData
     @State private var showFavoritesOnly = false
+    @Binding private var isLoading: Bool
+    
+    init(isLoading: Binding<Bool>) {
+        self._isLoading = isLoading
+    }
     
     var posts: [Post] {
         modelData.posts
@@ -17,21 +22,15 @@ struct PostsList: View {
     
     
     var body: some View {
-        List {
-            ForEach(posts) { post in
-                PostRow(post: post)
+        if isLoading {
+            ProgressView()
+        } else {
+            List {
+                ForEach(posts) { post in
+                    PostRow(post: post)
+                }
             }
         }
-    }
-}
-
-struct PostsList_Previews: PreviewProvider {
-    static var previews: some View {
-        ForEach(["iPhone SE", "iPhone XS Max"], id: \.self) { deviceName in
-            PostsList()
-                .environmentObject(ModelData())
-                .previewDevice(PreviewDevice(rawValue: deviceName))
-                .previewDisplayName(deviceName)
-        }
+        
     }
 }
