@@ -238,14 +238,14 @@ public struct XLPagerView<Content> : View where Content : View {
                     DragGesture().updating(self.$translation) { value, state, _ in
                         if (currentIndex == 0 && value.translation.width > 0) {
                             let valueWidth = value.translation.width
-                            let normTrans = (valueWidth / (gproxy.size.width + 50))
+                            let normTrans = valueWidth / (gproxy.size.width + 50)
                             let logValue = log(1 + normTrans)
-                            state = gproxy.size.width/1.5 * (logValue)
+                            state = gproxy.size.width/1.5 * logValue
                         } else if (currentIndex == itemCount - 1 && value.translation.width < 0) {
                             let valueWidth = -value.translation.width
-                            let normTrans = (valueWidth / (gproxy.size.width + 50))
+                            let normTrans = valueWidth / (gproxy.size.width + 50)
                             let logValue = log(1 + normTrans)
-                            state = -gproxy.size.width/1.5 * (logValue)
+                            state = -gproxy.size.width / 1.5 * logValue
                         } else {
                             state = value.translation.width
                         }
