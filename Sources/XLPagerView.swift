@@ -5,7 +5,6 @@
 //  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 import SwiftUI
-import Combine
 
 ///
 /// Private Source Code
@@ -81,7 +80,7 @@ private struct PagerTabItem<NavTabView: View> : ViewModifier {
                                                             at: index)
                                 }
                             }.onDisappear {
-                                navContentViews.items.value[index]?.tabViewDelegate?.setSelectedState(state: .normal)
+                                navContentViews.items.value[index]?.tabViewDelegate?.setState(state: .normal)
                                 navContentViews.remove(at: index)
                             }
                     }
@@ -110,11 +109,11 @@ private struct NavBarModifier: ViewModifier {
                 if itemCount > 0 && pagerSettings.width > 0 {
                     ForEach(0...itemCount-1, id: \.self) { idx in
                         NavBarItem(id: idx, selection: $indexSelected)
-                            .frame(height: pagerSettings.tabItemHeight, alignment: .center)
+                            .frame(height: pagerSettings.tabItemHeight)
                     }
                 }
             }
-            .frame(height: pagerSettings.tabItemHeight, alignment: .center)
+            .frame(height: pagerSettings.tabItemHeight)
             HStack {
                 if let width = navBarItemWidth, width > 0, width <= pagerSettings.width {
                     let x = -self.pagerSettings.contentOffset / CGFloat(itemCount) + width / 2
@@ -153,23 +152,23 @@ extension PagerContainerView {
 
 private struct NavBarItem: View {
     @EnvironmentObject var navContentViews: DataStore
-    @Binding private var indexSelected: Int
+    @Binding private var currentIndex: Int
     private var id: Int
     
     public init(id: Int, selection: Binding<Int>) {
-        self._indexSelected = selection
+        self._currentIndex = selection
         self.id = id
     }
     
     var body: some View {
         if id < navContentViews.items.value.keys.count {
             Button(action: {
-                self.indexSelected = id
+                self.currentIndex = id
             }, label: {
                 navContentViews.items.value[id]?.view
             }).buttonStyle(PlainButtonStyle())
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                navContentViews.items.value[id]?.tabViewDelegate?.setSelectedState(state: pressing ? .highlighted : .selected)
+                navContentViews.items.value[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : .selected)
             } perform: {}
         }
     }
@@ -178,7 +177,6 @@ private struct NavBarItem: View {
 
 public class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
-    @Published var height: CGFloat = 0
     @Published var tabItemSpacing: CGFloat
     @Published var tabItemHeight: CGFloat
     @Published var indicatorBarHeight: CGFloat
@@ -216,7 +214,7 @@ public struct XLPagerView<Content> : View where Content : View {
     @GestureState private var translation: CGFloat = 0
 
     public init(selection: Int = 0,
-                pagerSettings: PagerSettings,
+                pagerSettings: PagerSettings = PagerSettings(),
                 @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self._currentIndex = State(initialValue: selection)
@@ -268,14 +266,14 @@ public struct XLPagerView<Content> : View where Content : View {
                 })
                 .onChange(of: self.currentIndex) { [currentIndex] newIndex in
                     self.currentOffset = self.offsetForPageIndex(newIndex)
-                    if let callback = navContentViews.items.value[currentIndex]?.appearCallback {
+                    if let callback = navContentViews.items.value[newIndex]?.appearCallback {
                         callback()
                     }
                     if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
-                        tabViewDelegate.setSelectedState(state: .normal)
+                        tabViewDelegate.setState(state: .normal)
                     }
                     if let tabViewDelegate = navContentViews.items.value[newIndex]?.tabViewDelegate, newIndex != currentIndex {
-                        tabViewDelegate.setSelectedState(state: .selected)
+                        tabViewDelegate.setState(state: .selected)
                     }
                 }
                 .onChange(of: translation) { _ in
@@ -289,7 +287,6 @@ public struct XLPagerView<Content> : View where Content : View {
                 }
                 .onAppear {
                     pagerSettings.width = gproxy.size.width
-                    pagerSettings.height = gproxy.size.height
                 }
             }
         }
@@ -299,7 +296,7 @@ public struct XLPagerView<Content> : View where Content : View {
         .onReceive(self.navContentViews.items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
             self.itemCount = items.keys.count
             if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
-                tabViewDelegate.setSelectedState(state: .selected)
+                tabViewDelegate.setState(state: .selected)
             }
         }
         .clipped()
@@ -318,7 +315,7 @@ public enum PagerTabViewState {
 }
 
 public protocol PagerTabViewDelegate {
-    func setSelectedState(state: PagerTabViewState)
+    func setState(state: PagerTabViewState)
 }
 
 extension View {
