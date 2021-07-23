@@ -8,26 +8,25 @@ import Foundation
 import SwiftUI
 
 struct PostsList: View {
-    @EnvironmentObject var modelData: ModelData
-    @State private var showFavoritesOnly = false
     @Binding private var isLoading: Bool
+    var items: [Post]
+    var withDescription: Bool
     
-    init(isLoading: Binding<Bool>) {
+    init(isLoading: Binding<Bool>, items: [Post], withDescription: Bool = true) {
         self._isLoading = isLoading
-    }
-    
-    var posts: [Post] {
-        modelData.posts
+        self.items = items
+        self.withDescription = withDescription
     }
     
     
     var body: some View {
-        if isLoading {
-            ProgressView()
-        } else {
+        VStack {
+            if isLoading {
+                ProgressView()
+            }
             List {
-                ForEach(posts) { post in
-                    PostRow(post: post)
+                ForEach(items) { item in
+                    PostRow(post: item, withDescription: withDescription)
                 }
             }
         }

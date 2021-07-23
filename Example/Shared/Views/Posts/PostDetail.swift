@@ -7,12 +7,7 @@
 import SwiftUI
 
 struct PostDetail: View {
-    @EnvironmentObject var modelData: ModelData
     var post: Post
-    
-    var postIndex: Int {
-        modelData.posts.firstIndex(where: { $0.id == post.id })!
-    }
     
     var body: some View {
         ScrollView {
@@ -42,6 +37,6 @@ struct PostDetail: View {
 
 struct PostDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetail(post: ModelData().posts[0])
+        PostDetail(post: Factory().posts[0])
     }
 }

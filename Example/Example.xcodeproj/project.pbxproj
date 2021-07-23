@@ -18,6 +18,9 @@
 		AB28D6D9269F58C500679D5E /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6D8269F58C500679D5E /* URLImageView.swift */; };
 		AB28D6DB269F58D600679D5E /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DA269F58D600679D5E /* URLImageModel.swift */; };
 		AB28D6DD269F58E300679D5E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DC269F58E300679D5E /* ImageCache.swift */; };
+		AB7EEE7C26AB5681008804D4 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7B26AB5681008804D4 /* AccountModel.swift */; };
+		AB7EEE7E26AB5B61008804D4 /* TrendingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7D26AB5B61008804D4 /* TrendingModel.swift */; };
+		AB7EEE8026AB5B76008804D4 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7F26AB5B76008804D4 /* HomeModel.swift */; };
 		AB89C56F26961A0B002E7B28 /* YoutubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C56E26961A0B002E7B28 /* YoutubeView.swift */; };
 		AB89C57626961A3E002E7B28 /* InstagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C57526961A3E002E7B28 /* InstagramView.swift */; };
 		AB89C57B26961DC8002E7B28 /* PostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C57A26961DC8002E7B28 /* PostDetail.swift */; };
@@ -98,6 +101,9 @@
 		AB28D6D8269F58C500679D5E /* URLImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageView.swift; sourceTree = "<group>"; };
 		AB28D6DA269F58D600679D5E /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
 		AB28D6DC269F58E300679D5E /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		AB7EEE7B26AB5681008804D4 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
+		AB7EEE7D26AB5B61008804D4 /* TrendingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingModel.swift; sourceTree = "<group>"; };
+		AB7EEE7F26AB5B76008804D4 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		AB89C56E26961A0B002E7B28 /* YoutubeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeView.swift; sourceTree = "<group>"; };
 		AB89C57526961A3E002E7B28 /* InstagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramView.swift; sourceTree = "<group>"; };
 		AB89C57A26961DC8002E7B28 /* PostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetail.swift; sourceTree = "<group>"; };
@@ -239,6 +245,16 @@
 			path = URLImage;
 			sourceTree = "<group>";
 		};
+		AB7EEE8126AB5CA2008804D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB7EEE7B26AB5681008804D4 /* AccountModel.swift */,
+				AB7EEE7D26AB5B61008804D4 /* TrendingModel.swift */,
+				AB7EEE7F26AB5B76008804D4 /* HomeModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		AB89C57F26961E7E002E7B28 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +306,7 @@
 		AB9F8804268282CC00CCBFC3 /* Youtube */ = {
 			isa = PBXGroup;
 			children = (
+				AB7EEE8126AB5CA2008804D4 /* Models */,
 				AB9F8806268282FA00CCBFC3 /* YoutubeNavBarItem.swift */,
 				AB89C56E26961A0B002E7B28 /* YoutubeView.swift */,
 			);
@@ -511,14 +528,17 @@
 				AB89C57B26961DC8002E7B28 /* PostDetail.swift in Sources */,
 				2857502924C21EB400ED22AD /* ExampleApp.swift in Sources */,
 				AB89C58926961E9E002E7B28 /* TwitterView.swift in Sources */,
+				AB7EEE8026AB5B76008804D4 /* HomeModel.swift in Sources */,
 				AB28D6DD269F58E300679D5E /* ImageCache.swift in Sources */,
 				AB9F8807268282FA00CCBFC3 /* YoutubeNavBarItem.swift in Sources */,
 				AB89C56F26961A0B002E7B28 /* YoutubeView.swift in Sources */,
+				AB7EEE7C26AB5681008804D4 /* AccountModel.swift in Sources */,
 				AB28D6DB269F58D600679D5E /* URLImageModel.swift in Sources */,
 				AB89C57626961A3E002E7B28 /* InstagramView.swift in Sources */,
 				AB9F87DF26826C2000CCBFC3 /* ModelData.swift in Sources */,
 				AB9F87EC26826CB500CCBFC3 /* User.swift in Sources */,
 				AB9F87E726826C4D00CCBFC3 /* Post.swift in Sources */,
+				AB7EEE7E26AB5B61008804D4 /* TrendingModel.swift in Sources */,
 				AB89C58126961E8E002E7B28 /* TwitterNavBarItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
