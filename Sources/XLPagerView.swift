@@ -77,12 +77,14 @@ private struct PagerTabItem<NavTabView: View> : ViewModifier {
                                     let frame = reader.frame(in: .named("XLPagerViewScrollView"))
                                     index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
                                     let tabView = navTabView()
+                                    print("on appear \(index)")
                                     let tabViewDelegate = navTabView() as? PagerTabViewDelegate
                                     navContentViews.setView(AnyView(tabView),
                                                             tabViewDelegate: tabViewDelegate,
                                                             at: index)
                                 }
                             }.onDisappear {
+                                print("on disappear \(index)")
                                 navContentViews.items.value[index]?.tabViewDelegate?.setSelectedState(state: .normal)
                                 navContentViews.remove(at: index)
                             }
@@ -255,7 +257,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 .clipped()
                 .onChange(of: self.currentIndex) { [currentIndex] newIndex in
                     self.currentOffset = self.offsetForPageIndex(newIndex)
-                    if let callback = navContentViews.items.value[currentIndex]?.appearCallback {
+                    if let callback = navContentViews.items.value[newIndex]?.appearCallback {
                         callback()
                     }
                     if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {

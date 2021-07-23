@@ -8,57 +8,35 @@ import SwiftUI
 import PagerTabStrip
 
 struct YoutubeView: View {
-    
-    let titles = [YoutubeNavBarItem(title: "Home", imageName: "home"),
-                  YoutubeNavBarItem(title: "Trending", imageName: "trending"),
-                  YoutubeNavBarItem(title: "Account", imageName: "account")]
-    
-    @State var isLoading = false
+    @ObservedObject var homeModel = HomeModel()
+    @ObservedObject var trendingModel = TrendingModel()
+    @ObservedObject var accountModel = AccountModel()
     
     var body: some View {
-        GeometryReader { gproxy in
-            XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70)) {
-//                if isLoading {
-//                    ProgressView().frame(width: gproxy.size.width, height: 300, alignment: .center).pagerTabItem {
-//                        titles[0]
-//                    }
-//                } else {
-                    PostsList(isLoading: $isLoading).pagerTabItem {
-                        titles[0]
-                    }.onPageAppear {
-                        isLoading = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            isLoading = false
-                        }
-                    }
-                //}
-                
-//                if isLoading {
-//                    ProgressView().frame(width: gproxy.size.width, height: 300, alignment: .center).pagerTabItem {
-//                        titles[1]
-//                    }
-//                } else {
-                    PostsList(isLoading: $isLoading).pagerTabItem {
-                        titles[1]
-                    }.onPageAppear {
-                        isLoading = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            isLoading = false
-                        }
-                    }
-                
-                PostsList(isLoading: $isLoading).pagerTabItem {
-                    titles[2]
-                }.onPageAppear {
-                    isLoading = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        isLoading = false
-                    }
+        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70)) {
+            PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
+                homeModel.navBarItem
+            }.onPageAppear {
+                homeModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    homeModel.isLoading = false
                 }
-                //}
             }
-            .frame(alignment: .center)
+            
+            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
+                trendingModel.navBarItem
+            }.onPageAppear {
+                trendingModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    trendingModel.isLoading = false
+                }
+            }
+            
+            PostDetail(post: accountModel.post).pagerTabItem {
+                accountModel.navBarItem
+            }
         }
+        .frame(alignment: .center)
     }
 }
 

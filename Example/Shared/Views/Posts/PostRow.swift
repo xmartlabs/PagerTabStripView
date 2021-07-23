@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostRow: View {
     var post: Post
+    var withDescription: Bool = true
     
     @State private var showingDetail = false
     
@@ -22,7 +23,9 @@ struct PostRow: View {
             VStack(alignment: .leading) {
                 Text(post.user.name)
                     .bold()
-                Text(post.text)
+                if withDescription {
+                    Text(post.text)
+                }
             }
             .padding()
         }
@@ -36,7 +39,7 @@ struct PostRow: View {
 }
 
 struct PostRow_Previews: PreviewProvider {
-    static var posts = ModelData().posts
+    static var posts = Factory().posts
     
     static var previews: some View {
         Group {
