@@ -38,7 +38,6 @@ private struct PagerSetAppearItem: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .frame(width: pagerSettings.width, height: pagerSettings.height)
             .overlay(
                 GeometryReader { reader in
                     Color.clear
@@ -68,7 +67,6 @@ private struct PagerTabItem<NavTabView: View> : ViewModifier {
     func body(content: Content) -> some View {
         PagerTabView(navTabView: navTabView) {
             content
-                .frame(width: pagerSettings.width, height: pagerSettings.height)
                 .overlay(
                     GeometryReader { reader in
                         Color.clear
@@ -108,25 +106,26 @@ private struct NavBarModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            LazyHStack(spacing: pagerSettings.tabItemSpacing) {
+            HStack(spacing: pagerSettings.tabItemSpacing) {
                 if itemCount > 0 && pagerSettings.width > 0 {
                     ForEach(0...itemCount-1, id: \.self) { idx in
                         NavBarItem(id: idx, selection: $indexSelected)
-                            .frame(width: navBarItemWidth, height: pagerSettings.tabItemHeight, alignment: .center)
+                            .frame(height: pagerSettings.tabItemHeight, alignment: .center)
                     }
                 }
             }
-            .frame(width: pagerSettings.width, height: pagerSettings.tabItemHeight, alignment: .center)
+            .frame(height: pagerSettings.tabItemHeight, alignment: .center)
             HStack {
                 if let width = navBarItemWidth, width > 0, width <= pagerSettings.width {
                     let x = -self.pagerSettings.contentOffset / CGFloat(itemCount) + width / 2
                     Rectangle()
                         .fill(pagerSettings.indicatorBarColor)
+                        .animation(.default)
                         .frame(width: width)
                         .position(x: x, y: 0)
                 }
             }
-            .frame(width: pagerSettings.width, height: pagerSettings.indicatorBarHeight)
+            .frame(height: pagerSettings.indicatorBarHeight)
             content
         }
     }
@@ -195,7 +194,7 @@ public class PagerSettings: ObservableObject {
 }
 
 ///
-/// Public Source Cide
+/// Public Source Code
 ///
 
 @available(iOS 14.0, *)
@@ -212,7 +211,7 @@ public struct XLPagerView<Content> : View where Content : View {
             self.pagerSettings.contentOffset = currentOffset
         }
     }
-    
+
     @State private var itemCount : Int = 0
     @GestureState private var translation: CGFloat = 0
 
@@ -229,17 +228,29 @@ public struct XLPagerView<Content> : View where Content : View {
             GeometryReader { gproxy in
                 HStack(spacing: 0) {
                     content()
+                        .frame(width: gproxy.size.width)
                 }
-                .frame(width: pagerSettings.width, height: pagerSettings.height, alignment: .leading)
                 .offset(x: -CGFloat(self.currentIndex) * pagerSettings.width)
                 .offset(x: self.translation)
                 .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: currentIndex)
                 .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: translation)
                 .gesture(
                     DragGesture().updating(self.$translation) { value, state, _ in
-                        state = value.translation.width
+                        if (currentIndex == 0 && value.translation.width > 0) {
+                            let valueWidth = value.translation.width
+                            let normTrans = valueWidth / (gproxy.size.width + 50)
+                            let logValue = log(1 + normTrans)
+                            state = gproxy.size.width/1.5 * logValue
+                        } else if (currentIndex == itemCount - 1 && value.translation.width < 0) {
+                            let valueWidth = -value.translation.width
+                            let normTrans = valueWidth / (gproxy.size.width + 50)
+                            let logValue = log(1 + normTrans)
+                            state = -gproxy.size.width / 1.5 * logValue
+                        } else {
+                            state = value.translation.width
+                        }
                     }.onEnded { value in
-                        let offset = value.predictedEndTranslation.width / pagerSettings.width
+                        let offset = value.predictedEndTranslation.width / gproxy.size.width
                         let newPredictedIndex = (CGFloat(self.currentIndex) - offset).rounded()
                         let newIndex = min(max(Int(newPredictedIndex), 0), self.itemCount - 1)
                         if abs(self.currentIndex - newIndex) > 1 {
@@ -252,7 +263,9 @@ public struct XLPagerView<Content> : View where Content : View {
                         }
                     }
                 )
-                .clipped()
+                .onChange(of: gproxy.frame(in: .local), perform: { geo in
+                    pagerSettings.width = geo.width
+                })
                 .onChange(of: self.currentIndex) { [currentIndex] newIndex in
                     self.currentOffset = self.offsetForPageIndex(newIndex)
                     if let callback = navContentViews.items.value[currentIndex]?.appearCallback {
@@ -289,6 +302,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 tabViewDelegate.setSelectedState(state: .selected)
             }
         }
+        .clipped()
     }
     
     private func offsetForPageIndex(_ index: Int) -> CGFloat {
