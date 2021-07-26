@@ -8,15 +8,6 @@
 import SwiftUI
 
 ///
-/// Private Source Code
-///
-internal extension GeometryReader {
-    func navBar(itemCount: Binding<Int>, selection: Binding<Int>) -> some View {
-        return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
-    }
-}
-
-///
 /// Public Source Code
 ///
 extension View {
