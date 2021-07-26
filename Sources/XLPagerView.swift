@@ -7,174 +7,8 @@
 import SwiftUI
 
 ///
-/// Private Source Code
+/// Public Source Code
 ///
-
-private struct PagerTabView<Content: View, NavTabView: View>: View {
-    @EnvironmentObject internal var navContentViews : DataStore
-    private var content: () -> Content
-    private var navTabView : () -> NavTabView
-    
-    init(@ViewBuilder navTabView: @escaping () -> NavTabView, @ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-        self.navTabView = navTabView
-    }
-    
-    var body: some View {
-        content()
-    }
-}
-
-private struct PagerSetAppearItem: ViewModifier {
-    @EnvironmentObject var navContentViews : DataStore
-    @EnvironmentObject var pagerSettings: PagerSettings
-    var onPageAppear: () -> Void
-    @State var index = -1
-
-    init(onPageAppear: @escaping () -> Void) {
-        self.onPageAppear = onPageAppear
-    }
-
-    func body(content: Content) -> some View {
-        content
-            .overlay(
-                GeometryReader { reader in
-                    Color.clear
-                        .onAppear {
-                            DispatchQueue.main.async {
-                                let frame = reader.frame(in: .named("XLPagerViewScrollView"))
-                                index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
-                                navContentViews.setAppear(callback: onPageAppear, at: index)
-                            }
-                        }
-                }
-            )
-    }
-}
-
-private struct PagerTabItem<NavTabView: View> : ViewModifier {
-    @EnvironmentObject var navContentViews : DataStore
-    @EnvironmentObject var pagerSettings: PagerSettings
-    var navTabView: () -> NavTabView
-    @State var index = -1
-    
-    init(navTabView: @escaping () -> NavTabView) {
-        self.navTabView = navTabView
-        self.index = index
-    }
-    
-    func body(content: Content) -> some View {
-        PagerTabView(navTabView: navTabView) {
-            content
-                .overlay(
-                    GeometryReader { reader in
-                        Color.clear
-                            .onAppear {
-                                DispatchQueue.main.async {
-                                    let frame = reader.frame(in: .named("XLPagerViewScrollView"))
-                                    index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
-                                    let tabView = navTabView()
-                                    let tabViewDelegate = navTabView() as? PagerTabViewDelegate
-                                    navContentViews.setView(AnyView(tabView),
-                                                            tabViewDelegate: tabViewDelegate,
-                                                            at: index)
-                                }
-                            }.onDisappear {
-                                navContentViews.items.value[index]?.tabViewDelegate?.setState(state: .normal)
-                                navContentViews.remove(at: index)
-                            }
-                    }
-                )
-        }
-    }
-}
-
-private struct NavBarModifier: ViewModifier {
-    @EnvironmentObject var pagerSettings: PagerSettings
-    @Binding private var indexSelected: Int
-    @Binding private var itemCount: Int
-    private var navBarItemWidth: CGFloat {
-        let totalItemWidth = (pagerSettings.width - (pagerSettings.tabItemSpacing * CGFloat(itemCount - 1)))
-        return totalItemWidth / CGFloat(itemCount)
-    }
-    
-    public init(itemCount: Binding<Int>, selection: Binding<Int>) {
-        self._indexSelected = selection
-        self._itemCount = itemCount
-    }
-    
-    func body(content: Content) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: pagerSettings.tabItemSpacing) {
-                if itemCount > 0 && pagerSettings.width > 0 {
-                    ForEach(0...itemCount-1, id: \.self) { idx in
-                        NavBarItem(id: idx, selection: $indexSelected)
-                            .frame(height: pagerSettings.tabItemHeight)
-                    }
-                }
-            }
-            .frame(height: pagerSettings.tabItemHeight)
-            HStack {
-                if let width = navBarItemWidth, width > 0, width <= pagerSettings.width {
-                    let x = -self.pagerSettings.contentOffset / CGFloat(itemCount) + width / 2
-                    Rectangle()
-                        .fill(pagerSettings.indicatorBarColor)
-                        .animation(.default)
-                        .frame(width: width)
-                        .position(x: x, y: 0)
-                }
-            }
-            .frame(height: pagerSettings.indicatorBarHeight)
-            content
-        }
-    }
-}
-
-private struct PagerContainerView<Content: View>: View {
-    let content: () -> Content
-    
-    init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-    }
-    
-    var body: some View {
-        content()
-    }
-}
-
-extension PagerContainerView {
-    @available(iOS 14.0, *)
-    internal func navBar(itemCount: Binding<Int>, selection: Binding<Int>) -> some View {
-        return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
-    }
-}
-
-
-private struct NavBarItem: View {
-    @EnvironmentObject var navContentViews: DataStore
-    @Binding private var currentIndex: Int
-    private var id: Int
-    
-    public init(id: Int, selection: Binding<Int>) {
-        self._currentIndex = selection
-        self.id = id
-    }
-    
-    var body: some View {
-        if id < navContentViews.items.value.keys.count {
-            Button(action: {
-                self.currentIndex = id
-            }, label: {
-                navContentViews.items.value[id]?.view
-            }).buttonStyle(PlainButtonStyle())
-            .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                navContentViews.items.value[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : .selected)
-            } perform: {}
-        }
-    }
-}
-
-
 public class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
     @Published var tabItemSpacing: CGFloat
@@ -190,10 +24,6 @@ public class PagerSettings: ObservableObject {
         self.indicatorBarColor = indicatorBarColor
     }
 }
-
-///
-/// Public Source Code
-///
 
 @available(iOS 14.0, *)
 public struct XLPagerView<Content> : View where Content : View {
@@ -222,7 +52,7 @@ public struct XLPagerView<Content> : View where Content : View {
     }
     
     public var body: some View {
-        PagerContainerView {
+//        PagerContainerView {
             GeometryReader { gproxy in
                 HStack(spacing: 0) {
                     content()
@@ -288,7 +118,7 @@ public struct XLPagerView<Content> : View where Content : View {
                 .onAppear {
                     pagerSettings.width = gproxy.size.width
                 }
-            }
+//            }
         }
         .navBar(itemCount: $itemCount, selection: $currentIndex)
         .environmentObject(self.navContentViews)
@@ -308,22 +138,21 @@ public struct XLPagerView<Content> : View where Content : View {
     }
 }
 
-public enum PagerTabViewState {
-    case selected
-    case highlighted
-    case normal
-}
-
-public protocol PagerTabViewDelegate {
-    func setState(state: PagerTabViewState)
-}
-
-extension View {
-    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View {
-        return self.modifier(PagerTabItem(navTabView: pagerTabView))
-    }
-
-    public func onPageAppear(perform action: (() -> Void)?) -> some View {
-        return self.modifier(PagerSetAppearItem(onPageAppear: action ?? {}))
-    }
-}
+//private struct PagerContainerView<Content: View>: View {
+//    let content: () -> Content
+//
+//    init(@ViewBuilder content: @escaping () -> Content) {
+//        self.content = content
+//    }
+//
+//    var body: some View {
+//        content()
+//    }
+//}
+//
+//extension PagerContainerView {
+//    @available(iOS 14.0, *)
+//    internal func navBar(itemCount: Binding<Int>, selection: Binding<Int>) -> some View {
+//        return self.modifier(NavBarModifier(itemCount: itemCount, selection: selection))
+//    }
+//}

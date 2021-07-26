@@ -41,7 +41,7 @@ struct YoutubeNavBarItem: View, PagerTabViewDelegate {
         .background(theme.backgroundColor)
     }
 
-    func setSelectedState(state: PagerTabViewState) {
+    func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
             self.theme.textColor = selectedColor
