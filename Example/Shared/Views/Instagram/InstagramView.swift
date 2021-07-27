@@ -9,13 +9,16 @@ import SwiftUI
 import PagerTabStrip
 
 struct InstagramView: View {
+    
+    @State var selection = 1
+    
     @ObservedObject var galleryModel = GalleryModel()
     @ObservedObject var listModel = ListModel()
     @ObservedObject var likedModel = LikedModel()
     @ObservedObject var savedModel = SavedModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black)) {
+        PagerTabStripView(selection: $selection, settings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black)) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
                 galleryModel.navBarItem
             }.onPageAppear {

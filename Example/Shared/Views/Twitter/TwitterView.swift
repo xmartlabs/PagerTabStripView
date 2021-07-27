@@ -9,12 +9,15 @@ import SwiftUI
 import PagerTabStrip
 
 struct TwitterView: View {
+    @State var selection = 2
+    
+    
     @ObservedObject var tweetsModel = TweetsModel()
     @ObservedObject var mediaModel = MediaModel()
     @ObservedObject var likesModel = LikesModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .blue)) {
+        PagerTabStripView(selection: $selection, settings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .blue)) {
             PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
                 tweetsModel.navBarItem
             }.onPageAppear {

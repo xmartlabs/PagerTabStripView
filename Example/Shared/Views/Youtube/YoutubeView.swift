@@ -9,13 +9,14 @@ import SwiftUI
 import PagerTabStrip
 
 struct YoutubeView: View {
+    
 
     @ObservedObject var homeModel = HomeModel()
     @ObservedObject var trendingModel = TrendingModel()
     @ObservedObject var accountModel = AccountModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70, indicatorBarHeight: 7, indicatorBarColor: selectedColor)) {
+        PagerTabStripView(settings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70, indicatorBarHeight: 7, indicatorBarColor: selectedColor)) {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
                 homeModel.navBarItem
             }.onPageAppear {
