@@ -2,13 +2,13 @@
 //  NavBarItem.swift
 //  PagerTabStrip
 //
-//  Created by Cecilia Pirotto on 26/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 
 internal struct NavBarItem: View {
-    @EnvironmentObject var navContentViews: DataStore
+    @EnvironmentObject private var navContentViews: DataStore
     @Binding private var currentIndex: Int
     private var id: Int
 

@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-class DataItem {
+internal class DataItem {
     var view: AnyView?
     var tabViewDelegate: PagerTabViewDelegate?
     var appearCallback: (() -> Void)?
