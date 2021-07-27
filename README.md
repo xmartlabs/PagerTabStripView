@@ -17,8 +17,13 @@ By [Xmartlabs SRL](http://xmartlabs.com).
 
 PagerTabStrip provides an interactive component that allows the user to navigate between pages using a custom navigation bar or swiping up. This powerful tool is totally built in SwiftUI native components. 
 
-*example gif*
-
+<table>
+  <tr>
+    <th><img src="Example/Media/twitterStyleExample.gif" width="250"/></th>
+    <th><img src="Example/Media/instagramStyleExample.gif" width="250"/></th>
+    <th><img src="Example/Media/youtubeStyleExample.gif" width="250"/></th>
+  </tr>
+</table>
 
 ## Examples
 
@@ -114,7 +119,7 @@ struct PagerView: View {
 				ProfileView()
 					.pagerTabItem {
 						TitleNavBarItem(title: "Profile")
-				}
+                    }
 			}
 		}
 	}
@@ -219,7 +224,7 @@ struct PagerView: View {
 
 * If you **want to contribute** please feel free to **submit pull requests**.
 * If you **have a feature request** please **open an issue**.
-* If you **found a bug** or **need help** please **check older issues, [FAQ](#faq) and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStrip) (Tag 'PagerTabStrip') before submitting an issue**.
+* If you **found a bug** or **need help** please **check older issues and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStrip) (Tag 'PagerTabStrip') before submitting an issue**.
 
 Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStrip/blob/master/CONTRIBUTING.md) file for more info.
 
