@@ -38,6 +38,6 @@ struct PostDetail: View {
 
 struct PostDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetail(post: Factory.shared.posts[0])
+        PostDetail(post: PostsFactory.shared.posts[0])
     }
 }

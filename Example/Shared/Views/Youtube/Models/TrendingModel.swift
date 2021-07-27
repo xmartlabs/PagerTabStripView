@@ -11,7 +11,7 @@ class TrendingModel: ObservableObject {
     var navBarItem = YoutubeNavBarItem(title: "Trending", imageName: "trending")
     
     var posts: [Post] {
-        Factory.shared.posts
+        PostsFactory.shared.posts
     }
     
     @Published var isLoading: Bool = false

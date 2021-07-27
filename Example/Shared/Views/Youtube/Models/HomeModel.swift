@@ -11,7 +11,7 @@ class HomeModel: ObservableObject {
     var navBarItem = YoutubeNavBarItem(title: "Home", imageName: "home")
     
     var posts: [Post] {
-        Factory.shared.posts
+        PostsFactory.shared.posts
     }
     
     @Published var isLoading: Bool = false

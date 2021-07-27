@@ -11,7 +11,7 @@ class LikesModel: ObservableObject {
     var navBarItem = TwitterNavBarItem(title: "Likes")
     
     var posts: [Post] {
-        Factory.shared.posts
+        PostsFactory.shared.posts
     }
     
     @Published var isLoading: Bool = false

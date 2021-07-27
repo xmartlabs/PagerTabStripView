@@ -11,6 +11,6 @@ class AccountModel: ObservableObject {
     var navBarItem = YoutubeNavBarItem(title: "Account", imageName: "account")
     
     var post: Post {
-        Factory.shared.posts[0]
+        PostsFactory.shared.posts[0]
     }
 }

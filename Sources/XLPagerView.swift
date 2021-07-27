@@ -49,6 +49,9 @@ public struct XLPagerView<Content> : View where Content : View {
         self.content = content
         self._currentIndex = State(initialValue: selection)
         self._pagerSettings = StateObject(wrappedValue: pagerSettings)
+        if let callback = navContentViews.items.value[currentIndex]?.appearCallback {
+            callback()
+        }
     }
     
     public var body: some View {

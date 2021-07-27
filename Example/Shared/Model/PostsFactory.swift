@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 
-struct Factory {
-    static let shared = Factory()
+struct PostsFactory {
+    static let shared = PostsFactory()
     var posts: [Post] = load("postsData.json")
 }
 

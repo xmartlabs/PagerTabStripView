@@ -44,7 +44,7 @@ struct PostRow: View {
 }
 
 struct PostRow_Previews: PreviewProvider {
-    static var posts = Factory.shared.posts
+    static var posts = PostsFactory.shared.posts
     
     static var previews: some View {
         Group {

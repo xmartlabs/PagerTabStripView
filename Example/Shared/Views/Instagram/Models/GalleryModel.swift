@@ -11,7 +11,7 @@ class GalleryModel: ObservableObject {
     var navBarItem = InstagramNavBarItem(imageName: "gallery")
     
     var posts: [Post] {
-        Factory.shared.posts
+        PostsFactory.shared.posts
     }
     
     @Published var isLoading: Bool = false

@@ -11,7 +11,7 @@ class LikedModel: ObservableObject {
     var navBarItem = InstagramNavBarItem(imageName: "liked")
     
     var posts: [Post] {
-        Factory.shared.posts
+        PostsFactory.shared.posts
     }
     
     @Published var isLoading: Bool = false

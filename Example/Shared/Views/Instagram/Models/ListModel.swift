@@ -11,7 +11,7 @@ class ListModel: ObservableObject {
     var navBarItem = InstagramNavBarItem(imageName: "list")
     
     var posts: [Post] {
-        Factory.shared.posts
+        PostsFactory.shared.posts
     }
     
     @Published var isLoading: Bool = false
