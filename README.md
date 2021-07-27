@@ -87,6 +87,11 @@ struct PagerView: View {
 }
 ```
 
+
+<div style="text-align:center">
+    <img src="Example/Media/defaultExample.gif">
+</div>
+
 You can specify the index of the initial page shown in the `XLPagerView` initializer and different settings through the PagerSettings.
 
 ### Pager Settings
@@ -103,7 +108,7 @@ import PagerTabStrip
 
 struct PagerView: View {
 
-	let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.blue)
+	let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray)
 
 	var body: some View {
 		XLPagerView(selection: 1, pagerSettings: pagerSettings) {
@@ -125,6 +130,10 @@ struct PagerView: View {
 	}
 }
 ```
+In this example, we add some settings like the tab bar height, indicator bar color and indicator bar height. Let's watch how it looks!
+<div style="text-align:center">
+    <img src="Example/Media/addPagerSettings.gif">
+</div>
 
 ## Navigation bar
 
@@ -139,7 +148,7 @@ struct TitleNavBarItem: View {
     var body: some View {
         VStack {
             Text(title)
-                .foregroundColor(Color.blue)
+                .foregroundColor(Color.gray)
                 .font(.subheadline)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -151,8 +160,6 @@ struct TitleNavBarItem: View {
 ### Customize selected and highlighted items
 
 You can define the style of your nav items when they are selected or highlighted by implementing `PagerTabViewDelegate` protocol in your nav item view. 
-
-
 
 In this example we are going to change the text and background color when the tab is highlighted and selected.
 
@@ -190,6 +197,10 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
     }
 }
 ```
+
+<div style="text-align:center">
+    <img src="Example/Media/setStateCallback.gif">
+</div>
 
 ## onPageAppear modifier
 
