@@ -130,6 +130,9 @@ public struct XLPagerView<Content> : View where Content : View {
             self.itemCount = items.keys.count
             if let tabViewDelegate = navContentViews.items.value[currentIndex]?.tabViewDelegate {
                 tabViewDelegate.setState(state: .selected)
+                if let callback = navContentViews.items.value[currentIndex]?.appearCallback {
+                    callback()
+                }
             }
         }
         .clipped()
