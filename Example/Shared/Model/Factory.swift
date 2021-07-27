@@ -8,8 +8,9 @@
 import Foundation
 import Combine
 
-final class Factory: ObservableObject {
-    @Published var posts: [Post] = load("postsData.json")
+struct Factory {
+    static let shared = Factory()
+    var posts: [Post] = load("postsData.json")
 }
 
 func load<T: Decodable>(_ filename: String) -> T {

@@ -20,11 +20,16 @@ struct PostRow: View {
                 .frame(width: 70, height: 70, alignment: .leading)
                 .padding(.vertical)
             
-            VStack(alignment: .leading) {
-                Text(post.user.name)
-                    .bold()
+            VStack (alignment: .leading){
                 if withDescription {
+                    Text(post.user.name)
+                        .bold()
                     Text(post.text)
+                } else {
+                    Spacer()
+                    Text(post.user.name)
+                        .bold()
+                    Spacer()
                 }
             }
             .padding()
@@ -39,7 +44,7 @@ struct PostRow: View {
 }
 
 struct PostRow_Previews: PreviewProvider {
-    static var posts = Factory().posts
+    static var posts = Factory.shared.posts
     
     static var previews: some View {
         Group {

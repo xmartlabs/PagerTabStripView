@@ -4,21 +4,52 @@
 //
 //  Created by Milena Zabaleta on 7/7/21.
 //
+
 import SwiftUI
 import PagerTabStrip
 
 struct InstagramView: View {
-    let titles = [InstagramNavBarItem(imageName: "gallery"),
-                  InstagramNavBarItem(imageName: "list"),
-                  InstagramNavBarItem(imageName: "liked"),
-                  InstagramNavBarItem(imageName: "saved")]
+    @ObservedObject var galleryModel = GalleryModel()
+    @ObservedObject var listModel = ListModel()
+    @ObservedObject var likedModel = LikedModel()
+    @ObservedObject var savedModel = SavedModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50)) {
-            ForEach(0...3, id: \.self) { idx in
-//                PostsList().pagerTabItem {
-//                    titles[idx]
-//                }
+        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black)) {
+            PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
+                galleryModel.navBarItem
+            }.onPageAppear {
+                galleryModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    galleryModel.isLoading = false
+                }
+            }
+            
+            PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false).pagerTabItem {
+                listModel.navBarItem
+            }.onPageAppear {
+                listModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    listModel.isLoading = false
+                }
+            }
+            
+            PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts).pagerTabItem {
+                likedModel.navBarItem
+            }.onPageAppear {
+                likedModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    likedModel.isLoading = false
+                }
+            }
+            
+            PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false).pagerTabItem {
+                savedModel.navBarItem
+            }.onPageAppear {
+                savedModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    savedModel.isLoading = false
+                }
             }
         }
         .frame(alignment: .center)

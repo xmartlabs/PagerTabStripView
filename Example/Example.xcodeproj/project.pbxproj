@@ -21,13 +21,20 @@
 		AB7EEE7C26AB5681008804D4 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7B26AB5681008804D4 /* AccountModel.swift */; };
 		AB7EEE7E26AB5B61008804D4 /* TrendingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7D26AB5B61008804D4 /* TrendingModel.swift */; };
 		AB7EEE8026AB5B76008804D4 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7F26AB5B76008804D4 /* HomeModel.swift */; };
+		AB7EEE8526ABEE6F008804D4 /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8426ABEE6F008804D4 /* GalleryModel.swift */; };
+		AB7EEE8726ABEE7D008804D4 /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8626ABEE7D008804D4 /* ListModel.swift */; };
+		AB7EEE8926ABEE87008804D4 /* LikedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8826ABEE87008804D4 /* LikedModel.swift */; };
+		AB7EEE8B26ABEE96008804D4 /* SavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8A26ABEE96008804D4 /* SavedModel.swift */; };
+		AB7EEE8D26ABF05D008804D4 /* TweetsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8C26ABF05D008804D4 /* TweetsModel.swift */; };
+		AB7EEE8F26ABF06A008804D4 /* MediaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8E26ABF06A008804D4 /* MediaModel.swift */; };
+		AB7EEE9126ABF076008804D4 /* LikesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE9026ABF076008804D4 /* LikesModel.swift */; };
 		AB89C56F26961A0B002E7B28 /* YoutubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C56E26961A0B002E7B28 /* YoutubeView.swift */; };
 		AB89C57626961A3E002E7B28 /* InstagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C57526961A3E002E7B28 /* InstagramView.swift */; };
 		AB89C57B26961DC8002E7B28 /* PostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C57A26961DC8002E7B28 /* PostDetail.swift */; };
 		AB89C58126961E8E002E7B28 /* TwitterNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C58026961E8E002E7B28 /* TwitterNavBarItem.swift */; };
 		AB89C58926961E9E002E7B28 /* TwitterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C58826961E9E002E7B28 /* TwitterView.swift */; };
 		AB9F87D326826AD100CCBFC3 /* postsData.json in Resources */ = {isa = PBXBuildFile; fileRef = AB9F87D226826AD100CCBFC3 /* postsData.json */; };
-		AB9F87DF26826C2000CCBFC3 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87DE26826C2000CCBFC3 /* ModelData.swift */; };
+		AB9F87DF26826C2000CCBFC3 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87DE26826C2000CCBFC3 /* Factory.swift */; };
 		AB9F87E726826C4D00CCBFC3 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87E626826C4D00CCBFC3 /* Post.swift */; };
 		AB9F87EC26826CB500CCBFC3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87EB26826CB500CCBFC3 /* User.swift */; };
 		AB9F87F326826DB000CCBFC3 /* PostsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87F226826DB000CCBFC3 /* PostsList.swift */; };
@@ -104,13 +111,20 @@
 		AB7EEE7B26AB5681008804D4 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		AB7EEE7D26AB5B61008804D4 /* TrendingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingModel.swift; sourceTree = "<group>"; };
 		AB7EEE7F26AB5B76008804D4 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		AB7EEE8426ABEE6F008804D4 /* GalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryModel.swift; sourceTree = "<group>"; };
+		AB7EEE8626ABEE7D008804D4 /* ListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListModel.swift; sourceTree = "<group>"; };
+		AB7EEE8826ABEE87008804D4 /* LikedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedModel.swift; sourceTree = "<group>"; };
+		AB7EEE8A26ABEE96008804D4 /* SavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedModel.swift; sourceTree = "<group>"; };
+		AB7EEE8C26ABF05D008804D4 /* TweetsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsModel.swift; sourceTree = "<group>"; };
+		AB7EEE8E26ABF06A008804D4 /* MediaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModel.swift; sourceTree = "<group>"; };
+		AB7EEE9026ABF076008804D4 /* LikesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesModel.swift; sourceTree = "<group>"; };
 		AB89C56E26961A0B002E7B28 /* YoutubeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeView.swift; sourceTree = "<group>"; };
 		AB89C57526961A3E002E7B28 /* InstagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramView.swift; sourceTree = "<group>"; };
 		AB89C57A26961DC8002E7B28 /* PostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetail.swift; sourceTree = "<group>"; };
 		AB89C58026961E8E002E7B28 /* TwitterNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterNavBarItem.swift; sourceTree = "<group>"; };
 		AB89C58826961E9E002E7B28 /* TwitterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterView.swift; sourceTree = "<group>"; };
 		AB9F87D226826AD100CCBFC3 /* postsData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = postsData.json; sourceTree = "<group>"; };
-		AB9F87DE26826C2000CCBFC3 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		AB9F87DE26826C2000CCBFC3 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		AB9F87E626826C4D00CCBFC3 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		AB9F87EB26826CB500CCBFC3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AB9F87F226826DB000CCBFC3 /* PostsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsList.swift; sourceTree = "<group>"; };
@@ -255,9 +269,31 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		AB7EEE8226ABEE45008804D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB7EEE8426ABEE6F008804D4 /* GalleryModel.swift */,
+				AB7EEE8626ABEE7D008804D4 /* ListModel.swift */,
+				AB7EEE8826ABEE87008804D4 /* LikedModel.swift */,
+				AB7EEE8A26ABEE96008804D4 /* SavedModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AB7EEE8326ABEE4B008804D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB7EEE8C26ABF05D008804D4 /* TweetsModel.swift */,
+				AB7EEE8E26ABF06A008804D4 /* MediaModel.swift */,
+				AB7EEE9026ABF076008804D4 /* LikesModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		AB89C57F26961E7E002E7B28 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				AB7EEE8326ABEE4B008804D4 /* Models */,
 				AB89C58026961E8E002E7B28 /* TwitterNavBarItem.swift */,
 				AB89C58826961E9E002E7B28 /* TwitterView.swift */,
 			);
@@ -275,7 +311,7 @@
 		AB9F87DD26826C1100CCBFC3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AB9F87DE26826C2000CCBFC3 /* ModelData.swift */,
+				AB9F87DE26826C2000CCBFC3 /* Factory.swift */,
 				AB9F87E626826C4D00CCBFC3 /* Post.swift */,
 				AB9F87EB26826CB500CCBFC3 /* User.swift */,
 			);
@@ -316,6 +352,7 @@
 		AB9F8805268282D200CCBFC3 /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
+				AB7EEE8226ABEE45008804D4 /* Models */,
 				AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */,
 				AB89C57526961A3E002E7B28 /* InstagramView.swift */,
 			);
@@ -520,6 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB7EEE8F26ABF06A008804D4 /* MediaModel.swift in Sources */,
 				2857502B24C21EB400ED22AD /* ContentView.swift in Sources */,
 				AB9F880F2682837E00CCBFC3 /* InstagramNavBarItem.swift in Sources */,
 				AB28D6D9269F58C500679D5E /* URLImageView.swift in Sources */,
@@ -528,14 +566,20 @@
 				AB89C57B26961DC8002E7B28 /* PostDetail.swift in Sources */,
 				2857502924C21EB400ED22AD /* ExampleApp.swift in Sources */,
 				AB89C58926961E9E002E7B28 /* TwitterView.swift in Sources */,
+				AB7EEE9126ABF076008804D4 /* LikesModel.swift in Sources */,
 				AB7EEE8026AB5B76008804D4 /* HomeModel.swift in Sources */,
+				AB7EEE8926ABEE87008804D4 /* LikedModel.swift in Sources */,
+				AB7EEE8726ABEE7D008804D4 /* ListModel.swift in Sources */,
+				AB7EEE8D26ABF05D008804D4 /* TweetsModel.swift in Sources */,
 				AB28D6DD269F58E300679D5E /* ImageCache.swift in Sources */,
+				AB7EEE8526ABEE6F008804D4 /* GalleryModel.swift in Sources */,
 				AB9F8807268282FA00CCBFC3 /* YoutubeNavBarItem.swift in Sources */,
 				AB89C56F26961A0B002E7B28 /* YoutubeView.swift in Sources */,
+				AB7EEE8B26ABEE96008804D4 /* SavedModel.swift in Sources */,
 				AB7EEE7C26AB5681008804D4 /* AccountModel.swift in Sources */,
 				AB28D6DB269F58D600679D5E /* URLImageModel.swift in Sources */,
 				AB89C57626961A3E002E7B28 /* InstagramView.swift in Sources */,
-				AB9F87DF26826C2000CCBFC3 /* ModelData.swift in Sources */,
+				AB9F87DF26826C2000CCBFC3 /* Factory.swift in Sources */,
 				AB9F87EC26826CB500CCBFC3 /* User.swift in Sources */,
 				AB9F87E726826C4D00CCBFC3 /* Post.swift in Sources */,
 				AB7EEE7E26AB5B61008804D4 /* TrendingModel.swift in Sources */,

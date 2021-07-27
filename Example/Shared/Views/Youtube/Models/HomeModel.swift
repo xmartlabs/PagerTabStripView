@@ -6,15 +6,12 @@
 //
 
 import Foundation
-import Combine
-import SwiftUI
 
 class HomeModel: ObservableObject {
     var navBarItem = YoutubeNavBarItem(title: "Home", imageName: "home")
     
     var posts: [Post] {
-        let modelData = Factory()
-        return modelData.posts
+        Factory.shared.posts
     }
     
     @Published var isLoading: Bool = false
