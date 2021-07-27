@@ -28,7 +28,8 @@ struct YoutubeView: View {
             
             PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
                 trendingModel.navBarItem
-            }.onPageAppear {
+            }
+            .onPageAppear {
                 trendingModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     trendingModel.isLoading = false

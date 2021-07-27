@@ -22,9 +22,39 @@ public class PagerSettings: ObservableObject {
     }
 }
 
-
 @available(iOS 14.0, *)
 public struct PagerTabStripView<Content> : View where Content: View {
+    private var content: () -> Content
+    
+    @Binding private var selectionBiding: Int
+    @State private var selectionState = 0
+    
+    private var useBinding: Bool
+    private var settings: PagerSettings
+    
+    
+    public init(selection: Binding<Int>? = nil,
+                settings: PagerSettings = PagerSettings(),
+                @ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+        self.settings = settings
+        if let selection = selection {
+            useBinding = true
+            self._selectionBiding = selection
+        }
+        else{
+            useBinding = false
+            self._selectionBiding = .constant(0)
+        }
+    }
+    
+    public var body: some View {
+        WrapperPagerTabStripView(selection: useBinding ? $selectionBiding : $selectionState, settings: settings, content: content)
+    }
+    
+}
+
+private struct WrapperPagerTabStripView<Content> : View where Content: View {
     
     private var content: () -> Content
     
@@ -41,12 +71,12 @@ public struct PagerTabStripView<Content> : View where Content: View {
     @State private var itemCount : Int = 0
     @GestureState private var translation: CGFloat = 0
 
-    public init(selection: Binding<Int>? = nil,
+    public init(selection: Binding<Int>,
                 settings: PagerSettings = PagerSettings(),
                 @ViewBuilder content: @escaping () -> Content) {
         self.content = content
-        self._selection = selection ?? .constant(0)
         self._settings = StateObject(wrappedValue: settings)
+        self._selection = selection
     }
     
     public var body: some View {
