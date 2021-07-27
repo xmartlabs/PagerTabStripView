@@ -4,34 +4,33 @@
 //
 //  Created by Milena Zabaleta on 6/22/21.
 //
+
 import Foundation
 import SwiftUI
 
 struct PostsList: View {
-    @EnvironmentObject var modelData: ModelData
-    @State private var showFavoritesOnly = false
+    @Binding private var isLoading: Bool
+    var items: [Post]
+    var withDescription: Bool
     
-    var posts: [Post] {
-        modelData.posts
+    init(isLoading: Binding<Bool>, items: [Post], withDescription: Bool = true) {
+        self._isLoading = isLoading
+        self.items = items
+        self.withDescription = withDescription
     }
     
     
     var body: some View {
-        List {
-            ForEach(posts) { post in
-                PostRow(post: post)
+        VStack {
+            if isLoading {
+                ProgressView()
+            }
+            List {
+                ForEach(items) { item in
+                    PostRow(post: item, withDescription: withDescription)
+                }
             }
         }
-    }
-}
-
-struct PostsList_Previews: PreviewProvider {
-    static var previews: some View {
-        ForEach(["iPhone SE", "iPhone XS Max"], id: \.self) { deviceName in
-            PostsList()
-                .environmentObject(ModelData())
-                .previewDevice(PreviewDevice(rawValue: deviceName))
-                .previewDisplayName(deviceName)
-        }
+        
     }
 }

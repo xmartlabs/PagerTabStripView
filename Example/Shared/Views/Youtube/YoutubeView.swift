@@ -4,21 +4,37 @@
 //
 //  Created by Milena Zabaleta on 7/7/21.
 //
+
 import SwiftUI
 import PagerTabStrip
 
 struct YoutubeView: View {
-    
-    let titles = [YoutubeNavBarItem(title: "Home", imageName: "home"),
-                  YoutubeNavBarItem(title: "Trending", imageName: "trending"),
-                  YoutubeNavBarItem(title: "Account", imageName: "account")]
+    @ObservedObject var homeModel = HomeModel()
+    @ObservedObject var trendingModel = TrendingModel()
+    @ObservedObject var accountModel = AccountModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70)) {
-            ForEach(0...2, id: \.self) { idx in
-                PostsList().pagerTabItem {
-                    titles[idx]
+        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70, indicatorBarHeight: 7, indicatorBarColor: selectedColor)) {
+            PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
+                homeModel.navBarItem
+            }.onPageAppear {
+                homeModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    homeModel.isLoading = false
                 }
+            }
+            
+            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
+                trendingModel.navBarItem
+            }.onPageAppear {
+                trendingModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    trendingModel.isLoading = false
+                }
+            }
+            
+            PostDetail(post: accountModel.post).pagerTabItem {
+                accountModel.navBarItem
             }
         }
         .frame(alignment: .center)

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "Marge_Simpsons-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Marge_Simpsons.png",
+      "filename" : "picture.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Marge_Simpsons-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

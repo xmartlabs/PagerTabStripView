@@ -4,19 +4,41 @@
 //
 //  Created by Milena Zabaleta on 7/7/21.
 //
+
 import SwiftUI
 import PagerTabStrip
 
 struct TwitterView: View {
-    let titles = [TwitterNavBarItem(title: "Tweets"),
-                  TwitterNavBarItem(title: "Media"),
-                  TwitterNavBarItem(title: "Likes")]
+    @ObservedObject var tweetsModel = TweetsModel()
+    @ObservedObject var mediaModel = MediaModel()
+    @ObservedObject var likesModel = LikesModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50)) {
-            ForEach(0...2, id: \.self) { idx in
-                PostsList().pagerTabItem {
-                    titles[idx]
+        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .blue)) {
+            PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
+                tweetsModel.navBarItem
+            }.onPageAppear {
+                tweetsModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    tweetsModel.isLoading = false
+                }
+            }
+            
+            PostsList(isLoading: $mediaModel.isLoading, items: mediaModel.posts).pagerTabItem {
+                mediaModel.navBarItem
+            }.onPageAppear {
+                mediaModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    mediaModel.isLoading = false
+                }
+            }
+            
+            PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false).pagerTabItem {
+                likesModel.navBarItem
+            }.onPageAppear {
+                likesModel.isLoading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    likesModel.isLoading = false
                 }
             }
         }
