@@ -60,29 +60,29 @@ Creating a page view is super straightforward, you need to place your custom tab
 import PagerTabStrip
 
 struct PagerView: View {
-
-	var body: some View {
-		XLPagerView() {
-			MyView()
-				.pagerTabItem {
-					TitleNavBarItem(title: "Tab 1")
-				}
-			AnotherView()
-				.pagerTabItem {
-					TitleNavBarItem(title: "Tab 2")
-				}
-			if User.isLoggedIn {
-				ProfileView()
-					.pagerTabItem {
-						TitleNavBarItem(title: "Profile")
-				}
-			}
-		}
-	}
+    
+    var body: some View {
+        XLPagerView() {
+            MyView()
+                .pagerTabItem {
+                    TitleNavBarItem(title: "Tab 1")
+                }
+            AnotherView()
+                .pagerTabItem {
+                    TitleNavBarItem(title: "Tab 2")
+                }
+            if User.isLoggedIn {
+                ProfileView()
+                    .pagerTabItem {
+                        TitleNavBarItem(title: "Profile")
+                    }
+            }
+        }
+    }
 }
 ```
 
-You can specify the index of the initial page shown in the `XLPagerView`initializer and different settings through the PagerSettings.
+You can specify the index of the initial page shown in the `XLPagerView` initializer and different settings through the PagerSettings.
 
 ### Pager Settings
 
@@ -129,17 +129,17 @@ For simplicity, we are going to implement a nav bar item with only a title. You 
 
 ```swift
 struct TitleNavBarItem: View {
-	let title: String
-	
-	var body: some View {
-	  VStack {
-	    Text(title)
-	      .foregroundColor(Color.blue)
-	      .font(.subheadline)
-	  }
-	  .frame(maxWidth: .infinity, maxHeight: .infinity)
-	  .background(Color.white)
-  }
+    let title: String
+    
+    var body: some View {
+        VStack {
+            Text(title)
+                .foregroundColor(Color.blue)
+                .font(.subheadline)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+    }
 }
 ```
 
@@ -147,42 +147,42 @@ struct TitleNavBarItem: View {
 
 You can define the style of your nav items when they are selected or highlighted by implementing `PagerTabViewDelegate` protocol in your nav item view. 
 
-![Documentation%207d59496815c34cbbabec901ed428c95a/selected-highlighted.gif](Documentation%207d59496815c34cbbabec901ed428c95a/selected-highlighted.gif)
+
 
 In this example we are going to change the text and background color when the tab is highlighted and selected.
 
 ```swift
 private class NavItemTheme: ObservableObject {
-  @Published var textColor = Color.gray
-	@Published var backgroundColor = Color.white
+    @Published var textColor = Color.gray
+    @Published var backgroundColor = Color.white
 }
 
 struct TitleNavBarItem: View, PagerTabViewDelegate {
-	let title: String
-	@ObservedObject fileprivate var theme = NavItemTheme()
-
-	var body: some View {
-	  VStack {
-      Text(title)
-        .foregroundColor(theme.textColor)
-        .font(.subheadline)
-	  }
-	  .frame(maxWidth: .infinity, maxHeight: .infinity)
-	  .background(theme.backgroundColor)
-  }
-
-	func setState(state: PagerTabViewState) {
-    switch state {
-    case .selected:
-      self.theme.textColor = .blue
-			self.theme.backgroundColor = .lightGray
-		case .highlighted:
-			self.theme.textColor = .pink
-    default:
-      self.theme.textColor = .gray
-			self.theme.backgroundColor = .white
+    let title: String
+    @ObservedObject fileprivate var theme = NavItemTheme()
+    
+    var body: some View {
+        VStack {
+            Text(title)
+                .foregroundColor(theme.textColor)
+                .font(.subheadline)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(theme.backgroundColor)
     }
-  }
+    
+    func setState(state: PagerTabViewState) {
+        switch state {
+        case .selected:
+            self.theme.textColor = .blue
+            self.theme.backgroundColor = .lightGray
+        case .highlighted:
+            self.theme.textColor = .pink
+        default:
+            self.theme.textColor = .gray
+            self.theme.backgroundColor = .white
+        }
+    }
 }
 ```
 
@@ -194,20 +194,20 @@ You can use this callback if you want to trigger some action when the user switc
 import PagerTabStrip
 
 struct PagerView: View {
-
-	let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.blue)
-
-	var body: some View {
-		XLPagerView(selection: 1, pagerSettings: pagerSettings) {
-			MyView(model: myViewModel)
-				.pagerTabItem {
-					TitleNavBarItem(title: "Tab 1")
-				}
-				.onPageAppear {
-					model.reload()
-				}
-		}
-	}
+    
+    let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.blue)
+    
+    var body: some View {
+        XLPagerView(selection: 1, pagerSettings: pagerSettings) {
+            MyView(model: myViewModel)
+                .pagerTabItem {
+                    TitleNavBarItem(title: "Tab 1")
+                }
+                .onPageAppear {
+                    model.reload()
+                }
+        }
+    }
 }
 ```
 
@@ -224,12 +224,6 @@ struct PagerView: View {
 Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStrip/blob/master/CONTRIBUTING.md) file for more info.
 
 If you use **PagerTabStrip** in your app We would love to hear about it! Drop us a line on [Twitter](https://twitter.com/xmartlabs).
-
-## FAQ
-
-### How to .....
-
-You can do it by conforming to .....
 
 # Changelog
 
