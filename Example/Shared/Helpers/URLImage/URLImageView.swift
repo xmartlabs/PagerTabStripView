@@ -3,6 +3,7 @@
 //  Example (iOS)
 //
 //  Created by Milena Zabaleta on 14/7/21.
+//  Adapted by Xmartlabs from https://github.com/SchwiftyUI/NewsApiApp/blob/master/NewsApp/Model/UrlImageModel.swift
 //
 
 import Foundation

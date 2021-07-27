@@ -4,6 +4,7 @@
 //
 //  Created by Milena Zabaleta on 7/5/21.
 //
+
 import SwiftUI
 
 struct PostDetail: View {
@@ -37,6 +38,6 @@ struct PostDetail: View {
 
 struct PostDetail_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetail(post: Factory().posts[0])
+        PostDetail(post: Factory.shared.posts[0])
     }
 }
