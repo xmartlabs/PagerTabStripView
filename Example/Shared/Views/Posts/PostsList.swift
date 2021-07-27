@@ -32,6 +32,7 @@ struct PostsList: View {
                 }
             }
         }
+        .animation(.default, value: isLoading)
         
     }
 }
