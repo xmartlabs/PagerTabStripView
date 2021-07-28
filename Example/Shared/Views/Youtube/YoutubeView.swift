@@ -16,7 +16,7 @@ struct YoutubeView: View {
     @ObservedObject var accountModel = AccountModel()
     
     var body: some View {
-        PagerTabStripView(settings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70, indicatorBarHeight: 7, indicatorBarColor: selectedColor)) {
+        PagerTabStripView() {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
                 homeModel.navBarItem
             }.onPageAppear {
@@ -40,6 +40,7 @@ struct YoutubeView: View {
                 accountModel.navBarItem
             }
         }
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 80, indicatorBarHeight: 7, indicatorBarColor: selectedColor))
         .frame(alignment: .center)
     }
 }

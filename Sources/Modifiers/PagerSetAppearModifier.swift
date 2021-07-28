@@ -33,5 +33,6 @@ internal struct PagerSetAppearItemModifier: ViewModifier {
     
     @EnvironmentObject private var navContentViews : DataStore
     @EnvironmentObject private var settings: PagerSettings
+    @Environment(\.customStyleValue) var style: PagerTabViewStyle
     @State private var index = -1
 }

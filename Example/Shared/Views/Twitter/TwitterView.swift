@@ -17,7 +17,7 @@ struct TwitterView: View {
     @ObservedObject var likesModel = LikesModel()
     
     var body: some View {
-        PagerTabStripView(selection: $selection, settings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .blue)) {
+        PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
                 tweetsModel.navBarItem
             }.onPageAppear {
@@ -46,6 +46,7 @@ struct TwitterView: View {
             }
         }
         .frame(alignment: .center)
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .blue))
     }
 }
 

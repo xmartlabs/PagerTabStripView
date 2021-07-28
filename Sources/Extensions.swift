@@ -15,4 +15,23 @@ extension View {
     public func onPageAppear(perform action: (() -> Void)?) -> some View {
         return self.modifier(PagerSetAppearItemModifier(onPageAppear: action ?? {}))
     }
+    
+    public func pagerTabStripViewStyle(_ style: PagerTabViewStyle) -> some View {
+        return self.environment(\.customStyleValue, style)
+    }
 }
+
+private struct CustomStyleKey: EnvironmentKey {
+         static let defaultValue = PagerTabViewStyle()
+}
+
+extension EnvironmentValues {
+    var customStyleValue: PagerTabViewStyle {
+        get { self[CustomStyleKey.self] }
+        set { self[CustomStyleKey.self] = newValue }
+    }
+}
+
+//extension EnvironmentValues {
+//    static let customStyle: Bool = false
+//}

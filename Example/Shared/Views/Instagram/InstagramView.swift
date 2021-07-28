@@ -18,7 +18,7 @@ struct InstagramView: View {
     @ObservedObject var savedModel = SavedModel()
     
     var body: some View {
-        PagerTabStripView(selection: $selection, settings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black)) {
+        PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
                 galleryModel.navBarItem
             }.onPageAppear {
@@ -55,6 +55,7 @@ struct InstagramView: View {
                 }
             }
         }
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black))
         .frame(alignment: .center)
     }
 }

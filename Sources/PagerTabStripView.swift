@@ -6,20 +6,23 @@
 //
 import SwiftUI
 
-public class PagerSettings: ObservableObject {
-    @Published var width: CGFloat = 0
-    @Published var tabItemSpacing: CGFloat
-    @Published var tabItemHeight: CGFloat
-    @Published var indicatorBarHeight: CGFloat
-    @Published var indicatorBarColor: Color
-    @Published var contentOffset: CGFloat = 0
+public struct PagerTabViewStyle {
+    var tabItemSpacing: CGFloat
+    var tabItemHeight: CGFloat
+    var indicatorBarHeight: CGFloat
+    var indicatorBarColor: Color
     
-    public init(tabItemSpacing: CGFloat = 5, tabItemHeight: CGFloat = 100, indicatorBarHeight: CGFloat = 1.5, indicatorBarColor: Color = .blue) {
+    public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 100, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
         self.tabItemSpacing = tabItemSpacing
         self.tabItemHeight = tabItemHeight
         self.indicatorBarHeight = indicatorBarHeight
         self.indicatorBarColor = indicatorBarColor
     }
+}
+
+public class PagerSettings: ObservableObject {
+    @Published var width: CGFloat = 0
+    @Published var contentOffset: CGFloat = 0
 }
 
 @available(iOS 14.0, *)
@@ -28,16 +31,13 @@ public struct PagerTabStripView<Content> : View where Content: View {
     
     @Binding private var selectionBiding: Int
     @State private var selectionState = 0
-    
+    @StateObject private var settings: PagerSettings
     private var useBinding: Bool
-    private var settings: PagerSettings
     
     
     public init(selection: Binding<Int>? = nil,
-                settings: PagerSettings = PagerSettings(),
                 @ViewBuilder content: @escaping () -> Content) {
         self.content = content
-        self.settings = settings
         if let selection = selection {
             useBinding = true
             self._selectionBiding = selection
@@ -46,12 +46,13 @@ public struct PagerTabStripView<Content> : View where Content: View {
             useBinding = false
             self._selectionBiding = .constant(0)
         }
+        self._settings = StateObject(wrappedValue: PagerSettings())
     }
     
     public var body: some View {
-        WrapperPagerTabStripView(selection: useBinding ? $selectionBiding : $selectionState, settings: settings, content: content)
+        WrapperPagerTabStripView(selection: useBinding ? $selectionBiding : $selectionState, content: content)
+            .environmentObject(self.settings)
     }
-    
 }
 
 private struct WrapperPagerTabStripView<Content> : View where Content: View {
@@ -59,8 +60,9 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
     private var content: () -> Content
     
     @StateObject private var navContentViews = DataStore()
-    @StateObject private var settings = PagerSettings()
-
+    
+    @Environment(\.customStyleValue) var style: PagerTabViewStyle
+    @EnvironmentObject private var settings: PagerSettings
     @Binding var selection: Int
     @State private var currentOffset: CGFloat = 0 {
         didSet {
@@ -72,10 +74,8 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
     @GestureState private var translation: CGFloat = 0
 
     public init(selection: Binding<Int>,
-                settings: PagerSettings = PagerSettings(),
                 @ViewBuilder content: @escaping () -> Content) {
         self.content = content
-        self._settings = StateObject(wrappedValue: settings)
         self._selection = selection
     }
     
@@ -148,7 +148,6 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
         }
         .modifier(NavBarModifier(itemCount: $itemCount, selection: $selection))
         .environmentObject(self.navContentViews)
-        .environmentObject(self.settings)
         .onReceive(self.navContentViews.items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
             self.itemCount = items.keys.count
             if let tabViewDelegate = navContentViews.items.value[selection]?.tabViewDelegate {
