@@ -6,9 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
-import CoreLocation
-import Combine
 
 struct User: Hashable, Codable, Identifiable {
     var id: Int

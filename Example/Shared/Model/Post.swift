@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
-import CoreLocation
 
 struct Post: Hashable, Codable, Identifiable {
     var id: Int

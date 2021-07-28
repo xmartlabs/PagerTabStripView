@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 struct PostsFactory {
     static let shared = PostsFactory()

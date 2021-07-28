@@ -11,7 +11,6 @@ import PagerTabStrip
 struct TwitterView: View {
     @State var selection = 2
     
-    
     @ObservedObject var tweetsModel = TweetsModel()
     @ObservedObject var mediaModel = MediaModel()
     @ObservedObject var likesModel = LikesModel()
