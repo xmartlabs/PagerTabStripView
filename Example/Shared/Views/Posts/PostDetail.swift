@@ -2,7 +2,7 @@
 //  PostDetail.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 7/5/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI

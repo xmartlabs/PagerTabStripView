@@ -2,20 +2,23 @@
 //  InstagramView.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 7/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 import PagerTabStrip
 
 struct InstagramView: View {
+    
+    @State var selection = 1
+    
     @ObservedObject var galleryModel = GalleryModel()
     @ObservedObject var listModel = ListModel()
     @ObservedObject var likedModel = LikedModel()
     @ObservedObject var savedModel = SavedModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black)) {
+        PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
                 galleryModel.navBarItem
             }.onPageAppear {
@@ -52,6 +55,7 @@ struct InstagramView: View {
                 }
             }
         }
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black))
         .frame(alignment: .center)
     }
 }

@@ -2,7 +2,7 @@
 //  AccountModel.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 23/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import Foundation

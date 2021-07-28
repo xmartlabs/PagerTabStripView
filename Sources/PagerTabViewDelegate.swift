@@ -2,7 +2,7 @@
 //  PagerTabViewDelegate.swift
 //  PagerTabStrip
 //
-//  Created by Cecilia Pirotto on 26/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI

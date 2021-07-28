@@ -2,7 +2,7 @@
 //  URLImageView.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 14/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //  Adapted by Xmartlabs from https://github.com/SchwiftyUI/NewsApiApp/blob/master/NewsApp/Model/UrlImageModel.swift
 //
 

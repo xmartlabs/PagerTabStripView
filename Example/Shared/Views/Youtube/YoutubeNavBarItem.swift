@@ -2,7 +2,7 @@
 //  YoutubeNavWithTitle.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 6/22/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import Combine

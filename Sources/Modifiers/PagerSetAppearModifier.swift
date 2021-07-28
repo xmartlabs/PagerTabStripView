@@ -2,17 +2,15 @@
 //  PagerSetAppearModifier.swift
 //  PagerTabStrip
 //
-//  Created by Cecilia Pirotto on 26/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 
-internal struct PagerSetAppearItem: ViewModifier {
-    @EnvironmentObject var navContentViews : DataStore
-    @EnvironmentObject var pagerSettings: PagerSettings
-    var onPageAppear: () -> Void
-    @State var index = -1
-
+struct PagerSetAppearItemModifier: ViewModifier {
+    
+    private var onPageAppear: () -> Void
+    
     init(onPageAppear: @escaping () -> Void) {
         self.onPageAppear = onPageAppear
     }
@@ -24,12 +22,17 @@ internal struct PagerSetAppearItem: ViewModifier {
                     Color.clear
                         .onAppear {
                             DispatchQueue.main.async {
-                                let frame = reader.frame(in: .named("XLPagerViewScrollView"))
-                                index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
-                                navContentViews.setAppear(callback: onPageAppear, at: index)
+                                let frame = reader.frame(in: .named("PagerViewScrollView"))
+                                index = Int(round((frame.minX - settings.contentOffset) / settings.width))
+                                dataStore.setAppear(callback: onPageAppear, at: index)
                             }
                         }
                 }
             )
     }
+    
+    @EnvironmentObject private var dataStore: DataStore
+    @EnvironmentObject private var settings: PagerSettings
+    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @State private var index = -1
 }

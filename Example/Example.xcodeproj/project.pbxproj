@@ -753,7 +753,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStrip;
 				PRODUCT_NAME = Example;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -775,7 +775,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStrip;
 				PRODUCT_NAME = Example;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;

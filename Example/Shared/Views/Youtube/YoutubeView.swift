@@ -2,19 +2,20 @@
 //  YoutubeView.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 7/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 import PagerTabStrip
 
 struct YoutubeView: View {
+    
     @ObservedObject var homeModel = HomeModel()
     @ObservedObject var trendingModel = TrendingModel()
     @ObservedObject var accountModel = AccountModel()
     
     var body: some View {
-        XLPagerView(selection: 0, pagerSettings: PagerSettings(tabItemSpacing: 0, tabItemHeight: 70, indicatorBarHeight: 7, indicatorBarColor: selectedColor)) {
+        PagerTabStripView() {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
                 homeModel.navBarItem
             }.onPageAppear {
@@ -26,7 +27,8 @@ struct YoutubeView: View {
             
             PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
                 trendingModel.navBarItem
-            }.onPageAppear {
+            }
+            .onPageAppear {
                 trendingModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     trendingModel.isLoading = false
@@ -37,6 +39,7 @@ struct YoutubeView: View {
                 accountModel.navBarItem
             }
         }
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 80, indicatorBarHeight: 7, indicatorBarColor: selectedColor))
         .frame(alignment: .center)
     }
 }

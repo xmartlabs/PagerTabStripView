@@ -1,21 +1,23 @@
 //
-//  NavBarModifier.swift
+//  Extensions.swift
 //  PagerTabStrip
 //
-//  Created by Cecilia Pirotto on 26/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 
-///
-/// Public Source Code
-///
 extension View {
     public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View {
-        return self.modifier(PagerTabItem(navTabView: pagerTabView))
+        return self.modifier(PagerTabItemModifier(navTabView: pagerTabView))
     }
 
     public func onPageAppear(perform action: (() -> Void)?) -> some View {
-        return self.modifier(PagerSetAppearItem(onPageAppear: action ?? {}))
+        return self.modifier(PagerSetAppearItemModifier(onPageAppear: action ?? {}))
+    }
+    
+    public func pagerTabStripViewStyle(_ style: PagerTabViewStyle) -> some View {
+        return self.environment(\.pagerTabViewStyle, style)
     }
 }
+

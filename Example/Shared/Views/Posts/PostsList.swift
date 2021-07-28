@@ -2,7 +2,7 @@
 //  PostsList.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 6/22/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import Foundation
@@ -24,6 +24,7 @@ struct PostsList: View {
         VStack {
             if isLoading {
                 ProgressView()
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
             }
             List {
                 ForEach(items) { item in
@@ -31,6 +32,7 @@ struct PostsList: View {
                 }
             }
         }
+        .animation(.default, value: isLoading)
         
     }
 }

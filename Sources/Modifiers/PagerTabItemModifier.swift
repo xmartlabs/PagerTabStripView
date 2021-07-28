@@ -2,20 +2,17 @@
 //  PagerTabItemModifier.swift
 //  PagerTabStrip
 //
-//  Created by Cecilia Pirotto on 26/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 
-internal struct PagerTabItem<NavTabView: View> : ViewModifier {
-    @EnvironmentObject var navContentViews : DataStore
-    @EnvironmentObject var pagerSettings: PagerSettings
-    var navTabView: () -> NavTabView
-    @State var index = -1
-
+struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
+    
+    private var navTabView: () -> NavTabView
+    
     init(navTabView: @escaping () -> NavTabView) {
         self.navTabView = navTabView
-        self.index = index
     }
 
     func body(content: Content) -> some View {
@@ -25,19 +22,24 @@ internal struct PagerTabItem<NavTabView: View> : ViewModifier {
                     Color.clear
                         .onAppear {
                             DispatchQueue.main.async {
-                                let frame = reader.frame(in: .named("XLPagerViewScrollView"))
-                                index = Int(round((frame.minX - pagerSettings.contentOffset) / pagerSettings.width))
+                                let frame = reader.frame(in: .named("PagerViewScrollView"))
+                                index = Int(round((frame.minX - settings.contentOffset) / settings.width))
                                 let tabView = navTabView()
-                                let tabViewDelegate = navTabView() as? PagerTabViewDelegate
-                                navContentViews.setView(AnyView(tabView),
+                                let tabViewDelegate = tabView as? PagerTabViewDelegate
+                                dataStore.setView(AnyView(tabView),
                                                         tabViewDelegate: tabViewDelegate,
                                                         at: index)
                             }
                         }.onDisappear {
-                            navContentViews.items.value[index]?.tabViewDelegate?.setState(state: .normal)
-                            navContentViews.remove(at: index)
+                            dataStore.items.value[index]?.tabViewDelegate?.setState(state: .normal)
+                            dataStore.remove(at: index)
                         }
                 }
             )
     }
+    
+    @EnvironmentObject private var dataStore: DataStore
+    @EnvironmentObject private var settings: PagerSettings
+    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @State private var index = -1
 }
