@@ -58,7 +58,7 @@ github "xmartlabs/PagerTabStrip" ~> 1.0
 
 ## Usage
 
-Creating a page view is super straightforward, you need to place your custom tab views into a `XLPagerView` view and apply the `pagerTabItem( _: )` modifier to each one to specify the navigation bar tab item.
+Creating a page view is super straightforward, you need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem( _: )` modifier to each one to specify the navigation bar tab item.
 
 ```swift
 import PagerTabStrip
@@ -66,7 +66,7 @@ import PagerTabStrip
 struct PagerView: View {
 
     var body: some View {
-        XLPagerView() {
+        PagerTabStripView() {
             MyView()
                 .pagerTabItem {
                     TitleNavBarItem(title: "Tab 1")
@@ -90,11 +90,38 @@ struct PagerView: View {
     <img src="Example/Media/defaultExample.gif">
 </div>
 
-You can specify the index of the initial page shown in the `XLPagerView` initializer and different settings through the PagerSettings.
+You can specify the index of the initial page shown in the `XLPagerView` through `selection` parameter in the initializer.
 
-### Pager Settings
+```swift
+import PagerTabStrip
 
-It allows you to customize some aspects of the navigation bar and its indicator bar. The customizable settings are:
+struct PagerView: View {
+    @State var selection = 1
+
+    var body: some View {
+        PagerTabStripView() {
+            MyView(selection: $selection)
+                .pagerTabItem {
+                    TitleNavBarItem(title: "Tab 1")
+                }
+            AnotherView()
+                .pagerTabItem {
+                    TitleNavBarItem(title: "Tab 2")
+                }
+            if User.isLoggedIn {
+                ProfileView()
+                    .pagerTabItem {
+                        TitleNavBarItem(title: "Profile")
+                    }
+            }
+        }
+    }
+}
+```
+
+### Customize pager style
+
+You have the ability to customize some aspects of the navigation bar and its indicator bar using the `pagerTabStripViewStyle` modifier. The customizable settings are:
 
 - Spacing between navigation bar items
 - Navigation bar height
@@ -106,10 +133,8 @@ import PagerTabStrip
 
 struct PagerView: View {
 
-	let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray)
-
 	var body: some View {
-		XLPagerView(selection: 1, pagerSettings: pagerSettings) {
+		PagerTabStripView(selection: 1) {
 			MyView()
 				.pagerTabItem {
 					TitleNavBarItem(title: "Tab 1")
@@ -125,6 +150,7 @@ struct PagerView: View {
                     }
 			}
 		}
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray))
 	}
 }
 ```
@@ -211,10 +237,8 @@ import PagerTabStrip
 
 struct PagerView: View {
 
-    let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.blue)
-
     var body: some View {
-        XLPagerView(selection: 1, pagerSettings: pagerSettings) {
+        PagerTabStripView(selection: 1) {
             MyView(model: myViewModel)
                 .pagerTabItem {
                     TitleNavBarItem(title: "Tab 1")
@@ -223,6 +247,7 @@ struct PagerView: View {
                     model.reload()
                 }
         }
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray))
     }
 }
 ```
