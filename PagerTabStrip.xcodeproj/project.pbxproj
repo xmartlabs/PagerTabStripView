@@ -100,7 +100,9 @@
 		28F828971C494B4200330CF4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E07FB08326AF3C6000CDCFD8 /* Modifiers */,
+				E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */,
+				E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */,
+				E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */,
 				E1FA589824C8BC1B0081FBE7 /* PagerTabStripView.swift */,
 				C7A02C00269377D400BFE31B /* DataStore.swift */,
 				E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */,
@@ -109,16 +111,6 @@
 				28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		E07FB08326AF3C6000CDCFD8 /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-				E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */,
-				E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */,
-				E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */,
-			);
-			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		E1FA589724C8BA020081FBE7 /* PagerTabStrip */ = {
