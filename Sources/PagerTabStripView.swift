@@ -6,30 +6,6 @@
 //
 import SwiftUI
 
-public struct PagerTabViewStyle {
-    var tabItemSpacing: CGFloat
-    var tabItemHeight: CGFloat
-    var indicatorBarHeight: CGFloat
-    var indicatorBarColor: Color
-    
-    public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 50, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
-        self.tabItemSpacing = tabItemSpacing
-        self.tabItemHeight = tabItemHeight
-        self.indicatorBarHeight = indicatorBarHeight
-        self.indicatorBarColor = indicatorBarColor
-    }
-}
-
-private struct PagerTabViewStyleKey: EnvironmentKey {
-    static let defaultValue = PagerTabViewStyle()
-}
-
-extension EnvironmentValues {
-    var pagerTabViewStyle: PagerTabViewStyle {
-        get { self[PagerTabViewStyleKey.self] }
-        set { self[PagerTabViewStyleKey.self] = newValue }
-    }
-}
 
 class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
@@ -98,7 +74,7 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             .offset(x: -CGFloat(self.selection) * settings.width)
             .offset(x: self.translation)
             .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: selection)
-            .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: translation)
+            .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
                     if (selection == 0 && value.translation.width > 0) {
