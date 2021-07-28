@@ -21,7 +21,14 @@ class DataItem {
 }
 
 class DataStore: ObservableObject {
-    @Published var items = [Int: DataItem]()
+    @Published var items = [Int: DataItem](){
+        didSet {
+            itemsCount = items.count
+        }
+    }
+
+    @Published private(set) var itemsCount: Int = 0
+
 
     func setView(_ view: AnyView, tabViewDelegate: PagerTabViewDelegate? = nil, at index: Int) {
         if let item = items[index] {

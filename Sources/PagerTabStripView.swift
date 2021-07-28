@@ -55,8 +55,6 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             self.settings.contentOffset = currentOffset
         }
     }
-
-    @State private var itemCount : Int = 0
     @GestureState private var translation: CGFloat = 0
 
     public init(selection: Binding<Int>,
@@ -82,7 +80,7 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
                         let normTrans = valueWidth / (gproxy.size.width + 50)
                         let logValue = log(1 + normTrans)
                         state = gproxy.size.width/1.5 * logValue
-                    } else if (selection == itemCount - 1 && value.translation.width < 0) {
+                    } else if (selection == dataStore.itemsCount - 1 && value.translation.width < 0) {
                         let valueWidth = -value.translation.width
                         let normTrans = valueWidth / (gproxy.size.width + 50)
                         let logValue = log(1 + normTrans)
@@ -93,7 +91,7 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
                 }.onEnded { value in
                     let offset = value.predictedEndTranslation.width / gproxy.size.width
                     let newPredictedIndex = (CGFloat(self.selection) - offset).rounded()
-                    let newIndex = min(max(Int(newPredictedIndex), 0), self.itemCount - 1)
+                    let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.itemsCount - 1)
                     if abs(self.selection - newIndex) > 1 {
                         self.selection = newIndex > self.selection ? self.selection + 1 : self.selection - 1
                     } else {
@@ -125,17 +123,16 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             .onChange(of: settings.width) { _ in
                 self.currentOffset = self.offsetFor(index: self.selection)
             }
-            .onChange(of: itemCount) { _ in
-                self.selection = selection >= itemCount ? itemCount - 1 : selection
+            .onChange(of: dataStore.items.count) { _ in
+                self.selection = selection >= dataStore.items.count ? dataStore.items.count - 1 : selection
             }
             .onAppear {
                 settings.width = gproxy.size.width
             }
         }
-        .modifier(NavBarModifier(itemCount: $itemCount, selection: $selection))
+        .modifier(NavBarModifier(dataStore: self._dataStore, selection: $selection))
         .environmentObject(self.dataStore)
         .onReceive(self.dataStore.$items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
-            self.itemCount = items.keys.count
             if let tabViewDelegate = dataStore.items[selection]?.tabViewDelegate {
                 tabViewDelegate.setState(state: .selected)
             }
