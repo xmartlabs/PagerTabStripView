@@ -2,7 +2,7 @@
 //  InstagramView.swift
 //  Example (iOS)
 //
-//  Created by Milena Zabaleta on 7/7/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI

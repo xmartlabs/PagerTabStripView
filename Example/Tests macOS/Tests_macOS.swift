@@ -2,7 +2,7 @@
 //  Tests_macOS.swift
 //  Tests macOS
 //
-//  Created by Martin Barreto on 7/17/20.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import XCTest
