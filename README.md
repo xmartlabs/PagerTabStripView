@@ -1,11 +1,11 @@
 # PagerTabStrip
 
 <p align="left">
-<a href="https://travis-ci.org/xmartlabs/PagerTabStrip"><img src="https://travis-ci.org/xmartlabs/PagerTabStrip.svg?branch=master" alt="Build status" /></a>
+<!-- <a href="https://travis-ci.org/xmartlabs/PagerTabStrip"><img src="https://travis-ci.org/xmartlabs/PagerTabStrip.svg?branch=master" alt="Build status" /></a> -->
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift4-compatible-4BC51D.svg?style=flat" alt="Swift 5 compatible" /></a>
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift5-compatible-4BC51D.svg?style=flat" alt="Swift 5 compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
-<a href="https://cocoapods.org/pods/XLActionController"><img src="https://img.shields.io/cocoapods/v/PagerTabStrip.svg" alt="CocoaPods compatible" /></a>
+<a href="https://cocoapods.org/pods/PagerTabStrip"><img src="https://img.shields.io/cocoapods/v/PagerTabStrip.svg" alt="CocoaPods compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/PagerTabStrip/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
 
@@ -72,7 +72,7 @@ struct MyPagerView: View {
 </br>
 </br>
 
-To select the initial selected page view you can pass the `selection` init parameter.
+To specify the initial selected page you can pass the `selection` init parameter.
 
 ```swift
 struct MyPagerView: View {
@@ -93,7 +93,7 @@ struct MyPagerView: View {
 }
 ```
 
-As you may've already noticed, everything is SwiftUI code, so you can update the child views according to SwiftUi state objects as shown above with `if User.isLoggedIn`.
+As you may've already noticed, everything is SwiftUI code, so you can update the child views according to SwiftUI state objects as shown above with `if User.isLoggedIn`.
 
 ### Customize pager style
 
@@ -202,9 +202,9 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
     <img src="Example/Media/setStateCallback.gif">
 </div>
 
-#### onPageAppear modifier
+### onPageAppear modifier
 
-`onPageAppear` callback allows you trigger some action when a page view get selected, either by scrolling to it or tapping its tab. This modifier is applied only to the associated page.
+`onPageAppear` callback allows you to trigger some action when a page view get selected, either by scrolling to it or tapping its tab. This modifier is applied only to its associated page view.
 
 ```swift
 struct PagerView: View {
