@@ -31,7 +31,7 @@ struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
                                                         at: index)
                             }
                         }.onDisappear {
-                            dataStore.items.value[index]?.tabViewDelegate?.setState(state: .normal)
+                            dataStore.items[index]?.tabViewDelegate?.setState(state: .normal)
                             dataStore.remove(at: index)
                         }
                 }

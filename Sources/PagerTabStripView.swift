@@ -12,7 +12,7 @@ public struct PagerTabViewStyle {
     var indicatorBarHeight: CGFloat
     var indicatorBarColor: Color
     
-    public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 100, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
+    public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 50, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
         self.tabItemSpacing = tabItemSpacing
         self.tabItemHeight = tabItemHeight
         self.indicatorBarHeight = indicatorBarHeight
@@ -52,8 +52,7 @@ public struct PagerTabStripView<Content> : View where Content: View {
         if let selection = selection {
             useBinding = true
             self._selectionBiding = selection
-        }
-        else{
+        } else {
             useBinding = false
             self._selectionBiding = .constant(0)
         }
@@ -134,13 +133,13 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             })
             .onChange(of: self.selection) { [selection] newIndex in
                 self.currentOffset = self.offsetFor(index: newIndex)
-                if let callback = dataStore.items.value[newIndex]?.appearCallback {
+                if let callback = dataStore.items[newIndex]?.appearCallback {
                     callback()
                 }
-                if let tabViewDelegate = dataStore.items.value[selection]?.tabViewDelegate {
+                if let tabViewDelegate = dataStore.items[selection]?.tabViewDelegate {
                     tabViewDelegate.setState(state: .normal)
                 }
-                if let tabViewDelegate = dataStore.items.value[newIndex]?.tabViewDelegate, newIndex != selection {
+                if let tabViewDelegate = dataStore.items[newIndex]?.tabViewDelegate, newIndex != selection {
                     tabViewDelegate.setState(state: .selected)
                 }
             }
@@ -159,9 +158,9 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
         }
         .modifier(NavBarModifier(itemCount: $itemCount, selection: $selection))
         .environmentObject(self.dataStore)
-        .onReceive(self.dataStore.items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
+        .onReceive(self.dataStore.$items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
             self.itemCount = items.keys.count
-            if let tabViewDelegate = dataStore.items.value[selection]?.tabViewDelegate {
+            if let tabViewDelegate = dataStore.items[selection]?.tabViewDelegate {
                 tabViewDelegate.setState(state: .selected)
             }
         }

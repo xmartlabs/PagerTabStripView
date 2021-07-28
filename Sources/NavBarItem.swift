@@ -18,14 +18,14 @@ struct NavBarItem: View {
     }
 
     var body: some View {
-        if id < dataStore.items.value.keys.count {
+        if id < dataStore.items.keys.count {
             Button(action: {
                 self.currentIndex = id
             }, label: {
-                dataStore.items.value[id]?.view
+                dataStore.items[id]?.view
             }).buttonStyle(PlainButtonStyle())
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                dataStore.items.value[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : .selected)
+                dataStore.items[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : .selected)
             } perform: {}
         }
     }

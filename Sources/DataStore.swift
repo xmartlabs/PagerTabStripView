@@ -21,27 +21,27 @@ class DataItem {
 }
 
 class DataStore: ObservableObject {
-    var items = CurrentValueSubject<[Int: DataItem], Never>([:])
+    @Published var items = [Int: DataItem]()
 
     func setView(_ view: AnyView, tabViewDelegate: PagerTabViewDelegate? = nil, at index: Int) {
-        if let item = items.value[index] {
+        if let item = items[index] {
             item.view = view
             item.tabViewDelegate = tabViewDelegate
         } else {
-            items.value[index] = DataItem(view: view, tabViewDelegate: tabViewDelegate)
+            items[index] = DataItem(view: view, tabViewDelegate: tabViewDelegate)
         }
     }
 
     func setAppear(callback: @escaping () -> Void, at index: Int) {
-        if let item = items.value[index] {
+        if let item = items[index] {
             item.appearCallback = callback
         } else {
-            items.value[index] = DataItem(view: nil, callback: callback)
+            items[index] = DataItem(view: nil, callback: callback)
         }
 
     }
 
     func remove(at index: Int) {
-        items.value[index] = nil
+        items[index] = nil
     }
 }
