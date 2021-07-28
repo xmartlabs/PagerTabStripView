@@ -20,6 +20,17 @@ public struct PagerTabViewStyle {
     }
 }
 
+private struct CustomStyleKey: EnvironmentKey {
+         static let defaultValue = PagerTabViewStyle()
+}
+
+extension EnvironmentValues {
+    var customStyleValue: PagerTabViewStyle {
+        get { self[CustomStyleKey.self] }
+        set { self[CustomStyleKey.self] = newValue }
+    }
+}
+
 public class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
     @Published var contentOffset: CGFloat = 0

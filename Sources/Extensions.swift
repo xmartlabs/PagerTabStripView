@@ -21,17 +21,3 @@ extension View {
     }
 }
 
-private struct CustomStyleKey: EnvironmentKey {
-         static let defaultValue = PagerTabViewStyle()
-}
-
-extension EnvironmentValues {
-    var customStyleValue: PagerTabViewStyle {
-        get { self[CustomStyleKey.self] }
-        set { self[CustomStyleKey.self] = newValue }
-    }
-}
-
-//extension EnvironmentValues {
-//    static let customStyle: Bool = false
-//}
