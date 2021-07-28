@@ -10,16 +10,15 @@ import SwiftUI
 struct NavBarModifier: ViewModifier {
     
     @Binding private var selection: Int
-    @StateObject private var dataStore: DataStore
+    @EnvironmentObject private var dataStore: DataStore
     
     private var navBarItemWidth: CGFloat {
         let totalItemWidth = (settings.width - (style.tabItemSpacing * CGFloat(dataStore.itemsCount - 1)))
         return totalItemWidth / CGFloat(dataStore.itemsCount)
     }
 
-    public init(dataStore: StateObject<DataStore>, selection: Binding<Int>) {
+    public init(selection: Binding<Int>) {
         self._selection = selection
-        self._dataStore = dataStore
     }
 
     func body(content: Content) -> some View {
