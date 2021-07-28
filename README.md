@@ -15,15 +15,19 @@ By [Xmartlabs SRL](http://xmartlabs.com).
 
 [XLPagerTabStrip](https://github.com/xmartlabs/XLPagerTabStrip) for SwiftUI!
 
-PagerTabStrip provides an interactive component that allows the user to navigate between pages using a custom navigation bar or swiping up. This powerful tool is totally built in SwiftUI native components. 
+PagerTabStrip provides an interactive component that allows the user to navigate between pages using a custom navigation bar or swiping up. This powerful tool is totally built in SwiftUI native components.
 
-*example gif*
-
+<table>
+  <tr>
+    <th><img src="Example/Media/twitterStyleExample.gif" width="250"/></th>
+    <th><img src="Example/Media/instagramStyleExample.gif" width="250"/></th>
+    <th><img src="Example/Media/youtubeStyleExample.gif" width="250"/></th>
+  </tr>
+</table>
 
 ## Examples
 
-Follow these 3 steps to run Example project: clone PagerTabStrip repository, open PagerTabStrip workspace and run the *Example* project.
-
+Follow these 3 steps to run Example project: clone PagerTabStrip repository, open PagerTabStrip workspace and run the _Example_ project.
 
 ## Installation
 
@@ -54,15 +58,15 @@ github "xmartlabs/PagerTabStrip" ~> 1.0
 
 ## Usage
 
-Creating a page view is super straightforward, you need to place your custom tab views into a `XLPagerView` view and apply the `pagerTabItem( _: )` modifier to each one to specify the navigation bar tab item. 
+Creating a page view is super straightforward, you need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem( _: )` modifier to each one to specify the navigation bar tab item.
 
 ```swift
 import PagerTabStrip
 
 struct PagerView: View {
-    
+
     var body: some View {
-        XLPagerView() {
+        PagerTabStripView() {
             MyView()
                 .pagerTabItem {
                     TitleNavBarItem(title: "Tab 1")
@@ -82,11 +86,42 @@ struct PagerView: View {
 }
 ```
 
-You can specify the index of the initial page shown in the `XLPagerView` initializer and different settings through the PagerSettings.
+<div style="text-align:center">
+    <img src="Example/Media/defaultExample.gif">
+</div>
 
-### Pager Settings
+You can specify the index of the initial page shown in the `XLPagerView` through `selection` parameter in the initializer.
 
-It allows you to customize some aspects of the navigation bar and its indicator bar. The customizable settings are:
+```swift
+import PagerTabStrip
+
+struct PagerView: View {
+    @State var selection = 1
+
+    var body: some View {
+        PagerTabStripView() {
+            MyView(selection: $selection)
+                .pagerTabItem {
+                    TitleNavBarItem(title: "Tab 1")
+                }
+            AnotherView()
+                .pagerTabItem {
+                    TitleNavBarItem(title: "Tab 2")
+                }
+            if User.isLoggedIn {
+                ProfileView()
+                    .pagerTabItem {
+                        TitleNavBarItem(title: "Profile")
+                    }
+            }
+        }
+    }
+}
+```
+
+### Customize pager style
+
+You have the ability to customize some aspects of the navigation bar and its indicator bar using the `pagerTabStripViewStyle` modifier. The customizable settings are:
 
 - Spacing between navigation bar items
 - Navigation bar height
@@ -98,10 +133,8 @@ import PagerTabStrip
 
 struct PagerView: View {
 
-	let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.blue)
-
 	var body: some View {
-		XLPagerView(selection: 1, pagerSettings: pagerSettings) {
+		PagerTabStripView(selection: 1) {
 			MyView()
 				.pagerTabItem {
 					TitleNavBarItem(title: "Tab 1")
@@ -114,27 +147,34 @@ struct PagerView: View {
 				ProfileView()
 					.pagerTabItem {
 						TitleNavBarItem(title: "Profile")
-				}
+                    }
 			}
 		}
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray))
 	}
 }
 ```
 
+In this example, we add some settings like the tab bar height, indicator bar color and indicator bar height. Let's watch how it looks!
+
+<div style="text-align:center">
+    <img src="Example/Media/addPagerSettings.gif">
+</div>
+
 ## Navigation bar
 
-The navigation bar supports custom tab items. You need to specify its appearance creating a struct that implements `View` protocol. 
+The navigation bar supports custom tab items. You need to specify its appearance creating a struct that implements `View` protocol.
 
 For simplicity, we are going to implement a nav bar item with only a title. You can find more examples in the example app.
 
 ```swift
 struct TitleNavBarItem: View {
     let title: String
-    
+
     var body: some View {
         VStack {
             Text(title)
-                .foregroundColor(Color.blue)
+                .foregroundColor(Color.gray)
                 .font(.subheadline)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -145,9 +185,7 @@ struct TitleNavBarItem: View {
 
 ### Customize selected and highlighted items
 
-You can define the style of your nav items when they are selected or highlighted by implementing `PagerTabViewDelegate` protocol in your nav item view. 
-
-
+You can define the style of your nav items when they are selected or highlighted by implementing `PagerTabViewDelegate` protocol in your nav item view.
 
 In this example we are going to change the text and background color when the tab is highlighted and selected.
 
@@ -160,7 +198,7 @@ private class NavItemTheme: ObservableObject {
 struct TitleNavBarItem: View, PagerTabViewDelegate {
     let title: String
     @ObservedObject fileprivate var theme = NavItemTheme()
-    
+
     var body: some View {
         VStack {
             Text(title)
@@ -170,7 +208,7 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.backgroundColor)
     }
-    
+
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
@@ -186,19 +224,21 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
 }
 ```
 
+<div style="text-align:center">
+    <img src="Example/Media/setStateCallback.gif">
+</div>
+
 ## onPageAppear modifier
 
-You can use this callback if you want to trigger some action when the user switches to this page, either by scrolling to it or tapping its tab. This modifier is applied to a specific page. 
+You can use this callback if you want to trigger some action when the user switches to this page, either by scrolling to it or tapping its tab. This modifier is applied to a specific page.
 
 ```swift
 import PagerTabStrip
 
 struct PagerView: View {
-    
-    let pagerSettings = PagerSettings(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.blue)
-    
+
     var body: some View {
-        XLPagerView(selection: 1, pagerSettings: pagerSettings) {
+        PagerTabStripView(selection: 1) {
             MyView(model: myViewModel)
                 .pagerTabItem {
                     TitleNavBarItem(title: "Tab 1")
@@ -207,19 +247,20 @@ struct PagerView: View {
                     model.reload()
                 }
         }
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray))
     }
 }
 ```
 
 ## Author
 
-* [Xmartlabs SRL](https://github.com/xmartlabs) ([@xmartlabs](https://twitter.com/xmartlabs))
+- [Xmartlabs SRL](https://github.com/xmartlabs) ([@xmartlabs](https://twitter.com/xmartlabs))
 
 ## Getting involved
 
-* If you **want to contribute** please feel free to **submit pull requests**.
-* If you **have a feature request** please **open an issue**.
-* If you **found a bug** or **need help** please **check older issues, [FAQ](#faq) and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStrip) (Tag 'PagerTabStrip') before submitting an issue**.
+- If you **want to contribute** please feel free to **submit pull requests**.
+- If you **have a feature request** please **open an issue**.
+- If you **found a bug** or **need help** please **check older issues and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStrip) (Tag 'PagerTabStrip') before submitting an issue**.
 
 Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStrip/blob/master/CONTRIBUTING.md) file for more info.
 
