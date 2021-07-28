@@ -8,7 +8,6 @@
 import Foundation
 
 class LikesModel: ObservableObject {
-    var navBarItem = TwitterNavBarItem(title: "Likes")
     
     var posts: [Post] {
         PostsFactory.shared.posts
