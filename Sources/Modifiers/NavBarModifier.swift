@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal struct NavBarModifier: ViewModifier {
+struct NavBarModifier: ViewModifier {
     
     @Binding private var selection: Int
     @Binding private var itemCount: Int
@@ -48,6 +48,6 @@ internal struct NavBarModifier: ViewModifier {
         }
     }
     
-    @Environment(\.customStyleValue) var style: PagerTabViewStyle
+    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
     @EnvironmentObject private var settings: PagerSettings
 }

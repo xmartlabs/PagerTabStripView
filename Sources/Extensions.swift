@@ -17,7 +17,7 @@ extension View {
     }
     
     public func pagerTabStripViewStyle(_ style: PagerTabViewStyle) -> some View {
-        return self.environment(\.customStyleValue, style)
+        return self.environment(\.pagerTabViewStyle, style)
     }
 }
 

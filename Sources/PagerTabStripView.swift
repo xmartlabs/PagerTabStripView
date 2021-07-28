@@ -20,18 +20,18 @@ public struct PagerTabViewStyle {
     }
 }
 
-private struct CustomStyleKey: EnvironmentKey {
+private struct PagerTabViewStyleKey: EnvironmentKey {
     static let defaultValue = PagerTabViewStyle()
 }
 
 extension EnvironmentValues {
-    var customStyleValue: PagerTabViewStyle {
-        get { self[CustomStyleKey.self] }
-        set { self[CustomStyleKey.self] = newValue }
+    var pagerTabViewStyle: PagerTabViewStyle {
+        get { self[PagerTabViewStyleKey.self] }
+        set { self[PagerTabViewStyleKey.self] = newValue }
     }
 }
 
-internal class PagerSettings: ObservableObject {
+class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
     @Published var contentOffset: CGFloat = 0
 }
@@ -70,9 +70,9 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
     
     private var content: () -> Content
     
-    @StateObject private var navContentViews = DataStore()
+    @StateObject private var dataStore = DataStore()
     
-    @Environment(\.customStyleValue) var style: PagerTabViewStyle
+    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
     @EnvironmentObject private var settings: PagerSettings
     @Binding var selection: Int
     @State private var currentOffset: CGFloat = 0 {
@@ -134,13 +134,13 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             })
             .onChange(of: self.selection) { [selection] newIndex in
                 self.currentOffset = self.offsetFor(index: newIndex)
-                if let callback = navContentViews.items.value[newIndex]?.appearCallback {
+                if let callback = dataStore.items.value[newIndex]?.appearCallback {
                     callback()
                 }
-                if let tabViewDelegate = navContentViews.items.value[selection]?.tabViewDelegate {
+                if let tabViewDelegate = dataStore.items.value[selection]?.tabViewDelegate {
                     tabViewDelegate.setState(state: .normal)
                 }
-                if let tabViewDelegate = navContentViews.items.value[newIndex]?.tabViewDelegate, newIndex != selection {
+                if let tabViewDelegate = dataStore.items.value[newIndex]?.tabViewDelegate, newIndex != selection {
                     tabViewDelegate.setState(state: .selected)
                 }
             }
@@ -158,10 +158,10 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             }
         }
         .modifier(NavBarModifier(itemCount: $itemCount, selection: $selection))
-        .environmentObject(self.navContentViews)
-        .onReceive(self.navContentViews.items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
+        .environmentObject(self.dataStore)
+        .onReceive(self.dataStore.items.throttle(for: 0.05, scheduler: DispatchQueue.main, latest: true)) { items in
             self.itemCount = items.keys.count
-            if let tabViewDelegate = navContentViews.items.value[selection]?.tabViewDelegate {
+            if let tabViewDelegate = dataStore.items.value[selection]?.tabViewDelegate {
                 tabViewDelegate.setState(state: .selected)
             }
         }

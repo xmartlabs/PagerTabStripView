@@ -10,7 +10,6 @@ import PagerTabStrip
 
 struct YoutubeView: View {
     
-
     @ObservedObject var homeModel = HomeModel()
     @ObservedObject var trendingModel = TrendingModel()
     @ObservedObject var accountModel = AccountModel()

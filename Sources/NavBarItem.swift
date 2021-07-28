@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-internal struct NavBarItem: View {
-    @EnvironmentObject private var navContentViews: DataStore
+struct NavBarItem: View {
+    @EnvironmentObject private var dataStore: DataStore
     @Binding private var currentIndex: Int
     private var id: Int
 
@@ -18,14 +18,14 @@ internal struct NavBarItem: View {
     }
 
     var body: some View {
-        if id < navContentViews.items.value.keys.count {
+        if id < dataStore.items.value.keys.count {
             Button(action: {
                 self.currentIndex = id
             }, label: {
-                navContentViews.items.value[id]?.view
+                dataStore.items.value[id]?.view
             }).buttonStyle(PlainButtonStyle())
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                navContentViews.items.value[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : .selected)
+                dataStore.items.value[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : .selected)
             } perform: {}
         }
     }

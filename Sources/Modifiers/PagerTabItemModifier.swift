@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
+struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
     
     private var navTabView: () -> NavTabView
     
@@ -26,20 +26,20 @@ internal struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
                                 index = Int(round((frame.minX - settings.contentOffset) / settings.width))
                                 let tabView = navTabView()
                                 let tabViewDelegate = tabView as? PagerTabViewDelegate
-                                navContentViews.setView(AnyView(tabView),
+                                dataStore.setView(AnyView(tabView),
                                                         tabViewDelegate: tabViewDelegate,
                                                         at: index)
                             }
                         }.onDisappear {
-                            navContentViews.items.value[index]?.tabViewDelegate?.setState(state: .normal)
-                            navContentViews.remove(at: index)
+                            dataStore.items.value[index]?.tabViewDelegate?.setState(state: .normal)
+                            dataStore.remove(at: index)
                         }
                 }
             )
     }
     
-    @EnvironmentObject private var navContentViews: DataStore
+    @EnvironmentObject private var dataStore: DataStore
     @EnvironmentObject private var settings: PagerSettings
-    @Environment(\.customStyleValue) var style: PagerTabViewStyle
+    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
     @State private var index = -1
 }
