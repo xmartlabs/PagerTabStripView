@@ -13,7 +13,7 @@ Made with :heart: by [Xmartlabs](http://xmartlabs.com) team. [XLPagerTabStrip](h
 
 ## Introduction
 
-PagerTabStrip is the first pager view built in pure SwiftUI. It provides PagerTabStripView, a SwiftUI component to create interactive pager views which contains child views. It allows the user to switch between your views either by swiping or tapping a tab bar item.
+PagerTabStrip is the first pager view built in pure SwiftUI. It provides PagerTabStripView component to create interactive pager views which contains child views. It allows the user to switch between your views either by swiping or tapping a tab bar item.
 
 <table>
   <tr>
