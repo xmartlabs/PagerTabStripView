@@ -13,7 +13,7 @@ Made with :heart: by [Xmartlabs](http://xmartlabs.com) team. [XLPagerTabStrip](h
 
 ## Introduction
 
-PagerTabStrip is the first pager view built in pure SwiftUI. It provides PagerTabStripView, a SwiftUI component to create interactive pager views that contains your child views. It allows the user to switch between your child views either by swiping or tapping a tab bar item.
+PagerTabStrip is the first pager view built in pure SwiftUI. It provides PagerTabStripView, a SwiftUI component to create interactive pager views which contains child views. It allows the user to switch between your views either by swiping or tapping a tab bar item.
 
 <table>
   <tr>
@@ -24,18 +24,18 @@ PagerTabStrip is the first pager view built in pure SwiftUI. It provides PagerTa
 </table>
 
 Unlike Apple's TabView it provides:
-1. Flexible way to fully customize pager tab views, you just need to provide a view.
+1. Flexible way to fully customize pager tab views.
 2. Each pagerTabItem view can be of different type.
-3. Bar that contains pager tab item can be placed on top.
-4. Indicator view automatically appears to indicate selected child view.
-5. `onPageAppear` callback.
+3. Bar that contains pager tab item is placed on top.
+4. Indicator view indicates selected child view.
+5. `onPageAppear` callback to easily trigger actions when page is selected.
 6. Ability to update pagerTabItem according to highlighted, selected, normal state.
 
-..and we've planned several more functionalities, we'll implement each one of the XLPagerTabStrip [styles](https://github.com/xmartlabs/XLPagerTabStrip#pager-types) and much more in upcoming versions.
+..and we've planned much more functionalities, we have plans to support each one of the XLPagerTabStrip [styles](https://github.com/xmartlabs/XLPagerTabStrip#pager-types).
 
 ## Usage
 
-Creating a page view is super straightforward, you just need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem( _: )` modifier to each one to specify the navigation bar tab item.
+Creating a page view is super straightforward, you just need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem( _: )` modifier to each one to specify its navigation bar tab item.
 
 ```swift
 import PagerTabStrip
@@ -43,6 +43,7 @@ import PagerTabStrip
 struct MyPagerView: View {
 
     var body: some View {
+
         PagerTabStripView() {
             MyFirstView()
                 .pagerTabItem {
@@ -71,7 +72,7 @@ struct MyPagerView: View {
 </br>
 </br>
 
-To select the initial page view you can pass the `selection` init parameter.
+To select the initial selected page view you can pass the `selection` init parameter.
 
 ```swift
 struct MyPagerView: View {
@@ -92,41 +93,7 @@ struct MyPagerView: View {
 }
 ```
 
-As you may already notice, everything is SwiftUI code
-
-## Examples
-
-Follow these 3 steps to run Example project
-* Clone PagerTabStrip repo.
-* Open PagerTabStrip workspace.
-* Run the _Example_ project.
-
-## Installation
-
-### CocoaPods
-
-[CocoaPods](https://cocoapods.org/) is a dependency manager for Cocoa projects.
-
-To install PagerTabStrip, simply add the following line to your Podfile:
-
-```ruby
-pod 'PagerTabStrip', '~> 1.0'
-```
-
-### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a simple, decentralized dependency manager for Cocoa.
-
-To install PagerTabStrip, simply add the following line to your Cartfile:
-
-```ogdl
-github "xmartlabs/PagerTabStrip" ~> 1.0
-```
-
-## Requirements
-
--   iOS 14+
--   Xcode 12.X
+As you may've already noticed, everything is SwiftUI code, so you can update the child views according to SwiftUi state objects as shown above with `if User.isLoggedIn`.
 
 ### Customize pager style
 
@@ -138,8 +105,6 @@ You have the ability to customize some aspects of the navigation bar and its ind
 -   Indicator bar color
 
 ```swift
-import PagerTabStrip
-
 struct PagerView: View {
 
 	var body: some View {
@@ -159,7 +124,7 @@ struct PagerView: View {
                     }
 			}
 		}
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray))
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: .gray))
 	}
 }
 ```
@@ -170,7 +135,7 @@ In this example, we add some settings like the tab bar height, indicator bar col
     <img src="Example/Media/addPagerSettings.gif">
 </div>
 
-## Navigation bar
+### Navigation bar
 
 The navigation bar supports custom tab items. You need to specify its appearance creating a struct that implements `View` protocol.
 
@@ -192,14 +157,14 @@ struct TitleNavBarItem: View {
 }
 ```
 
-### Customize selected and highlighted items
+#### Customize selected and highlighted items
 
-You can define the style of your nav items when they are selected or highlighted by implementing `PagerTabViewDelegate` protocol in your nav item view.
+You can define the style of your nav items when they are selected or highlighted by conforming `PagerTabViewDelegate` protocol in your nav item view.
 
-In this example we are going to change the text and background color when the tab is highlighted and selected.
+In the following example we change the text and background color when the tab is highlighted and selected.
 
 ```swift
-private class NavItemTheme: ObservableObject {
+private class NavTabViewTheme: ObservableObject {
     @Published var textColor = Color.gray
     @Published var backgroundColor = Color.white
 }
@@ -237,13 +202,11 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
     <img src="Example/Media/setStateCallback.gif">
 </div>
 
-## onPageAppear modifier
+#### onPageAppear modifier
 
-You can use this callback if you want to trigger some action when the user switches to this page, either by scrolling to it or tapping its tab. This modifier is applied to a specific page.
+`onPageAppear` callback allows you trigger some action when a page view get selected, either by scrolling to it or tapping its tab. This modifier is applied only to the associated page.
 
 ```swift
-import PagerTabStrip
-
 struct PagerView: View {
 
     var body: some View {
@@ -256,10 +219,40 @@ struct PagerView: View {
                     model.reload()
                 }
         }
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: Color.gray))
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: .gray))
     }
 }
 ```
+
+## Examples
+
+Follow these 3 steps to run Example project
+* Clone PagerTabStrip repo.
+* Open PagerTabStrip workspace.
+* Run the _Example_ project.
+
+## Installation
+
+### CocoaPods
+
+To install PagerTabStrip using CocoaPods, simply add the following line to your Podfile:
+
+```ruby
+pod 'PagerTabStrip', '~> 1.0'
+```
+
+### Carthage
+
+To install PagerTabStrip using Carthage, simply add the following line to your Cartfile:
+
+```ruby
+github "xmartlabs/PagerTabStrip" ~> 1.0
+```
+
+## Requirements
+
+-   iOS 14+
+-   Xcode 12.X
 
 ## Author
 
@@ -274,19 +267,3 @@ struct PagerView: View {
 Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStrip/blob/master/CONTRIBUTING.md) file for more info.
 
 If you use **PagerTabStrip** in your app We would love to hear about it! Drop us a line on [Twitter](https://twitter.com/xmartlabs).
-
-# Changelog
-
-See [CHANGELOG](CHANGELOG.md).
-
-
-Horizontal scrollable navigation bar.
-Navigation bar items width adapted to its content.
-Update scroll position of navigation bar when scrolling content page.
-Nab bar at the button.
-Customization of indicatorView vertical (y) position.
-onPageDissapearCallback
-
-Gifs - Solo la barra, uno con 5 tabs y el del medio icono.
-
-https://github.com/xmartlabs/XLPagerTabStrip#pager-types
