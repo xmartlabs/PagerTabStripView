@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */; };
 		287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */; };
 		28F828811C494B2C00330CF4 /* PagerTabStrip.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F828801C494B2C00330CF4 /* PagerTabStrip.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28F828881C494B2C00330CF4 /* PagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStrip.framework */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabViewStyle.swift; sourceTree = "<group>"; };
 		287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagerTabStripTests.swift; path = Tests/PagerTabStripTests.swift; sourceTree = SOURCE_ROOT; };
 		28F8287D1C494B2C00330CF4 /* PagerTabStrip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStrip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828801C494B2C00330CF4 /* PagerTabStrip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagerTabStrip.h; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				E07FB07B26AF373600CDCFD8 /* Extensions.swift */,
 				E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */,
 				E07FB08126AF3B7200CDCFD8 /* PagerTabViewDelegate.swift */,
+				28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				E1FA589924C8BC1B0081FBE7 /* PagerTabStripView.swift in Sources */,
 				C7A02C01269377D400BFE31B /* DataStore.swift in Sources */,
 				E07FB08526AF3CAA00CDCFD8 /* NavBarModifier.swift in Sources */,
+				28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */,
 				E07FB07A26AF36B400CDCFD8 /* PagerSetAppearModifier.swift in Sources */,
 				E07FB08026AF39C300CDCFD8 /* NavBarItem.swift in Sources */,
 			);
