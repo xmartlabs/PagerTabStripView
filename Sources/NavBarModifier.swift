@@ -10,23 +10,23 @@ import SwiftUI
 struct NavBarModifier: ViewModifier {
     
     @Binding private var selection: Int
-    @Binding private var itemCount: Int
+    @StateObject private var dataStore: DataStore
     
     private var navBarItemWidth: CGFloat {
-        let totalItemWidth = (settings.width - (style.tabItemSpacing * CGFloat(itemCount - 1)))
-        return totalItemWidth / CGFloat(itemCount)
+        let totalItemWidth = (settings.width - (style.tabItemSpacing * CGFloat(dataStore.itemsCount - 1)))
+        return totalItemWidth / CGFloat(dataStore.itemsCount)
     }
 
-    public init(itemCount: Binding<Int>, selection: Binding<Int>) {
+    public init(dataStore: StateObject<DataStore>, selection: Binding<Int>) {
         self._selection = selection
-        self._itemCount = itemCount
+        self._dataStore = dataStore
     }
 
     func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: style.tabItemSpacing) {
-                if itemCount > 0 && settings.width > 0 {
-                    ForEach(0...itemCount-1, id: \.self) { idx in
+                if dataStore.itemsCount > 0 && settings.width > 0 {
+                    ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
                         NavBarItem(id: idx, selection: $selection)
                             .frame(height: style.tabItemHeight)
                     }
@@ -35,7 +35,7 @@ struct NavBarModifier: ViewModifier {
             .frame(height: style.tabItemHeight)
             HStack {
                 if let width = navBarItemWidth, width > 0, width <= settings.width {
-                    let x = -settings.contentOffset / CGFloat(itemCount) + width / 2
+                    let x = -settings.contentOffset / CGFloat(dataStore.itemsCount) + width / 2
                     Rectangle()
                         .fill(style.indicatorBarColor)
                         .animation(.default)
