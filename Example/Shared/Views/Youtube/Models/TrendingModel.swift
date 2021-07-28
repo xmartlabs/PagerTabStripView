@@ -8,7 +8,6 @@
 import Foundation
 
 class TrendingModel: ObservableObject {
-    var navBarItem = YoutubeNavBarItem(title: "Trending", imageName: "trending")
     
     var posts: [Post] {
         PostsFactory.shared.posts

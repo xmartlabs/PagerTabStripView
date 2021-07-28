@@ -17,7 +17,7 @@ struct YoutubeView: View {
     var body: some View {
         PagerTabStripView() {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
-                homeModel.navBarItem
+                YoutubeNavBarItem(title: "Home", imageName: "home")
             }.onPageAppear {
                 homeModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -26,7 +26,7 @@ struct YoutubeView: View {
             }
             
             PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
-                trendingModel.navBarItem
+                YoutubeNavBarItem(title: "Trending", imageName: "trending")
             }
             .onPageAppear {
                 trendingModel.isLoading = true
@@ -36,7 +36,7 @@ struct YoutubeView: View {
             }
             
             PostDetail(post: accountModel.post).pagerTabItem {
-                accountModel.navBarItem
+                YoutubeNavBarItem(title: "Account", imageName: "account")
             }
         }
         .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 80, indicatorBarHeight: 7, indicatorBarColor: selectedColor))
