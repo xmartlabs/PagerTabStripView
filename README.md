@@ -31,7 +31,7 @@ Unlike Apple's TabView it provides:
 5. `onPageAppear` callback to easily trigger actions when page is selected.
 6. Ability to update pagerTabItem according to highlighted, selected, normal state.
 
-..and we've planned much more functionalities, we have plans to support each one of the XLPagerTabStrip [styles](https://github.com/xmartlabs/XLPagerTabStrip#pager-types).
+..and we've planned many more functionalities, we have plans to support each one of the XLPagerTabStrip [styles](https://github.com/xmartlabs/XLPagerTabStrip#pager-types).
 
 ## Usage
 
