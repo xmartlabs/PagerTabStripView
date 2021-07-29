@@ -124,7 +124,7 @@ struct PagerView: View {
                     }
 			}
 		}
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: .gray))
+        	.pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: .gray))
 	}
 }
 ```
