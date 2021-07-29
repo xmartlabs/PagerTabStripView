@@ -204,7 +204,7 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
 
 ### onPageAppear modifier
 
-`onPageAppear` callback allows you to trigger some action when a page view get selected, either by scrolling to it or tapping its tab. This modifier is applied only to its associated page view.
+`onPageAppear` callback allows you to trigger some action when a page view gets selected, either by scrolling to it or tapping its tab. This modifier is applied only to its associated page view.
 
 ```swift
 struct PagerView: View {
