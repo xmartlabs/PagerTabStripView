@@ -9,9 +9,13 @@ import Foundation
 import SwiftUI
 
 public struct PagerTabViewStyle {
+    /// The space between navigation bar tab items.  This parameter is 0 by default.
     var tabItemSpacing: CGFloat
+    /// The height of the navigation bar. This parameter is 50 by default.
     var tabItemHeight: CGFloat
+    /// The height of the indicator bar. This parameter is 2 by default.
     var indicatorBarHeight: CGFloat
+    /// The height of the indicator bar. This parameter is blue by default.
     var indicatorBarColor: Color
     
     public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 50, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
