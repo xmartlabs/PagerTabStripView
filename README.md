@@ -19,7 +19,7 @@ PagerTabStrip is the first pager view built in pure SwiftUI. It provides PagerTa
   <tr>
     <th><img src="Example/Media/twitterStyleExample.gif" width="250"/></th>
     <th><img src="Example/Media/instagramStyleExample.gif" width="250"/></th>
-    <th><img src="Example/Media/youtubeStyleExample.gif" width="250"/></th>
+    <th><img src="Example/Media/LogOutExample.gif" width="250"/></th>
   </tr>
 </table>
 
