@@ -8,7 +8,6 @@
 import Foundation
 
 class GalleryModel: ObservableObject {
-    var navBarItem = InstagramNavBarItem(imageName: "gallery")
     
     var posts: [Post] {
         PostsFactory.shared.posts

@@ -8,7 +8,6 @@
 import Foundation
 
 class MediaModel: ObservableObject {
-    var navBarItem = TwitterNavBarItem(title: "Media")
     
     var posts: [Post] {
         PostsFactory.shared.posts

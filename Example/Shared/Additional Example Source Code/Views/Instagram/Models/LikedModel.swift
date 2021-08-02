@@ -8,7 +8,6 @@
 import Foundation
 
 class LikedModel: ObservableObject {
-    var navBarItem = InstagramNavBarItem(imageName: "liked")
     
     var posts: [Post] {
         PostsFactory.shared.posts

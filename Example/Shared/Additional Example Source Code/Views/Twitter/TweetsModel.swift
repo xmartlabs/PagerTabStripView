@@ -8,7 +8,6 @@
 import Foundation
 
 class TweetsModel: ObservableObject {
-    var navBarItem = TwitterNavBarItem(title: "Tweets")
     
     var posts: [Post] {
         PostsFactory.shared.posts

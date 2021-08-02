@@ -20,7 +20,7 @@ struct InstagramView: View {
     var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
-                galleryModel.navBarItem
+                InstagramNavBarItem(imageName: "gallery")
             }.onPageAppear {
                 galleryModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -29,7 +29,7 @@ struct InstagramView: View {
             }
             
             PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false).pagerTabItem {
-                listModel.navBarItem
+                InstagramNavBarItem(imageName: "list")
             }.onPageAppear {
                 listModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -38,7 +38,7 @@ struct InstagramView: View {
             }
             
             PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts).pagerTabItem {
-                likedModel.navBarItem
+                InstagramNavBarItem(imageName: "liked")
             }.onPageAppear {
                 likedModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -47,7 +47,7 @@ struct InstagramView: View {
             }
             
             PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false).pagerTabItem {
-                savedModel.navBarItem
+                InstagramNavBarItem(imageName: "saved")
             }.onPageAppear {
                 savedModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

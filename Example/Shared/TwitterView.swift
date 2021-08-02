@@ -18,7 +18,7 @@ struct TwitterView: View {
     var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
-                tweetsModel.navBarItem
+                TwitterNavBarItem(title: "Tweets")
             }.onPageAppear {
                 tweetsModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -27,7 +27,7 @@ struct TwitterView: View {
             }
             
             PostsList(isLoading: $mediaModel.isLoading, items: mediaModel.posts).pagerTabItem {
-                mediaModel.navBarItem
+                TwitterNavBarItem(title: "Media")
             }.onPageAppear {
                 mediaModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -36,7 +36,7 @@ struct TwitterView: View {
             }
             
             PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false).pagerTabItem {
-                likesModel.navBarItem
+                TwitterNavBarItem(title: "Likes")
             }.onPageAppear {
                 likesModel.isLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

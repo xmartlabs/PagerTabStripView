@@ -8,7 +8,6 @@
 import Foundation
 
 class SavedModel: ObservableObject {
-    var navBarItem = InstagramNavBarItem(imageName: "saved")
     
     var posts: [Post] {
         PostsFactory.shared.posts

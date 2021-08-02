@@ -8,7 +8,6 @@
 import Foundation
 
 class ListModel: ObservableObject {
-    var navBarItem = InstagramNavBarItem(imageName: "list")
     
     var posts: [Post] {
         PostsFactory.shared.posts
