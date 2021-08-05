@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PagerTabStrip
+import PagerTabStripView
 
 private class ButtonTheme: ObservableObject {
     @Published var textColor = Color.gray

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
-               BuildableName = "PagerTabStrip.framework"
-               BlueprintName = "PagerTabStrip"
-               ReferencedContainer = "container:PagerTabStrip.xcodeproj">
+               BuildableName = "PagerTabStripView.framework"
+               BlueprintName = "PagerTabStripView"
+               ReferencedContainer = "container:PagerTabStripView.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28F828861C494B2C00330CF4"
-               BuildableName = "PagerTabStripTests.xctest"
-               BlueprintName = "PagerTabStripTests"
-               ReferencedContainer = "container:PagerTabStrip.xcodeproj">
+               BuildableName = "PagerTabStripViewTests.xctest"
+               BlueprintName = "PagerTabStripViewTests"
+               ReferencedContainer = "container:PagerTabStripView.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -54,9 +54,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
-            BuildableName = "PagerTabStrip.framework"
-            BlueprintName = "PagerTabStrip"
-            ReferencedContainer = "container:PagerTabStrip.xcodeproj">
+            BuildableName = "PagerTabStripView.framework"
+            BlueprintName = "PagerTabStripView"
+            ReferencedContainer = "container:PagerTabStripView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
-            BuildableName = "PagerTabStrip.framework"
-            BlueprintName = "PagerTabStrip"
-            ReferencedContainer = "container:PagerTabStrip.xcodeproj">
+            BuildableName = "PagerTabStripView.framework"
+            BlueprintName = "PagerTabStripView"
+            ReferencedContainer = "container:PagerTabStripView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

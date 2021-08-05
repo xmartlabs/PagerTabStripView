@@ -42,8 +42,8 @@
 		AB9F87F826826E4C00CCBFC3 /* PostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87F726826E4C00CCBFC3 /* PostRow.swift */; };
 		AB9F8807268282FA00CCBFC3 /* YoutubeNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F8806268282FA00CCBFC3 /* YoutubeNavBarItem.swift */; };
 		AB9F880F2682837E00CCBFC3 /* InstagramNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */; };
-		E1F58C4424D0848100A3E642 /* PagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */; };
-		E1F58C4524D0848100A3E642 /* PagerTabStrip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ABD7CC7826BC906000BFF5AC /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */; };
+		ABD7CC7926BC906100BFF5AC /* PagerTabStripView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +84,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E1F58C4524D0848100A3E642 /* PagerTabStrip.framework in Embed Frameworks */,
+				ABD7CC7926BC906100BFF5AC /* PagerTabStripView.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +132,7 @@
 		AB9F87F726826E4C00CCBFC3 /* PostRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRow.swift; sourceTree = "<group>"; };
 		AB9F8806268282FA00CCBFC3 /* YoutubeNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeNavBarItem.swift; sourceTree = "<group>"; };
 		AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramNavBarItem.swift; sourceTree = "<group>"; };
+		ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagerTabStrip.xcodeproj; path = ../PagerTabStrip.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,7 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1F58C4424D0848100A3E642 /* PagerTabStrip.framework in Frameworks */,
+				ABD7CC7826BC906000BFF5AC /* PagerTabStripView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +381,7 @@
 		E1F58C4124D0848100A3E642 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -763,7 +765,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStrip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStripView;
 				PRODUCT_NAME = Example;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -785,7 +787,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStrip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStripView;
 				PRODUCT_NAME = Example;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
