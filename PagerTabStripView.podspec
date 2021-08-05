@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.name             = "PagerTabStrip"
+  s.name             = "PagerTabStripView"
   s.version          = "1.0.0"
-  s.summary          = "PagerTabStrip allows navigating through pages using a custom navigation bar."
+  s.summary          = "PagerTabStripView allows navigating through pages using a custom navigation bar."
   s.homepage         = "https://github.com/xmartlabs/PagerTabStrip"
   s.license          = { type: 'MIT', file: 'LICENSE' }
   s.authors          = { "Xmartlabs SRL" => "swift@xmartlabs.com" }
