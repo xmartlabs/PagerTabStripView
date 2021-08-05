@@ -61,20 +61,6 @@
 			remoteGlobalIDString = 2857500E24C21EB400ED22AD;
 			remoteInfo = "Example (macOS)";
 		};
-		E1F58C3C24D083C500A3E642 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 28F8287D1C494B2C00330CF4;
-			remoteInfo = PagerTabStrip;
-		};
-		E1F58C3E24D083C500A3E642 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 28F828871C494B2C00330CF4;
-			remoteInfo = PagerTabStripTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -133,7 +119,7 @@
 		AB9F8806268282FA00CCBFC3 /* YoutubeNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeNavBarItem.swift; sourceTree = "<group>"; };
 		AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramNavBarItem.swift; sourceTree = "<group>"; };
 		ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagerTabStrip.xcodeproj; path = ../PagerTabStrip.xcodeproj; sourceTree = "<group>"; };
+		E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagerTabStripView.xcodeproj; path = ../PagerTabStripView.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +171,7 @@
 		28574FFA24C21EB200ED22AD = {
 			isa = PBXGroup;
 			children = (
-				E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */,
+				E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */,
 				28574FFF24C21EB200ED22AD /* Shared */,
 				2857500924C21EB400ED22AD /* iOS */,
 				2857501024C21EB400ED22AD /* macOS */,
@@ -369,15 +355,6 @@
 			path = Instagram;
 			sourceTree = "<group>";
 		};
-		E1F58C3824D083C500A3E642 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */,
-				E1F58C3F24D083C500A3E642 /* PagerTabStripTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		E1F58C4124D0848100A3E642 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,12 +473,6 @@
 			mainGroup = 28574FFA24C21EB200ED22AD;
 			productRefGroup = 2857500824C21EB400ED22AD /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = E1F58C3824D083C500A3E642 /* Products */;
-					ProjectRef = E1F58C3724D083C500A3E642 /* PagerTabStrip.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				2857500624C21EB400ED22AD /* Example (iOS) */,
@@ -511,23 +482,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		E1F58C3D24D083C500A3E642 /* PagerTabStrip.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PagerTabStrip.framework;
-			remoteRef = E1F58C3C24D083C500A3E642 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E1F58C3F24D083C500A3E642 /* PagerTabStripTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PagerTabStripTests.xctest;
-			remoteRef = E1F58C3E24D083C500A3E642 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2857500524C21EB400ED22AD /* Resources */ = {
