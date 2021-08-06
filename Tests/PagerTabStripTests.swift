@@ -1,14 +1,14 @@
 //
-//  PagerTabStripTests.swift
-//  PagerTabStripTests
+//  PagerTabStripViewTests.swift
+//  PagerTabStripViewTests
 //
 //  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import XCTest
-@testable import PagerTabStrip
+@testable import PagerTabStripView
 
-class PagerTabStripTests: XCTestCase {
+class PagerTabStripViewTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

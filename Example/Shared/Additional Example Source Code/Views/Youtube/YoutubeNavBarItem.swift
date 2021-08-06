@@ -7,7 +7,7 @@
 
 import Combine
 import SwiftUI
-import PagerTabStrip
+import PagerTabStripView
 
 
 let redColor = Color(red: 221/255.0, green: 0/255.0, blue: 19/255.0, opacity: 1.0)

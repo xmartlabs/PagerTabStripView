@@ -1,6 +1,6 @@
 //
 //  NavBarItem.swift
-//  PagerTabStrip
+//  PagerTabStripView
 //
 //  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //

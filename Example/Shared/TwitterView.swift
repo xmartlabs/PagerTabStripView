@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PagerTabStrip
+import PagerTabStripView
 
 struct TwitterView: View {
     @State var selection = 2

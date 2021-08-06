@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import PagerTabStrip
+import PagerTabStripView
 
 let primaryColor = Color(red: 237/255.0, green: 26/255.0, blue: 97/255.0)
 let secondaryColor = Color(red: 234/255.0, green: 234/255.0, blue: 234/255.0, opacity: 0.8)
