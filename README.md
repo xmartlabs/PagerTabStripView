@@ -1,4 +1,4 @@
-# PagerTabStrip
+# PagerTabStripView
 
 <p align="left">
 <!-- <a href="https://travis-ci.org/xmartlabs/PagerTabStrip"><img src="https://travis-ci.org/xmartlabs/PagerTabStrip.svg?branch=master" alt="Build status" /></a> -->
@@ -6,14 +6,14 @@
 <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift5-compatible-4BC51D.svg?style=flat" alt="Swift 5 compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
 <a href="https://cocoapods.org/pods/PagerTabStripView"><img src="https://img.shields.io/cocoapods/v/PagerTabStripView.svg" alt="CocoaPods compatible" /></a>
-<a href="https://raw.githubusercontent.com/xmartlabs/PagerTabStrip/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
+<a href="https://raw.githubusercontent.com/xmartlabs/PagerTabStripView/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
 
 Made with :heart: by [Xmartlabs](http://xmartlabs.com) team. [XLPagerTabStrip](https://github.com/xmartlabs/XLPagerTabStrip) for SwiftUI!
 
 ## Introduction
 
-PagerTabStrip is the first pager view built in pure SwiftUI. It provides PagerTabStripView component to create interactive pager views which contains child views. It allows the user to switch between your views either by swiping or tapping a tab bar item.
+PagerTabStripView is the first pager view built in pure SwiftUI. It provides a component to create interactive pager views which contains child views. It allows the user to switch between your views either by swiping or tapping a tab bar item.
 
 <table>
   <tr>
@@ -38,7 +38,7 @@ Unlike Apple's TabView it provides:
 Creating a page view is super straightforward, you just need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem( _: )` modifier to each one to specify its navigation bar tab item.
 
 ```swift
-import PagerTabStrip
+import PagerTabStripView
 
 struct MyPagerView: View {
 
@@ -227,15 +227,15 @@ struct PagerView: View {
 ## Examples
 
 Follow these 3 steps to run Example project
-* Clone PagerTabStrip repo.
-* Open PagerTabStrip workspace.
+* Clone PagerTabStripView repo.
+* Open PagerTabStripView workspace.
 * Run the _Example_ project.
 
 ## Installation
 
 ### CocoaPods
 
-To install PagerTabStrip using CocoaPods, simply add the following line to your Podfile:
+To install PagerTabStripView using CocoaPods, simply add the following line to your Podfile:
 
 ```ruby
 pod 'PagerTabStripView', '~> 1.0'
@@ -243,10 +243,10 @@ pod 'PagerTabStripView', '~> 1.0'
 
 ### Carthage
 
-To install PagerTabStrip using Carthage, simply add the following line to your Cartfile:
+To install PagerTabStripView using Carthage, simply add the following line to your Cartfile:
 
 ```ruby
-github "xmartlabs/PagerTabStrip" ~> 1.0
+github "xmartlabs/PagerTabStripView" ~> 1.0
 ```
 
 ## Requirements
@@ -262,8 +262,8 @@ github "xmartlabs/PagerTabStrip" ~> 1.0
 
 -   If you **want to contribute** please feel free to **submit pull requests**.
 -   If you **have a feature request** please **open an issue**.
--   If you **found a bug** or **need help** please **check older issues and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStrip) (Tag 'PagerTabStrip') before submitting an issue**.
+-   If you **found a bug** or **need help** please **check older issues and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStripView) (Tag 'PagerTabStripView') before submitting an issue**.
 
-Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStrip/blob/master/CONTRIBUTING.md) file for more info.
+Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStripView/blob/master/CONTRIBUTING.md) file for more info.
 
-If you use **PagerTabStrip** in your app We would love to hear about it! Drop us a line on [Twitter](https://twitter.com/xmartlabs).
+If you use **PagerTabStripView** in your app We would love to hear about it! Drop us a line on [Twitter](https://twitter.com/xmartlabs).
