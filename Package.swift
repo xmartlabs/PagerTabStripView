@@ -2,19 +2,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "PagerTabStrip",
+    name: "PagerTabStripView",
     platforms: [.iOS(.v14), .macOS(.v11)],
     products: [
-        .library(name: "PagerTabStrip", targets: ["PagerTabStrip"])
+        .library(name: "PagerTabStripView", targets: ["PagerTabStripView"])
     ],
     targets: [
         .target(
-            name: "PagerTabStrip",
+            name: "PagerTabStripView",
             path: "Sources"
         ),
         .testTarget(
-            name: "PagerTabStripTests",
-            dependencies: ["PagerTabStrip"],
+            name: "PagerTabStripViewTests",
+            dependencies: ["PagerTabStripView"],
             path: "Tests"
         )
     ]
