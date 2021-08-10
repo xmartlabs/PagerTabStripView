@@ -1,4 +1,4 @@
-name: Swift
+name: Build and test
 
 on:
   pull_request:
