@@ -32,7 +32,7 @@ public struct PagerTabViewStyle {
 }
 
 public enum PagerStyles {
-    case segmentedControl(backgroundColor: Color? = nil, leading: CGFloat = 10, trailing: CGFloat = 10)
+    case segmentedControl(backgroundColor: Color? = nil, padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
     case bar
     case normal(tabItemHeight: CGFloat = 60)
 }

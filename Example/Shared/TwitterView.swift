@@ -45,7 +45,7 @@ struct TwitterView: View {
             }
         }
         .frame(alignment: .center)
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .blue))
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, indicatorBarColor: .blue, style: .normal(tabItemHeight: 50)))
     }
 }
 

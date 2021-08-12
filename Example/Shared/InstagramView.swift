@@ -55,7 +55,7 @@ struct InstagramView: View {
                 }
             }
         }
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarColor: .black))
+        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, indicatorBarColor: .black, style: .normal(tabItemHeight: 50)))
         .frame(alignment: .center)
     }
 }

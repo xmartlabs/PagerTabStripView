@@ -26,49 +26,74 @@ struct ContentView: View {
     @State private var showingTwitter = false
     @State private var showingInstagram = false
     @State private var showingYoutube = false
+    @State private var showingSegmented = false
+    @State private var showingBar = false
     
     var body: some View {
-        VStack {
-            Button(action: { showingTwitter.toggle() }, label: {
-                VStack {
-                    Text("Twitter style")
-                        .font(.body)
-                    Text("Only label")
-                        .font(.subheadline)
-                        .foregroundColor(secondaryColor)
+        VStack(spacing: 50) {
+            VStack{
+                Button(action: { showingTwitter.toggle() }, label: {
+                    VStack {
+                        Text("Fixed style")
+                            .font(.body)
+                        Text("Only label")
+                            .font(.subheadline)
+                            .foregroundColor(secondaryColor)
+                    }
+                })
+                .buttonStyle(CustomButtonStyle())
+                .sheet(isPresented: $showingTwitter) {
+                    TwitterView()
                 }
-            })
-            .buttonStyle(CustomButtonStyle())
-            .sheet(isPresented: $showingTwitter) {
-                TwitterView()
+
+                Button(action: { showingInstagram.toggle() }, label: {
+                    VStack {
+                        Text("Fixed style")
+                            .font(.body)
+                        Text("Only icon")
+                            .font(.subheadline)
+                            .foregroundColor(secondaryColor)
+                    }
+                })
+                .buttonStyle(CustomButtonStyle())
+                .sheet(isPresented: $showingInstagram) {
+                    InstagramView()
+                }
+
+                Button(action: { showingYoutube.toggle() }, label: {
+                    VStack {
+                        Text("Fixed style")
+                            .font(.body)
+                        Text("Label and icon")
+                            .font(.subheadline)
+                            .foregroundColor(secondaryColor)
+                    }
+                })
+                .buttonStyle(CustomButtonStyle())
+                .sheet(isPresented: $showingYoutube) {
+                    YoutubeView()
+                }
             }
-            
-            Button(action: { showingInstagram.toggle() }, label: {
+            Button(action: { showingSegmented.toggle() }, label: {
                 VStack {
-                    Text("Instagram style")
+                    Text("Segmented style")
                         .font(.body)
-                    Text("Only icon")
-                        .font(.subheadline)
-                        .foregroundColor(secondaryColor)
                 }
             })
             .buttonStyle(CustomButtonStyle())
-            .sheet(isPresented: $showingInstagram) {
-                InstagramView()
+            .sheet(isPresented: $showingSegmented) {
+                SegmentedView()
             }
-            
-            Button(action: { showingYoutube.toggle() }, label: {
+
+            Button(action: { showingBar.toggle() }, label: {
                 VStack {
-                    Text("Youtube style")
+                    Text("Bar style")
                         .font(.body)
-                    Text("Label and icon")
-                        .font(.subheadline)
-                        .foregroundColor(secondaryColor)
                 }
             })
             .buttonStyle(CustomButtonStyle())
-            .sheet(isPresented: $showingYoutube) {
-                YoutubeView()
+            .sheet(isPresented: $showingBar) {
+                BarStyleView()
             }
         }
     }

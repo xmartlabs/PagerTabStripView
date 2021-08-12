@@ -22,8 +22,9 @@ struct NavBarModifier: ViewModifier {
             switch pagerStyle {
             case .bar:
                 IndicatorBarView()
-            case .segmentedControl(backgroundColor: let backgroundColor, leading: let leading, trailing: let trailing):
-                SegmentedNavBarView(selection: $selection, backgroundColor: backgroundColor, leading: leading, trailing: trailing)
+                    .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
+            case .segmentedControl(backgroundColor: let color, padding: let padding):
+                SegmentedNavBarView(selection: $selection, color: color, padding: padding)
             case .normal(tabItemHeight: let tabItemHeight):
                 FixedSizeNavBarView(selection: $selection, tabItemHeight: tabItemHeight)
                 IndicatorBarView()

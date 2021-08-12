@@ -11,15 +11,13 @@ import SwiftUI
 internal struct SegmentedNavBarView: View {
     @Binding private var selection: Int
     @EnvironmentObject private var dataStore: DataStore
-    private var backgroundColor: Color?
-    private var leading: CGFloat?
-    private var trailing: CGFloat?
+    private var color: Color?
+    private var padding: EdgeInsets
 
-    public init(selection: Binding<Int>, backgroundColor: Color?, leading: CGFloat?, trailing: CGFloat?) {
+    public init(selection: Binding<Int>, color: Color?, padding: EdgeInsets) {
         self._selection = selection
-        self.backgroundColor = backgroundColor
-        self.leading = leading
-        self.trailing = trailing
+        self.color = color
+        self.padding = padding
     }
 
     var body: some View {
@@ -30,9 +28,9 @@ internal struct SegmentedNavBarView: View {
                 }
             }
         }
-        .background(backgroundColor)
-        .padding((EdgeInsets(top: 0, leading: leading ?? 0, bottom: 0, trailing: trailing ?? 0)))
+        .colorMultiply(color ?? .white)
         .pickerStyle(SegmentedPickerStyle())
+        .padding(padding)
     }
 
     @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle

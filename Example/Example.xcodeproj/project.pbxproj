@@ -44,6 +44,8 @@
 		AB9F880F2682837E00CCBFC3 /* InstagramNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */; };
 		ABD7CC7826BC906000BFF5AC /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */; };
 		ABD7CC7926BC906100BFF5AC /* PagerTabStripView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E0881C5C26C5836F00768CA7 /* SegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0881C5B26C5836F00768CA7 /* SegmentedView.swift */; };
+		E0881C6026C595AC00768CA7 /* BarStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0881C5F26C595AC00768CA7 /* BarStyleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2857500E24C21EB400ED22AD;
 			remoteInfo = "Example (macOS)";
+		};
+		E038BE8F26BF329F00190C12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28F8287D1C494B2C00330CF4;
+			remoteInfo = PagerTabStripView;
+		};
+		E038BE9126BF329F00190C12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28F828871C494B2C00330CF4;
+			remoteInfo = PagerTabStripViewTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -119,6 +135,8 @@
 		AB9F8806268282FA00CCBFC3 /* YoutubeNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeNavBarItem.swift; sourceTree = "<group>"; };
 		AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramNavBarItem.swift; sourceTree = "<group>"; };
 		ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0881C5B26C5836F00768CA7 /* SegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedView.swift; sourceTree = "<group>"; };
+		E0881C5F26C595AC00768CA7 /* BarStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarStyleView.swift; sourceTree = "<group>"; };
 		E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagerTabStripView.xcodeproj; path = ../PagerTabStripView.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -188,6 +206,8 @@
 				AB89C58826961E9E002E7B28 /* TwitterView.swift */,
 				AB89C57526961A3E002E7B28 /* InstagramView.swift */,
 				AB89C56E26961A0B002E7B28 /* YoutubeView.swift */,
+				E0881C5B26C5836F00768CA7 /* SegmentedView.swift */,
+				E0881C5F26C595AC00768CA7 /* BarStyleView.swift */,
 				28070C6126B2005C002346E1 /* Additional Example Source Code */,
 				2857500224C21EB400ED22AD /* Assets.xcassets */,
 			);
@@ -355,6 +375,15 @@
 			path = Instagram;
 			sourceTree = "<group>";
 		};
+		E038BE8B26BF329F00190C12 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E038BE9026BF329F00190C12 /* PagerTabStripView.framework */,
+				E038BE9226BF329F00190C12 /* PagerTabStripViewTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E1F58C4124D0848100A3E642 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,6 +502,12 @@
 			mainGroup = 28574FFA24C21EB200ED22AD;
 			productRefGroup = 2857500824C21EB400ED22AD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E038BE8B26BF329F00190C12 /* Products */;
+					ProjectRef = E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2857500624C21EB400ED22AD /* Example (iOS) */,
@@ -482,6 +517,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E038BE9026BF329F00190C12 /* PagerTabStripView.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PagerTabStripView.framework;
+			remoteRef = E038BE8F26BF329F00190C12 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E038BE9226BF329F00190C12 /* PagerTabStripViewTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PagerTabStripViewTests.xctest;
+			remoteRef = E038BE9126BF329F00190C12 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2857500524C21EB400ED22AD /* Resources */ = {
@@ -539,10 +591,12 @@
 				AB28D6DD269F58E300679D5E /* ImageCache.swift in Sources */,
 				AB7EEE8526ABEE6F008804D4 /* GalleryModel.swift in Sources */,
 				AB9F8807268282FA00CCBFC3 /* YoutubeNavBarItem.swift in Sources */,
+				E0881C6026C595AC00768CA7 /* BarStyleView.swift in Sources */,
 				AB89C56F26961A0B002E7B28 /* YoutubeView.swift in Sources */,
 				AB7EEE8B26ABEE96008804D4 /* SavedModel.swift in Sources */,
 				AB7EEE7C26AB5681008804D4 /* AccountModel.swift in Sources */,
 				AB28D6DB269F58D600679D5E /* URLImageModel.swift in Sources */,
+				E0881C5C26C5836F00768CA7 /* SegmentedView.swift in Sources */,
 				AB89C57626961A3E002E7B28 /* InstagramView.swift in Sources */,
 				AB9F87DF26826C2000CCBFC3 /* PostsFactory.swift in Sources */,
 				AB9F87EC26826CB500CCBFC3 /* User.swift in Sources */,
