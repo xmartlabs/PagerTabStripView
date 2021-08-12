@@ -25,7 +25,7 @@ public struct PagerTabViewStyle {
         self.pagerStyle = style
     }
 
-    @available (*, deprecated, message: "It's only available in normal style. Set it in tabItemHeight")
+    @available (*, deprecated, message: "TabItemHeight is now part of normal style configuration. Please set it in there.")
     public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
         self.init(tabItemSpacing: tabItemSpacing, indicatorBarHeight: indicatorBarHeight, indicatorBarColor: indicatorBarColor)
     }
