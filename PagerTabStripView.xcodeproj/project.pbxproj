@@ -13,6 +13,9 @@
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AB80DE8626BC93720022F57D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB80DE8326BC93720022F57D /* Info.plist */; };
 		C7A02C01269377D400BFE31B /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A02C00269377D400BFE31B /* DataStore.swift */; };
+		E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */; };
+		E04615E526C453AD0050A5D3 /* FixedSizeNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */; };
+		E04615E726C453E10050A5D3 /* IndicatorBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E626C453E10050A5D3 /* IndicatorBarView.swift */; };
 		E07FB07A26AF36B400CDCFD8 /* PagerSetAppearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */; };
 		E07FB07C26AF373600CDCFD8 /* View+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */; };
 		E07FB07E26AF377D00CDCFD8 /* PagerTabItemModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */; };
@@ -42,6 +45,9 @@
 		AB80DE8226BC93720022F57D /* PagerTabStripView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripView.h; sourceTree = "<group>"; };
 		AB80DE8326BC93720022F57D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7A02C00269377D400BFE31B /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedNavBarView.swift; sourceTree = "<group>"; };
+		E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedSizeNavBarView.swift; sourceTree = "<group>"; };
+		E04615E626C453E10050A5D3 /* IndicatorBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorBarView.swift; sourceTree = "<group>"; };
 		E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerSetAppearModifier.swift; sourceTree = "<group>"; };
 		E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Modifiers.swift"; sourceTree = "<group>"; };
 		E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabItemModifier.swift; sourceTree = "<group>"; };
@@ -101,6 +107,7 @@
 		28F828971C494B4200330CF4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E04615E126C450FE0050A5D3 /* NavigationBarStyles */,
 				E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */,
 				E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */,
 				E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */,
@@ -121,6 +128,16 @@
 				AB80DE8326BC93720022F57D /* Info.plist */,
 			);
 			path = PagerTabStripView;
+			sourceTree = "<group>";
+		};
+		E04615E126C450FE0050A5D3 /* NavigationBarStyles */ = {
+			isa = PBXGroup;
+			children = (
+				E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */,
+				E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */,
+				E04615E626C453E10050A5D3 /* IndicatorBarView.swift */,
+			);
+			path = NavigationBarStyles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,7 +256,10 @@
 				E07FB08226AF3B7200CDCFD8 /* PagerTabViewDelegate.swift in Sources */,
 				E07FB07E26AF377D00CDCFD8 /* PagerTabItemModifier.swift in Sources */,
 				E1FA589924C8BC1B0081FBE7 /* PagerTabStripView.swift in Sources */,
+				E04615E526C453AD0050A5D3 /* FixedSizeNavBarView.swift in Sources */,
 				C7A02C01269377D400BFE31B /* DataStore.swift in Sources */,
+				E04615E726C453E10050A5D3 /* IndicatorBarView.swift in Sources */,
+				E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */,
 				E07FB08526AF3CAA00CDCFD8 /* NavBarModifier.swift in Sources */,
 				28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */,
 				E07FB07A26AF36B400CDCFD8 /* PagerSetAppearModifier.swift in Sources */,
