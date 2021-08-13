@@ -31,18 +31,18 @@ public struct PagerTabViewStyle {
 }
 
 public enum PagerStyle {
-    case segmentedControl(backgroundColor: Color = .white, padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+    case segmentedControl(backgroundColor: Color = .white, padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10), placedInToolbar: Bool = false)
     /// The height of the indicator bar
-    case bar(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, TabItemSpacing: CGFloat = 0)
+    case bar(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, placedInToolbar: Bool = false)
     /// The height of the indicator bar
     /// tabItemSpacing: The space between navigation bar tab items.
-    case normal(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60)
+    case normal(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
     
     internal var tabItemSpacing: CGFloat {
         switch self {
-        case .bar(_, _, let spacing):
+        case .bar(_, _, let spacing, _):
             return spacing
-        case .normal(_, _, let spacing, _):
+        case .normal(_, _, let spacing, _, _):
             return spacing
         default:
             return 0
@@ -51,9 +51,9 @@ public enum PagerStyle {
     
     internal var indicatorBarColor: Color {
         switch self {
-        case .bar(_, let color, _):
+        case .bar(_, let color, _, _):
             return color
-        case .normal(_, let color, _, _):
+        case .normal(_, let color, _, _, _):
             return color
         default:
             return Color.clear
@@ -62,9 +62,9 @@ public enum PagerStyle {
     
     internal var indicatorBarHeight: CGFloat{
         switch self {
-        case .bar(let height,_, _):
+        case .bar(let height,_, _, _):
             return height
-        case .normal(let height, _, _, _):
+        case .normal(let height, _, _, _, _):
             return height
         default:
             return 2
@@ -73,7 +73,7 @@ public enum PagerStyle {
     
     internal var tabItemHeight: CGFloat {
         switch self {
-        case .normal(_, _, _, let height):
+        case .normal(_, _, _, let height, _):
             return height
         default:
             return 0
@@ -82,7 +82,7 @@ public enum PagerStyle {
     
     internal var backgroundColor: Color {
         switch self {
-        case .segmentedControl(let backgroundColor, _):
+        case .segmentedControl(let backgroundColor, _, _):
             return backgroundColor
         default:
             return .white
@@ -91,16 +91,23 @@ public enum PagerStyle {
     
     internal var padding: EdgeInsets {
         switch self {
-        case .segmentedControl(_, let padding):
+        case .segmentedControl(_, let padding, _):
             return padding
         default:
             return EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10)
         }
     }
-    
-    
-    
-    
+
+    internal var placedInToolbar: Bool {
+        switch self {
+        case .segmentedControl(_, _, let placedInToolbar):
+            return placedInToolbar
+        case .bar( _, _, _, let placedInToolbar):
+            return placedInToolbar
+        case .normal( _, _, _, _, let placedInToolbar):
+            return placedInToolbar
+        }
+    }
 }
 
 private struct PagerStyleKey: EnvironmentKey {

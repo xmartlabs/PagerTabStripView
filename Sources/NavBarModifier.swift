@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct NavBarModifier: ViewModifier {
-    
     @Binding private var selection: Int
-    @EnvironmentObject private var dataStore: DataStore
 
     public init(selection: Binding<Int>) {
         self._selection = selection
@@ -18,20 +16,42 @@ struct NavBarModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            switch self.style {
-            case .bar:
-                IndicatorBarView()
-                    .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
-            case .segmentedControl:
-                SegmentedNavBarView(selection: $selection)
-            case .normal:
-                FixedSizeNavBarView(selection: $selection)
-                IndicatorBarView()
+            if !style.placedInToolbar {
+                NavBarWrapperView(selection: $selection)
+                content
+            } else {
+                content.toolbar(content: {
+                    ToolbarItem(placement: .principal) {
+                        NavBarWrapperView(selection: $selection)
+                    }
+                })
             }
-            content
         }
     }
-    
+    @Environment(\.pagerStyle) var style: PagerStyle
+}
+
+struct NavBarWrapperView: View {
+    @Binding private var selection: Int
+    @EnvironmentObject private var dataStore: DataStore
+
+    public init(selection: Binding<Int>) {
+        self._selection = selection
+    }
+
+    var body: some View {
+        switch self.style {
+        case .bar:
+            IndicatorBarView()
+                .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
+        case .segmentedControl:
+            SegmentedNavBarView(selection: $selection)
+        case .normal:
+            FixedSizeNavBarView(selection: $selection)
+            IndicatorBarView()
+        }
+    }
+
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }
