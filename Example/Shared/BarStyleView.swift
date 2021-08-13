@@ -27,7 +27,7 @@ struct BarStyleView: View {
             }
         }
         .frame(alignment: .center)
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, indicatorBarHeight: 7, indicatorBarColor: .gray, style: .bar))
+        .pagerTabStripViewStyle(.bar(indicatorBarHeight: 7, indicatorBarColor: .gray))
     }
 }
 

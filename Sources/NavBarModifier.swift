@@ -18,21 +18,20 @@ struct NavBarModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            let pagerStyle = style.pagerStyle
-            switch pagerStyle {
+            switch self.style {
             case .bar:
                 IndicatorBarView()
                     .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
-            case .segmentedControl(backgroundColor: let color, padding: let padding):
-                SegmentedNavBarView(selection: $selection, color: color, padding: padding)
-            case .normal(tabItemHeight: let tabItemHeight):
-                FixedSizeNavBarView(selection: $selection, tabItemHeight: tabItemHeight)
+            case .segmentedControl:
+                SegmentedNavBarView(selection: $selection)
+            case .normal:
+                FixedSizeNavBarView(selection: $selection)
                 IndicatorBarView()
             }
             content
         }
     }
     
-    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }

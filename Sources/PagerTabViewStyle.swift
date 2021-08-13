@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+
+@available (*, deprecated, message: "use PagerStyls instead")
 public struct PagerTabViewStyle {
     /// The space between navigation bar tab items.  This parameter is 0 by default.
     var tabItemSpacing: CGFloat
@@ -16,34 +18,98 @@ public struct PagerTabViewStyle {
     /// The height of the indicator bar. This parameter is blue by default.
     var indicatorBarColor: Color
 
-    var pagerStyle: PagerStyles
 
-    public init(tabItemSpacing: CGFloat = 0, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, style: PagerStyles = .normal()) {
+    public init(tabItemSpacing: CGFloat = 0, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue) {
         self.tabItemSpacing = tabItemSpacing
         self.indicatorBarHeight = indicatorBarHeight
         self.indicatorBarColor = indicatorBarColor
-        self.pagerStyle = style
     }
-
-    @available (*, deprecated, message: "TabItemHeight is now part of normal style configuration. Please set it in there.")
+    
     public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
         self.init(tabItemSpacing: tabItemSpacing, indicatorBarHeight: indicatorBarHeight, indicatorBarColor: indicatorBarColor)
     }
 }
 
-public enum PagerStyles {
-    case segmentedControl(backgroundColor: Color? = nil, padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
-    case bar
-    case normal(tabItemHeight: CGFloat = 60)
+public enum PagerStyle {
+    case segmentedControl(backgroundColor: Color = .white, padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+    /// The height of the indicator bar
+    case bar(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, TabItemSpacing: CGFloat = 0)
+    /// The height of the indicator bar
+    /// tabItemSpacing: The space between navigation bar tab items.
+    case normal(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60)
+    
+    internal var tabItemSpacing: CGFloat {
+        switch self {
+        case .bar(_, _, let spacing):
+            return spacing
+        case .normal(_, _, let spacing, _):
+            return spacing
+        default:
+            return 0
+        }
+    }
+    
+    internal var indicatorBarColor: Color {
+        switch self {
+        case .bar(_, let color, _):
+            return color
+        case .normal(_, let color, _, _):
+            return color
+        default:
+            return Color.clear
+        }
+    }
+    
+    internal var indicatorBarHeight: CGFloat{
+        switch self {
+        case .bar(let height,_, _):
+            return height
+        case .normal(let height, _, _, _):
+            return height
+        default:
+            return 2
+        }
+    }
+    
+    internal var tabItemHeight: CGFloat {
+        switch self {
+        case .normal(_, _, _, let height):
+            return height
+        default:
+            return 0
+        }
+    }
+    
+    internal var backgroundColor: Color {
+        switch self {
+        case .segmentedControl(let backgroundColor, _):
+            return backgroundColor
+        default:
+            return .white
+        }
+    }
+    
+    internal var padding: EdgeInsets {
+        switch self {
+        case .segmentedControl(_, let padding):
+            return padding
+        default:
+            return EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10)
+        }
+    }
+    
+    
+    
+    
 }
 
-private struct PagerTabViewStyleKey: EnvironmentKey {
-    static let defaultValue = PagerTabViewStyle()
+private struct PagerStyleKey: EnvironmentKey {
+    static let defaultValue = PagerStyle.normal()
 }
 
 extension EnvironmentValues {
-    var pagerTabViewStyle: PagerTabViewStyle {
-        get { self[PagerTabViewStyleKey.self] }
-        set { self[PagerTabViewStyleKey.self] = newValue }
+    var pagerStyle: PagerStyle {
+        get { self[PagerStyleKey.self] }
+        set { self[PagerStyleKey.self] = newValue }
     }
 }

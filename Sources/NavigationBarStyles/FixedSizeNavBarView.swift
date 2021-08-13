@@ -11,11 +11,9 @@ import SwiftUI
 internal struct FixedSizeNavBarView: View {
     @Binding private var selection: Int
     @EnvironmentObject private var dataStore: DataStore
-    private var tabItemHeight: CGFloat
-
-    public init(selection: Binding<Int>, tabItemHeight: CGFloat) {
+    
+    public init(selection: Binding<Int>) {
         self._selection = selection
-        self.tabItemHeight = tabItemHeight
     }
 
     var body: some View {
@@ -23,13 +21,13 @@ internal struct FixedSizeNavBarView: View {
             if dataStore.itemsCount > 0 && settings.width > 0 {
                 ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
                     NavBarItem(id: idx, selection: $selection)
-                        .frame(height: tabItemHeight)
+                        .frame(height: self.style.tabItemHeight)
                 }
             }
         }
-        .frame(height: tabItemHeight)
+        .frame(height: self.style.tabItemHeight)
     }
 
-    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }

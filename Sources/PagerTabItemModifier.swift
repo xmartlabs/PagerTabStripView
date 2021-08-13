@@ -40,6 +40,6 @@ struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
     
     @EnvironmentObject private var dataStore: DataStore
     @EnvironmentObject private var settings: PagerSettings
-    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @Environment(\.pagerStyle) var style: PagerStyle
     @State private var index = -1
 }

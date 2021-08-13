@@ -28,6 +28,6 @@ internal struct IndicatorBarView: View {
         .frame(height: style.indicatorBarHeight)
     }
 
-    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }

@@ -47,7 +47,7 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
     
     @StateObject private var dataStore = DataStore()
     
-    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
     @Binding var selection: Int
     @State private var currentOffset: CGFloat = 0 {

@@ -29,8 +29,7 @@ extension View {
 /// Sets the style for the pager view within the the current environment.
 ///
 /// - Parameter style: The style to apply to this pager view.
-    public func pagerTabStripViewStyle(_ style: PagerTabViewStyle) -> some View {
-        return self.environment(\.pagerTabViewStyle, style)
+    public func pagerTabStripViewStyle(_ style: PagerStyle) -> some View {
+        return self.environment(\.pagerStyle, style)
     }
 }
-
