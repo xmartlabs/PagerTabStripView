@@ -8,92 +8,51 @@
 import SwiftUI
 import PagerTabStripView
 
-let primaryColor = Color(red: 237/255.0, green: 26/255.0, blue: 97/255.0)
-let secondaryColor = Color(red: 234/255.0, green: 234/255.0, blue: 234/255.0, opacity: 0.8)
-
-struct CustomButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        return configuration.label
-            .frame(width: 250)
-            .foregroundColor(.white)
-            .padding()
-            .background(primaryColor)
-            .cornerRadius(8)
-    }
-}
-
 struct ContentView: View {
-    @State private var showingTwitter = false
-    @State private var showingInstagram = false
-    @State private var showingYoutube = false
-    @State private var showingSegmented = false
-    @State private var showingBar = false
     
     var body: some View {
-        VStack(spacing: 50) {
-            VStack{
-                Button(action: { showingTwitter.toggle() }, label: {
-                    VStack {
+        NavigationView {
+            List {
+                NavigationLink(destination: TwitterView()) {
+                    VStack(alignment: .leading) {
                         Text("Fixed style")
                             .font(.body)
+                            .padding(.bottom, 1)
                         Text("Only label")
                             .font(.subheadline)
-                            .foregroundColor(secondaryColor)
                     }
-                })
-                .buttonStyle(CustomButtonStyle())
-                .sheet(isPresented: $showingTwitter) {
-                    TwitterView()
+                    .padding([.top, .bottom], 2)
                 }
 
-                Button(action: { showingInstagram.toggle() }, label: {
-                    VStack {
+                NavigationLink(destination: InstagramView()) {
+                    VStack(alignment: .leading) {
                         Text("Fixed style")
                             .font(.body)
+                            .padding(.bottom, 1)
                         Text("Only icon")
                             .font(.subheadline)
-                            .foregroundColor(secondaryColor)
                     }
-                })
-                .buttonStyle(CustomButtonStyle())
-                .sheet(isPresented: $showingInstagram) {
-                    InstagramView()
+                    .padding([.top, .bottom], 2)
                 }
 
-                Button(action: { showingYoutube.toggle() }, label: {
-                    VStack {
-                        Text("Fixed style")
+                NavigationLink(destination: YoutubeView()) {
+                    VStack(alignment: .leading) {
+                        Text("Normal style")
                             .font(.body)
+                            .padding(.bottom, 1)
                         Text("Label and icon")
                             .font(.subheadline)
-                            .foregroundColor(secondaryColor)
                     }
-                })
-                .buttonStyle(CustomButtonStyle())
-                .sheet(isPresented: $showingYoutube) {
-                    YoutubeView()
+                    .padding([.top, .bottom], 2)
                 }
-            }
-            Button(action: { showingSegmented.toggle() }, label: {
-                VStack {
+                NavigationLink(destination: SegmentedView()) {
                     Text("Segmented style")
                         .font(.body)
                 }
-            })
-            .buttonStyle(CustomButtonStyle())
-            .sheet(isPresented: $showingSegmented) {
-                SegmentedView()
-            }
-
-            Button(action: { showingBar.toggle() }, label: {
-                VStack {
+                NavigationLink(destination: BarStyleView()) {
                     Text("Bar style")
                         .font(.body)
                 }
-            })
-            .buttonStyle(CustomButtonStyle())
-            .sheet(isPresented: $showingBar) {
-                BarStyleView()
             }
         }
     }
