@@ -41,6 +41,7 @@ struct YoutubeView: View {
         }
         .pagerTabStripViewStyle(.normal(indicatorBarHeight: 5, indicatorBarColor: selectedColor, tabItemHeight: 80))
         .frame(alignment: .center)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

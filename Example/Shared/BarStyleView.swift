@@ -28,6 +28,7 @@ struct BarStyleView: View {
         }
         .frame(alignment: .center)
         .pagerTabStripViewStyle(.bar(indicatorBarHeight: 7, indicatorBarColor: .gray))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

@@ -46,6 +46,7 @@ struct TwitterView: View {
         }
         .frame(alignment: .center)
         .pagerTabStripViewStyle(.normal(indicatorBarColor: .blue, tabItemSpacing: 0, tabItemHeight: 50))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

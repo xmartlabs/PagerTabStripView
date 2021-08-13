@@ -57,6 +57,7 @@ struct InstagramView: View {
         }
         .pagerTabStripViewStyle(.normal(indicatorBarColor: .black, tabItemHeight: 50))
         .frame(alignment: .center)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

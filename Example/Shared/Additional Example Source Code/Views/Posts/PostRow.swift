@@ -11,8 +11,6 @@ struct PostRow: View {
     var post: Post
     var withDescription: Bool = true
     
-    @State private var showingDetail = false
-    
     var body: some View {
         HStack (alignment: .top){
             post.user.image
@@ -33,12 +31,6 @@ struct PostRow: View {
                 }
             }
             .padding()
-        }
-        .onTapGesture {
-            showingDetail.toggle()
-        }
-        .sheet(isPresented: $showingDetail) {
-            PostDetail(post: post)
         }
     }
 }

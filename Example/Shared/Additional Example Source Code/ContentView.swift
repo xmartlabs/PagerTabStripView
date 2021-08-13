@@ -15,7 +15,7 @@ struct ContentView: View {
             List {
                 NavigationLink(destination: TwitterView()) {
                     VStack(alignment: .leading) {
-                        Text("Fixed style")
+                        Text("Normal style")
                             .font(.body)
                             .padding(.bottom, 1)
                         Text("Only label")
@@ -26,7 +26,7 @@ struct ContentView: View {
 
                 NavigationLink(destination: InstagramView()) {
                     VStack(alignment: .leading) {
-                        Text("Fixed style")
+                        Text("Normal style")
                             .font(.body)
                             .padding(.bottom, 1)
                         Text("Only icon")
