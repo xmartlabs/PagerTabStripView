@@ -69,6 +69,7 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
                 content()
                     .frame(width: gproxy.size.width)
             }
+            .coordinateSpace(name: "PagerViewScrollView")
             .offset(x: -CGFloat(self.selection) * settings.width)
             .offset(x: self.translation)
             .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: selection)
