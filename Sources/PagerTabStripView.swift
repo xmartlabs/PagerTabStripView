@@ -49,7 +49,13 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
     
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
-    @Binding var selection: Int
+    @Binding var selection: Int {
+        didSet {
+            if selection < 0 {
+                selection = oldValue
+            }
+        }
+    }
     @State private var currentOffset: CGFloat = 0 {
         didSet {
             self.settings.contentOffset = currentOffset
