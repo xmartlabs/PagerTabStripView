@@ -36,13 +36,13 @@ public enum PagerStyle {
     case bar(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, placedInToolbar: Bool = false)
     /// The height of the indicator bar
     /// tabItemSpacing: The space between navigation bar tab items.
-    case normal(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
+    case barButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
     
     internal var tabItemSpacing: CGFloat {
         switch self {
         case .bar(_, _, let spacing, _):
             return spacing
-        case .normal(_, _, let spacing, _, _):
+        case .barButton(_, _, let spacing, _, _):
             return spacing
         default:
             return 0
@@ -53,7 +53,7 @@ public enum PagerStyle {
         switch self {
         case .bar(_, let color, _, _):
             return color
-        case .normal(_, let color, _, _, _):
+        case .barButton(_, let color, _, _, _):
             return color
         default:
             return Color.clear
@@ -64,7 +64,7 @@ public enum PagerStyle {
         switch self {
         case .bar(let height,_, _, _):
             return height
-        case .normal(let height, _, _, _, _):
+        case .barButton(let height, _, _, _, _):
             return height
         default:
             return 2
@@ -73,7 +73,7 @@ public enum PagerStyle {
     
     internal var tabItemHeight: CGFloat {
         switch self {
-        case .normal(_, _, _, let height, _):
+        case .barButton(_, _, _, let height, _):
             return height
         default:
             return 0
@@ -104,14 +104,14 @@ public enum PagerStyle {
             return placedInToolbar
         case .bar( _, _, _, let placedInToolbar):
             return placedInToolbar
-        case .normal( _, _, _, _, let placedInToolbar):
+        case .barButton( _, _, _, _, let placedInToolbar):
             return placedInToolbar
         }
     }
 }
 
 private struct PagerStyleKey: EnvironmentKey {
-    static let defaultValue = PagerStyle.normal()
+    static let defaultValue = PagerStyle.barButton()
 }
 
 extension EnvironmentValues {
