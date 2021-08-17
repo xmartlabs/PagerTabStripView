@@ -33,7 +33,6 @@ struct NavBarModifier: ViewModifier {
 
 struct NavBarWrapperView: View {
     @Binding private var selection: Int
-    @EnvironmentObject private var dataStore: DataStore
 
     public init(selection: Binding<Int>) {
         self._selection = selection
@@ -53,5 +52,4 @@ struct NavBarWrapperView: View {
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle
-    @EnvironmentObject private var settings: PagerSettings
 }

@@ -44,7 +44,6 @@ class DataStore: ObservableObject {
         } else {
             items[index] = DataItem(view: nil, callback: callback)
         }
-
     }
 
     func remove(at index: Int) {

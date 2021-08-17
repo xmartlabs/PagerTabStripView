@@ -124,8 +124,8 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             .onChange(of: translation) { _ in
                 self.settings.contentOffset = translation - CGFloat(selection)*gproxy.size.width
             }
-            .onChange(of: dataStore.items.count) { _ in
-                self.selection = selection >= dataStore.items.count ? dataStore.items.count - 1 : selection
+            .onChange(of: dataStore.itemsCount) { _ in
+                self.selection = selection >= dataStore.itemsCount ? dataStore.itemsCount - 1 : selection
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .selected)
                 dataStore.items[selection]?.appearCallback?()
             }
