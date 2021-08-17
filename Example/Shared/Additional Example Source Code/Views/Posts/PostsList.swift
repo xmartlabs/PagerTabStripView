@@ -28,7 +28,9 @@ struct PostsList: View {
             }
             List {
                 ForEach(items) { item in
-                    PostRow(post: item, withDescription: withDescription)
+                    NavigationLink(destination: PostDetail(post: item)){
+                        PostRow(post: item, withDescription: withDescription)
+                    }
                 }
             }
         }

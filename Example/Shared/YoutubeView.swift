@@ -39,8 +39,9 @@ struct YoutubeView: View {
                 YoutubeNavBarItem(title: "Account", imageName: "account")
             }
         }
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 80, indicatorBarHeight: 7, indicatorBarColor: selectedColor))
+        .pagerTabStripViewStyle(.normal(indicatorBarHeight: 5, indicatorBarColor: selectedColor, tabItemHeight: 80))
         .frame(alignment: .center)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

@@ -47,9 +47,15 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
     
     @StateObject private var dataStore = DataStore()
     
-    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
-    @Binding var selection: Int
+    @Binding var selection: Int {
+        didSet {
+            if selection < 0 {
+                selection = oldValue
+            }
+        }
+    }
     @State private var currentOffset: CGFloat = 0 {
         didSet {
             self.settings.contentOffset = currentOffset
@@ -69,6 +75,7 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
                 content()
                     .frame(width: gproxy.size.width)
             }
+            .coordinateSpace(name: "PagerViewScrollView")
             .offset(x: -CGFloat(self.selection) * settings.width)
             .offset(x: self.translation)
             .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: selection)

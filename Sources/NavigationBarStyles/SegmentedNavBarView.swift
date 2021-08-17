@@ -1,0 +1,34 @@
+//
+//  SegmentedNavBarView.swift
+//  PagerTabStripView
+//
+//  Created by Cecilia Pirotto on 11/8/21.
+//
+
+import Foundation
+import SwiftUI
+
+internal struct SegmentedNavBarView: View {
+    @Binding private var selection: Int
+    @EnvironmentObject private var dataStore: DataStore
+
+    public init(selection: Binding<Int>) {
+        self._selection = selection
+    }
+
+    var body: some View {
+        Picker("SegmentedNavBarView", selection: $selection) {
+            if dataStore.itemsCount > 0 && settings.width > 0 {
+                ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
+                    NavBarItem(id: idx, selection: $selection)
+                }
+            }
+        }
+        .colorMultiply(self.style.backgroundColor)
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(self.style.padding)
+    }
+
+    @Environment(\.pagerStyle) var style: PagerStyle
+    @EnvironmentObject private var settings: PagerSettings
+}

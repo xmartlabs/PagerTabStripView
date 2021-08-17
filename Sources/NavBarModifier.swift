@@ -8,14 +8,7 @@
 import SwiftUI
 
 struct NavBarModifier: ViewModifier {
-    
     @Binding private var selection: Int
-    @EnvironmentObject private var dataStore: DataStore
-    
-    private var navBarItemWidth: CGFloat {
-        let totalItemWidth = (settings.width - (style.tabItemSpacing * CGFloat(dataStore.itemsCount - 1)))
-        return totalItemWidth / CGFloat(dataStore.itemsCount)
-    }
 
     public init(selection: Binding<Int>) {
         self._selection = selection
@@ -23,30 +16,42 @@ struct NavBarModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: style.tabItemSpacing) {
-                if dataStore.itemsCount > 0 && settings.width > 0 {
-                    ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
-                        NavBarItem(id: idx, selection: $selection)
-                            .frame(height: style.tabItemHeight)
+            if !style.placedInToolbar {
+                NavBarWrapperView(selection: $selection)
+                content
+            } else {
+                content.toolbar(content: {
+                    ToolbarItem(placement: .principal) {
+                        NavBarWrapperView(selection: $selection)
                     }
-                }
+                })
             }
-            .frame(height: style.tabItemHeight)
-            HStack {
-                if let width = navBarItemWidth, width > 0, width <= settings.width {
-                    let x = -settings.contentOffset / CGFloat(dataStore.itemsCount) + width / 2
-                    Rectangle()
-                        .fill(style.indicatorBarColor)
-                        .animation(.default)
-                        .frame(width: width)
-                        .position(x: x, y: 0)
-                }
-            }
-            .frame(height: style.indicatorBarHeight)
-            content
         }
     }
-    
-    @Environment(\.pagerTabViewStyle) var style: PagerTabViewStyle
+    @Environment(\.pagerStyle) var style: PagerStyle
+}
+
+struct NavBarWrapperView: View {
+    @Binding private var selection: Int
+    @EnvironmentObject private var dataStore: DataStore
+
+    public init(selection: Binding<Int>) {
+        self._selection = selection
+    }
+
+    var body: some View {
+        switch self.style {
+        case .bar:
+            IndicatorBarView()
+                .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
+        case .segmentedControl:
+            SegmentedNavBarView(selection: $selection)
+        case .normal:
+            FixedSizeNavBarView(selection: $selection)
+            IndicatorBarView()
+        }
+    }
+
+    @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }
