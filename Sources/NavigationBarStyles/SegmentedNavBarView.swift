@@ -2,7 +2,7 @@
 //  SegmentedNavBarView.swift
 //  PagerTabStripView
 //
-//  Created by Cecilia Pirotto on 11/8/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import Foundation

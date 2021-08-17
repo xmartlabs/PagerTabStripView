@@ -2,7 +2,7 @@
 //  SegmentedView.swift
 //  Example (iOS)
 //
-//  Created by Cecilia Pirotto on 12/8/21.
+//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI

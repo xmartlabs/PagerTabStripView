@@ -71,12 +71,12 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
     
     public var body: some View {
         GeometryReader { gproxy in
-            HStack(spacing: 0) {
+            LazyHStack(spacing: 0) {
                 content()
                     .frame(width: gproxy.size.width)
             }
             .coordinateSpace(name: "PagerViewScrollView")
-            .offset(x: -CGFloat(self.selection) * settings.width)
+            .offset(x: -CGFloat(self.selection) * gproxy.size.width)
             .offset(x: self.translation)
             .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
@@ -111,9 +111,10 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             )
             .onChange(of: gproxy.frame(in: .local), perform: { geo in
                 self.settings.width = geo.width
+                self.currentOffset = -(CGFloat(selection) * geo.width)
             })
             .onChange(of: self.selection) { [selection] newIndex in
-                self.currentOffset = self.offsetFor(index: newIndex)
+                self.currentOffset = -(CGFloat(newIndex) * gproxy.size.width)
                 dataStore.items[newIndex]?.appearCallback?()
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .normal)
                 if let tabViewDelegate = dataStore.items[newIndex]?.tabViewDelegate, newIndex != selection {
@@ -121,18 +122,12 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
                 }
             }
             .onChange(of: translation) { _ in
-                self.settings.contentOffset = translation - CGFloat(selection)*settings.width
-            }
-            .onChange(of: settings.width) { _ in
-                self.currentOffset = self.offsetFor(index: self.selection)
+                self.settings.contentOffset = translation - CGFloat(selection)*gproxy.size.width
             }
             .onChange(of: dataStore.items.count) { _ in
                 self.selection = selection >= dataStore.items.count ? dataStore.items.count - 1 : selection
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .selected)
                 dataStore.items[selection]?.appearCallback?()
-            }
-            .onAppear {
-                settings.width = gproxy.size.width
             }
         }
         .modifier(NavBarModifier(selection: $selection))
@@ -140,7 +135,4 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
         .clipped()
     }
     
-    private func offsetFor(index: Int) -> CGFloat {
-        return -(CGFloat(index) * settings.width)
-    }
 }
