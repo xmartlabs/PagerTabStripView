@@ -24,9 +24,8 @@ struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
                         index = Int(round(frame.minX / settings.width))
                         let tabView = navTabView()
                         let tabViewDelegate = tabView as? PagerTabViewDelegate
-                        dataStore.setView(AnyView(tabView),
-                                                tabViewDelegate: tabViewDelegate,
-                                                at: index)
+                        dataStore.setView(AnyView(tabView), at: index)
+                        dataStore.setTabViewDelegate(tabViewDelegate, at: index)
                     }
                 }.onDisappear {
                     dataStore.items[index]?.tabViewDelegate?.setState(state: .normal)
@@ -37,6 +36,5 @@ struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
     
     @EnvironmentObject private var dataStore: DataStore
     @EnvironmentObject private var settings: PagerSettings
-    @Environment(\.pagerStyle) var style: PagerStyle
     @State private var index = -1
 }
