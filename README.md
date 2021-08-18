@@ -98,7 +98,11 @@ As you may've already noticed, everything is SwiftUI code, so you can update the
 
 ### Customize pager style
 
-You have the ability to customize some aspects of the navigation bar and its indicator bar using the `pagerTabStripViewStyle` modifier. The customizable settings are:
+PagerTabstripView provides 3 different ways to show the views. You have the ability to select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier. 
+
+#### Normal style
+
+This is likely the most common pager type. The customizable settings are:
 
 -   Spacing between navigation bar items
 -   Navigation bar height
@@ -125,7 +129,7 @@ struct PagerView: View {
                     }
 			}
 		}
-        	.pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: .gray))
+        .pagerTabStripViewStyle(.normal(indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
 	}
 }
 ```
@@ -136,7 +140,27 @@ In this example, we add some settings like the tab bar height, indicator bar col
     <img src="Example/Media/addPagerSettings.gif">
 </div>
 
-### Navigation bar
+#### Bar style
+
+This style only shows a bar that indicates the current view controller. The customizable settings are:
+
+-   Spacing between navigation bar items
+-   Indicator bar height
+-   Indicator bar color
+
+<div style="text-align:center">
+    <img src="Example/Media/barStyleExample.gif">
+</div>
+
+#### Segmented style
+
+This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it setted in the toolbar.
+
+<div style="text-align:center">
+    <img src="Example/Media/segmentedStyleExample.gif">
+</div>
+
+## Navigation bar
 
 The navigation bar supports custom tab items. You need to specify its appearance creating a struct that implements `View` protocol.
 
@@ -220,7 +244,7 @@ struct PagerView: View {
                     model.reload()
                 }
         }
-        .pagerTabStripViewStyle(PagerTabViewStyle(tabItemSpacing: 0, tabItemHeight: 50, indicatorBarHeight: 2, indicatorBarColor: .gray))
+        .pagerTabStripViewStyle(.normal(indicatorBarHeight: 2, indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
     }
 }
 ```
