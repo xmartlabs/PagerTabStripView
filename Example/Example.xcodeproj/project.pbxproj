@@ -16,6 +16,7 @@
 		2857502C24C21EB400ED22AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857500124C21EB200ED22AD /* ContentView.swift */; };
 		2857502D24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
 		2857502E24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
+		28B8E06B26D58BF90050EB8A /* PagerTabStripView_MacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B8E06826D58BF90050EB8A /* PagerTabStripView_MacOS.framework */; };
 		AB28D6D9269F58C500679D5E /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6D8269F58C500679D5E /* URLImageView.swift */; };
 		AB28D6DB269F58D600679D5E /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DA269F58D600679D5E /* URLImageModel.swift */; };
 		AB28D6DD269F58E300679D5E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DC269F58E300679D5E /* ImageCache.swift */; };
@@ -62,6 +63,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2857500E24C21EB400ED22AD;
 			remoteInfo = "Example (macOS)";
+		};
+		28B8E06726D58BF90050EB8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28B8E03126D58A7A0050EB8A;
+			remoteInfo = "PagerTabStripView-MacOS";
+		};
+		28B8E06926D58BF90050EB8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28B8E03926D58A7A0050EB8A;
+			remoteInfo = "PagerTabStripView-MacOSTests";
 		};
 		E038BE8F26BF329F00190C12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -153,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28B8E06B26D58BF90050EB8A /* PagerTabStripView_MacOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +396,8 @@
 			children = (
 				E038BE9026BF329F00190C12 /* PagerTabStripView.framework */,
 				E038BE9226BF329F00190C12 /* PagerTabStripViewTests.xctest */,
+				28B8E06826D58BF90050EB8A /* PagerTabStripView_MacOS.framework */,
+				28B8E06A26D58BF90050EB8A /* PagerTabStripView-MacOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -519,6 +537,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		28B8E06826D58BF90050EB8A /* PagerTabStripView_MacOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PagerTabStripView_MacOS.framework;
+			remoteRef = 28B8E06726D58BF90050EB8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		28B8E06A26D58BF90050EB8A /* PagerTabStripView-MacOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "PagerTabStripView-MacOSTests.xctest";
+			remoteRef = 28B8E06926D58BF90050EB8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E038BE9026BF329F00190C12 /* PagerTabStripView.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

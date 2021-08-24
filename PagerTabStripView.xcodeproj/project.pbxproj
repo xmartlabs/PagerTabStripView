@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */; };
 		287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */; };
-		28B8E03A26D58A7A0050EB8A /* PagerTabStripView_MacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B8E03126D58A7A0050EB8A /* PagerTabStripView_MacOS.framework */; };
+		28B8E03A26D58A7A0050EB8A /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B8E03126D58A7A0050EB8A /* PagerTabStripView.framework */; };
 		28B8E03F26D58A7A0050EB8A /* PagerTabStripView_MacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B8E03E26D58A7A0050EB8A /* PagerTabStripView_MacOSTests.swift */; };
 		28B8E04926D58AAB0050EB8A /* PagerTabViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB08126AF3B7200CDCFD8 /* PagerTabViewDelegate.swift */; };
 		28B8E04A26D58AAB0050EB8A /* PagerTabViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */; };
@@ -35,7 +35,7 @@
 		28B8E05E26D58AAC0050EB8A /* NavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */; };
 		28B8E05F26D58AAC0050EB8A /* SegmentedNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */; };
 		28B8E06026D58AAC0050EB8A /* NavBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */; };
-		28B8E06226D58B040050EB8A /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; };
+		28B8E06C26D58C9C0050EB8A /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		28F828881C494B2C00330CF4 /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */; };
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AB80DE8626BC93720022F57D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB80DE8326BC93720022F57D /* Info.plist */; };
@@ -73,7 +73,7 @@
 /* Begin PBXFileReference section */
 		28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabViewStyle.swift; sourceTree = "<group>"; };
 		287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagerTabStripTests.swift; path = Tests/PagerTabStripTests.swift; sourceTree = SOURCE_ROOT; };
-		28B8E03126D58A7A0050EB8A /* PagerTabStripView_MacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStripView_MacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28B8E03126D58A7A0050EB8A /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B8E03426D58A7A0050EB8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28B8E03926D58A7A0050EB8A /* PagerTabStripView-MacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PagerTabStripView-MacOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B8E03E26D58A7A0050EB8A /* PagerTabStripView_MacOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabStripView_MacOSTests.swift; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28B8E03A26D58A7A0050EB8A /* PagerTabStripView_MacOS.framework in Frameworks */,
+				28B8E03A26D58A7A0050EB8A /* PagerTabStripView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,7 +164,7 @@
 			children = (
 				28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */,
 				28F828871C494B2C00330CF4 /* PagerTabStripViewTests.xctest */,
-				28B8E03126D58A7A0050EB8A /* PagerTabStripView_MacOS.framework */,
+				28B8E03126D58A7A0050EB8A /* PagerTabStripView.framework */,
 				28B8E03926D58A7A0050EB8A /* PagerTabStripView-MacOSTests.xctest */,
 			);
 			name = Products;
@@ -222,7 +222,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28B8E06226D58B040050EB8A /* PagerTabStripView.h in Headers */,
+				28B8E06C26D58C9C0050EB8A /* PagerTabStripView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +252,7 @@
 			);
 			name = "PagerTabStripView-MacOS";
 			productName = "PagerTabStripView-MacOS";
-			productReference = 28B8E03126D58A7A0050EB8A /* PagerTabStripView_MacOS.framework */;
+			productReference = 28B8E03126D58A7A0050EB8A /* PagerTabStripView.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		28B8E03826D58A7A0050EB8A /* PagerTabStripView-MacOSTests */ = {
@@ -497,7 +497,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xmartlabs.PagerTabStripView-MacOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = PagerTabStripView;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -527,7 +527,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xmartlabs.PagerTabStripView-MacOS";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = PagerTabStripView;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
