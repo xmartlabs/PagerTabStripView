@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28070C6426B200F5002346E1 /* TwitterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C58826961E9E002E7B28 /* TwitterView.swift */; };
 		2857501C24C21EB400ED22AD /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857501B24C21EB400ED22AD /* Tests_iOS.swift */; };
 		2857502724C21EB400ED22AD /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857502624C21EB400ED22AD /* Tests_macOS.swift */; };
 		2857502924C21EB400ED22AD /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857500024C21EB200ED22AD /* ExampleApp.swift */; };
@@ -17,6 +16,33 @@
 		2857502D24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
 		2857502E24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
 		28B8E06B26D58BF90050EB8A /* PagerTabStripView_MacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B8E06826D58BF90050EB8A /* PagerTabStripView_MacOS.framework */; };
+		28B8E07126D58DC20050EB8A /* InstagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C57526961A3E002E7B28 /* InstagramView.swift */; };
+		28B8E07226D58DC20050EB8A /* TwitterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C58826961E9E002E7B28 /* TwitterView.swift */; };
+		28B8E07326D58DC20050EB8A /* YoutubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C56E26961A0B002E7B28 /* YoutubeView.swift */; };
+		28B8E07426D58DC20050EB8A /* SegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0881C5B26C5836F00768CA7 /* SegmentedView.swift */; };
+		28B8E07526D58DC20050EB8A /* BarStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0881C5F26C595AC00768CA7 /* BarStyleView.swift */; };
+		28B8E07626D58DC60050EB8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DA269F58D600679D5E /* URLImageModel.swift */; };
+		28B8E07726D58DC60050EB8A /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DC269F58E300679D5E /* ImageCache.swift */; };
+		28B8E07826D58DC60050EB8A /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6D8269F58C500679D5E /* URLImageView.swift */; };
+		28B8E07926D58DCA0050EB8A /* TweetsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8C26ABF05D008804D4 /* TweetsModel.swift */; };
+		28B8E07A26D58DCA0050EB8A /* LikesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE9026ABF076008804D4 /* LikesModel.swift */; };
+		28B8E07B26D58DCA0050EB8A /* MediaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8E26ABF06A008804D4 /* MediaModel.swift */; };
+		28B8E07C26D58DCA0050EB8A /* TwitterNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C58026961E8E002E7B28 /* TwitterNavBarItem.swift */; };
+		28B8E07D26D58DCE0050EB8A /* LikedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8826ABEE87008804D4 /* LikedModel.swift */; };
+		28B8E07E26D58DCE0050EB8A /* InstagramNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */; };
+		28B8E07F26D58DCE0050EB8A /* ListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8626ABEE7D008804D4 /* ListModel.swift */; };
+		28B8E08026D58DCE0050EB8A /* GalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8426ABEE6F008804D4 /* GalleryModel.swift */; };
+		28B8E08126D58DCE0050EB8A /* SavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE8A26ABEE96008804D4 /* SavedModel.swift */; };
+		28B8E08226D58DD20050EB8A /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7F26AB5B76008804D4 /* HomeModel.swift */; };
+		28B8E08326D58DD20050EB8A /* TrendingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7D26AB5B61008804D4 /* TrendingModel.swift */; };
+		28B8E08426D58DD20050EB8A /* YoutubeNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F8806268282FA00CCBFC3 /* YoutubeNavBarItem.swift */; };
+		28B8E08526D58DD20050EB8A /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EEE7B26AB5681008804D4 /* AccountModel.swift */; };
+		28B8E08626D58DD60050EB8A /* PostsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87F226826DB000CCBFC3 /* PostsList.swift */; };
+		28B8E08726D58DD60050EB8A /* PostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87F726826E4C00CCBFC3 /* PostRow.swift */; };
+		28B8E08826D58DD60050EB8A /* PostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB89C57A26961DC8002E7B28 /* PostDetail.swift */; };
+		28B8E08926D58DDA0050EB8A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87EB26826CB500CCBFC3 /* User.swift */; };
+		28B8E08A26D58DDA0050EB8A /* PostsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87DE26826C2000CCBFC3 /* PostsFactory.swift */; };
+		28B8E08B26D58DDA0050EB8A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F87E626826C4D00CCBFC3 /* Post.swift */; };
 		AB28D6D9269F58C500679D5E /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6D8269F58C500679D5E /* URLImageView.swift */; };
 		AB28D6DB269F58D600679D5E /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DA269F58D600679D5E /* URLImageModel.swift */; };
 		AB28D6DD269F58E300679D5E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DC269F58E300679D5E /* ImageCache.swift */; };
@@ -642,9 +668,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28070C6426B200F5002346E1 /* TwitterView.swift in Sources */,
+				28B8E07B26D58DCA0050EB8A /* MediaModel.swift in Sources */,
+				28B8E07A26D58DCA0050EB8A /* LikesModel.swift in Sources */,
+				28B8E07526D58DC20050EB8A /* BarStyleView.swift in Sources */,
+				28B8E07E26D58DCE0050EB8A /* InstagramNavBarItem.swift in Sources */,
 				2857502C24C21EB400ED22AD /* ContentView.swift in Sources */,
+				28B8E08926D58DDA0050EB8A /* User.swift in Sources */,
+				28B8E07326D58DC20050EB8A /* YoutubeView.swift in Sources */,
+				28B8E07D26D58DCE0050EB8A /* LikedModel.swift in Sources */,
+				28B8E08726D58DD60050EB8A /* PostRow.swift in Sources */,
+				28B8E08626D58DD60050EB8A /* PostsList.swift in Sources */,
+				28B8E07726D58DC60050EB8A /* ImageCache.swift in Sources */,
+				28B8E08426D58DD20050EB8A /* YoutubeNavBarItem.swift in Sources */,
+				28B8E08226D58DD20050EB8A /* HomeModel.swift in Sources */,
+				28B8E08526D58DD20050EB8A /* AccountModel.swift in Sources */,
 				2857502A24C21EB400ED22AD /* ExampleApp.swift in Sources */,
+				28B8E07226D58DC20050EB8A /* TwitterView.swift in Sources */,
+				28B8E08026D58DCE0050EB8A /* GalleryModel.swift in Sources */,
+				28B8E07F26D58DCE0050EB8A /* ListModel.swift in Sources */,
+				28B8E08A26D58DDA0050EB8A /* PostsFactory.swift in Sources */,
+				28B8E07626D58DC60050EB8A /* URLImageModel.swift in Sources */,
+				28B8E07126D58DC20050EB8A /* InstagramView.swift in Sources */,
+				28B8E07826D58DC60050EB8A /* URLImageView.swift in Sources */,
+				28B8E08B26D58DDA0050EB8A /* Post.swift in Sources */,
+				28B8E08126D58DCE0050EB8A /* SavedModel.swift in Sources */,
+				28B8E07426D58DC20050EB8A /* SegmentedView.swift in Sources */,
+				28B8E08826D58DD60050EB8A /* PostDetail.swift in Sources */,
+				28B8E07C26D58DCA0050EB8A /* TwitterNavBarItem.swift in Sources */,
+				28B8E08326D58DD20050EB8A /* TrendingModel.swift in Sources */,
+				28B8E07926D58DCA0050EB8A /* TweetsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,7 +902,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.16;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = Example;
 				SDKROOT = macosx;
@@ -872,7 +924,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.16;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = Example;
 				SDKROOT = macosx;
