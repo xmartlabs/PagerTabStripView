@@ -11,7 +11,6 @@
 		287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */; };
 		28B8E03A26D58A7A0050EB8A /* PagerTabStripView_MacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28B8E03126D58A7A0050EB8A /* PagerTabStripView_MacOS.framework */; };
 		28B8E03F26D58A7A0050EB8A /* PagerTabStripView_MacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B8E03E26D58A7A0050EB8A /* PagerTabStripView_MacOSTests.swift */; };
-		28B8E04126D58A7A0050EB8A /* PagerTabStripView_MacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 28B8E03326D58A7A0050EB8A /* PagerTabStripView_MacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28B8E04926D58AAB0050EB8A /* PagerTabViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB08126AF3B7200CDCFD8 /* PagerTabViewDelegate.swift */; };
 		28B8E04A26D58AAB0050EB8A /* PagerTabViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */; };
 		28B8E04B26D58AAB0050EB8A /* PagerTabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA589824C8BC1B0081FBE7 /* PagerTabStripView.swift */; };
@@ -36,6 +35,7 @@
 		28B8E05E26D58AAC0050EB8A /* NavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */; };
 		28B8E05F26D58AAC0050EB8A /* SegmentedNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */; };
 		28B8E06026D58AAC0050EB8A /* NavBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */; };
+		28B8E06226D58B040050EB8A /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; };
 		28F828881C494B2C00330CF4 /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */; };
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AB80DE8626BC93720022F57D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB80DE8326BC93720022F57D /* Info.plist */; };
@@ -74,7 +74,6 @@
 		28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabViewStyle.swift; sourceTree = "<group>"; };
 		287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagerTabStripTests.swift; path = Tests/PagerTabStripTests.swift; sourceTree = SOURCE_ROOT; };
 		28B8E03126D58A7A0050EB8A /* PagerTabStripView_MacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStripView_MacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		28B8E03326D58A7A0050EB8A /* PagerTabStripView_MacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagerTabStripView_MacOS.h; sourceTree = "<group>"; };
 		28B8E03426D58A7A0050EB8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28B8E03926D58A7A0050EB8A /* PagerTabStripView-MacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PagerTabStripView-MacOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B8E03E26D58A7A0050EB8A /* PagerTabStripView_MacOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabStripView_MacOSTests.swift; sourceTree = "<group>"; };
@@ -134,7 +133,6 @@
 		28B8E03226D58A7A0050EB8A /* PagerTabStripView-MacOS */ = {
 			isa = PBXGroup;
 			children = (
-				28B8E03326D58A7A0050EB8A /* PagerTabStripView_MacOS.h */,
 				28B8E03426D58A7A0050EB8A /* Info.plist */,
 			);
 			path = "PagerTabStripView-MacOS";
@@ -224,7 +222,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28B8E04126D58A7A0050EB8A /* PagerTabStripView_MacOS.h in Headers */,
+				28B8E06226D58B040050EB8A /* PagerTabStripView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
