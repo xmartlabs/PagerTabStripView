@@ -5,7 +5,7 @@
 //  Copyright © 2021 Xmartlabs SRL. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for PagerTabStripView.
 FOUNDATION_EXPORT double PagerTabStripViewVersionNumber;
