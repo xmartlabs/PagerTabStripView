@@ -33,7 +33,6 @@ struct NavBarModifier: ViewModifier {
 
 struct NavBarWrapperView: View {
     @Binding private var selection: Int
-    @EnvironmentObject private var dataStore: DataStore
 
     public init(selection: Binding<Int>) {
         self._selection = selection
@@ -46,12 +45,11 @@ struct NavBarWrapperView: View {
                 .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
         case .segmentedControl:
             SegmentedNavBarView(selection: $selection)
-        case .normal:
+        case .barButton:
             FixedSizeNavBarView(selection: $selection)
             IndicatorBarView()
         }
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle
-    @EnvironmentObject private var settings: PagerSettings
 }

@@ -18,7 +18,7 @@ struct NavBarItem: View {
     }
 
     var body: some View {
-        if id < dataStore.items.keys.count {
+        if id < dataStore.itemsCount {
             Button(action: {
                 self.currentIndex = id
             }, label: {
