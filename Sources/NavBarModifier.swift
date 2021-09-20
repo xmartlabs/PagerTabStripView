@@ -46,8 +46,9 @@ struct NavBarWrapperView: View {
         case .segmentedControl:
             SegmentedNavBarView(selection: $selection)
         case .barButton:
-            FixedSizeNavBarView(selection: $selection)
-            IndicatorBarView()
+            ScrollableNavBarView(selection: $selection)
+//            FixedSizeNavBarView(selection: $selection)
+//            IndicatorBarView()
         }
     }
 
