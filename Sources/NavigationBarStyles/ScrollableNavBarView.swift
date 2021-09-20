@@ -17,16 +17,21 @@ internal struct ScrollableNavBarView: View {
     }
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 15) {
-                if dataStore.itemsCount > 0 && settings.width > 0 {
-                    ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
-                        VStack{
-                            NavBarItem(id: idx, selection: $selection)
-                                .frame(height: self.style.tabItemHeight)
+        ScrollViewReader { value in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 15) {
+                    if dataStore.itemsCount > 0 && settings.width > 0 {
+                        ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
+                            VStack{
+                                NavBarItem(id: idx, selection: $selection)
+                                    .frame(height: self.style.tabItemHeight)
+                            }
                         }
-
                     }
+                }
+            }.onChange(of: self.selection) { _ in
+                withAnimation {
+                    value.scrollTo(selection)
                 }
             }
         }
