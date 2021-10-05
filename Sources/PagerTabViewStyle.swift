@@ -37,12 +37,16 @@ public enum PagerStyle {
     /// The height of the indicator bar
     /// tabItemSpacing: The space between navigation bar tab items.
     case barButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
-    
+
+    case scrollableBarButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
+
     internal var tabItemSpacing: CGFloat {
         switch self {
         case .bar(_, _, let spacing, _):
             return spacing
         case .barButton(_, _, let spacing, _, _):
+            return spacing
+        case .scrollableBarButton(_, _, let spacing, _, _):
             return spacing
         default:
             return 0
@@ -55,6 +59,8 @@ public enum PagerStyle {
             return color
         case .barButton(_, let color, _, _, _):
             return color
+        case .scrollableBarButton(_, let color, _, _, _):
+            return color
         default:
             return Color.clear
         }
@@ -66,6 +72,8 @@ public enum PagerStyle {
             return height
         case .barButton(let height, _, _, _, _):
             return height
+        case .scrollableBarButton(let height, _, _, _, _):
+            return height
         default:
             return 2
         }
@@ -74,6 +82,8 @@ public enum PagerStyle {
     internal var tabItemHeight: CGFloat {
         switch self {
         case .barButton(_, _, _, let height, _):
+            return height
+        case .scrollableBarButton(_, _, _, let height, _):
             return height
         default:
             return 0
@@ -105,6 +115,8 @@ public enum PagerStyle {
         case .bar( _, _, _, let placedInToolbar):
             return placedInToolbar
         case .barButton( _, _, _, _, let placedInToolbar):
+            return placedInToolbar
+        case .scrollableBarButton( _, _, _, _, let placedInToolbar):
             return placedInToolbar
         }
     }

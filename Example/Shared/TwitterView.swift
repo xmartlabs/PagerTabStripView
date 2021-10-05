@@ -75,7 +75,7 @@ struct TwitterView: View {
             }
         }
         .frame(alignment: .center)
-        .pagerTabStripViewStyle(.barButton(indicatorBarColor: .blue, tabItemSpacing: 0, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.scrollableBarButton(indicatorBarColor: .blue, tabItemSpacing: 15, tabItemHeight: 50))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
