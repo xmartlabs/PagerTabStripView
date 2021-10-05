@@ -276,18 +276,18 @@ github "xmartlabs/PagerTabStripView" ~> 2.0
 
 ## Requirements
 
--   iOS 14+
--   Xcode 12.X
+- iOS 14+
+- Xcode 13.X
 
 ## Author
 
--   [Xmartlabs SRL](https://github.com/xmartlabs) ([@xmartlabs](https://twitter.com/xmartlabs))
+- [Xmartlabs SRL](https://github.com/xmartlabs) ([@xmartlabs](https://twitter.com/xmartlabs))
 
 ## Getting involved
 
--   If you **want to contribute** please feel free to **submit pull requests**.
--   If you **have a feature request** please **open an issue**.
--   If you **found a bug** or **need help** please **check older issues and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStripView) (Tag 'PagerTabStripView') before submitting an issue**.
+- If you **want to contribute** please feel free to **submit pull requests**.
+- If you **have a feature request** please **open an issue**.
+- If you **found a bug** or **need help** please **check older issues and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStripView) (Tag 'PagerTabStripView') before submitting an issue**.
 
 Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStripView/blob/master/CONTRIBUTING.md) file for more info.
 
