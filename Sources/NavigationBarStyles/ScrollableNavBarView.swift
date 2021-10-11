@@ -31,10 +31,10 @@ internal struct ScrollableNavBarView: View {
                     IndicatorScrollableBarView(selection: $selection)
                 }
                 .frame(height: self.style.tabItemHeight)
-                .onChange(of: self.selection) { newSelection in
-                    withAnimation {
-                        value.scrollTo(newSelection, anchor: .center)
-                    }
+            }
+            .onChange(of: self.selection) { newSelection in
+                withAnimation {
+                    value.scrollTo(newSelection, anchor: .center)
                 }
             }
         }
