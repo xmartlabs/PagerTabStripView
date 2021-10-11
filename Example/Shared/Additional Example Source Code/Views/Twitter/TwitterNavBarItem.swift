@@ -23,7 +23,7 @@ struct TwitterNavBarItem: View, PagerTabViewDelegate {
                 .foregroundColor(theme.textColor)
                 .font(.subheadline)
         }
-        .background(Color.white)
+        .background(Color.clear)
     }
     
     func setState(state: PagerTabViewState) {

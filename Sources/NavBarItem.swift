@@ -25,7 +25,6 @@ struct NavBarItem: View {
                 }, label: {
                     dataStore.items[id]?.view
                 }).buttonStyle(PlainButtonStyle())
-
             }.background(
                 GeometryReader { geometry in
                     Color.clear.onAppear {
