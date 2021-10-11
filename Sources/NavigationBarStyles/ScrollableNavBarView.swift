@@ -103,6 +103,13 @@ internal struct IndicatorScrollableBarView: View {
                 }
 
             }
+            .onChange(of: selection) { newValue in
+                let items = dataStore.items.filter { index, value in
+                    index < newValue
+                }
+                selectedItemWidth = dataStore.items[newValue]?.itemWidth ?? 0
+                position = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +) + (style.tabItemSpacing * CGFloat(newValue)) + selectedItemWidth/2
+            }
         }
 
     @Environment(\.pagerStyle) var style: PagerStyle

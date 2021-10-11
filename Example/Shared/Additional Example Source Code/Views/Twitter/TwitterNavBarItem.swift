@@ -23,7 +23,6 @@ struct TwitterNavBarItem: View, PagerTabViewDelegate {
                 .foregroundColor(theme.textColor)
                 .font(.subheadline)
         }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
     }
     
