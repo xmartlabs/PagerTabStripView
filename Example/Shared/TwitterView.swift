@@ -11,37 +11,37 @@ import PagerTabStripView
 struct TwitterView: View {
     @State var selection = 2
     
-    @ObservedObject var tweetsModel = TweetsModel()
-    @ObservedObject var mediaModel = MediaModel()
-    @ObservedObject var likesModel = LikesModel()
-    @ObservedObject var tweetsModel2 = TweetsModel()
-    @ObservedObject var mediaModel2 = MediaModel()
-    @ObservedObject var likesModel2 = LikesModel()
+    @ObservedObject var firstModel = TweetsModel()
+    @ObservedObject var secondModel = MediaModel()
+    @ObservedObject var thirdModel = LikesModel()
+    @ObservedObject var fourthModel = TweetsModel()
+    @ObservedObject var fifthModel = MediaModel()
+    @ObservedObject var sixthModel = LikesModel()
     
     var body: some View {
         PagerTabStripView(selection: $selection) {
-            PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
-                TwitterNavBarItem(title: "Tweets Tweets Tweets")
+            PostsList(isLoading: $firstModel.isLoading, items: firstModel.posts).pagerTabItem {
+                TwitterNavBarItem(title: "First big width")
             }
             
-            PostsList(isLoading: $mediaModel.isLoading, items: mediaModel.posts).pagerTabItem {
-                TwitterNavBarItem(title: "Media")
+            PostsList(isLoading: $secondModel.isLoading, items: secondModel.posts).pagerTabItem {
+                TwitterNavBarItem(title: "Short")
             }
             
-            PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false).pagerTabItem {
-                TwitterNavBarItem(title: "Likes Likes")
+            PostsList(isLoading: $thirdModel.isLoading, items: thirdModel.posts, withDescription: false).pagerTabItem {
+                TwitterNavBarItem(title: "Medium width")
             }
 
-            PostsList(isLoading: $tweetsModel2.isLoading, items: tweetsModel2.posts).pagerTabItem {
-                TwitterNavBarItem(title: "Tweets Tweets Tweets")
+            PostsList(isLoading: $fourthModel.isLoading, items: fourthModel.posts).pagerTabItem {
+                TwitterNavBarItem(title: "Second big width")
             }
 
-            PostsList(isLoading: $mediaModel2.isLoading, items: mediaModel2.posts).pagerTabItem {
-                TwitterNavBarItem(title: "Media")
+            PostsList(isLoading: $fifthModel.isLoading, items: fifthModel.posts, withDescription: false).pagerTabItem {
+                TwitterNavBarItem(title: "Medium width")
             }
 
-            PostsList(isLoading: $likesModel2.isLoading, items: likesModel2.posts, withDescription: false).pagerTabItem {
-                TwitterNavBarItem(title: "Likes Likes")
+            PostsList(isLoading: $sixthModel.isLoading, items: sixthModel.posts).pagerTabItem {
+                TwitterNavBarItem(title: "Mini")
             }
         }
         .frame(alignment: .center)

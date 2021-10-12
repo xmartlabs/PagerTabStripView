@@ -23,7 +23,7 @@ internal struct ScrollableNavBarView: View {
                 VStack {
                     HStack(spacing: style.tabItemSpacing) {
                         if dataStore.itemsCount > 0 {
-                            ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
+                            ForEach(0..<dataStore.itemsCount, id: \.self) { idx in
                                 NavBarItem(id: idx, selection: $selection)
                             }
                         }
@@ -69,7 +69,9 @@ internal struct IndicatorScrollableBarView: View {
                         index < selection
                     }
                     selectedItemWidth = dataStore.items[selection]?.itemWidth ?? 0
-                    position = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +) + (style.tabItemSpacing * CGFloat(selection)) + selectedItemWidth/2
+                    var newPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
+                    newPosition += (style.tabItemSpacing * CGFloat(selection)) + selectedItemWidth/2
+                    position = newPosition
                 }
             }
             .onChange(of: settings.contentOffset) { newValue in
@@ -86,7 +88,9 @@ internal struct IndicatorScrollableBarView: View {
                 var nextPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
                 if percentage == 0 {
                     selectedItemWidth = dataStore.items[selection]?.itemWidth ?? 0
-                    position = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +) + style.tabItemSpacing * CGFloat(selection) + selectedItemWidth/2
+                    var newPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
+                    newPosition += style.tabItemSpacing * CGFloat(selection) + selectedItemWidth/2
+                    position = newPosition
                 } else {
                     if percentage < 0 {
                         nextPosition += actualWidth + style.tabItemSpacing * CGFloat(selection+1)
@@ -97,7 +101,9 @@ internal struct IndicatorScrollableBarView: View {
                     }
                     position = lastPosition + (nextPosition - lastPosition)*abs(percentage)
 
-                    if let selectedWidth = dataStore.items[selection]?.itemWidth, let nextWidth = percentage > 0 ? dataStore.items[selection-1]?.itemWidth : dataStore.items[selection+1]?.itemWidth, abs(percentage)>0 {
+                    if let selectedWidth = dataStore.items[selection]?.itemWidth,
+                        let nextWidth = percentage > 0 ? dataStore.items[selection-1]?.itemWidth : dataStore.items[selection+1]?.itemWidth,
+                        abs(percentage)>0 {
                         selectedItemWidth = selectedWidth - (selectedWidth-nextWidth)*abs(percentage)
                     }
                 }
@@ -108,7 +114,9 @@ internal struct IndicatorScrollableBarView: View {
                     index < newValue
                 }
                 selectedItemWidth = dataStore.items[newValue]?.itemWidth ?? 0
-                position = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +) + (style.tabItemSpacing * CGFloat(newValue)) + selectedItemWidth/2
+                var newPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
+                newPosition += (style.tabItemSpacing * CGFloat(newValue)) + selectedItemWidth/2
+                position = newPosition
             }
         }
 
