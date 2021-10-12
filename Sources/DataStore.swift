@@ -11,6 +11,7 @@ class DataItem {
     var view: AnyView?
     var tabViewDelegate: PagerTabViewDelegate?
     var appearCallback: (() -> Void)?
+    @Published var itemWidth: Double?
 
     init(view: AnyView? = nil, tabViewDelegate: PagerTabViewDelegate? = nil, callback: (() -> Void)? = nil) {
         self.view = view
@@ -27,6 +28,7 @@ class DataStore: ObservableObject {
     }
 
     @Published private(set) var itemsCount: Int = 0
+    @Published var widthUpdated: Bool = false
 
 
     func setView(_ view: AnyView, at index: Int) {

@@ -24,7 +24,7 @@ struct YoutubeView: View {
                     homeModel.isLoading = false
                 }
             }
-            
+
             PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
                 YoutubeNavBarItem(title: "Trending", imageName: "trending")
             }
@@ -34,7 +34,7 @@ struct YoutubeView: View {
                     trendingModel.isLoading = false
                 }
             }
-            
+
             PostDetail(post: accountModel.post).pagerTabItem {
                 YoutubeNavBarItem(title: "Account", imageName: "account")
             }

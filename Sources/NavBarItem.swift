@@ -19,14 +19,24 @@ struct NavBarItem: View {
 
     var body: some View {
         if id < dataStore.itemsCount {
-            Button(action: {
-                self.currentIndex = id
-            }, label: {
-                dataStore.items[id]?.view
-            }).buttonStyle(PlainButtonStyle())
-            .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                dataStore.items[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : .selected)
-            } perform: {}
+            VStack {
+                Button(action: {
+                    self.currentIndex = id
+                }, label: {
+                    dataStore.items[id]?.view
+                }).buttonStyle(PlainButtonStyle())
+                .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
+                    dataStore.items[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted :
+                                                                    (id == currentIndex ? .selected : .normal))
+                } perform: {}
+            }.background(
+                GeometryReader { geometry in
+                    Color.clear.onAppear {
+                        dataStore.items[id]?.itemWidth = geometry.size.width
+                        dataStore.widthUpdated = dataStore.itemsCount > 0 && dataStore.items.filter({ $0.value.itemWidth ?? 0 > 0 }).count == dataStore.itemsCount
+                    }
+                }
+            )
         }
     }
 }

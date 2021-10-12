@@ -48,6 +48,8 @@ struct NavBarWrapperView: View {
         case .barButton:
             FixedSizeNavBarView(selection: $selection)
             IndicatorBarView()
+        case .scrollableBarButton:
+            ScrollableNavBarView(selection: $selection)
         }
     }
 

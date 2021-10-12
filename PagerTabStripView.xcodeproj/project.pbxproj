@@ -16,6 +16,7 @@
 		E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */; };
 		E04615E526C453AD0050A5D3 /* FixedSizeNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */; };
 		E04615E726C453E10050A5D3 /* IndicatorBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E626C453E10050A5D3 /* IndicatorBarView.swift */; };
+		E07034FB26D3D834002E854B /* ScrollableNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07034FA26D3D834002E854B /* ScrollableNavBarView.swift */; };
 		E07FB07A26AF36B400CDCFD8 /* PagerSetAppearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */; };
 		E07FB07C26AF373600CDCFD8 /* View+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */; };
 		E07FB07E26AF377D00CDCFD8 /* PagerTabItemModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */; };
@@ -48,6 +49,7 @@
 		E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedNavBarView.swift; sourceTree = "<group>"; };
 		E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedSizeNavBarView.swift; sourceTree = "<group>"; };
 		E04615E626C453E10050A5D3 /* IndicatorBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorBarView.swift; sourceTree = "<group>"; };
+		E07034FA26D3D834002E854B /* ScrollableNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableNavBarView.swift; sourceTree = "<group>"; };
 		E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerSetAppearModifier.swift; sourceTree = "<group>"; };
 		E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Modifiers.swift"; sourceTree = "<group>"; };
 		E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabItemModifier.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */,
 				E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */,
 				E04615E626C453E10050A5D3 /* IndicatorBarView.swift */,
+				E07034FA26D3D834002E854B /* ScrollableNavBarView.swift */,
 			);
 			path = NavigationBarStyles;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E07034FB26D3D834002E854B /* ScrollableNavBarView.swift in Sources */,
 				E07FB07C26AF373600CDCFD8 /* View+Modifiers.swift in Sources */,
 				E07FB08226AF3B7200CDCFD8 /* PagerTabViewDelegate.swift in Sources */,
 				E07FB07E26AF377D00CDCFD8 /* PagerTabItemModifier.swift in Sources */,

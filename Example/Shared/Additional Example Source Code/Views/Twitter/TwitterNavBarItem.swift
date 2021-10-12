@@ -23,14 +23,15 @@ struct TwitterNavBarItem: View, PagerTabViewDelegate {
                 .foregroundColor(theme.textColor)
                 .font(.subheadline)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
+        .background(Color.clear)
     }
     
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
             self.theme.textColor = .blue
+        case .highlighted:
+            self.theme.textColor = .red
         default:
             self.theme.textColor = .gray
         }

@@ -15,7 +15,7 @@ struct ContentView: View {
             List {
                 NavigationLink(destination: TwitterView()) {
                     VStack(alignment: .leading) {
-                        Text("Normal style")
+                        Text("Scrollable style")
                             .font(.body)
                             .padding(.bottom, 1)
                         Text("Only label")

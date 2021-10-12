@@ -9,7 +9,7 @@ import SwiftUI
 import PagerTabStripView
 
 private class ButtonTheme: ObservableObject {
-    @Published var imageColor = Color.gray
+    @Published var imageColor = Color(UIColor.systemGray2)
 }
 
 struct InstagramNavBarItem: View, PagerTabViewDelegate {
@@ -29,15 +29,15 @@ struct InstagramNavBarItem: View, PagerTabViewDelegate {
                 .foregroundColor(theme.imageColor)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
+        .background(Color.clear)
     }
     
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
-            self.theme.imageColor = .black
+            self.theme.imageColor = Color(UIColor.systemGray)
         default:
-            self.theme.imageColor = .gray
+            self.theme.imageColor = Color(UIColor.systemGray2)
         }
     }
 }
