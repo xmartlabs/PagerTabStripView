@@ -109,6 +109,11 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
                     }
                 }
             )
+            .onAppear(perform: {
+                let geo = gproxy.frame(in: .local)
+                self.settings.width = geo.width
+                self.currentOffset = -(CGFloat(selection) * geo.width)
+            })
             .onChange(of: gproxy.frame(in: .local), perform: { geo in
                 self.settings.width = geo.width
                 self.currentOffset = -(CGFloat(selection) * geo.width)
