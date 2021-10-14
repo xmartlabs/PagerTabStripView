@@ -21,10 +21,12 @@ PagerTabStripView is the first pager view built in pure SwiftUI. It provides a c
     <th><img src="Example/Media/twitterStyleExample.gif" width="250"/></th>
     <th><img src="Example/Media/instagramStyleExample.gif" width="250"/></th>
     <th><img src="Example/Media/LogOutExample.gif" width="250"/></th>
+    <th><img src="Example/Media/scrollableStyleExample.gif" width="250"/></th>
   </tr>
 </table>
 
 Unlike Apple's TabView it provides:
+
 1. Flexible way to fully customize pager tab views.
 2. Each pagerTabItem view can be of different type.
 3. Bar that contains pager tab item is placed on top.
@@ -98,16 +100,54 @@ As you may've already noticed, everything is SwiftUI code, so you can update the
 
 ### Customize pager style
 
-PagerTabstripView provides 3 different ways to show the views. You have the ability to select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier. 
+PagerTabstripView provides 3 different ways to show the views. You have the ability to select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier.
 
-#### Normal style
+#### Scrollable style
 
-This is likely the most common pager type. The customizable settings are:
+In this style you can add as many pages as you want. The tabs are placed in a scroll. The customizable settings are:
 
--   Spacing between navigation bar items
--   Navigation bar height
--   Indicator bar height
--   Indicator bar color
+- Spacing between navigation bar items
+- Navigation bar height
+- Indicator bar height
+- Indicator bar color
+
+```swift
+struct PagerView: View {
+
+	var body: some View {
+		PagerTabStripView(selection: 1) {
+			MyView()
+				.pagerTabItem {
+					TitleNavBarItem(title: "First big width")
+				}
+			AnotherView()
+				.pagerTabItem {
+					TitleNavBarItem(title: "Short")
+				}
+            ...
+            ..
+            .
+
+		}
+        .pagerTabStripViewStyle(.scrollableBarButton(indicatorBarColor: .blue, tabItemSpacing: 15, tabItemHeight: 50))
+	}
+}
+```
+
+In this example, we add some settings like the tab bar height, indicator bar color and tab item spaces. Let's watch how it looks!
+
+<div style="text-align:center">
+    <img src="Example/Media/scrollableStyleExample.gif">
+</div>
+
+#### Button bar style
+
+In this style the tabs width are equal between the differents tabs and it doesn't adapt to its content size. The customizable settings are:
+
+- Spacing between navigation bar items
+- Navigation bar height
+- Indicator bar height
+- Indicator bar color
 
 ```swift
 struct PagerView: View {
@@ -129,7 +169,7 @@ struct PagerView: View {
                     }
 			}
 		}
-        .pagerTabStripViewStyle(.normal(indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.barButton(indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
 	}
 }
 ```
@@ -144,9 +184,9 @@ In this example, we add some settings like the tab bar height, indicator bar col
 
 This style only shows a bar that indicates the current view controller. The customizable settings are:
 
--   Spacing between navigation bar items
--   Indicator bar height
--   Indicator bar color
+- Spacing between navigation bar items
+- Indicator bar height
+- Indicator bar color
 
 <div style="text-align:center">
     <img src="Example/Media/barStyleExample.gif">
@@ -244,7 +284,7 @@ struct PagerView: View {
                     model.reload()
                 }
         }
-        .pagerTabStripViewStyle(.normal(indicatorBarHeight: 2, indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.barButton(indicatorBarHeight: 2, indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
     }
 }
 ```
@@ -252,9 +292,10 @@ struct PagerView: View {
 ## Examples
 
 Follow these 3 steps to run Example project
-* Clone PagerTabStripView repo.
-* Open PagerTabStripView workspace.
-* Run the _Example_ project.
+
+- Clone PagerTabStripView repo.
+- Open PagerTabStripView workspace.
+- Run the _Example_ project.
 
 ## Installation
 
