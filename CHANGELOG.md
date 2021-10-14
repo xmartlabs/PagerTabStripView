@@ -2,7 +2,14 @@
 
 All notable changes to PagerTabStrip will be documented in this file.
 
-### [2.1.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/2.0.0)
+### [3.0.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/3.0.0)
+
+<!-- Released on 2021-10-05. -->
+
+- Add scrollable style
+- Bug fixes
+
+### [2.1.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/2.1.0)
 
 <!-- Released on 2021-10-05. -->
 
