@@ -142,7 +142,7 @@ In this example, we add some settings like the tab bar height, indicator bar col
 
 #### Button bar style
 
-In this style the tabs width are equal between the differents tabs and it doesn't adapt to its content size. The customizable settings are:
+In this style, the width of the tabs is equal between the different tabs and doesn't adapt to its content size. The customizable settings are:
 
 - Spacing between navigation bar items
 - Navigation bar height
