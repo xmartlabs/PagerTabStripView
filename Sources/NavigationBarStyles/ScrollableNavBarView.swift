@@ -32,6 +32,7 @@ internal struct ScrollableNavBarView: View {
                 }
                 .frame(height: self.style.tabItemHeight)
             }
+            .padding(self.style.padding)
             .onChange(of: self.selection) { newSelection in
                 withAnimation {
                     value.scrollTo(newSelection, anchor: .center)
