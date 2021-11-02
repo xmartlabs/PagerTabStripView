@@ -12,54 +12,26 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                NavigationLink(destination: TwitterView()) {
-                    VStack(alignment: .leading) {
-                        Text("Scrollable style")
-                            .font(.body)
-                            .padding(.bottom, 1)
-                        Text("Only label")
-                            .font(.subheadline)
-                    }
-                    .padding([.top, .bottom], 2)
-                }
-
-                NavigationLink(destination: InstagramView()) {
-                    VStack(alignment: .leading) {
-                        Text("Normal style")
-                            .font(.body)
-                            .padding(.bottom, 1)
-                        Text("Only icon")
-                            .font(.subheadline)
-                    }
-                    .padding([.top, .bottom], 2)
-                }
-
-                NavigationLink(destination: YoutubeView()) {
-                    VStack(alignment: .leading) {
-                        Text("Normal style")
-                            .font(.body)
-                            .padding(.bottom, 1)
-                        Text("Label and icon")
-                            .font(.subheadline)
-                    }
-                    .padding([.top, .bottom], 2)
-                }
-                NavigationLink(destination: SegmentedView()) {
-                    Text("Segmented style")
-                        .font(.body)
-                }
-                NavigationLink(destination: BarStyleView()) {
-                    Text("Bar style")
-                        .font(.body)
-                }
+            TabView {
+                InstagramView().tabItem {Text("InstagramView").maxWidth()}.hideNavigationBar()
+                TwitterView().tabItem {Text("TwitterView").maxWidth()}.hideNavigationBar()
+                YoutubeView().tabItem {Text("YoutubeView").maxWidth()}.hideNavigationBar()
+                SegmentedView().tabItem {Text("SegmentedView").maxWidth()}.hideNavigationBar()
+                BarStyleView().tabItem {Text("BarStyleView").maxWidth()}.hideNavigationBar()
             }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+extension View {
+    
+    func hideNavigationBar() -> some View {
+        self
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarHidden(true)
+    }
+    
+    func maxWidth(alignment: Alignment = .center) -> some View {
+        self.frame(minWidth: .zero, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
     }
 }
