@@ -10,6 +10,7 @@ import SwiftUI
 
 internal struct ScrollableNavBarView: View {
     @Binding private var selection: Int
+    @State private var switchAppeared: Bool = false
 
     @EnvironmentObject private var dataStore: DataStore
 
@@ -33,11 +34,31 @@ internal struct ScrollableNavBarView: View {
                 .frame(height: self.style.tabItemHeight)
             }
             .padding(self.style.padding)
+            .onChange(of: switchAppeared) { _ in
+                //This is necessary because anchor: .center is not working correctly
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+                    var remainingItemsWidth = dataStore.items[selection]?.itemWidth ?? 0 / 2
+                    let items = dataStore.items.filter { index, value in
+                        index > selection
+                    }
+                    remainingItemsWidth += items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
+                    remainingItemsWidth += CGFloat(dataStore.items.count-1 - selection)*style.tabItemSpacing
+                    let centerSel = remainingItemsWidth > settings.width/2
+                    if centerSel {
+                        value.scrollTo(selection, anchor: .center)
+                    } else {
+                        value.scrollTo(dataStore.items.count-1)
+                    }
+                }
+            }
             .onChange(of: self.selection) { newSelection in
                 withAnimation {
                     value.scrollTo(newSelection, anchor: .center)
                 }
             }
+        }
+        .onAppear {
+            switchAppeared = !switchAppeared
         }
     }
 
@@ -50,20 +71,21 @@ internal struct IndicatorScrollableBarView: View {
     @Binding private var selection: Int
     @State private var position: Double = 0
     @State private var selectedItemWidth: Double = 0
+    @State private var appeared: Bool = false
 
     public init(selection: Binding<Int>) {
         self._selection = selection
     }
 
     var body: some View {
-        HStack {
-            Rectangle()
-                .fill(style.indicatorBarColor)
-                .animation(.default)
-                .frame(width: selectedItemWidth)
-                .position(x: position, y: 0)
+        Rectangle()
+            .fill(style.indicatorBarColor)
+            .animation(.default, value: appeared)
+            .frame(width: selectedItemWidth, height: style.indicatorBarHeight)
+            .position(x: position)
+            .onAppear {
+                appeared = true
             }
-            .frame(height: style.indicatorBarHeight)
             .onChange(of: dataStore.widthUpdated) { updated in
                 if updated {
                     let items = dataStore.items.filter { index, value in
