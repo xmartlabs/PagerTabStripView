@@ -38,7 +38,7 @@ class DataStore: ObservableObject {
         }
     }
 
-    func setTabViewDelegate(_ tabViewDelegate: PagerTabViewDelegate?, at index: Int){
+    func setTabViewDelegate(_ tabViewDelegate: PagerTabViewDelegate?, at index: Int) {
         if let item = items[index] {
             item.tabViewDelegate = tabViewDelegate
         } else {

@@ -29,12 +29,16 @@ public struct PagerTabViewStyle {
 }
 
 public enum PagerStyle {
-    case segmentedControl(backgroundColor: Color = .white, padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10), placedInToolbar: Bool = false)
+    case segmentedControl(backgroundColor: Color = .white,
+                          padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
+                          placedInToolbar: Bool = false)
     /// The height of the indicator bar
     case bar(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, placedInToolbar: Bool = false)
     /// The height of the indicator bar
     /// tabItemSpacing: The space between navigation bar tab items.
-    case barButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
+    case barButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue,
+                   tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60,
+                   placedInToolbar: Bool = false)
 
     case scrollableBarButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue,
                              padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),

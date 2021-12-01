@@ -2,7 +2,7 @@ disabled_rules: # rule identifiers to exclude from running
   - identifier_name
   - type_name
 
-line_length: 120
+line_length: 150
 function_body_length:
   warning: 150
   error: 200
