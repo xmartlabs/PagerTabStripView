@@ -6,22 +6,20 @@
 //
 import SwiftUI
 
-
 class PagerSettings: ObservableObject {
     @Published var width: CGFloat = 0
     @Published var contentOffset: CGFloat = 0
 }
 
 @available(iOS 14.0, *)
-public struct PagerTabStripView<Content> : View where Content: View {
+public struct PagerTabStripView<Content>: View where Content: View {
     private var content: () -> Content
-    
+
     @Binding private var selectionBiding: Int
     @State private var selectionState = 0
     @StateObject private var settings: PagerSettings
     private var useBinding: Bool
-    
-    
+
     public init(selection: Binding<Int>? = nil,
                 @ViewBuilder content: @escaping () -> Content) {
         self.content = content
@@ -34,19 +32,19 @@ public struct PagerTabStripView<Content> : View where Content: View {
         }
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
-    
+
     public var body: some View {
         WrapperPagerTabStripView(selection: useBinding ? $selectionBiding : $selectionState, content: content)
             .environmentObject(self.settings)
     }
 }
 
-private struct WrapperPagerTabStripView<Content> : View where Content: View {
-    
+private struct WrapperPagerTabStripView<Content>: View where Content: View {
+
     private var content: () -> Content
-    
+
     @StateObject private var dataStore = DataStore()
-    
+
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
     @Binding var selection: Int {
@@ -68,7 +66,7 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
         self.content = content
         self._selection = selection
     }
-    
+
     public var body: some View {
         GeometryReader { gproxy in
             LazyHStack(spacing: 0) {
@@ -82,12 +80,12 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
-                    if (selection == 0 && value.translation.width > 0) {
+                    if selection == 0 && value.translation.width > 0 {
                         let valueWidth = value.translation.width
                         let normTrans = valueWidth / (gproxy.size.width + 50)
                         let logValue = log(1 + normTrans)
                         state = gproxy.size.width/1.5 * logValue
-                    } else if (selection == dataStore.itemsCount - 1 && value.translation.width < 0) {
+                    } else if selection == dataStore.itemsCount - 1 && value.translation.width < 0 {
                         let valueWidth = -value.translation.width
                         let normTrans = valueWidth / (gproxy.size.width + 50)
                         let logValue = log(1 + normTrans)
@@ -139,5 +137,5 @@ private struct WrapperPagerTabStripView<Content> : View where Content: View {
         .environmentObject(self.dataStore)
         .clipped()
     }
-    
+
 }

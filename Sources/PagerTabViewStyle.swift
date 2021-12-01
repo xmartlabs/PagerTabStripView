@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 @available (*, deprecated, message: "use PagerStyls instead")
 public struct PagerTabViewStyle {
     /// The space between navigation bar tab items.  This parameter is 0 by default.
@@ -18,14 +17,13 @@ public struct PagerTabViewStyle {
     /// The height of the indicator bar. This parameter is blue by default.
     var indicatorBarColor: Color
 
-
     public init(tabItemSpacing: CGFloat = 0, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue) {
         self.tabItemSpacing = tabItemSpacing
         self.indicatorBarHeight = indicatorBarHeight
         self.indicatorBarColor = indicatorBarColor
     }
-    
-    public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue){
+
+    public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue) {
         self.init(tabItemSpacing: tabItemSpacing, indicatorBarHeight: indicatorBarHeight, indicatorBarColor: indicatorBarColor)
     }
 }
@@ -38,7 +36,9 @@ public enum PagerStyle {
     /// tabItemSpacing: The space between navigation bar tab items.
     case barButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
 
-    case scrollableBarButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10), tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
+    case scrollableBarButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue,
+                             padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
+                             tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
 
     internal var tabItemSpacing: CGFloat {
         switch self {
@@ -66,9 +66,9 @@ public enum PagerStyle {
         }
     }
 
-    internal var indicatorBarHeight: CGFloat{
+    internal var indicatorBarHeight: CGFloat {
         switch self {
-        case .bar(let height,_, _, _):
+        case .bar(let height, _, _, _):
             return height
         case .barButton(let height, _, _, _, _):
             return height

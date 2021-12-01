@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PostDetail: View {
     var post: Post
-    
+
     var body: some View {
         ScrollView {
             post.user.image
@@ -18,14 +18,14 @@ struct PostDetail: View {
                 .overlay(Circle().stroke(Color.white, lineWidth: 4))
                 .shadow(radius: 7)
                 .padding(.top, 100)
-            
+
             VStack(alignment: .center) {
                 Text(post.user.name)
                     .font(.title)
                     .foregroundColor(.primary)
-                
+
                 Spacer()
-                
+
                 Text(post.text)
                     .font(.headline)
                     .foregroundColor(.secondary)

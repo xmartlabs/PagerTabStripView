@@ -17,9 +17,9 @@ struct InstagramNavBarItem: View, PagerTabViewDelegate {
     var image: Image {
         Image(imageName)
     }
-    
+
     @ObservedObject fileprivate var theme = ButtonTheme()
-    
+
     var body: some View {
         VStack {
             image
@@ -31,7 +31,7 @@ struct InstagramNavBarItem: View, PagerTabViewDelegate {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.clear)
     }
-    
+
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:

@@ -14,9 +14,9 @@ private class ButtonTheme: ObservableObject {
 
 struct TwitterNavBarItem: View, PagerTabViewDelegate {
     let title: String
-    
+
     @ObservedObject fileprivate var theme = ButtonTheme()
-    
+
     var body: some View {
         VStack {
             Text(title)
@@ -25,7 +25,7 @@ struct TwitterNavBarItem: View, PagerTabViewDelegate {
         }
         .background(Color.clear)
     }
-    
+
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:

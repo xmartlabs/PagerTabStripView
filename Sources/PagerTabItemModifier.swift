@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
-    
+struct PagerTabItemModifier<NavTabView: View>: ViewModifier {
+
     private var navTabView: () -> NavTabView
-    
+
     init(navTabView: @escaping () -> NavTabView) {
         self.navTabView = navTabView
     }
@@ -33,7 +33,7 @@ struct PagerTabItemModifier<NavTabView: View> : ViewModifier {
                 }
         }
     }
-    
+
     @EnvironmentObject private var dataStore: DataStore
     @EnvironmentObject private var settings: PagerSettings
     @State private var index = -1

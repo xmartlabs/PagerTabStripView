@@ -9,7 +9,7 @@ import SwiftUI
 import PagerTabStripView
 
 struct ContentView: View {
-    
+
     var body: some View {
         NavigationView {
             List {

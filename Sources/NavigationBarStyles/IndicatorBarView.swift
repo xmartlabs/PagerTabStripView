@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 internal struct IndicatorBarView: View {
     @EnvironmentObject private var dataStore: DataStore
 
