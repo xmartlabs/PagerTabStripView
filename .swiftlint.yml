@@ -1,13 +1,8 @@
 disabled_rules: # rule identifiers to exclude from running
   - identifier_name
-  - cyclomatic_complexity
   - type_name
-  - type_body_length
-  - nesting
-  - force_cast
-  - force_try
 
-line_length: 225
+line_length: 120
 function_body_length:
   warning: 150
   error: 200
