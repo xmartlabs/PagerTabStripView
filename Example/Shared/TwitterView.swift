@@ -19,7 +19,7 @@ struct TwitterView: View {
     @ObservedObject var sixthModel = LikesModel()
 
     var body: some View {
-        PagerTabStripView(selection: $selection) {
+        PagerTabStripView(swipeGestureEnabled: false, selection: $selection) {
             PostsList(isLoading: $firstModel.isLoading, items: firstModel.posts).pagerTabItem {
                 TwitterNavBarItem(title: "First big width")
             }
