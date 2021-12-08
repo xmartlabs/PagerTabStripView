@@ -25,7 +25,8 @@ struct YoutubeView: View {
                 }
             }
 
-            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
+            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts,
+                      withDescription: false).pagerTabItem {
                 YoutubeNavBarItem(title: "Trending", imageName: "trending")
             }
             .onPageAppear {
