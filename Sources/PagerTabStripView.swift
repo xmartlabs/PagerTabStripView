@@ -19,8 +19,10 @@ public struct PagerTabStripView<Content>: View where Content: View {
     @State private var selectionState = 0
     @StateObject private var settings: PagerSettings
     private var useBinding: Bool
-
-    public init(selection: Binding<Int>? = nil,
+    private let swipeGestureEnabled: Bool
+    
+    public init(swipeGestureEnabled: Bool = true,
+                selection: Binding<Int>? = nil,
                 @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         if let selection = selection {
@@ -30,11 +32,12 @@ public struct PagerTabStripView<Content>: View where Content: View {
             useBinding = false
             self._selectionBiding = .constant(0)
         }
+        self.swipeGestureEnabled = swipeGestureEnabled
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
 
     public var body: some View {
-        WrapperPagerTabStripView(selection: useBinding ? $selectionBiding : $selectionState, content: content)
+        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: useBinding ? $selectionBiding : $selectionState, content: content)
             .environmentObject(self.settings)
     }
 }
@@ -61,8 +64,12 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
     }
     @GestureState private var translation: CGFloat = 0
 
-    public init(selection: Binding<Int>,
+    private let swipeGestureEnabled: Bool
+
+    public init(swipeGestureEnabled: Bool = true,
+                selection: Binding<Int>,
                 @ViewBuilder content: @escaping () -> Content) {
+        self.swipeGestureEnabled = swipeGestureEnabled
         self.content = content
         self._selection = selection
     }
@@ -80,7 +87,8 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
-                    if selection == 0 && value.translation.width > 0 {
+                    guard swipeGestureEnabled else { return }
+                    if (selection == 0 && value.translation.width > 0) {
                         let valueWidth = value.translation.width
                         let normTrans = valueWidth / (gproxy.size.width + 50)
                         let logValue = log(1 + normTrans)
@@ -94,6 +102,7 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                         state = value.translation.width
                     }
                 }.onEnded { value in
+                    guard swipeGestureEnabled else { return }
                     let offset = value.predictedEndTranslation.width / gproxy.size.width
                     let newPredictedIndex = (CGFloat(selection) - offset).rounded()
                     let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.itemsCount - 1)
