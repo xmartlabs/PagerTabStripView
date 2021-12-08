@@ -20,10 +20,5 @@ jobs:
       run: swift build -v
     - name: Run tests
       run: swift test -v
-      
-    - name: Install Homebrew
-      run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-    - name: Install linter
-      run: brew link --overwrite swiftlint || brew install swiftlint
     - name: Run linter
       run: swiftlint
