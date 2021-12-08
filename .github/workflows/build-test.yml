@@ -20,3 +20,5 @@ jobs:
       run: swift build -v
     - name: Run tests
       run: swift test -v
+    - name: Run linter
+      run: swiftlint
