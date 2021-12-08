@@ -21,7 +21,7 @@ class DataItem {
 }
 
 class DataStore: ObservableObject {
-    @Published var items = [Int: DataItem](){
+    @Published var items = [Int: DataItem]() {
         didSet {
             itemsCount = items.count
         }
@@ -30,7 +30,6 @@ class DataStore: ObservableObject {
     @Published private(set) var itemsCount: Int = 0
     @Published var widthUpdated: Bool = false
 
-
     func setView(_ view: AnyView, at index: Int) {
         if let item = items[index] {
             item.view = view
@@ -38,15 +37,14 @@ class DataStore: ObservableObject {
             items[index] = DataItem(view: view)
         }
     }
-    
-    func setTabViewDelegate(_ tabViewDelegate: PagerTabViewDelegate?, at index: Int){
+
+    func setTabViewDelegate(_ tabViewDelegate: PagerTabViewDelegate?, at index: Int) {
         if let item = items[index] {
             item.tabViewDelegate = tabViewDelegate
         } else {
             items[index] = DataItem(tabViewDelegate: tabViewDelegate)
         }
     }
-    
 
     func setAppear(callback: @escaping () -> Void, at index: Int) {
         if let item = items[index] {

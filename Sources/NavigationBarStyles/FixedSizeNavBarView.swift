@@ -11,7 +11,7 @@ import SwiftUI
 internal struct FixedSizeNavBarView: View {
     @Binding private var selection: Int
     @EnvironmentObject private var dataStore: DataStore
-    
+
     public init(selection: Binding<Int>) {
         self._selection = selection
     }

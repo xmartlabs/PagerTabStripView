@@ -10,24 +10,24 @@ import PagerTabStripView
 
 struct TwitterView: View {
     @State var selection = 2
-    
+
     @ObservedObject var firstModel = TweetsModel()
     @ObservedObject var secondModel = MediaModel()
     @ObservedObject var thirdModel = LikesModel()
     @ObservedObject var fourthModel = TweetsModel()
     @ObservedObject var fifthModel = MediaModel()
     @ObservedObject var sixthModel = LikesModel()
-    
+
     var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $firstModel.isLoading, items: firstModel.posts).pagerTabItem {
                 TwitterNavBarItem(title: "First big width")
             }
-            
+
             PostsList(isLoading: $secondModel.isLoading, items: secondModel.posts).pagerTabItem {
                 TwitterNavBarItem(title: "Short")
             }
-            
+
             PostsList(isLoading: $thirdModel.isLoading, items: thirdModel.posts, withDescription: false).pagerTabItem {
                 TwitterNavBarItem(title: "Medium width")
             }

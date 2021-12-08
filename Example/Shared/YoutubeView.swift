@@ -9,13 +9,13 @@ import SwiftUI
 import PagerTabStripView
 
 struct YoutubeView: View {
-    
+
     @ObservedObject var homeModel = HomeModel()
     @ObservedObject var trendingModel = TrendingModel()
     @ObservedObject var accountModel = AccountModel()
-    
+
     var body: some View {
-        PagerTabStripView() {
+        PagerTabStripView {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
                 YoutubeNavBarItem(title: "Home", imageName: "home")
             }.onPageAppear {
@@ -25,7 +25,8 @@ struct YoutubeView: View {
                 }
             }
 
-            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
+            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts,
+                      withDescription: false).pagerTabItem {
                 YoutubeNavBarItem(title: "Trending", imageName: "trending")
             }
             .onPageAppear {

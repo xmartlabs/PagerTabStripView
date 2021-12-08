@@ -30,7 +30,9 @@ struct SegmentedView: View {
             }
         }
         .frame(alignment: .center)
-        .pagerTabStripViewStyle(.segmentedControl(backgroundColor: .yellow, padding: EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0), placedInToolbar: false))
+        .pagerTabStripViewStyle(.segmentedControl(backgroundColor: .yellow,
+                                                  padding: EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
+                                                  placedInToolbar: false))
         .navigationBarTitleDisplayMode(.inline)
     }
 }

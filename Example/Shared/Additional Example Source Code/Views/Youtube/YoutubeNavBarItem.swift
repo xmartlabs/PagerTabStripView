@@ -9,7 +9,6 @@ import Combine
 import SwiftUI
 import PagerTabStripView
 
-
 let redColor = Color(red: 221/255.0, green: 0/255.0, blue: 19/255.0, opacity: 1.0)
 let unselectedColor = Color(red: 73/255.0, green: 8/255.0, blue: 10/255.0, opacity: 1.0)
 let selectedColor = Color(red: 234/255.0, green: 234/255.0, blue: 234/255.0, opacity: 0.7)
@@ -27,7 +26,7 @@ struct YoutubeNavBarItem: View, PagerTabViewDelegate {
     }
 
     @ObservedObject fileprivate var theme = ButtonTheme()
-    
+
     var body: some View {
         VStack {
             image

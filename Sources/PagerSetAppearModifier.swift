@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct PagerSetAppearItemModifier: ViewModifier {
-    
+
     private var onPageAppear: () -> Void
-    
+
     init(onPageAppear: @escaping () -> Void) {
         self.onPageAppear = onPageAppear
     }
@@ -27,7 +27,7 @@ struct PagerSetAppearItemModifier: ViewModifier {
                 }
             }
     }
-    
+
     @EnvironmentObject private var dataStore: DataStore
     @EnvironmentObject private var settings: PagerSettings
     @Environment(\.pagerStyle) var style: PagerStyle

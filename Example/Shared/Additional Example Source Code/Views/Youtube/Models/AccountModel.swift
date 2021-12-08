@@ -8,7 +8,7 @@
 import Foundation
 
 class AccountModel: ObservableObject {
-    
+
     var post: Post {
         PostsFactory.shared.posts[0]
     }

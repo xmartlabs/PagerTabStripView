@@ -10,15 +10,15 @@ import SwiftUI
 struct PostRow: View {
     var post: Post
     var withDescription: Bool = true
-    
+
     var body: some View {
-        HStack (alignment: .top){
+        HStack(alignment: .top) {
             post.user.image
                 .cornerRadius(5)
                 .frame(width: 70, height: 70, alignment: .leading)
                 .padding(.vertical)
-            
-            VStack (alignment: .leading){
+
+            VStack(alignment: .leading) {
                 if withDescription {
                     Text(post.user.name)
                         .bold()
@@ -37,7 +37,7 @@ struct PostRow: View {
 
 struct PostRow_Previews: PreviewProvider {
     static var posts = PostsFactory.shared.posts
-    
+
     static var previews: some View {
         Group {
             PostRow(post: posts[0])

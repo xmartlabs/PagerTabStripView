@@ -9,14 +9,14 @@ import SwiftUI
 import PagerTabStripView
 
 struct InstagramView: View {
-    
+
     @State var selection = 1
-    
+
     @ObservedObject var galleryModel = GalleryModel()
     @ObservedObject var listModel = ListModel()
     @ObservedObject var likedModel = LikedModel()
     @ObservedObject var savedModel = SavedModel()
-    
+
     var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
@@ -27,7 +27,7 @@ struct InstagramView: View {
                     galleryModel.isLoading = false
                 }
             }
-            
+
             PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false).pagerTabItem {
                 InstagramNavBarItem(imageName: "list")
             }.onPageAppear {
@@ -36,7 +36,7 @@ struct InstagramView: View {
                     listModel.isLoading = false
                 }
             }
-            
+
             PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts).pagerTabItem {
                 InstagramNavBarItem(imageName: "liked")
             }.onPageAppear {
@@ -45,7 +45,7 @@ struct InstagramView: View {
                     likedModel.isLoading = false
                 }
             }
-            
+
             PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false).pagerTabItem {
                 InstagramNavBarItem(imageName: "saved")
             }.onPageAppear {

@@ -35,10 +35,10 @@ internal struct ScrollableNavBarView: View {
             }
             .padding(self.style.padding)
             .onChange(of: switchAppeared) { _ in
-                //This is necessary because anchor: .center is not working correctly
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+                // This is necessary because anchor: .center is not working correctly
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     var remainingItemsWidth = dataStore.items[selection]?.itemWidth ?? 0 / 2
-                    let items = dataStore.items.filter { index, value in
+                    let items = dataStore.items.filter { index, _ in
                         index > selection
                     }
                     remainingItemsWidth += items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
@@ -88,7 +88,7 @@ internal struct IndicatorScrollableBarView: View {
             }
             .onChange(of: dataStore.widthUpdated) { updated in
                 if updated {
-                    let items = dataStore.items.filter { index, value in
+                    let items = dataStore.items.filter { index, _ in
                         index < selection
                     }
                     selectedItemWidth = dataStore.items[selection]?.itemWidth ?? 0
@@ -100,7 +100,7 @@ internal struct IndicatorScrollableBarView: View {
             .onChange(of: settings.contentOffset) { newValue in
                 let offset = newValue + (settings.width * CGFloat(selection))
                 let percentage = offset / settings.width
-                let items = dataStore.items.filter { index, value in
+                let items = dataStore.items.filter { index, _ in
                     index < selection
                 }
 
@@ -133,7 +133,7 @@ internal struct IndicatorScrollableBarView: View {
 
             }
             .onChange(of: selection) { newValue in
-                let items = dataStore.items.filter { index, value in
+                let items = dataStore.items.filter { index, _ in
                     index < newValue
                 }
                 selectedItemWidth = dataStore.items[newValue]?.itemWidth ?? 0
@@ -146,4 +146,3 @@ internal struct IndicatorScrollableBarView: View {
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }
-
