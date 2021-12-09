@@ -4,7 +4,7 @@ All notable changes to PagerTabStrip will be documented in this file.
 
 ### [3.1.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/3.1.0)
 
-<!-- Released on 2021-10-05. -->
+<!-- Released on 2021-12-09. -->
 
 - Disable swipe gesture support
 - Bug fixes
