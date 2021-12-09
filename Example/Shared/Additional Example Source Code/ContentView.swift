@@ -53,6 +53,15 @@ struct ContentView: View {
                     Text("Bar style")
                         .font(.body)
                 }
+                NavigationLink(destination: TwitterView(swipeGestureEnabled: false)) {
+                    VStack(alignment: .leading) {
+                        Text("Scrollable style, swipe disabled")
+                            .font(.body)
+                            .padding(.bottom, 1)
+                        Text("Only label")
+                            .font(.subheadline)
+                    }
+                }
             }
         }
     }

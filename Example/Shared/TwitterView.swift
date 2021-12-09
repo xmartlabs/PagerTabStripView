@@ -9,6 +9,7 @@ import SwiftUI
 import PagerTabStripView
 
 struct TwitterView: View {
+    private var swipeGestureEnabled: Bool
     @State var selection = 2
 
     @ObservedObject var firstModel = TweetsModel()
@@ -18,8 +19,12 @@ struct TwitterView: View {
     @ObservedObject var fifthModel = MediaModel()
     @ObservedObject var sixthModel = LikesModel()
 
+    public init(swipeGestureEnabled: Bool = true) {
+        self.swipeGestureEnabled = swipeGestureEnabled
+    }
+
     var body: some View {
-        PagerTabStripView(swipeGestureEnabled: false, selection: $selection) {
+        PagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: $selection) {
             PostsList(isLoading: $firstModel.isLoading, items: firstModel.posts).pagerTabItem {
                 TwitterNavBarItem(title: "First big width")
             }
