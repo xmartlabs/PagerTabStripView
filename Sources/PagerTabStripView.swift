@@ -20,7 +20,7 @@ public struct PagerTabStripView<Content>: View where Content: View {
     @StateObject private var settings: PagerSettings
     private var useBinding: Bool
     private let swipeGestureEnabled: Bool
-    
+
     public init(swipeGestureEnabled: Bool = true,
                 selection: Binding<Int>? = nil,
                 @ViewBuilder content: @escaping () -> Content) {
@@ -37,7 +37,9 @@ public struct PagerTabStripView<Content>: View where Content: View {
     }
 
     public var body: some View {
-        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: useBinding ? $selectionBiding : $selectionState, content: content)
+        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled,
+                                 selection: useBinding ? $selectionBiding : $selectionState,
+                                 content: content)
             .environmentObject(self.settings)
     }
 }
@@ -86,9 +88,9 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(
-                DragGesture().updating(self.$translation) { value, state, _ in
+                DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
                     guard swipeGestureEnabled else { return }
-                    if (selection == 0 && value.translation.width > 0) {
+                    if selection == 0 && value.translation.width > 0 {
                         let valueWidth = value.translation.width
                         let normTrans = valueWidth / (gproxy.size.width + 50)
                         let logValue = log(1 + normTrans)
