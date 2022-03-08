@@ -44,6 +44,10 @@ public enum PagerStyle {
                              padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
                              tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
 
+    // TODO: Get rid of the view erasure (`AnyView`) requirement and replace it with a view builder
+    case custom(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false,
+                indicator: () -> AnyView = { .init(Rectangle()) })
+
     internal var tabItemSpacing: CGFloat {
         switch self {
         case .bar(_, _, let spacing, _):
@@ -51,6 +55,8 @@ public enum PagerStyle {
         case .barButton(_, _, let spacing, _, _):
             return spacing
         case .scrollableBarButton(_, _, _, let spacing, _, _):
+            return spacing
+        case .custom(let spacing, _, _, _):
             return spacing
         default:
             return 0
@@ -89,6 +95,8 @@ public enum PagerStyle {
             return height
         case .scrollableBarButton(_, _, _, _, let height, _):
             return height
+        case .custom(_, let height, _, _):
+            return height
         default:
             return 0
         }
@@ -123,6 +131,8 @@ public enum PagerStyle {
         case .barButton( _, _, _, _, let placedInToolbar):
             return placedInToolbar
         case .scrollableBarButton( _, _, _, _, _, let placedInToolbar):
+            return placedInToolbar
+        case .custom( _, _, let placedInToolbar, _):
             return placedInToolbar
         }
     }
