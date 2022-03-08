@@ -46,12 +46,12 @@ struct NavBarWrapperView: View {
         case .segmentedControl:
             SegmentedNavBarView(selection: $selection)
         case .barButton:
-            FixedSizeNavBarView(selection: $selection)
+            FixedSizeNavBarView(selection: $selection) { EmptyView() }
             IndicatorBarView { Rectangle() }
         case .scrollableBarButton:
             ScrollableNavBarView(selection: $selection)
-        case .custom(_, _, _, let indicator):
-            FixedSizeNavBarView(selection: $selection)
+        case .custom(_, _, _, let indicator, let background):
+            FixedSizeNavBarView(selection: $selection) { background() }
             IndicatorBarView { indicator() }
         }
     }

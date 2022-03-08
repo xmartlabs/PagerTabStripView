@@ -8,12 +8,14 @@
 import Foundation
 import SwiftUI
 
-internal struct FixedSizeNavBarView: View {
+internal struct FixedSizeNavBarView<BG: View>: View {
     @Binding private var selection: Int
     @EnvironmentObject private var dataStore: DataStore
+    private var backgroundView: BG
 
-    public init(selection: Binding<Int>) {
+    public init(selection: Binding<Int>, background: () -> BG) {
         self._selection = selection
+        self.backgroundView = background()
     }
 
     var body: some View {
@@ -26,6 +28,7 @@ internal struct FixedSizeNavBarView: View {
             }
         }
         .frame(height: self.style.tabItemHeight)
+        .background(backgroundView)
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle
