@@ -44,6 +44,7 @@
 		AB9F880F2682837E00CCBFC3 /* InstagramNavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */; };
 		ABD7CC7826BC906000BFF5AC /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */; };
 		ABD7CC7926BC906100BFF5AC /* PagerTabStripView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C44D9C7527DB56890001CD14 /* CustomStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44D9C7427DB56890001CD14 /* CustomStyleView.swift */; };
 		E0881C5C26C5836F00768CA7 /* SegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0881C5B26C5836F00768CA7 /* SegmentedView.swift */; };
 		E0881C6026C595AC00768CA7 /* BarStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0881C5F26C595AC00768CA7 /* BarStyleView.swift */; };
 /* End PBXBuildFile section */
@@ -135,6 +136,7 @@
 		AB9F8806268282FA00CCBFC3 /* YoutubeNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeNavBarItem.swift; sourceTree = "<group>"; };
 		AB9F880E2682837E00CCBFC3 /* InstagramNavBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramNavBarItem.swift; sourceTree = "<group>"; };
 		ABD7CC7726BC906000BFF5AC /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C44D9C7427DB56890001CD14 /* CustomStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStyleView.swift; sourceTree = "<group>"; };
 		E0881C5B26C5836F00768CA7 /* SegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedView.swift; sourceTree = "<group>"; };
 		E0881C5F26C595AC00768CA7 /* BarStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarStyleView.swift; sourceTree = "<group>"; };
 		E1F58C3724D083C500A3E642 /* PagerTabStripView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagerTabStripView.xcodeproj; path = ../PagerTabStripView.xcodeproj; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				AB89C56E26961A0B002E7B28 /* YoutubeView.swift */,
 				E0881C5B26C5836F00768CA7 /* SegmentedView.swift */,
 				E0881C5F26C595AC00768CA7 /* BarStyleView.swift */,
+				C44D9C7427DB56890001CD14 /* CustomStyleView.swift */,
 				28070C6126B2005C002346E1 /* Additional Example Source Code */,
 				2857500224C21EB400ED22AD /* Assets.xcassets */,
 			);
@@ -601,6 +604,7 @@
 				AB9F87DF26826C2000CCBFC3 /* PostsFactory.swift in Sources */,
 				AB9F87EC26826CB500CCBFC3 /* User.swift in Sources */,
 				AB9F87E726826C4D00CCBFC3 /* Post.swift in Sources */,
+				C44D9C7527DB56890001CD14 /* CustomStyleView.swift in Sources */,
 				AB7EEE7E26AB5B61008804D4 /* TrendingModel.swift in Sources */,
 				AB89C58126961E8E002E7B28 /* TwitterNavBarItem.swift in Sources */,
 			);

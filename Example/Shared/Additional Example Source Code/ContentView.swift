@@ -55,7 +55,16 @@ struct ContentView: View {
                     Text("Bar style")
                         .font(.body)
                 }
-                
+
+                NavigationLink(destination: CustomStyleView()) {
+                    VStack(alignment: .leading) {
+                        Text("Custom style")
+                            .font(.body)
+                            .padding(.bottom, 1)
+                    }
+                    .padding([.top, .bottom], 2)
+                }
+
                 NavigationLink(destination: TwitterView(swipeGestureEnabled: false)) {
                     VStack(alignment: .leading) {
                         Text("Scrollable style, swipe disabled")
