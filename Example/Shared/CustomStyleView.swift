@@ -10,8 +10,15 @@ import PagerTabStripView
 
 struct CustomStyleView: View {
 
-    private let 🌈: [Color] = [.purple, .blue, .green, .yellow, .orange, .red]
-
+    private let 🌈: [Color] = [
+        .red,
+        .orange,
+        .yellow,
+        .green,
+        .blue,
+        .purple
+    ]
+    
     var body: some View {
         PagerTabStripView {
 
