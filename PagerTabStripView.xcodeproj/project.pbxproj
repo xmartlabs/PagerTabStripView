@@ -12,6 +12,7 @@
 		28F828881C494B2C00330CF4 /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */; };
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AB80DE8626BC93720022F57D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB80DE8326BC93720022F57D /* Info.plist */; };
+		C44D9C7F27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44D9C7E27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift */; };
 		C7A02C01269377D400BFE31B /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A02C00269377D400BFE31B /* DataStore.swift */; };
 		E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */; };
 		E04615E526C453AD0050A5D3 /* FixedSizeNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */; };
@@ -45,6 +46,7 @@
 		28F8288E1C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB80DE8226BC93720022F57D /* PagerTabStripView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripView.h; sourceTree = "<group>"; };
 		AB80DE8326BC93720022F57D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C44D9C7E27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PagerStyle+CustomCaseInitializers.swift"; sourceTree = "<group>"; };
 		C7A02C00269377D400BFE31B /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedNavBarView.swift; sourceTree = "<group>"; };
 		E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedSizeNavBarView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */,
 				E07FB08126AF3B7200CDCFD8 /* PagerTabViewDelegate.swift */,
 				28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */,
+				C44D9C7E27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				C7A02C01269377D400BFE31B /* DataStore.swift in Sources */,
 				E04615E726C453E10050A5D3 /* IndicatorBarView.swift in Sources */,
 				E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */,
+				C44D9C7F27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift in Sources */,
 				E07FB08526AF3CAA00CDCFD8 /* NavBarModifier.swift in Sources */,
 				28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */,
 				E07FB07A26AF36B400CDCFD8 /* PagerSetAppearModifier.swift in Sources */,
@@ -441,7 +445,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStripView.PagerTabStripView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -465,7 +469,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStripView.PagerTabStripView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

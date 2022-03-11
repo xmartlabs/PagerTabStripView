@@ -8,8 +8,10 @@
 import Foundation
 import SwiftUI
 
-internal struct IndicatorBarView: View {
+internal struct IndicatorBarView<Indicator: View>: View {
     @EnvironmentObject private var dataStore: DataStore
+
+    @ViewBuilder var indicator: Indicator
 
     var body: some View {
         HStack {
@@ -17,8 +19,9 @@ internal struct IndicatorBarView: View {
             let navBarItemWidth = totalItemWidth / CGFloat(dataStore.itemsCount)
             if let width = navBarItemWidth, width > 0, width <= settings.width {
                 let x = -settings.contentOffset / CGFloat(dataStore.itemsCount) + width / 2
-                Rectangle()
-                    .fill(style.indicatorBarColor)
+
+                indicator
+                    .foregroundColor(style.indicatorBarColor)
                     .animation(.default)
                     .frame(width: width)
                     .position(x: x, y: 0)

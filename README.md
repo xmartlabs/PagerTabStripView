@@ -100,7 +100,7 @@ As you may've already noticed, everything is SwiftUI code, so you can update the
 
 ### Customize pager style
 
-PagerTabstripView provides 3 different ways to show the views. You can select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier.
+PagerTabStripView provides 5 different ways to show the views. You can select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier.
 
 #### Scrollable style
 
@@ -194,10 +194,40 @@ This style only shows a bar that indicates the current view controller. The cust
 
 #### Segmented style
 
-This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it setted in the toolbar.
+This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it to be set in the toolbar.
 
 <div style="text-align:center">
     <img src="Example/Media/segmentedStyleExample.gif">
+</div>
+
+#### Custom style
+
+This style uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
+
+```
+        .pagerTabStripViewStyle(
+            .custom(
+                tabItemHeight: 48,
+                indicator: {
+                    Text("👍🏻")
+                        .offset(x: 0, y: -24)
+                },
+                background: {
+                    LinearGradient(
+                        colors: 🌈,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    .opacity(0.2)
+                }
+            )
+        )
+```
+
+See how it looks:
+
+<div style="text-align:center">
+    <img src="Example/Media/customStyleExample.gif">
 </div>
 
 ## Navigation bar
