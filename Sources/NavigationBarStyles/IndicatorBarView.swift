@@ -11,11 +11,7 @@ import SwiftUI
 internal struct IndicatorBarView<Indicator: View>: View {
     @EnvironmentObject private var dataStore: DataStore
 
-    let indicator: Indicator
-
-    init(indicator: ()->Indicator) {
-        self.indicator = indicator()
-    }
+    @ViewBuilder var indicator: Indicator
 
     var body: some View {
         HStack {
