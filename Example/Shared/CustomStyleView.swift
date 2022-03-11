@@ -40,20 +40,16 @@ struct CustomStyleView: View {
             .custom(
                 tabItemHeight: 48,
                 indicator: {
-                    .init(
-                        Text("👍🏻")
-                            .offset(x: 0, y: -24)
-                    )
+                    Text("👍🏻")
+                        .offset(x: 0, y: -24)
                 },
                 background: {
-                    .init(
-                        LinearGradient(
-                            colors: 🌈,
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                            .opacity(0.2)
+                    LinearGradient(
+                        colors: 🌈,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
                     )
+                        .opacity(0.2)
                 }
             )
         )
