@@ -45,14 +45,17 @@ struct ContentView: View {
                     }
                     .padding([.top, .bottom], 2)
                 }
+
                 NavigationLink(destination: SegmentedView()) {
                     Text("Segmented style")
                         .font(.body)
                 }
+
                 NavigationLink(destination: BarStyleView()) {
                     Text("Bar style")
                         .font(.body)
                 }
+                
                 NavigationLink(destination: TwitterView(swipeGestureEnabled: false)) {
                     VStack(alignment: .leading) {
                         Text("Scrollable style, swipe disabled")
