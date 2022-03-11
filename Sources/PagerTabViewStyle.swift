@@ -44,7 +44,6 @@ public enum PagerStyle {
                              padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
                              tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
 
-    // TODO: Get rid of the view erasure (`AnyView`) requirement and replace it with a view builder
     case custom(tabItemSpacing: CGFloat, tabItemHeight: CGFloat, placedInToolbar: Bool, indicator: () -> AnyView, background: () -> AnyView)
 
     internal var tabItemSpacing: CGFloat {
