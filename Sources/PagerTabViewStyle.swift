@@ -45,8 +45,7 @@ public enum PagerStyle {
                              tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
 
     // TODO: Get rid of the view erasure (`AnyView`) requirement and replace it with a view builder
-    case custom(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false,
-                indicator: () -> AnyView = { .init(Rectangle()) }, background: () -> AnyView = { .init(EmptyView()) })
+    case custom(tabItemSpacing: CGFloat, tabItemHeight: CGFloat, placedInToolbar: Bool, indicator: () -> AnyView, background: () -> AnyView)
 
     internal var tabItemSpacing: CGFloat {
         switch self {
