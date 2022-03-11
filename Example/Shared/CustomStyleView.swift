@@ -51,6 +51,7 @@ struct CustomStyleView: View {
             )
         )
         .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("🌈 Rainbow")
     }
 }
 
