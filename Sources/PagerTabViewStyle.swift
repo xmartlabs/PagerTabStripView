@@ -71,6 +71,9 @@ public enum PagerStyle {
             return color
         case .scrollableBarButton(_, let color, _, _, _, _):
             return color
+        case .custom:
+            /// - Note: Clear color will hide the indicator and it's hard find the cause of this for the user
+            return Color.blue
         default:
             return Color.clear
         }
