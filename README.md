@@ -194,7 +194,7 @@ This style only shows a bar that indicates the current view controller. The cust
 
 #### Segmented style
 
-This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it setted in the toolbar.
+This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it to be set in the toolbar.
 
 <div style="text-align:center">
     <img src="Example/Media/segmentedStyleExample.gif">
