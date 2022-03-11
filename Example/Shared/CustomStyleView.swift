@@ -29,6 +29,16 @@ struct CustomStyleView: View {
             }
         }
         .frame(alignment: .center)
+        .pagerTabStripViewStyle(
+            .custom(
+                tabItemHeight: 48,
+                indicator: {
+                    .init(
+                        Text("🔺")
+                    )
+                }
+            )
+        )
         .navigationBarTitleDisplayMode(.inline)
     }
 }
