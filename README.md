@@ -100,7 +100,7 @@ As you may've already noticed, everything is SwiftUI code, so you can update the
 
 ### Customize pager style
 
-PagerTabStripView provides 3 different ways to show the views. You can select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier.
+PagerTabStripView provides 4 different ways to show the views. You can select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier.
 
 #### Scrollable style
 
