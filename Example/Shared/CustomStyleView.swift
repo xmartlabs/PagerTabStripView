@@ -49,7 +49,7 @@ struct CustomStyleView: View {
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
-                        .opacity(0.2)
+                    .opacity(0.2)
                 }
             )
         )
