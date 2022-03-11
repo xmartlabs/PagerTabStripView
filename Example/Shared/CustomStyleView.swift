@@ -37,6 +37,16 @@ struct CustomStyleView: View {
                         Text("👍🏻")
                             .offset(x: 0, y: -24)
                     )
+                },
+                background: {
+                    .init(
+                        LinearGradient(
+                            colors: 🌈,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                            .opacity(0.2)
+                    )
                 }
             )
         )
