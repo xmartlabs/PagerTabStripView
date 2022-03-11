@@ -202,7 +202,7 @@ This style uses a Segmented Picker to indicate which view is being displayed. Yo
 
 #### Custom style
 
-This style uses the provided view to indicate which view is being displayed on top of the other provided view for the background of the items. You can use fully customized views for the indicator and the background view in any way you need.
+This style uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
 
 <div style="text-align:center">
     <img src="Example/Media/customStyleExample.gif">
