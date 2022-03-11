@@ -10,9 +10,12 @@ import SwiftUI
 /// Case helper for crating generic cases and easier to use ViewBuilders
 public extension PagerStyle {
 
+    static let defaultTabItemSpacing: CGFloat = 0
+    static let defaultTabItemHeight: CGFloat = 60
+
     static func custom<Indicator: View, Background: View>(
-        tabItemSpacing: CGFloat = 0,
-        tabItemHeight: CGFloat = 60,
+        tabItemSpacing: CGFloat = defaultTabItemSpacing,
+        tabItemHeight: CGFloat = defaultTabItemHeight,
         placedInToolbar: Bool = false,
         @ViewBuilder indicator: @escaping () -> Indicator,
         @ViewBuilder background: @escaping () -> Background
@@ -21,16 +24,14 @@ public extension PagerStyle {
             tabItemSpacing: tabItemSpacing,
             tabItemHeight: tabItemHeight,
             placedInToolbar: placedInToolbar,
-            indicator: {
-                .init(indicator())
-            },
+            indicator: { .init(indicator()) },
             background: { .init(background()) }
         )
     }
 
     static func custom<Indicator: View>(
-        tabItemSpacing: CGFloat = 0,
-        tabItemHeight: CGFloat = 60,
+        tabItemSpacing: CGFloat = defaultTabItemSpacing,
+        tabItemHeight: CGFloat = defaultTabItemHeight,
         placedInToolbar: Bool = false,
         @ViewBuilder indicator: @escaping () -> Indicator
     ) -> Self {
@@ -44,8 +45,8 @@ public extension PagerStyle {
     }
 
     static func custom<Background: View>(
-        tabItemSpacing: CGFloat = 0,
-        tabItemHeight: CGFloat = 60,
+        tabItemSpacing: CGFloat = defaultTabItemSpacing,
+        tabItemHeight: CGFloat = defaultTabItemHeight,
         placedInToolbar: Bool = false,
         @ViewBuilder background: @escaping () -> Background
     ) -> Self {
