@@ -39,8 +39,8 @@ public extension PagerStyle {
             tabItemSpacing: tabItemSpacing,
             tabItemHeight: tabItemHeight,
             placedInToolbar: placedInToolbar,
-            indicator: { .init(indicator()) },
-            background: { .init(EmptyView()) }
+            indicator: indicator,
+            background: { EmptyView() }
         )
     }
 
@@ -54,8 +54,8 @@ public extension PagerStyle {
             tabItemSpacing: tabItemSpacing,
             tabItemHeight: tabItemHeight,
             placedInToolbar: placedInToolbar,
-            indicator: { .init(Rectangle()) },
-            background: { .init(background()) }
+            indicator: { Rectangle() },
+            background: background
         )
     }
 }
