@@ -34,7 +34,8 @@ struct CustomStyleView: View {
                 tabItemHeight: 48,
                 indicator: {
                     .init(
-                        Text("🔺")
+                        Text("👍🏻")
+                            .offset(x: 0, y: -24)
                     )
                 }
             )
