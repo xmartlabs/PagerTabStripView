@@ -204,6 +204,32 @@ This style uses a Segmented Picker to indicate which view is being displayed. Yo
 
 This style uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
 
+```
+        .pagerTabStripViewStyle(
+            .custom(
+                tabItemHeight: 48,
+                indicator: {
+                    .init(
+                        Text("👍🏻")
+                            .offset(x: 0, y: -24)
+                    )
+                },
+                background: {
+                    .init(
+                        LinearGradient(
+                            colors: 🌈,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                            .opacity(0.2)
+                    )
+                }
+            )
+        )
+```
+
+See how it looks:
+
 <div style="text-align:center">
     <img src="Example/Media/customStyleExample.gif">
 </div>
