@@ -44,7 +44,8 @@ public enum PagerStyle {
                              padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
                              tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
 
-    case custom(tabItemSpacing: CGFloat, tabItemHeight: CGFloat, placedInToolbar: Bool, indicator: () -> AnyView, background: () -> AnyView)
+    case custom(tabItemSpacing: CGFloat, tabItemHeight: CGFloat, placedInToolbar: Bool, indicator: () -> AnyView,
+                background: () -> AnyView, pagerAnimation: Animation?)
 
     internal var tabItemSpacing: CGFloat {
         switch self {
@@ -54,7 +55,7 @@ public enum PagerStyle {
             return spacing
         case .scrollableBarButton(_, _, _, let spacing, _, _):
             return spacing
-        case .custom(let spacing, _, _, _, _):
+        case .custom(let spacing, _, _, _, _, _):
             return spacing
         default:
             return 0
@@ -96,7 +97,7 @@ public enum PagerStyle {
             return height
         case .scrollableBarButton(_, _, _, _, let height, _):
             return height
-        case .custom(_, let height, _, _, _):
+        case .custom(_, let height, _, _, _, _):
             return height
         default:
             return 0
@@ -133,8 +134,17 @@ public enum PagerStyle {
             return placedInToolbar
         case .scrollableBarButton( _, _, _, _, _, let placedInToolbar):
             return placedInToolbar
-        case .custom( _, _, let placedInToolbar, _, _):
+        case .custom( _, _, let placedInToolbar, _, _, _):
             return placedInToolbar
+        }
+    }
+
+    internal var pagerAnimation: Animation? {
+        switch self {
+        case .custom(_, _, _, _, _, let pagerAnimation):
+            return pagerAnimation
+        default:
+            return PagerStyle.defaultPagerAnimation
         }
     }
 }

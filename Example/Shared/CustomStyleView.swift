@@ -18,7 +18,7 @@ struct CustomStyleView: View {
         .blue,
         .purple
     ]
-    
+
     var body: some View {
         PagerTabStripView {
 
@@ -50,7 +50,8 @@ struct CustomStyleView: View {
                         endPoint: .bottomTrailing
                     )
                     .opacity(0.2)
-                }
+                },
+                pagerAnimation: .interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25)
             )
         )
         .navigationBarTitleDisplayMode(.inline)

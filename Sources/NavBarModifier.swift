@@ -50,7 +50,7 @@ struct NavBarWrapperView: View {
             IndicatorBarView { Rectangle() }
         case .scrollableBarButton:
             ScrollableNavBarView(selection: $selection)
-        case .custom(_, _, _, let indicator, let background):
+        case .custom(_, _, _, let indicator, let background, _):
             FixedSizeNavBarView(selection: $selection) { background() }
             IndicatorBarView { indicator() }
         }
