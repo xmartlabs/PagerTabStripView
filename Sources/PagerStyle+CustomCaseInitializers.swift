@@ -14,12 +14,12 @@ public extension PagerStyle {
     static let defaultTabItemHeight: CGFloat = 60
     static let defaultPagerAnimation: Animation = .interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25)
 
-    static func custom<Indicator: View, Background: View>(
+    static func custom(
         tabItemSpacing: CGFloat = defaultTabItemSpacing,
         tabItemHeight: CGFloat = defaultTabItemHeight,
         placedInToolbar: Bool = false,
-        @ViewBuilder indicator: @escaping () -> Indicator,
-        @ViewBuilder background: @escaping () -> Background,
+        @ViewBuilder indicator: @escaping () -> some View,
+        @ViewBuilder background: @escaping () -> some View,
         pagerAnimation: Animation? = defaultPagerAnimation
     ) -> Self {
         .custom(
@@ -32,11 +32,11 @@ public extension PagerStyle {
         )
     }
 
-    static func custom<Indicator: View>(
+    static func custom(
         tabItemSpacing: CGFloat = defaultTabItemSpacing,
         tabItemHeight: CGFloat = defaultTabItemHeight,
         placedInToolbar: Bool = false,
-        @ViewBuilder indicator: @escaping () -> Indicator,
+        @ViewBuilder indicator: @escaping () -> some View,
         pagerAnimation: Animation? = defaultPagerAnimation
     ) -> Self {
         .custom(
@@ -49,11 +49,11 @@ public extension PagerStyle {
         )
     }
 
-    static func custom<Background: View>(
+    static func custom(
         tabItemSpacing: CGFloat = defaultTabItemSpacing,
         tabItemHeight: CGFloat = defaultTabItemHeight,
         placedInToolbar: Bool = false,
-        @ViewBuilder background: @escaping () -> Background,
+        @ViewBuilder background: @escaping () -> some View,
         pagerAnimation: Animation = defaultPagerAnimation
     ) -> Self {
         .custom(

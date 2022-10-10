@@ -12,7 +12,7 @@ class PagerSettings: ObservableObject {
 }
 
 @available(iOS 14.0, *)
-public struct PagerTabStripView<Content>: View where Content: View {
+public struct PagerTabStripView<Content: View>: View {
     private var content: () -> Content
 
     @Binding private var selectionBiding: Int
@@ -25,7 +25,7 @@ public struct PagerTabStripView<Content>: View where Content: View {
                 selection: Binding<Int>? = nil,
                 @ViewBuilder content: @escaping () -> Content) {
         self.content = content
-        if let selection = selection {
+        if let selection {
             useBinding = true
             self._selectionBiding = selection
         } else {
@@ -44,7 +44,7 @@ public struct PagerTabStripView<Content>: View where Content: View {
     }
 }
 
-private struct WrapperPagerTabStripView<Content>: View where Content: View {
+private struct WrapperPagerTabStripView<Content: View>: View {
 
     private var content: () -> Content
 
