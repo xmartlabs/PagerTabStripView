@@ -85,7 +85,7 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             .coordinateSpace(name: "PagerViewScrollView")
             .offset(x: -CGFloat(self.selection) * gproxy.size.width)
             .offset(x: self.translation)
-            .animation(.interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), value: selection)
+            .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(
                 DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
