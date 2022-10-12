@@ -3,19 +3,19 @@ name: Build and test
 on:
   pull_request:
   push:
-    branches: 
+    branches:
       - master
 
 jobs:
   build:
 
-    runs-on: macos-11
+    runs-on: macos-12
 
     steps:
     - uses: actions/checkout@v2
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '13.0'
+        xcode-version: '14.0'
     - name: Build
       run: swift build -v
     - name: Run tests
