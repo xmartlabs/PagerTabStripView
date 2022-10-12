@@ -18,8 +18,8 @@ public extension PagerStyle {
         tabItemSpacing: CGFloat = defaultTabItemSpacing,
         tabItemHeight: CGFloat = defaultTabItemHeight,
         placedInToolbar: Bool = false,
-        @ViewBuilder indicator: @escaping () -> some View,
-        @ViewBuilder background: @escaping () -> some View,
+        @ViewBuilder indicator: @escaping () -> some View = { Rectangle() },
+        @ViewBuilder background: @escaping () -> some View = { EmptyView() },
         pagerAnimation: Animation? = defaultPagerAnimation
     ) -> Self {
         .custom(
@@ -28,40 +28,6 @@ public extension PagerStyle {
             placedInToolbar: placedInToolbar,
             indicator: { .init(indicator()) },
             background: { .init(background()) },
-            pagerAnimation: pagerAnimation
-        )
-    }
-
-    static func custom(
-        tabItemSpacing: CGFloat = defaultTabItemSpacing,
-        tabItemHeight: CGFloat = defaultTabItemHeight,
-        placedInToolbar: Bool = false,
-        @ViewBuilder indicator: @escaping () -> some View,
-        pagerAnimation: Animation? = defaultPagerAnimation
-    ) -> Self {
-        .custom(
-            tabItemSpacing: tabItemSpacing,
-            tabItemHeight: tabItemHeight,
-            placedInToolbar: placedInToolbar,
-            indicator: indicator,
-            background: { EmptyView() },
-            pagerAnimation: pagerAnimation
-        )
-    }
-
-    static func custom(
-        tabItemSpacing: CGFloat = defaultTabItemSpacing,
-        tabItemHeight: CGFloat = defaultTabItemHeight,
-        placedInToolbar: Bool = false,
-        @ViewBuilder background: @escaping () -> some View,
-        pagerAnimation: Animation = defaultPagerAnimation
-    ) -> Self {
-        .custom(
-            tabItemSpacing: tabItemSpacing,
-            tabItemHeight: tabItemHeight,
-            placedInToolbar: placedInToolbar,
-            indicator: { Rectangle() },
-            background: background,
             pagerAnimation: pagerAnimation
         )
     }

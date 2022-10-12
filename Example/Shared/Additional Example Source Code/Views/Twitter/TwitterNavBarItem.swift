@@ -29,11 +29,11 @@ struct TwitterNavBarItem: View, PagerTabViewDelegate {
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
-            self.theme.textColor = .blue
+            theme.textColor = .blue
         case .highlighted:
-            self.theme.textColor = .red
+            theme.textColor = .red
         default:
-            self.theme.textColor = .gray
+            theme.textColor = .gray
         }
     }
 }

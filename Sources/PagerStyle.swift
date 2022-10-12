@@ -25,8 +25,7 @@ public enum PagerStyle {
                              padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
                              tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
 
-    case custom(tabItemSpacing: CGFloat, tabItemHeight: CGFloat, placedInToolbar: Bool, indicator: () -> AnyView,
-                background: () -> AnyView, pagerAnimation: Animation?)
+    case custom(tabItemSpacing: CGFloat, tabItemHeight: CGFloat, placedInToolbar: Bool, indicator: () -> AnyView, background: () -> AnyView, pagerAnimation: Animation?)
 
     internal var tabItemSpacing: CGFloat {
         switch self {
@@ -53,9 +52,9 @@ public enum PagerStyle {
             return color
         case .custom:
             /// - Note: Clear color will hide the indicator and it's hard find the cause of this for the user
-            return Color.blue
+            return .blue
         default:
-            return Color.clear
+            return .clear
         }
     }
 

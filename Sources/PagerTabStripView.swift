@@ -17,14 +17,13 @@ public struct PagerTabStripView<Content>: View where Content: View {
 
     @Binding private var selectionBiding: Int
     @State private var selectionState = 0
+    @Binding private var swipeGestureEnabled: Bool
     @StateObject private var settings: PagerSettings
     private var useBinding: Bool
-    private let swipeGestureEnabled: Bool
 
-    public init(swipeGestureEnabled: Bool = true,
-                selection: Binding<Int>? = nil,
-                @ViewBuilder content: @escaping () -> Content) {
+    public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<Int>? = nil, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
+        self._swipeGestureEnabled = swipeGestureEnabled
         if let selection {
             useBinding = true
             self._selectionBiding = selection
@@ -32,12 +31,12 @@ public struct PagerTabStripView<Content>: View where Content: View {
             useBinding = false
             self._selectionBiding = .constant(0)
         }
-        self.swipeGestureEnabled = swipeGestureEnabled
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
+    
 
     @MainActor public var body: some View {
-        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled,
+        WrapperPagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled,
                                  selection: useBinding ? $selectionBiding : $selectionState,
                                  content: content)
             .environmentObject(self.settings)
@@ -65,13 +64,10 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
         }
     }
     @GestureState private var translation: CGFloat = 0
+    @Binding private var swipeGestureEnabled: Bool
 
-    private let swipeGestureEnabled: Bool
-
-    public init(swipeGestureEnabled: Bool = true,
-                selection: Binding<Int>,
-                @ViewBuilder content: @escaping () -> Content) {
-        self.swipeGestureEnabled = swipeGestureEnabled
+    public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<Int>, @ViewBuilder content: @escaping () -> Content) {
+        self._swipeGestureEnabled = swipeGestureEnabled
         self.content = content
         self._selection = selection
     }
@@ -87,7 +83,7 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             .offset(x: self.translation)
             .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
-            .gesture(
+            .gesture(!swipeGestureEnabled ? nil :
                 DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
                     guard swipeGestureEnabled else { return }
                     if selection == 0 && value.translation.width > 0 {
