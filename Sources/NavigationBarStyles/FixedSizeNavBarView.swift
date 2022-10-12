@@ -18,7 +18,7 @@ internal struct FixedSizeNavBarView<BG: View>: View {
         self.backgroundView = background()
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         HStack(spacing: style.tabItemSpacing) {
             if dataStore.itemsCount > 0 && settings.width > 0 {
                 ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in

@@ -15,7 +15,7 @@ struct SegmentedView: View {
     @ObservedObject var mediaModel = MediaModel()
     @ObservedObject var likesModel = LikesModel()
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
                 Text("Tweets")

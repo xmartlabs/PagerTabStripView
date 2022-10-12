@@ -19,7 +19,7 @@ struct PostsList: View {
         self.withDescription = withDescription
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         VStack {
             if isLoading {
                 ProgressView()

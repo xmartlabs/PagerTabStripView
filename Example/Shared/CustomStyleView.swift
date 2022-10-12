@@ -19,7 +19,7 @@ struct CustomStyleView: View {
         .purple
     ]
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView {
 
             ForEach(🌈, id: \.self) { color in

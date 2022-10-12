@@ -17,7 +17,7 @@ struct NavBarItem: View {
         self.id = id
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         if id < dataStore.itemsCount {
             VStack {
                 Button(action: {

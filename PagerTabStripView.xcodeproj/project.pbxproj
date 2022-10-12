@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */; };
+		28070C6026B1AF52002346E1 /* PagerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerStyle.swift */; };
 		287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */; };
 		28F828881C494B2C00330CF4 /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */; };
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -39,7 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabViewStyle.swift; sourceTree = "<group>"; };
+		28070C5F26B1AF52002346E1 /* PagerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerStyle.swift; sourceTree = "<group>"; };
 		287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagerTabStripTests.swift; path = Tests/PagerTabStripTests.swift; sourceTree = SOURCE_ROOT; };
 		28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828871C494B2C00330CF4 /* PagerTabStripViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagerTabStripViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,19 +111,35 @@
 		28F828971C494B4200330CF4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				28FFEDB528F632290064C71A /* Data */,
+				28FFEDB428F6320C0064C71A /* Modifiers */,
 				E04615E126C450FE0050A5D3 /* NavigationBarStyles */,
-				E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */,
-				E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */,
-				E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */,
 				E1FA589824C8BC1B0081FBE7 /* PagerTabStripView.swift */,
-				C7A02C00269377D400BFE31B /* DataStore.swift */,
-				E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */,
 				E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */,
 				E07FB08126AF3B7200CDCFD8 /* PagerTabViewDelegate.swift */,
-				28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */,
+				28070C5F26B1AF52002346E1 /* PagerStyle.swift */,
 				C44D9C7E27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		28FFEDB428F6320C0064C71A /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */,
+				E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */,
+				E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */,
+				E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */,
+			);
+			name = Modifiers;
+			sourceTree = "<group>";
+		};
+		28FFEDB528F632290064C71A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C7A02C00269377D400BFE31B /* DataStore.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		AB80DE8126BC93720022F57D /* PagerTabStripView */ = {
@@ -291,7 +307,7 @@
 				E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */,
 				C44D9C7F27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift in Sources */,
 				E07FB08526AF3CAA00CDCFD8 /* NavBarModifier.swift in Sources */,
-				28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */,
+				28070C6026B1AF52002346E1 /* PagerStyle.swift in Sources */,
 				E07FB07A26AF36B400CDCFD8 /* PagerSetAppearModifier.swift in Sources */,
 				E07FB08026AF39C300CDCFD8 /* NavBarItem.swift in Sources */,
 			);

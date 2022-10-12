@@ -17,7 +17,7 @@ struct InstagramView: View {
     @ObservedObject var likedModel = LikedModel()
     @ObservedObject var savedModel = SavedModel()
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
                 InstagramNavBarItem(imageName: "gallery")

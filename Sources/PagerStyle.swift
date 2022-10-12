@@ -8,27 +8,8 @@
 import Foundation
 import SwiftUI
 
-@available (*, deprecated, message: "use PagerStyls instead")
-public struct PagerTabViewStyle {
-    /// The space between navigation bar tab items.  This parameter is 0 by default.
-    var tabItemSpacing: CGFloat
-    /// The height of the indicator bar. This parameter is 2 by default.
-    var indicatorBarHeight: CGFloat
-    /// The height of the indicator bar. This parameter is blue by default.
-    var indicatorBarColor: Color
-
-    public init(tabItemSpacing: CGFloat = 0, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue) {
-        self.tabItemSpacing = tabItemSpacing
-        self.indicatorBarHeight = indicatorBarHeight
-        self.indicatorBarColor = indicatorBarColor
-    }
-
-    public init(tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat, indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue) {
-        self.init(tabItemSpacing: tabItemSpacing, indicatorBarHeight: indicatorBarHeight, indicatorBarColor: indicatorBarColor)
-    }
-}
-
 public enum PagerStyle {
+    
     case segmentedControl(backgroundColor: Color = .white,
                           padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
                           placedInToolbar: Bool = false)

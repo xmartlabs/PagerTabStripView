@@ -27,7 +27,7 @@ struct YoutubeNavBarItem: View, PagerTabViewDelegate {
 
     @ObservedObject fileprivate var theme = ButtonTheme()
 
-    var body: some View {
+    @MainActor var body: some View {
         VStack {
             image
                 .renderingMode(.template)

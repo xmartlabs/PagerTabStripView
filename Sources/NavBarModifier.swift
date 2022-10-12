@@ -14,7 +14,7 @@ struct NavBarModifier: ViewModifier {
         self._selection = selection
     }
 
-    func body(content: Content) -> some View {
+    @MainActor func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             if !style.placedInToolbar {
                 NavBarWrapperView(selection: $selection)
@@ -38,7 +38,7 @@ struct NavBarWrapperView: View {
         self._selection = selection
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         switch self.style {
         case .bar:
             IndicatorBarView { Rectangle() }

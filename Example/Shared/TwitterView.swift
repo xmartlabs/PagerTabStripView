@@ -23,7 +23,7 @@ struct TwitterView: View {
         self.swipeGestureEnabled = swipeGestureEnabled
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: $selection) {
             PostsList(isLoading: $firstModel.isLoading, items: firstModel.posts).pagerTabItem {
                 TwitterNavBarItem(title: "First big width")

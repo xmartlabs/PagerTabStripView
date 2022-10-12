@@ -12,7 +12,7 @@ class PagerSettings: ObservableObject {
 }
 
 @available(iOS 14.0, *)
-public struct PagerTabStripView<Content: View>: View {
+public struct PagerTabStripView<Content>: View where Content: View {
     private var content: () -> Content
 
     @Binding private var selectionBiding: Int
@@ -36,7 +36,7 @@ public struct PagerTabStripView<Content: View>: View {
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
 
-    public var body: some View {
+    @MainActor public var body: some View {
         WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled,
                                  selection: useBinding ? $selectionBiding : $selectionState,
                                  content: content)
@@ -44,7 +44,7 @@ public struct PagerTabStripView<Content: View>: View {
     }
 }
 
-private struct WrapperPagerTabStripView<Content: View>: View {
+private struct WrapperPagerTabStripView<Content>: View where Content: View {
 
     private var content: () -> Content
 
@@ -76,7 +76,7 @@ private struct WrapperPagerTabStripView<Content: View>: View {
         self._selection = selection
     }
 
-    public var body: some View {
+    @MainActor public var body: some View {
         GeometryReader { gproxy in
             LazyHStack(spacing: 0) {
                 content()

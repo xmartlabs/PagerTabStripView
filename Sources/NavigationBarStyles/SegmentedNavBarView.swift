@@ -16,7 +16,7 @@ internal struct SegmentedNavBarView: View {
         self._selection = selection
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         Picker("SegmentedNavBarView", selection: $selection) {
             if dataStore.itemsCount > 0 && settings.width > 0 {
                 ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in

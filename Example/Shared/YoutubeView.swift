@@ -14,7 +14,7 @@ struct YoutubeView: View {
     @ObservedObject var trendingModel = TrendingModel()
     @ObservedObject var accountModel = AccountModel()
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
                 YoutubeNavBarItem(title: "Home", imageName: "home")

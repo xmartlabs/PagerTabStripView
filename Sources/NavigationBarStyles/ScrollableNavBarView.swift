@@ -18,7 +18,7 @@ internal struct ScrollableNavBarView: View {
         self._selection = selection
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         ScrollViewReader { value in
             ScrollView(.horizontal, showsIndicators: false) {
                 VStack {
@@ -77,7 +77,7 @@ internal struct IndicatorScrollableBarView: View {
         self._selection = selection
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         Rectangle()
             .fill(style.indicatorBarColor)
             .animation(.default, value: appeared)
