@@ -85,7 +85,6 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(!swipeGestureEnabled ? nil :
                 DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
-                    guard swipeGestureEnabled else { return }
                     if selection == 0 && value.translation.width > 0 {
                         let valueWidth = value.translation.width
                         let normTrans = valueWidth / (gproxy.size.width + 50)
@@ -100,7 +99,6 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                         state = value.translation.width
                     }
                 }.onEnded { value in
-                    guard swipeGestureEnabled else { return }
                     let offset = value.predictedEndTranslation.width / gproxy.size.width
                     let newPredictedIndex = (CGFloat(selection) - offset).rounded()
                     let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.itemsCount - 1)
