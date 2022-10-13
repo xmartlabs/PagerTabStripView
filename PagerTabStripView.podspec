@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PagerTabStripView"
-  s.version          = "4.2.0"
+  s.version          = "4.0.0"
   s.summary          = "PagerTabStripView allows navigating through pages using a custom navigation bar in SwiftUI."
   s.homepage         = "https://github.com/xmartlabs/PagerTabStripView"
   s.license          = { type: 'MIT', file: 'LICENSE' }
