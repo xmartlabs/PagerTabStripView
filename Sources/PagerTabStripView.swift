@@ -14,31 +14,21 @@ class PagerSettings: ObservableObject {
 @available(iOS 14.0, *)
 public struct PagerTabStripView<Content>: View where Content: View {
     private var content: () -> Content
-
-    @Binding private var selectionBiding: Int
+    private var swipeGestureEnabled: Binding<Bool>
+    private var selection: Binding<Int>?
     @State private var selectionState = 0
-    @Binding private var swipeGestureEnabled: Bool
     @StateObject private var settings: PagerSettings
-    private var useBinding: Bool
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<Int>? = nil, @ViewBuilder content: @escaping () -> Content) {
+        self.swipeGestureEnabled = swipeGestureEnabled
+        self.selection = selection
         self.content = content
-        self._swipeGestureEnabled = swipeGestureEnabled
-        if let selection {
-            useBinding = true
-            self._selectionBiding = selection
-        } else {
-            useBinding = false
-            self._selectionBiding = .constant(0)
-        }
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
     
 
     @MainActor public var body: some View {
-        WrapperPagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled,
-                                 selection: useBinding ? $selectionBiding : $selectionState,
-                                 content: content)
+        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: selection ?? $selectionState, content: content)
             .environmentObject(self.settings)
     }
 }
@@ -48,28 +38,23 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
     private var content: () -> Content
 
     @StateObject private var dataStore = DataStore()
-
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
     @Binding var selection: Int {
         didSet {
-            if selection < 0 {
-                selection = oldValue
-            }
+            if selection < 0 { selection = oldValue }
         }
     }
     @State private var currentOffset: CGFloat = 0 {
-        didSet {
-            self.settings.contentOffset = currentOffset
-        }
+        didSet { settings.contentOffset = currentOffset }
     }
     @GestureState private var translation: CGFloat = 0
     @Binding private var swipeGestureEnabled: Bool
 
-    public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<Int>, @ViewBuilder content: @escaping () -> Content) {
+    public init(swipeGestureEnabled: Binding<Bool>, selection: Binding<Int>, @ViewBuilder content: @escaping () -> Content) {
         self._swipeGestureEnabled = swipeGestureEnabled
-        self.content = content
         self._selection = selection
+        self.content = content
     }
 
     @MainActor public var body: some View {
