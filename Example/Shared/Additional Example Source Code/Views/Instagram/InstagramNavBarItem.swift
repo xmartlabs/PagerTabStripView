@@ -12,14 +12,14 @@ private class ButtonTheme: ObservableObject {
     @Published var imageColor = Color(UIColor.systemGray2)
 }
 
-struct InstagramNavBarItem: View, PagerTabViewDelegate {
+struct InstagramNavBarItem: View {
     let imageName: String
     var image: Image {
         Image(imageName)
     }
-
-    @ObservedObject fileprivate var theme = ButtonTheme()
-
+    
+    @ObservedObject private var theme = ButtonTheme()
+    
     @MainActor var body: some View {
         VStack {
             image
@@ -31,13 +31,16 @@ struct InstagramNavBarItem: View, PagerTabViewDelegate {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.clear)
     }
+}
 
+extension InstagramNavBarItem: PagerTabViewDelegate {
+    
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
-            self.theme.imageColor = Color(UIColor.systemGray)
+            theme.imageColor = Color(.systemGray)
         default:
-            self.theme.imageColor = Color(UIColor.systemGray2)
+            theme.imageColor = Color(.systemGray2)
         }
     }
 }

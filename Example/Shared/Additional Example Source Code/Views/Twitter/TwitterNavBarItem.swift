@@ -12,11 +12,11 @@ private class ButtonTheme: ObservableObject {
     @Published var textColor = Color.gray
 }
 
-struct TwitterNavBarItem: View, PagerTabViewDelegate {
+struct TwitterNavBarItem: View {
     let title: String
-
-    @ObservedObject fileprivate var theme = ButtonTheme()
-
+    
+    @ObservedObject private var theme = ButtonTheme()
+    
     @MainActor var body: some View {
         VStack {
             Text(title)
@@ -25,6 +25,9 @@ struct TwitterNavBarItem: View, PagerTabViewDelegate {
         }
         .background(Color.clear)
     }
+}
+
+extension TwitterNavBarItem: PagerTabViewDelegate {
 
     func setState(state: PagerTabViewState) {
         switch state {
@@ -37,6 +40,8 @@ struct TwitterNavBarItem: View, PagerTabViewDelegate {
         }
     }
 }
+
+
 
 struct TwitterNavBarItem_Previews: PreviewProvider {
     static var previews: some View {

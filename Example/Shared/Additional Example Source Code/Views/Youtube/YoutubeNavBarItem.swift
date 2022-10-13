@@ -18,15 +18,15 @@ private class ButtonTheme: ObservableObject {
     @Published var textColor = unselectedColor
 }
 
-struct YoutubeNavBarItem: View, PagerTabViewDelegate {
+struct YoutubeNavBarItem: View {
     let title: String
     let imageName: String
     var image: Image {
         Image(imageName)
     }
-
-    @ObservedObject fileprivate var theme = ButtonTheme()
-
+    
+    @ObservedObject private var theme = ButtonTheme()
+    
     @MainActor var body: some View {
         VStack {
             image
@@ -39,13 +39,16 @@ struct YoutubeNavBarItem: View, PagerTabViewDelegate {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.backgroundColor)
     }
+}
 
+extension YoutubeNavBarItem: PagerTabViewDelegate {
+    
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
-            self.theme.textColor = selectedColor
+            theme.textColor = selectedColor
         default:
-            self.theme.textColor = unselectedColor
+            theme.textColor = unselectedColor
         }
     }
 }

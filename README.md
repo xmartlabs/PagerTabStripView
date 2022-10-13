@@ -334,7 +334,7 @@ Follow these 3 steps to run Example project
 To install PagerTabStripView using CocoaPods, simply add the following line to your Podfile:
 
 ```ruby
-pod 'PagerTabStripView', '~> 2.0'
+pod 'PagerTabStripView', '~> 3.0'
 ```
 
 ### Carthage
@@ -342,13 +342,13 @@ pod 'PagerTabStripView', '~> 2.0'
 To install PagerTabStripView using Carthage, simply add the following line to your Cartfile:
 
 ```ruby
-github "xmartlabs/PagerTabStripView" ~> 2.0
+github "xmartlabs/PagerTabStripView" ~> 3.0
 ```
 
 ## Requirements
 
 - iOS 14+
-- Xcode 13.X
+- Xcode 14.X
 
 ## Author
 
