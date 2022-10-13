@@ -41,7 +41,7 @@ internal struct ScrollableNavBarView: View {
                     let items = dataStore.items.filter { index, _ in
                         index > selection
                     }
-                    remainingItemsWidth += items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
+                    remainingItemsWidth += items.map {$0.value.itemWidth ?? 0}.reduce(0, +)
                     remainingItemsWidth += CGFloat(dataStore.items.count-1 - selection)*style.tabItemSpacing
                     let centerSel = remainingItemsWidth > settings.width/2
                     if centerSel {

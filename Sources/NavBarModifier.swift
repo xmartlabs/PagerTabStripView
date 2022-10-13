@@ -31,12 +31,8 @@ struct NavBarModifier: ViewModifier {
     @Environment(\.pagerStyle) var style: PagerStyle
 }
 
-struct NavBarWrapperView: View {
-    @Binding private var selection: Int
-
-    public init(selection: Binding<Int>) {
-        self._selection = selection
-    }
+private struct NavBarWrapperView: View {
+    @Binding var selection: Int
 
     @MainActor var body: some View {
         switch self.style {
