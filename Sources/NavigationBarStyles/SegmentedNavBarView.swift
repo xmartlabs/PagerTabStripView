@@ -24,9 +24,9 @@ internal struct SegmentedNavBarView: View {
                 }
             }
         }
-        .colorMultiply(self.style.backgroundColor)
         .pickerStyle(SegmentedPickerStyle())
-        .padding(self.style.padding)
+        .colorMultiply(style.backgroundColor)
+        .padding(style.padding)
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle

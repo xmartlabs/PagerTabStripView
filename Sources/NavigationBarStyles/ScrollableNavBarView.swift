@@ -23,17 +23,15 @@ internal struct ScrollableNavBarView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 VStack {
                     HStack(spacing: style.tabItemSpacing) {
-                        if dataStore.itemsCount > 0 {
-                            ForEach(0..<dataStore.itemsCount, id: \.self) { idx in
-                                NavBarItem(id: idx, selection: $selection)
-                            }
+                        ForEach(0..<dataStore.itemsCount, id: \.self) { idx in
+                            NavBarItem(id: idx, selection: $selection)
                         }
                     }
                     IndicatorScrollableBarView(selection: $selection)
                 }
-                .frame(height: self.style.tabItemHeight)
+                .frame(height: style.tabItemHeight)
             }
-            .padding(self.style.padding)
+            .padding(style.padding)
             .onChange(of: switchAppeared) { _ in
                 // This is necessary because anchor: .center is not working correctly
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -44,14 +42,10 @@ internal struct ScrollableNavBarView: View {
                     remainingItemsWidth += items.map {$0.value.itemWidth ?? 0}.reduce(0, +)
                     remainingItemsWidth += CGFloat(dataStore.items.count-1 - selection)*style.tabItemSpacing
                     let centerSel = remainingItemsWidth > settings.width/2
-                    if centerSel {
-                        value.scrollTo(selection, anchor: .center)
-                    } else {
-                        value.scrollTo(dataStore.items.count-1)
-                    }
+                    value.scrollTo(centerSel ? selection : dataStore.items.count-1, anchor: centerSel ? .center : nil)
                 }
             }
-            .onChange(of: self.selection) { newSelection in
+            .onChange(of: selection) { newSelection in
                 withAnimation {
                     value.scrollTo(newSelection, anchor: .center)
                 }

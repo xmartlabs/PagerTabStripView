@@ -54,7 +54,6 @@ struct CustomStyleView: View {
                 pagerAnimation: .interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25)
             )
         )
-        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("🌈 Rainbow")
     }
 }

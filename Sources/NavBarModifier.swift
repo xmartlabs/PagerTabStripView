@@ -35,7 +35,7 @@ private struct NavBarWrapperView: View {
     @Binding var selection: Int
 
     @MainActor var body: some View {
-        switch self.style {
+        switch style {
         case .bar:
             IndicatorBarView { Rectangle() }
                 .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
