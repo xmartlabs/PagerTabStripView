@@ -99,15 +99,15 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             )
             .onAppear(perform: {
                 let geo = gproxy.frame(in: .local)
-                self.settings.width = geo.width
-                self.currentOffset = -(CGFloat(selection) * geo.width)
+                settings.width = geo.width
+                currentOffset = -(CGFloat(selection) * geo.width)
             })
             .onChange(of: gproxy.frame(in: .local), perform: { geo in
-                self.settings.width = geo.width
-                self.currentOffset = -(CGFloat(selection) * geo.width)
+                settings.width = geo.width
+                currentOffset = -(CGFloat(selection) * geo.width)
             })
             .onChange(of: self.selection) { [selection] newIndex in
-                self.currentOffset = -(CGFloat(newIndex) * gproxy.size.width)
+                currentOffset = -(CGFloat(newIndex) * gproxy.size.width)
                 dataStore.items[newIndex]?.appearCallback?()
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .normal)
                 if let tabViewDelegate = dataStore.items[newIndex]?.tabViewDelegate, newIndex != selection {
@@ -115,16 +115,16 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                 }
             }
             .onChange(of: translation) { _ in
-                self.settings.contentOffset = translation - CGFloat(selection)*gproxy.size.width
+                settings.contentOffset = translation - CGFloat(selection)*gproxy.size.width
             }
             .onChange(of: dataStore.itemsCount) { _ in
-                self.selection = selection >= dataStore.itemsCount ? dataStore.itemsCount - 1 : selection
+                selection = selection >= dataStore.itemsCount ? dataStore.itemsCount - 1 : selection
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .selected)
                 dataStore.items[selection]?.appearCallback?()
             }
         }
         .modifier(NavBarModifier(selection: $selection))
-        .environmentObject(self.dataStore)
+        .environmentObject(dataStore)
         .clipped()
     }
 

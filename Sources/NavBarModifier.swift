@@ -36,19 +36,20 @@ private struct NavBarWrapperView: View {
 
     @MainActor var body: some View {
         switch style {
-        case .bar:
-            IndicatorBarView { Rectangle() }
-                .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
-        case .segmentedControl:
+        case let barStyle as BarStyle:
+            IndicatorBarView(indicator: barStyle.indicatorView)
+        case is SegmentedControlStyle:
             SegmentedNavBarView(selection: $selection)
-        case .barButton:
-            FixedSizeNavBarView(selection: $selection) { EmptyView() }
-            IndicatorBarView { Rectangle() }
-        case .scrollableBarButton:
-            ScrollableNavBarView(selection: $selection)
-        case .custom(_, _, _, let indicator, let background, _):
-            FixedSizeNavBarView(selection: $selection) { background() }
-            IndicatorBarView { indicator() }
+        case let indicatorStyle as BarButtonStyle:
+            if indicatorStyle.scrollable {
+                ScrollableNavBarView(selection: $selection)
+            }
+            else {
+                FixedSizeNavBarView(selection: $selection) { indicatorStyle.barBackgroundView() }
+                IndicatorBarView(indicator: indicatorStyle.indicatorView)
+            }
+        default:
+            SegmentedNavBarView(selection: $selection)
         }
     }
 

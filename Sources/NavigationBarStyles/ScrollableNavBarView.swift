@@ -19,19 +19,21 @@ internal struct ScrollableNavBarView: View {
     }
 
     @MainActor var body: some View {
+        
+        let internalStyle = style as! BarButtonStyle
         ScrollViewReader { value in
             ScrollView(.horizontal, showsIndicators: false) {
                 VStack {
-                    HStack(spacing: style.tabItemSpacing) {
+                    HStack(spacing: internalStyle.tabItemSpacing) {
                         ForEach(0..<dataStore.itemsCount, id: \.self) { idx in
                             NavBarItem(id: idx, selection: $selection)
                         }
                     }
                     IndicatorScrollableBarView(selection: $selection)
                 }
-                .frame(height: style.tabItemHeight)
+                .frame(height: internalStyle.tabItemHeight)
             }
-            .padding(style.padding)
+            .padding(internalStyle.padding)
             .onChange(of: switchAppeared) { _ in
                 // This is necessary because anchor: .center is not working correctly
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -40,7 +42,7 @@ internal struct ScrollableNavBarView: View {
                         index > selection
                     }
                     remainingItemsWidth += items.map {$0.value.itemWidth ?? 0}.reduce(0, +)
-                    remainingItemsWidth += CGFloat(dataStore.items.count-1 - selection)*style.tabItemSpacing
+                    remainingItemsWidth += CGFloat(dataStore.items.count-1 - selection)*internalStyle.tabItemSpacing
                     let centerSel = remainingItemsWidth > settings.width/2
                     value.scrollTo(centerSel ? selection : dataStore.items.count-1, anchor: centerSel ? .center : nil)
                 }
@@ -72,10 +74,11 @@ internal struct IndicatorScrollableBarView: View {
     }
 
     @MainActor var body: some View {
-        Rectangle()
-            .fill(style.indicatorBarColor)
-            .animation(.default, value: appeared)
-            .frame(width: selectedItemWidth, height: style.indicatorBarHeight)
+        let internalStyle = style as! BarButtonStyle
+        internalStyle.indicatorView()
+            .frame(height: internalStyle.indicatorViewHeight)
+            .animation(.none, value: appeared)
+            .frame(width: selectedItemWidth)
             .position(x: position)
             .onAppear {
                 appeared = true
@@ -87,7 +90,7 @@ internal struct IndicatorScrollableBarView: View {
                     }
                     selectedItemWidth = dataStore.items[selection]?.itemWidth ?? 0
                     var newPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
-                    newPosition += (style.tabItemSpacing * CGFloat(selection)) + selectedItemWidth/2
+                    newPosition += (internalStyle.tabItemSpacing * CGFloat(selection)) + selectedItemWidth/2
                     position = newPosition
                 }
             }
@@ -98,7 +101,7 @@ internal struct IndicatorScrollableBarView: View {
                     index < selection
                 }
 
-                let spaces = style.tabItemSpacing * CGFloat(selection-1)
+                let spaces = internalStyle.tabItemSpacing * CGFloat(selection-1)
                 let actualWidth = dataStore.items[selection]?.itemWidth ?? 0
                 var lastPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
                 lastPosition += spaces + actualWidth/2
@@ -106,14 +109,14 @@ internal struct IndicatorScrollableBarView: View {
                 if percentage == 0 {
                     selectedItemWidth = dataStore.items[selection]?.itemWidth ?? 0
                     var newPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
-                    newPosition += style.tabItemSpacing * CGFloat(selection) + selectedItemWidth/2
+                    newPosition += internalStyle.tabItemSpacing * CGFloat(selection) + selectedItemWidth/2
                     position = newPosition
                 } else {
                     if percentage < 0 {
-                        nextPosition += actualWidth + style.tabItemSpacing * CGFloat(selection+1)
+                        nextPosition += actualWidth + internalStyle.tabItemSpacing * CGFloat(selection+1)
                         nextPosition += ((dataStore.items[selection + 1])?.itemWidth ?? 0)/2
                     } else {
-                        nextPosition += style.tabItemSpacing * CGFloat(selection-1)
+                        nextPosition += internalStyle.tabItemSpacing * CGFloat(selection-1)
                         nextPosition -= ((dataStore.items[selection - 1])?.itemWidth ?? 0)/2
                     }
                     position = lastPosition + (nextPosition - lastPosition)*abs(percentage)
@@ -132,10 +135,11 @@ internal struct IndicatorScrollableBarView: View {
                 }
                 selectedItemWidth = dataStore.items[newValue]?.itemWidth ?? 0
                 var newPosition = items.map({return $0.value.itemWidth ?? 0}).reduce(0, +)
-                newPosition += (style.tabItemSpacing * CGFloat(newValue)) + selectedItemWidth/2
+                newPosition += (internalStyle.tabItemSpacing * CGFloat(newValue)) + selectedItemWidth/2
                 position = newPosition
             }
-        }
+    }
+    
 
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings

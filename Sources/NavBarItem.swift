@@ -25,7 +25,7 @@ struct NavBarItem: View, Identifiable {
                 }, label: {
                     dataStore.items[id]?.view
                 })
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
                     dataStore.items[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : (id == selection ? .selected : .normal))
                 } perform: {}

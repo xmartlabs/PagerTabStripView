@@ -26,7 +26,7 @@ struct BarStyleView: View {
             PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false).pagerTabItem {
             }
         }
-        .pagerTabStripViewStyle(.bar(indicatorBarHeight: 7, indicatorBarColor: .gray, placedInToolbar: false))
+        .pagerTabStripViewStyle(.bar(placedInToolbar: false, indicatorViewHeight: 6) { Rectangle().fill(.yellow) })
         .navigationTitle("Bar Style View")
     }
 }

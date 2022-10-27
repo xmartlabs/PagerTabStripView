@@ -22,8 +22,8 @@ struct TwitterNavBarItem: View {
             Text(title)
                 .foregroundColor(theme.textColor)
                 .font(.subheadline)
+                .frame(height: 38)
         }
-        .background(Color.clear)
     }
 }
 

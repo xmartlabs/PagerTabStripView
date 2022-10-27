@@ -8,129 +8,109 @@
 import Foundation
 import SwiftUI
 
-public enum PagerStyle {
-    
-    case segmentedControl(backgroundColor: Color = .white,
-                          padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
-                          placedInToolbar: Bool = false)
-    /// The height of the indicator bar
-    case bar(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue, tabItemSpacing: CGFloat = 0, placedInToolbar: Bool = false)
-    /// The height of the indicator bar
-    /// tabItemSpacing: The space between navigation bar tab items.
-    case barButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue,
-                   tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60,
-                   placedInToolbar: Bool = false)
+public protocol PagerStyle {
+    var placedInToolbar: Bool { get }
+    var pagerAnimation: Animation { get }
+}
 
-    case scrollableBarButton(indicatorBarHeight: CGFloat = 2, indicatorBarColor: Color = .blue,
-                             padding: EdgeInsets = EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10),
-                             tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 60, placedInToolbar: Bool = false)
+public protocol PagerWithIndicatorStyle: PagerStyle {
+    var barBackgroundView: () -> AnyView { get }
+    var indicatorView: () -> AnyView { get }
+    var tabItemSpacing: CGFloat { get }
+    var indicatorViewHeight: CGFloat { get }
+}
 
-    case custom(tabItemSpacing: CGFloat, tabItemHeight: CGFloat, placedInToolbar: Bool, indicator: () -> AnyView, background: () -> AnyView, pagerAnimation: Animation?)
-
-    internal var tabItemSpacing: CGFloat {
-        switch self {
-        case .bar(_, _, let spacing, _):
-            return spacing
-        case .barButton(_, _, let spacing, _, _):
-            return spacing
-        case .scrollableBarButton(_, _, _, let spacing, _, _):
-            return spacing
-        case .custom(let spacing, _, _, _, _, _):
-            return spacing
-        default:
-            return 0
-        }
-    }
-
-    internal var indicatorBarColor: Color {
-        switch self {
-        case .bar(_, let color, _, _):
-            return color
-        case .barButton(_, let color, _, _, _):
-            return color
-        case .scrollableBarButton(_, let color, _, _, _, _):
-            return color
-        case .custom:
-            /// - Note: Clear color will hide the indicator and it's hard find the cause of this for the user
-            return .blue
-        default:
-            return .clear
-        }
-    }
-
-    internal var indicatorBarHeight: CGFloat {
-        switch self {
-        case .bar(let height, _, _, _):
-            return height
-        case .barButton(let height, _, _, _, _):
-            return height
-        case .scrollableBarButton(let height, _, _, _, _, _):
-            return height
-        default:
-            return 2
-        }
-    }
-
-    internal var tabItemHeight: CGFloat {
-        switch self {
-        case .barButton(_, _, _, let height, _):
-            return height
-        case .scrollableBarButton(_, _, _, _, let height, _):
-            return height
-        case .custom(_, let height, _, _, _, _):
-            return height
-        default:
-            return 0
-        }
-    }
-
-    internal var backgroundColor: Color {
-        switch self {
-        case .segmentedControl(let backgroundColor, _, _):
-            return backgroundColor
-        default:
-            return .white
-        }
-    }
-
-    internal var padding: EdgeInsets {
-        switch self {
-        case .segmentedControl(_, let padding, _):
-            return padding
-        case .scrollableBarButton(_, _, let padding, _, _, _):
-            return padding
-        default:
-            return EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10)
-        }
-    }
-
-    internal var placedInToolbar: Bool {
-        switch self {
-        case .segmentedControl(_, _, let placedInToolbar):
-            return placedInToolbar
-        case .bar( _, _, _, let placedInToolbar):
-            return placedInToolbar
-        case .barButton( _, _, _, _, let placedInToolbar):
-            return placedInToolbar
-        case .scrollableBarButton( _, _, _, _, _, let placedInToolbar):
-            return placedInToolbar
-        case .custom( _, _, let placedInToolbar, _, _, _):
-            return placedInToolbar
-        }
-    }
-
-    internal var pagerAnimation: Animation? {
-        switch self {
-        case .custom(_, _, _, _, _, let pagerAnimation):
-            return pagerAnimation
-        default:
-            return PagerStyle.defaultPagerAnimation
-        }
+extension PagerStyle where Self == BarStyle {
+    public static func bar(placedInToolbar: Bool = false, pagerAnimation: Animation = .default, indicatorViewHeight: CGFloat = 10, indicatorView: @escaping () -> some View = { Rectangle() }) -> BarStyle{
+        return BarStyle(placedInToolbar: placedInToolbar, pagerAnimation: pagerAnimation, indicatorViewHeight: indicatorViewHeight, indicatorView: { .init(indicatorView()) })
     }
 }
 
+extension PagerStyle where Self == SegmentedControlStyle {
+    public static func segmentedControl(placedInToolbar: Bool = false, pagerAnimation: Animation = .default, backgroundColor: Color = .white, padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)) -> SegmentedControlStyle{
+        return SegmentedControlStyle(placedInToolbar: placedInToolbar, pagerAnimation: pagerAnimation, backgroundColor: backgroundColor, padding: padding)
+    }
+}
+
+extension PagerStyle where Self == BarButtonStyle {
+    public static func scrollableBarButton(placedInToolbar: Bool = false, pagerAnimation: Animation = .default, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 50, padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10), indicatorViewHeight: CGFloat = 2, @ViewBuilder barBackgroundView: @escaping () -> some View = { EmptyView() }, @ViewBuilder indicatorView: @escaping () -> some View = { Rectangle().fill(.blue) }) -> BarButtonStyle{
+        return BarButtonStyle(placedInToolbar: placedInToolbar, pagerAnimation: pagerAnimation, tabItemSpacing: tabItemSpacing, tabItemHeight: tabItemHeight, scrollable: true, padding: padding, indicatorViewHeight: indicatorViewHeight, barBackgroundView: { AnyView(barBackgroundView()) }, indicatorView: { AnyView(indicatorView()) })
+    }
+    
+    public static func barButton(placedInToolbar: Bool = false, pagerAnimation: Animation = .default, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 50, padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10), indicatorViewHeight: CGFloat = 2, @ViewBuilder barBackgroundView: @escaping () -> some View = { EmptyView() }, @ViewBuilder indicatorView: @escaping () -> some View = { Rectangle().fill(.blue) }) -> BarButtonStyle{
+        return BarButtonStyle(placedInToolbar: placedInToolbar, pagerAnimation: pagerAnimation, tabItemSpacing: tabItemSpacing, tabItemHeight: tabItemHeight, scrollable: false, padding: padding, indicatorViewHeight: indicatorViewHeight, barBackgroundView: { AnyView(barBackgroundView()) }, indicatorView: { AnyView(indicatorView()) })
+    }
+}
+
+public struct SegmentedControlStyle: PagerStyle {
+    public var placedInToolbar: Bool
+    public var pagerAnimation: Animation
+    public var backgroundColor: Color
+    public var padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    
+    
+    public init(placedInToolbar: Bool = false, pagerAnimation: Animation = .default, backgroundColor: Color = .white, padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)) {
+        self.backgroundColor = backgroundColor
+        self.placedInToolbar = placedInToolbar
+        self.padding = padding
+        self.pagerAnimation = pagerAnimation
+    }
+    
+}
+
+public struct BarStyle: PagerWithIndicatorStyle{
+    public var placedInToolbar: Bool
+    public var pagerAnimation: Animation = .default
+    public var tabItemSpacing: CGFloat = 0
+    public var indicatorViewHeight: CGFloat
+    
+    @ViewBuilder public var barBackgroundView: () -> AnyView
+    @ViewBuilder public var indicatorView: () -> AnyView
+    
+    public init(placedInToolbar: Bool, pagerAnimation: Animation = .default, indicatorViewHeight: CGFloat = 8, barBackgroundView: @escaping (() -> AnyView) = { AnyView(EmptyView()) }, indicatorView: @escaping (() -> AnyView) = { AnyView(Rectangle()) }) {
+        self.placedInToolbar = placedInToolbar
+        self.pagerAnimation = pagerAnimation
+        self.indicatorViewHeight = indicatorViewHeight
+        self.barBackgroundView = barBackgroundView
+        self.indicatorView = indicatorView
+    }
+}
+
+public struct BarButtonStyle: PagerWithIndicatorStyle {
+    
+    public var placedInToolbar: Bool
+    public var pagerAnimation: Animation
+    public var tabItemSpacing: CGFloat
+    public var tabItemHeight: CGFloat
+    public var scrollable: Bool
+    public var padding: EdgeInsets
+    public var indicatorViewHeight: CGFloat
+    
+    @ViewBuilder public var indicatorView: () -> AnyView
+    @ViewBuilder public var barBackgroundView: ()-> AnyView
+    
+    public init(placedInToolbar: Bool = false, pagerAnimation: Animation = .default, tabItemSpacing: CGFloat = 0, tabItemHeight: CGFloat = 50, scrollable: Bool = false, padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10), indicatorViewHeight: CGFloat = 2, @ViewBuilder barBackgroundView: @escaping (()-> AnyView) = { AnyView(EmptyView()) }, @ViewBuilder indicatorView: @escaping (() -> AnyView) = { AnyView(Rectangle().fill(.blue)) }){
+        self.placedInToolbar = placedInToolbar
+        self.pagerAnimation = pagerAnimation
+        self.tabItemSpacing = tabItemSpacing
+        self.tabItemHeight = tabItemHeight
+        self.scrollable = scrollable
+        self.padding = padding
+        self.indicatorView = indicatorView
+        self.barBackgroundView = barBackgroundView
+        self.indicatorViewHeight = indicatorViewHeight
+        
+    }
+}
+
+struct CustomStyle: PagerStyle {
+    var placedInToolbar: Bool
+    var pagerAnimation: Animation
+}
+
+
 private struct PagerStyleKey: EnvironmentKey {
-    static let defaultValue = PagerStyle.barButton()
+    static let defaultValue: PagerStyle = .barButton()
 }
 
 extension EnvironmentValues {
