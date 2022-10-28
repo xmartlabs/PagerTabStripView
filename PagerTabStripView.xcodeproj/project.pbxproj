@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */; };
+		28070C6026B1AF52002346E1 /* PagerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerStyle.swift */; };
 		287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */; };
 		28F828881C494B2C00330CF4 /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */; };
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AB80DE8626BC93720022F57D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB80DE8326BC93720022F57D /* Info.plist */; };
-		C44D9C7F27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44D9C7E27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift */; };
 		C7A02C01269377D400BFE31B /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A02C00269377D400BFE31B /* DataStore.swift */; };
 		E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */; };
 		E04615E526C453AD0050A5D3 /* FixedSizeNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */; };
@@ -39,14 +38,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabViewStyle.swift; sourceTree = "<group>"; };
+		28070C5F26B1AF52002346E1 /* PagerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerStyle.swift; sourceTree = "<group>"; };
 		287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagerTabStripTests.swift; path = Tests/PagerTabStripTests.swift; sourceTree = SOURCE_ROOT; };
 		28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828871C494B2C00330CF4 /* PagerTabStripViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagerTabStripViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F8288E1C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB80DE8226BC93720022F57D /* PagerTabStripView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripView.h; sourceTree = "<group>"; };
 		AB80DE8326BC93720022F57D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C44D9C7E27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PagerStyle+CustomCaseInitializers.swift"; sourceTree = "<group>"; };
 		C7A02C00269377D400BFE31B /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedNavBarView.swift; sourceTree = "<group>"; };
 		E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedSizeNavBarView.swift; sourceTree = "<group>"; };
@@ -80,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28C0AE00290865C7005F32C1 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				28070C5F26B1AF52002346E1 /* PagerStyle.swift */,
+			);
+			name = Style;
+			sourceTree = "<group>";
+		};
 		28F828731C494B2C00330CF4 = {
 			isa = PBXGroup;
 			children = (
@@ -111,19 +117,34 @@
 		28F828971C494B4200330CF4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				28FFEDB528F632290064C71A /* Data */,
+				28FFEDB428F6320C0064C71A /* Modifiers */,
 				E04615E126C450FE0050A5D3 /* NavigationBarStyles */,
+				28C0AE00290865C7005F32C1 /* Style */,
+				E1FA589824C8BC1B0081FBE7 /* PagerTabStripView.swift */,
+				E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */,
+				E07FB08126AF3B7200CDCFD8 /* PagerTabViewDelegate.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		28FFEDB428F6320C0064C71A /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */,
 				E07FB07D26AF377D00CDCFD8 /* PagerTabItemModifier.swift */,
 				E07FB07926AF36B400CDCFD8 /* PagerSetAppearModifier.swift */,
 				E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */,
-				E1FA589824C8BC1B0081FBE7 /* PagerTabStripView.swift */,
-				C7A02C00269377D400BFE31B /* DataStore.swift */,
-				E07FB07B26AF373600CDCFD8 /* View+Modifiers.swift */,
-				E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */,
-				E07FB08126AF3B7200CDCFD8 /* PagerTabViewDelegate.swift */,
-				28070C5F26B1AF52002346E1 /* PagerTabViewStyle.swift */,
-				C44D9C7E27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift */,
 			);
-			path = Sources;
+			name = Modifiers;
+			sourceTree = "<group>";
+		};
+		28FFEDB528F632290064C71A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C7A02C00269377D400BFE31B /* DataStore.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		AB80DE8126BC93720022F57D /* PagerTabStripView */ = {
@@ -204,7 +225,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					28F8287C1C494B2C00330CF4 = {
 						CreatedOnToolsVersion = 7.2;
@@ -289,9 +310,8 @@
 				C7A02C01269377D400BFE31B /* DataStore.swift in Sources */,
 				E04615E726C453E10050A5D3 /* IndicatorBarView.swift in Sources */,
 				E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */,
-				C44D9C7F27DB7E990001CD14 /* PagerStyle+CustomCaseInitializers.swift in Sources */,
 				E07FB08526AF3CAA00CDCFD8 /* NavBarModifier.swift in Sources */,
-				28070C6026B1AF52002346E1 /* PagerTabViewStyle.swift in Sources */,
+				28070C6026B1AF52002346E1 /* PagerStyle.swift in Sources */,
 				E07FB07A26AF36B400CDCFD8 /* PagerSetAppearModifier.swift in Sources */,
 				E07FB08026AF39C300CDCFD8 /* NavBarItem.swift in Sources */,
 			);
@@ -434,8 +454,7 @@
 		28F828921C494B2C00330CF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 6F2G55XL63;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -445,7 +464,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStripView.PagerTabStripView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -458,8 +477,7 @@
 		28F828931C494B2C00330CF4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 6F2G55XL63;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -469,7 +487,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.PagerTabStripView.PagerTabStripView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -15,15 +15,13 @@ struct PagerSetAppearItemModifier: ViewModifier {
         self.onPageAppear = onPageAppear
     }
 
-    func body(content: Content) -> some View {
+    @MainActor func body(content: Content) -> some View {
         GeometryReader { reader in
             content
                 .onAppear {
-                    DispatchQueue.main.async {
                         let frame = reader.frame(in: .named("PagerViewScrollView"))
                         index = Int(round(frame.minX / frame.width))
                         dataStore.setAppear(callback: onPageAppear, at: index)
-                    }
                 }
             }
     }

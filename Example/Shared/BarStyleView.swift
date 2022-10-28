@@ -15,7 +15,7 @@ struct BarStyleView: View {
     @ObservedObject var mediaModel = MediaModel()
     @ObservedObject var likesModel = LikesModel()
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
             }
@@ -26,9 +26,8 @@ struct BarStyleView: View {
             PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false).pagerTabItem {
             }
         }
-        .frame(alignment: .center)
-        .pagerTabStripViewStyle(.bar(indicatorBarHeight: 7, indicatorBarColor: .gray))
-        .navigationBarTitleDisplayMode(.inline)
+        .pagerTabStripViewStyle(.bar(placedInToolbar: false, indicatorViewHeight: 6) { Rectangle().fill(.yellow) })
+        .navigationTitle("Bar Style View")
     }
 }
 

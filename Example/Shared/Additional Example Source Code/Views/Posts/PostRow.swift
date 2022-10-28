@@ -11,7 +11,7 @@ struct PostRow: View {
     var post: Post
     var withDescription: Bool = true
 
-    var body: some View {
+    @MainActor var body: some View {
         HStack(alignment: .top) {
             post.user.image
                 .cornerRadius(5)

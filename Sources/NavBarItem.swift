@@ -7,27 +7,27 @@
 
 import SwiftUI
 
-struct NavBarItem: View {
+struct NavBarItem: View, Identifiable {
     @EnvironmentObject private var dataStore: DataStore
-    @Binding private var currentIndex: Int
-    private var id: Int
+    @Binding private var selection: Int
+    internal var id: Int
 
     public init(id: Int, selection: Binding<Int>) {
-        self._currentIndex = selection
+        self._selection = selection
         self.id = id
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         if id < dataStore.itemsCount {
             VStack {
                 Button(action: {
-                    self.currentIndex = id
+                    selection = id
                 }, label: {
                     dataStore.items[id]?.view
-                }).buttonStyle(PlainButtonStyle())
+                })
+                .buttonStyle(.plain)
                 .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                    dataStore.items[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted :
-                                                                    (id == currentIndex ? .selected : .normal))
+                    dataStore.items[id]?.tabViewDelegate?.setState(state: pressing ? .highlighted : (id == selection ? .selected : .normal))
                 } perform: {}
             }.background(
                 GeometryReader { geometry in

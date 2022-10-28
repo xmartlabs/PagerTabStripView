@@ -28,7 +28,7 @@ class URLImageModel: ObservableObject {
     }
 
     func loadImageFromUrl() {
-        guard let urlString = urlString else {
+        guard let urlString else {
             return
         }
 
@@ -38,7 +38,7 @@ class URLImageModel: ObservableObject {
     }
 
     func loadImageFromCache() -> Bool {
-        guard let urlString = urlString else {
+        guard let urlString else {
             return false
         }
 
@@ -55,7 +55,7 @@ class URLImageModel: ObservableObject {
             print("Error: \(error!)")
             return
         }
-        guard let data = data else {
+        guard let data else {
             print("No data found")
             return
         }

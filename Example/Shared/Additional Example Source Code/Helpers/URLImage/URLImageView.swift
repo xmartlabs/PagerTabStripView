@@ -17,7 +17,7 @@ struct URLImageView: View {
         urlImageModel = URLImageModel(urlString: urlString)
     }
 
-    var body: some View {
+    @MainActor var body: some View {
         Image(uiImage: urlImageModel.image ?? URLImageView.defaultImage!)
             .resizable()
             .foregroundColor(colorScheme == .dark ? .white : .black )

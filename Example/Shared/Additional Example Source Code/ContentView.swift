@@ -10,7 +10,7 @@ import PagerTabStripView
 
 struct ContentView: View {
 
-    var body: some View {
+    @MainActor  var body: some View {
         NavigationView {
             List {
                 NavigationLink(destination: TwitterView()) {

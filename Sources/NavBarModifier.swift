@@ -14,7 +14,7 @@ struct NavBarModifier: ViewModifier {
         self._selection = selection
     }
 
-    func body(content: Content) -> some View {
+    @MainActor func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             if !style.placedInToolbar {
                 NavBarWrapperView(selection: $selection)
@@ -31,28 +31,24 @@ struct NavBarModifier: ViewModifier {
     @Environment(\.pagerStyle) var style: PagerStyle
 }
 
-struct NavBarWrapperView: View {
-    @Binding private var selection: Int
+private struct NavBarWrapperView: View {
+    @Binding var selection: Int
 
-    public init(selection: Binding<Int>) {
-        self._selection = selection
-    }
-
-    var body: some View {
-        switch self.style {
-        case .bar:
-            IndicatorBarView { Rectangle() }
-                .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
-        case .segmentedControl:
+    @MainActor var body: some View {
+        switch style {
+        case let barStyle as BarStyle:
+            IndicatorBarView(indicator: barStyle.indicatorView)
+        case is SegmentedControlStyle:
             SegmentedNavBarView(selection: $selection)
-        case .barButton:
-            FixedSizeNavBarView(selection: $selection) { EmptyView() }
-            IndicatorBarView { Rectangle() }
-        case .scrollableBarButton:
-            ScrollableNavBarView(selection: $selection)
-        case .custom(_, _, _, let indicator, let background, _):
-            FixedSizeNavBarView(selection: $selection) { background() }
-            IndicatorBarView { indicator() }
+        case let indicatorStyle as BarButtonStyle:
+            if indicatorStyle.scrollable {
+                ScrollableNavBarView(selection: $selection)
+            } else {
+                FixedSizeNavBarView(selection: $selection) { indicatorStyle.barBackgroundView() }
+                IndicatorBarView(indicator: indicatorStyle.indicatorView)
+            }
+        default:
+            SegmentedNavBarView(selection: $selection)
         }
     }
 

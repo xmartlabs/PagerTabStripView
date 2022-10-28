@@ -10,6 +10,8 @@ import PagerTabStripView
 
 struct CustomStyleView: View {
 
+    @State var selection = 2
+
     private let 🌈: [Color] = [
         .red,
         .orange,
@@ -19,15 +21,15 @@ struct CustomStyleView: View {
         .purple
     ]
 
-    var body: some View {
-        PagerTabStripView {
+    @MainActor var body: some View {
+        PagerTabStripView(selection: $selection) {
 
             ForEach(🌈, id: \.self) { color in
                 ZStack(alignment: .center) {
                     color
                     Text("Any custom View You like")
                 }
-                .pagerTabItem() {
+                .pagerTabItem {
                     Capsule()
                         .frame(height: 32)
                         .padding(4)
@@ -35,26 +37,17 @@ struct CustomStyleView: View {
                 }
             }
         }
-        .frame(alignment: .center)
-        .pagerTabStripViewStyle(
-            .custom(
-                tabItemHeight: 48,
-                indicator: {
-                    Text("👍🏻")
-                        .offset(x: 0, y: -24)
-                },
-                background: {
-                    LinearGradient(
-                        colors: 🌈,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                    .opacity(0.2)
-                },
-                pagerAnimation: .interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25)
-            )
-        )
-        .navigationBarTitleDisplayMode(.inline)
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), tabItemHeight: 48, barBackgroundView: {
+            LinearGradient(
+               colors: 🌈,
+               startPoint: .topLeading,
+               endPoint: .bottomTrailing
+           )
+           .opacity(0.2)
+           .rotationEffect(selection % 2 == 0 ? Angle(degrees: 0) : Angle(degrees: 180))
+        }, indicatorView: {
+            Text(selection % 2 == 0 ? "👍🏻" : "👎").offset(x: 0, y: -24)
+        }))
         .navigationTitle("🌈 Rainbow")
     }
 }

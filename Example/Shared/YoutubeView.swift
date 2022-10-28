@@ -14,7 +14,7 @@ struct YoutubeView: View {
     @ObservedObject var trendingModel = TrendingModel()
     @ObservedObject var accountModel = AccountModel()
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts).pagerTabItem {
                 YoutubeNavBarItem(title: "Home", imageName: "home")
@@ -40,9 +40,9 @@ struct YoutubeView: View {
                 YoutubeNavBarItem(title: "Account", imageName: "account")
             }
         }
-        .pagerTabStripViewStyle(.barButton(indicatorBarHeight: 5, indicatorBarColor: selectedColor, tabItemHeight: 80))
-        .frame(alignment: .center)
-        .navigationBarTitleDisplayMode(.inline)
+        .pagerTabStripViewStyle(.barButton(tabItemHeight: 80, indicatorViewHeight: 5, indicatorView: {
+            Rectangle().fill(selectedColor).offset(x: 0, y: -5)
+        }))
     }
 }
 

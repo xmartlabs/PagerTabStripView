@@ -18,17 +18,19 @@ internal struct FixedSizeNavBarView<BG: View>: View {
         self.backgroundView = background()
     }
 
-    var body: some View {
-        HStack(spacing: style.tabItemSpacing) {
-            if dataStore.itemsCount > 0 && settings.width > 0 {
-                ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
-                    NavBarItem(id: idx, selection: $selection)
-                        .frame(height: self.style.tabItemHeight)
+    @MainActor var body: some View {
+        if let internalStyle = style as? BarButtonStyle {
+            HStack(spacing: internalStyle.tabItemSpacing) {
+                if dataStore.itemsCount > 0 && settings.width > 0 {
+                    ForEach(0..<dataStore.itemsCount, id: \.self) { idx in
+                        NavBarItem(id: idx, selection: $selection)
+                            .frame(height: internalStyle.tabItemHeight)
+                    }
                 }
             }
+            .frame(height: internalStyle.tabItemHeight)
+            .background(backgroundView)
         }
-        .frame(height: self.style.tabItemHeight)
-        .background(backgroundView)
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle

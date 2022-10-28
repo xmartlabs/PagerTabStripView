@@ -12,7 +12,7 @@ extension View {
 /// Sets the navigation bar item associated with this page.
 ///
 /// - Parameter pagerTabView: The navigation bar item to associate with this page.
-    public func pagerTabItem<V>(@ViewBuilder _ pagerTabView: @escaping () -> V) -> some View where V: View {
+    public func pagerTabItem(@ViewBuilder _ pagerTabView: @escaping () -> some View) -> some View {
         return self.modifier(PagerTabItemModifier(navTabView: pagerTabView))
     }
 

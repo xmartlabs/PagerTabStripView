@@ -16,17 +16,19 @@ internal struct SegmentedNavBarView: View {
         self._selection = selection
     }
 
-    var body: some View {
-        Picker("SegmentedNavBarView", selection: $selection) {
-            if dataStore.itemsCount > 0 && settings.width > 0 {
-                ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
-                    NavBarItem(id: idx, selection: $selection)
+    @MainActor var body: some View {
+        if let internalStyle = style as? SegmentedControlStyle {
+            Picker("SegmentedNavBarView", selection: $selection) {
+                if dataStore.itemsCount > 0 && settings.width > 0 {
+                    ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
+                        NavBarItem(id: idx, selection: $selection)
+                    }
                 }
             }
+            .pickerStyle(.segmented)
+            .colorMultiply(internalStyle.backgroundColor)
+            .padding(internalStyle.padding)
         }
-        .colorMultiply(self.style.backgroundColor)
-        .pickerStyle(SegmentedPickerStyle())
-        .padding(self.style.padding)
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle

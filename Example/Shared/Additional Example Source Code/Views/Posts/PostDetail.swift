@@ -10,7 +10,7 @@ import SwiftUI
 struct PostDetail: View {
     var post: Post
 
-    var body: some View {
+    @MainActor var body: some View {
         ScrollView {
             post.user.image
                 .frame(width: 100.0, height: 100.0)

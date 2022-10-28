@@ -2,6 +2,14 @@
 
 All notable changes to PagerTabStrip will be documented in this file.
 
+### [4.0.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/4.0.0)
+
+<!-- Released on 2022-10-18. -->
+
+- Refactor enable disable swipe gesture. It's a Binding parameter from now. 
+- Clean up code by using Swift 5.7 capabilities. 
+
+
 ### [3.2.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/3.2.0)
 
 <!-- Released on 2022-03-11. -->

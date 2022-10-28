@@ -15,25 +15,22 @@ struct SegmentedView: View {
     @ObservedObject var mediaModel = MediaModel()
     @ObservedObject var likesModel = LikesModel()
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
-            PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts).pagerTabItem {
-                Text("Tweets")
-            }
-
-            PostsList(isLoading: $mediaModel.isLoading, items: mediaModel.posts).pagerTabItem {
-                Text("Media")
-            }
-
-            PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false).pagerTabItem {
-                Text("Likes")
-            }
+            PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts)
+                .pagerTabItem {
+                    Text("Tweets")
+                }
+            PostsList(isLoading: $mediaModel.isLoading, items: mediaModel.posts)
+                .pagerTabItem {
+                    Text("Media")
+                }
+            PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false)
+                .pagerTabItem {
+                    Text("Likes")
+                }
         }
-        .frame(alignment: .center)
-        .pagerTabStripViewStyle(.segmentedControl(backgroundColor: .yellow,
-                                                  padding: EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
-                                                  placedInToolbar: false))
-        .navigationBarTitleDisplayMode(.inline)
+        .pagerTabStripViewStyle(.segmentedControl(placedInToolbar: false, backgroundColor: .yellow, padding: EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)))
     }
 }
 

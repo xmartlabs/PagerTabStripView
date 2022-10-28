@@ -17,7 +17,7 @@ struct InstagramView: View {
     @ObservedObject var likedModel = LikedModel()
     @ObservedObject var savedModel = SavedModel()
 
-    var body: some View {
+    @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem {
                 InstagramNavBarItem(imageName: "gallery")
@@ -55,9 +55,9 @@ struct InstagramView: View {
                 }
             }
         }
-        .pagerTabStripViewStyle(.barButton(indicatorBarColor: Color(UIColor.systemGray), tabItemHeight: 50))
-        .frame(alignment: .center)
-        .navigationBarTitleDisplayMode(.inline)
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default, tabItemHeight: 50, indicatorView: {
+            Rectangle().fill(Color(.systemGray))
+        }))
     }
 }
 

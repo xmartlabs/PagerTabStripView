@@ -12,28 +12,31 @@ private class ButtonTheme: ObservableObject {
     @Published var textColor = Color.gray
 }
 
-struct TwitterNavBarItem: View, PagerTabViewDelegate {
+struct TwitterNavBarItem: View {
     let title: String
 
-    @ObservedObject fileprivate var theme = ButtonTheme()
+    @ObservedObject private var theme = ButtonTheme()
 
-    var body: some View {
+    @MainActor var body: some View {
         VStack {
             Text(title)
                 .foregroundColor(theme.textColor)
                 .font(.subheadline)
+                .frame(height: 30)
         }
-        .background(Color.clear)
     }
+}
+
+extension TwitterNavBarItem: PagerTabViewDelegate {
 
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:
-            self.theme.textColor = .blue
+            theme.textColor = .blue
         case .highlighted:
-            self.theme.textColor = .red
+            theme.textColor = .red
         default:
-            self.theme.textColor = .gray
+            theme.textColor = .gray
         }
     }
 }
