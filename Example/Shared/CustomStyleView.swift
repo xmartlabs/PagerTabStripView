@@ -9,7 +9,7 @@ import SwiftUI
 import PagerTabStripView
 
 struct CustomStyleView: View {
-    
+
     @State var selection = 2
 
     private let 🌈: [Color] = [
@@ -29,7 +29,7 @@ struct CustomStyleView: View {
                     color
                     Text("Any custom View You like")
                 }
-                .pagerTabItem() {
+                .pagerTabItem {
                     Capsule()
                         .frame(height: 32)
                         .padding(4)
@@ -38,7 +38,6 @@ struct CustomStyleView: View {
             }
         }
         .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25), tabItemHeight: 48, barBackgroundView: {
-             
             LinearGradient(
                colors: 🌈,
                startPoint: .topLeading,

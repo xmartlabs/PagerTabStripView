@@ -14,9 +14,9 @@ private class ButtonTheme: ObservableObject {
 
 struct TwitterNavBarItem: View {
     let title: String
-    
+
     @ObservedObject private var theme = ButtonTheme()
-    
+
     @MainActor var body: some View {
         VStack {
             Text(title)
@@ -40,8 +40,6 @@ extension TwitterNavBarItem: PagerTabViewDelegate {
         }
     }
 }
-
-
 
 struct TwitterNavBarItem_Previews: PreviewProvider {
     static var previews: some View {

@@ -43,8 +43,7 @@ private struct NavBarWrapperView: View {
         case let indicatorStyle as BarButtonStyle:
             if indicatorStyle.scrollable {
                 ScrollableNavBarView(selection: $selection)
-            }
-            else {
+            } else {
                 FixedSizeNavBarView(selection: $selection) { indicatorStyle.barBackgroundView() }
                 IndicatorBarView(indicator: indicatorStyle.indicatorView)
             }

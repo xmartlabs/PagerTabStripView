@@ -24,9 +24,9 @@ struct YoutubeNavBarItem: View {
     var image: Image {
         Image(imageName)
     }
-    
+
     @ObservedObject private var theme = ButtonTheme()
-    
+
     @MainActor var body: some View {
         VStack {
             image
@@ -42,7 +42,7 @@ struct YoutubeNavBarItem: View {
 }
 
 extension YoutubeNavBarItem: PagerTabViewDelegate {
-    
+
     func setState(state: PagerTabViewState) {
         switch state {
         case .selected:

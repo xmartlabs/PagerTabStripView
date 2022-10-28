@@ -13,21 +13,22 @@ internal struct IndicatorBarView<Indicator>: View where Indicator: View {
     @ViewBuilder var indicator: () -> Indicator
 
     var body: some View {
-        let internalStyle = style as! PagerWithIndicatorStyle
-        HStack {
-            let totalItemWidth = (settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.itemsCount - 1)))
-            let navBarItemWidth = totalItemWidth / CGFloat(dataStore.itemsCount)
-            if let navBarItemWidth, navBarItemWidth > 0, navBarItemWidth <= settings.width {
-                let x = -settings.contentOffset / CGFloat(dataStore.itemsCount) + navBarItemWidth / 2
-                indicator()
-                    .animation(.default)
-                    .frame(width: navBarItemWidth)
-                    .position(x: x, y: internalStyle.indicatorViewHeight / 2)
+        if let internalStyle = style as? PagerWithIndicatorStyle {
+            HStack {
+                let totalItemWidth = (settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.itemsCount - 1)))
+                let navBarItemWidth = totalItemWidth / CGFloat(dataStore.itemsCount)
+                if let navBarItemWidth, navBarItemWidth > 0, navBarItemWidth <= settings.width {
+                    let x = -settings.contentOffset / CGFloat(dataStore.itemsCount) + navBarItemWidth / 2
+                    indicator()
+                        .animation(.default)
+                        .frame(width: navBarItemWidth)
+                        .position(x: x, y: internalStyle.indicatorViewHeight / 2)
+                }
             }
+            .frame(height: internalStyle.indicatorViewHeight)
         }
-        .frame(height: internalStyle.indicatorViewHeight)
     }
-    
+
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }

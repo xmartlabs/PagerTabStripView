@@ -1,7 +1,6 @@
 # PagerTabStripView
 
 <p align="left">
-<!-- <a href="https://travis-ci.org/xmartlabs/PagerTabStrip"><img src="https://travis-ci.org/xmartlabs/PagerTabStrip.svg?branch=master" alt="Build status" /></a> -->
 <a href="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml"><img src="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml/badge.svg" alt="build and test" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
 <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift5-compatible-4BC51D.svg?style=flat" alt="Swift 5 compatible" /></a>
@@ -114,8 +113,10 @@ In this style you can add as many pages as you want. The tabs are placed in a sc
 ```swift
 struct PagerView: View {
 
+    @state var selection = 1
+
 	var body: some View {
-		PagerTabStripView(selection: 1) {
+		PagerTabStripView(selection: $selection) {
 			MyView()
 				.pagerTabItem {
 					TitleNavBarItem(title: "First big width")
@@ -127,7 +128,6 @@ struct PagerView: View {
             ...
             ..
             .
-
 		}
         .pagerTabStripViewStyle(.scrollableBarButton(indicatorBarColor: .blue, tabItemSpacing: 15, tabItemHeight: 50))
 	}

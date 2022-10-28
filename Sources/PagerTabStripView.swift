@@ -25,7 +25,6 @@ public struct PagerTabStripView<Content>: View where Content: View {
         self.content = content
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
-    
 
     @MainActor public var body: some View {
         WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: selection ?? $selectionState, content: content)
