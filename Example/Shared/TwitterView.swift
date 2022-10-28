@@ -53,7 +53,6 @@ struct TwitterView: View {
         .pagerTabStripViewStyle(.scrollableBarButton(placedInToolbar: false, tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
             Rectangle().fill(.blue).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }))
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

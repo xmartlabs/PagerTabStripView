@@ -129,7 +129,9 @@ struct PagerView: View {
             ..
             .
 		}
-        .pagerTabStripViewStyle(.scrollableBarButton(indicatorBarColor: .blue, tabItemSpacing: 15, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 50, indicatorView: {
+            Rectangle().fill(.blue)
+        }))
 	}
 }
 ```
@@ -152,8 +154,10 @@ In this style, the width of the tabs is equal between the different tabs and doe
 ```swift
 struct PagerView: View {
 
+    @state var selection = 1
+
 	var body: some View {
-		PagerTabStripView(selection: 1) {
+		PagerTabStripView(selection: $selection) {
 			MyView()
 				.pagerTabItem {
 					TitleNavBarItem(title: "Tab 1")
@@ -169,7 +173,9 @@ struct PagerView: View {
                     }
 			}
 		}
-        .pagerTabStripViewStyle(.barButton(indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.barButton(tabItemHeight: 50, tabItemSpacing: 0, indicatorView: {
+            Rectangle().fill(Color(.systemGray))
+        }))
 	}
 }
 ```
@@ -180,55 +186,88 @@ In this example, we add some settings like the tab bar height, indicator bar col
     <img src="Example/Media/addPagerSettings.gif">
 </div>
 
+BarButtonStyle has a lot more customization attributes. 
+
+* `scrolleable` (Bool) Allows the navBar to be horizontally scrolleable enabling to have a huge amount of pages. 
+* `barBackgroundView` (some View) Allows to set up a background view to the view that contains the tab items.
+
 #### Bar style
+
+`.pagerTabStripViewStyle(.bar(placedInToolbar: Bool = false, pagerAnimation: Animation = .default, indicatorViewHeight: CGFloat = 10, indicatorView: @escaping () -> some View = { Rectangle() }))`
 
 This style only shows a bar that indicates the current view controller. The customizable settings are:
 
-- Spacing between navigation bar items
-- Indicator bar height
-- Indicator bar color
+- `placedInToolbar`: Indicates if indicaror view should be placed in the NavigationBar
+- `pagerAnimation`: Indicates the animation curve when switching among pages.
+- `indicatorViewHeight`: indicator view height.
+- `indicatorView`: view that represents the pager indicator.
 
 <div style="text-align:center">
     <img src="Example/Media/barStyleExample.gif">
+</div>
+
+We can also provide custom views to represent the indicator and tab items bar background, which enables even more freedom to create customized pagers.
+
+```swift
+    @State var selection = 2
+
+    private let 🌈: [Color] = [
+        .red,
+        .orange,
+        .yellow,
+        .green,
+        .blue,
+        .purple
+    ]
+
+    @MainActor var body: some View {
+        PagerTabStripView(selection: $selection) {
+
+            ForEach(🌈, id: \.self) { color in
+                ZStack(alignment: .center) {
+                    color
+                    Text("Any custom View You like")
+                }
+                .pagerTabItem {
+                    Capsule()
+                        .frame(height: 32)
+                        .padding(4)
+                        .foregroundColor(color)
+                }
+            }
+        }
+        .pagerTabStripViewStyle(.barButton(tabItemHeight: 48, barBackgroundView: {
+            LinearGradient(
+               colors: 🌈,
+               startPoint: .topLeading,
+               endPoint: .bottomTrailing
+           )
+           .opacity(0.2)
+           .rotationEffect(selection % 2 == 0 ? Angle(degrees: 0) : Angle(degrees: 180))
+        }, indicatorView: {
+            Text(selection % 2 == 0 ? "👍🏻" : "👎").offset(x: 0, y: -24)
+        }))
+        .navigationTitle("🌈 Rainbow")
+    }
+```
+
+See how it looks (it doesn't look like exactly that gif but you got the idea):
+
+<div style="text-align:center">
+    <img src="Example/Media/customStyleExample.gif">
 </div>
 
 #### Segmented style
 
 This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it to be set in the toolbar.
 
+`.pagerTabStripViewStyle(.segmentedControl(placedInToolbar: false, backgroundColor: .yellow, padding: EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)))`
+
 <div style="text-align:center">
     <img src="Example/Media/segmentedStyleExample.gif">
 </div>
 
-#### Custom style
 
-This style uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
-
-```
-        .pagerTabStripViewStyle(
-            .custom(
-                tabItemHeight: 48,
-                indicator: {
-                    Text("👍🏻")
-                        .offset(x: 0, y: -24)
-                },
-                background: {
-                    LinearGradient(
-                        colors: 🌈,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                    .opacity(0.2)
-                }
-            )
-        )
-```
-
-See how it looks:
-
-<div style="text-align:center">
-    <img src="Example/Media/customStyleExample.gif">
-</div>
 
 ## Navigation bar
 
@@ -334,7 +373,7 @@ Follow these 3 steps to run Example project
 To install PagerTabStripView using CocoaPods, simply add the following line to your Podfile:
 
 ```ruby
-pod 'PagerTabStripView', '~> 3.0'
+pod 'PagerTabStripView', '~> 4.0'
 ```
 
 ### Carthage
@@ -342,7 +381,7 @@ pod 'PagerTabStripView', '~> 3.0'
 To install PagerTabStripView using Carthage, simply add the following line to your Cartfile:
 
 ```ruby
-github "xmartlabs/PagerTabStripView" ~> 3.0
+github "xmartlabs/PagerTabStripView" ~> 4.0
 ```
 
 ## Requirements
