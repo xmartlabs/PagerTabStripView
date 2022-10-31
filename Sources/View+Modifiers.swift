@@ -2,7 +2,7 @@
 //  Extensions.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
@@ -26,9 +26,9 @@ extension View {
         return self.modifier(PagerSetAppearItemModifier(onPageAppear: action ?? {}))
     }
 
-/// Sets the style for the pager view within the the current environment.
-///
-/// - Parameter style: The style to apply to this pager view.
+    /// Sets the style for the pager view within the the current environment.
+    ///
+    /// - Parameter style: The style to apply to this pager view.
     public func pagerTabStripViewStyle(_ style: PagerStyle) -> some View {
         return self.environment(\.pagerStyle, style)
     }

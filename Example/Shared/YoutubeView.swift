@@ -2,7 +2,7 @@
 //  YoutubeView.swift
 //  Example (iOS)
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import PagerTabStripView
 struct YoutubeView: View {
 
     @ObservedObject var homeModel = HomeModel()
-    @ObservedObject var trendingModel = TrendingModel()
+    @ObservedObject var trendingModel = HomeModel()
     @ObservedObject var accountModel = AccountModel()
 
     @MainActor var body: some View {
@@ -25,8 +25,7 @@ struct YoutubeView: View {
                 }
             }
 
-            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts,
-                      withDescription: false).pagerTabItem {
+            PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false).pagerTabItem {
                 YoutubeNavBarItem(title: "Trending", imageName: "trending")
             }
             .onPageAppear {

@@ -2,7 +2,7 @@
 //  PagerSetAppearModifier.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
@@ -27,7 +27,5 @@ struct PagerSetAppearItemModifier: ViewModifier {
     }
 
     @EnvironmentObject private var dataStore: DataStore
-    @EnvironmentObject private var settings: PagerSettings
-    @Environment(\.pagerStyle) var style: PagerStyle
     @State private var index = -1
 }

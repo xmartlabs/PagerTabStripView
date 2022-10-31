@@ -2,7 +2,7 @@
 //  SegmentedView.swift
 //  Example (iOS)
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
@@ -12,8 +12,8 @@ struct SegmentedView: View {
     @State var selection = 2
 
     @ObservedObject var tweetsModel = TweetsModel()
-    @ObservedObject var mediaModel = MediaModel()
-    @ObservedObject var likesModel = LikesModel()
+    @ObservedObject var mediaModel = TweetsModel()
+    @ObservedObject var likesModel = TweetsModel()
 
     @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {

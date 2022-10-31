@@ -1,8 +1,8 @@
 //
-//  PagerView.swift
+//  PagerTabStripView.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 import SwiftUI
 
@@ -28,7 +28,7 @@ public struct PagerTabStripView<Content>: View where Content: View {
 
     @MainActor public var body: some View {
         WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: selection ?? $selectionState, content: content)
-            .environmentObject(self.settings)
+            .environmentObject(settings)
     }
 }
 
@@ -63,8 +63,8 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                     .frame(width: gproxy.size.width)
             }
             .coordinateSpace(name: "PagerViewScrollView")
-            .offset(x: -CGFloat(self.selection) * gproxy.size.width)
-            .offset(x: self.translation)
+            .offset(x: -CGFloat(selection) * gproxy.size.width)
+            .offset(x: translation)
             .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(!swipeGestureEnabled ? nil :
@@ -92,7 +92,7 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                         selection = newIndex
                     }
                     if translation > 0 {
-                        self.currentOffset = translation
+                        currentOffset = translation
                     }
                 }
             )
@@ -105,7 +105,7 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                 settings.width = geo.width
                 currentOffset = -(CGFloat(selection) * geo.width)
             })
-            .onChange(of: self.selection) { [selection] newIndex in
+            .onChange(of: selection) { [selection] newIndex in
                 currentOffset = -(CGFloat(newIndex) * gproxy.size.width)
                 dataStore.items[newIndex]?.appearCallback?()
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .normal)
