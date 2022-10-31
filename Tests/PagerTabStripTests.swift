@@ -2,7 +2,7 @@
 //  PagerTabStripViewTests.swift
 //  PagerTabStripViewTests
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import XCTest

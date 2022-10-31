@@ -2,12 +2,12 @@
 //  PagerTabItemModifier.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 
-struct PagerTabItemModifier<NavTabView: View>: ViewModifier {
+struct PagerTabItemModifier<NavTabView>: ViewModifier where NavTabView: View {
 
     private var navTabView: () -> NavTabView
 
@@ -33,6 +33,5 @@ struct PagerTabItemModifier<NavTabView: View>: ViewModifier {
     }
 
     @EnvironmentObject private var dataStore: DataStore
-    @EnvironmentObject private var settings: PagerSettings
     @State private var index = -1
 }

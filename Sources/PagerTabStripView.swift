@@ -1,8 +1,8 @@
 //
-//  PagerView.swift
+//  PagerTabStripView.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 import SwiftUI
 
@@ -28,7 +28,7 @@ public struct PagerTabStripView<Content>: View where Content: View {
 
     @MainActor public var body: some View {
         WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: selection ?? $selectionState, content: content)
-            .environmentObject(self.settings)
+            .environmentObject(settings)
     }
 }
 
@@ -63,23 +63,37 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                     .frame(width: gproxy.size.width)
             }
             .coordinateSpace(name: "PagerViewScrollView")
-            .offset(x: -CGFloat(self.selection) * gproxy.size.width)
-            .offset(x: self.translation)
+            .offset(x: -CGFloat(selection) * gproxy.size.width)
+            .offset(x: translation)
             .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
-            .gesture(!swipeGestureEnabled ? nil : DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
-                if selection == 0 && value.translation.width > 0 {
-                    let valueWidth = value.translation.width
-                    let normTrans = valueWidth / (gproxy.size.width + 50)
-                    let logValue = log(1 + normTrans)
-                    state = gproxy.size.width/1.5 * logValue
-                } else if selection == dataStore.itemsCount - 1 && value.translation.width < 0 {
-                    let valueWidth = -value.translation.width
-                    let normTrans = valueWidth / (gproxy.size.width + 50)
-                    let logValue = log(1 + normTrans)
-                    state = -gproxy.size.width / 1.5 * logValue
-                } else {
-                    state = value.translation.width
+            .gesture(!swipeGestureEnabled ? nil :
+                DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
+                    if selection == 0 && value.translation.width > 0 {
+                        let valueWidth = value.translation.width
+                        let normTrans = valueWidth / (gproxy.size.width + 50)
+                        let logValue = log(1 + normTrans)
+                        state = gproxy.size.width/1.5 * logValue
+                    } else if selection == dataStore.itemsCount - 1 && value.translation.width < 0 {
+                        let valueWidth = -value.translation.width
+                        let normTrans = valueWidth / (gproxy.size.width + 50)
+                        let logValue = log(1 + normTrans)
+                        state = -gproxy.size.width / 1.5 * logValue
+                    } else {
+                        state = value.translation.width
+                    }
+                }.onEnded { value in
+                    let offset = value.predictedEndTranslation.width / gproxy.size.width
+                    let newPredictedIndex = (CGFloat(selection) - offset).rounded()
+                    let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.itemsCount - 1)
+                    if abs(selection - newIndex) > 1 {
+                        selection = newIndex > selection ? selection + 1 : selection - 1
+                    } else {
+                        selection = newIndex
+                    }
+                    if translation > 0 {
+                        currentOffset = translation
+                    }
                 }
             }.onEnded { value in
                 let offset = value.predictedEndTranslation.width / gproxy.size.width
@@ -103,7 +117,7 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                 settings.width = geo.width
                 currentOffset = -(CGFloat(selection) * geo.width)
             })
-            .onChange(of: self.selection) { [selection] newIndex in
+            .onChange(of: selection) { [selection] newIndex in
                 currentOffset = -(CGFloat(newIndex) * gproxy.size.width)
                 dataStore.items[newIndex]?.appearCallback?()
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .normal)

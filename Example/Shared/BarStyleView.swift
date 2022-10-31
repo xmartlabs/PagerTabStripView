@@ -2,7 +2,7 @@
 //  BarStyleView.swift
 //  Example (iOS)
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
@@ -12,8 +12,8 @@ struct BarStyleView: View {
     @State var selection = 1
 
     @ObservedObject var tweetsModel = TweetsModel()
-    @ObservedObject var mediaModel = MediaModel()
-    @ObservedObject var likesModel = LikesModel()
+    @ObservedObject var mediaModel = TweetsModel()
+    @ObservedObject var likesModel = TweetsModel()
 
     @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
@@ -26,7 +26,9 @@ struct BarStyleView: View {
             PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false).pagerTabItem {
             }
         }
-        .pagerTabStripViewStyle(.bar(placedInToolbar: false, indicatorViewHeight: 6) { Rectangle().fill(.yellow) })
+        .pagerTabStripViewStyle(.bar(placedInToolbar: false, indicatorViewHeight: 6) {
+            Rectangle().fill(.yellow)
+        })
         .navigationTitle("Bar Style View")
     }
 }
