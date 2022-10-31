@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Shared
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
@@ -15,32 +15,24 @@ struct ContentView: View {
             List {
                 NavigationLink(destination: TwitterView()) {
                     VStack(alignment: .leading) {
-                        Text("Scrollable style")
-                            .font(.body)
-                            .padding(.bottom, 1)
-                        Text("Only label")
-                            .font(.subheadline)
+                        Text("Twitter Style").font(.body).padding(.bottom, 1)
+                        Text("Scrolleable BarButtonStyle with Label").font(.subheadline)
                     }
                     .padding([.top, .bottom], 2)
                 }
 
                 NavigationLink(destination: InstagramView()) {
                     VStack(alignment: .leading) {
-                        Text("Normal style")
-                            .font(.body)
-                            .padding(.bottom, 1)
-                        Text("Only icon")
-                            .font(.subheadline)
+                        Text("Instagram style").font(.body).padding(.bottom, 1)
+                        Text("BarButtonStyle with Icon").font(.subheadline)
                     }
                     .padding([.top, .bottom], 2)
                 }
 
                 NavigationLink(destination: YoutubeView()) {
                     VStack(alignment: .leading) {
-                        Text("Normal style")
-                            .font(.body)
-                            .padding(.bottom, 1)
-                        Text("Label and icon")
+                        Text("Youtube style").font(.body).padding(.bottom, 1)
+                        Text("BarButtonStyle with Label and Icon")
                             .font(.subheadline)
                     }
                     .padding([.top, .bottom], 2)
@@ -58,19 +50,18 @@ struct ContentView: View {
 
                 NavigationLink(destination: CustomStyleView()) {
                     VStack(alignment: .leading) {
-                        Text("Custom style")
-                            .font(.body)
-                            .padding(.bottom, 1)
+                        Text("Custom style").font(.body).padding(.bottom, 1)
+                        Text("BarButtonStyle with custom indicatorView and barBackgroundView ").font(.subheadline)
                     }
                     .padding([.top, .bottom], 2)
                 }
 
                 NavigationLink(destination: TwitterView(swipeGestureEnabled: false)) {
                     VStack(alignment: .leading) {
-                        Text("Scrollable style, swipe disabled")
+                        Text("Twitter Style, swipe gesture disabled")
                             .font(.body)
                             .padding(.bottom, 1)
-                        Text("Only label")
+                        Text("Scrolleable BarButtonStyle with Label")
                             .font(.subheadline)
                     }
                 }

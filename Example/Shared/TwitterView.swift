@@ -2,58 +2,49 @@
 //  TwitterView.swift
 //  Example (iOS)
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 import PagerTabStripView
 
+private struct DataItem: Identifiable {
+    var id: String { title }
+    var title: String
+    var posts: [Post]
+    var withDescription: Bool = true
+}
+
 struct TwitterView: View {
     @State var swipeGestureEnabled: Bool
     @State var selection = 2
-
-    @ObservedObject var firstModel = TweetsModel()
-    @ObservedObject var secondModel = MediaModel()
-    @ObservedObject var thirdModel = LikesModel()
-    @ObservedObject var fourthModel = TweetsModel()
-    @ObservedObject var fifthModel = MediaModel()
-    @ObservedObject var sixthModel = LikesModel()
 
     public init(swipeGestureEnabled: Bool = true) {
         self.swipeGestureEnabled = swipeGestureEnabled
     }
 
+    private var items = [DataItem(title: "First big width", posts: TweetsModel().posts),
+                  DataItem(title: "Short", posts: TweetsModel().posts),
+                  DataItem(title: "Medium width", posts: TweetsModel().posts, withDescription: false),
+                  DataItem(title: "Second big width", posts: TweetsModel().posts),
+                  DataItem(title: "Second Medium", posts: TweetsModel().posts, withDescription: false),
+                  DataItem(title: "Mini", posts: TweetsModel().posts)
+    ]
+
     @MainActor var body: some View {
         PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
-            PostsList(isLoading: $firstModel.isLoading, items: firstModel.posts)
-                .pagerTabItem {
-                    TwitterNavBarItem(title: "First big width")
-                }
-            PostsList(isLoading: $secondModel.isLoading, items: secondModel.posts)
-                .pagerTabItem {
-                    TwitterNavBarItem(title: "Short")
-                }
-            PostsList(isLoading: $thirdModel.isLoading, items: thirdModel.posts, withDescription: false)
-                .pagerTabItem {
-                    TwitterNavBarItem(title: "Medium width")
-                }
-            PostsList(isLoading: $fourthModel.isLoading, items: fourthModel.posts)
-                .pagerTabItem {
-                    TwitterNavBarItem(title: "Second big width")
-                }
-            PostsList(isLoading: $fifthModel.isLoading, items: fifthModel.posts, withDescription: false)
-                .pagerTabItem {
-                    TwitterNavBarItem(title: "Medium width")
-                }
-            PostsList(isLoading: $sixthModel.isLoading, items: sixthModel.posts)
-                .pagerTabItem {
-                    TwitterNavBarItem(title: "Mini")
-                }
+            ForEach(items) { item in
+                PostsList(items: item.posts, withDescription: item.withDescription)
+                    .pagerTabItem {
+                        TwitterNavBarItem(title: item.title)
+                    }
+            }
         }
-        .pagerTabStripViewStyle(.scrollableBarButton(placedInToolbar: false, tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
-            Rectangle().fill(.blue).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
+            Rectangle().fill(.blue).cornerRadius(5)
         }))
     }
+
 }
 
 struct TwitterView_Previews: PreviewProvider {
