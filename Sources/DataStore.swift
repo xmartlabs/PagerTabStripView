@@ -6,55 +6,68 @@
 //
 
 import SwiftUI
+import Combine
 
-class DataItem {
-    var view: AnyView?
-    weak var tabViewDelegate: PagerTabViewDelegate?
-    var appearCallback: (() -> Void)?
-    @Published var itemWidth: Double?
-
-    init(view: AnyView? = nil, tabViewDelegate: PagerTabViewDelegate? = nil, callback: (() -> Void)? = nil) {
+class DataItem: Identifiable, Equatable {
+    static func == (lhs: DataItem, rhs: DataItem) -> Bool {
+        guard lhs.tag == rhs.tag && lhs.index == rhs.index && lhs.itemWidth == rhs.itemWidth else {
+            return false
+        }
+        return true
+    }
+    var id: Int {
+        tag
+    }
+    private(set) var tag: Int
+    fileprivate(set) var view: AnyView? {
+        didSet {
+            tabViewDelegate = view as? PagerTabViewDelegate
+        }
+    }
+    private(set) var tabViewDelegate: PagerTabViewDelegate?
+    fileprivate(set) var index: Int
+    fileprivate(set) var itemWidth: Double?
+    fileprivate init(tag: Int, index: Int, view: AnyView, itemWidth: Double? = nil) {
+        self.tag = tag
+        self.index = index
         self.view = view
-        self.appearCallback = callback
-        self.tabViewDelegate = tabViewDelegate
+        self.itemWidth = itemWidth
     }
 }
 
 class DataStore: ObservableObject {
-    @Published var items = [Int: DataItem]() {
+
+    @Published private(set) var items = [Int: DataItem]() {
         didSet {
+            itemsOrderedByIndex = items.values.sorted { $0.index < $1.index }
             itemsCount = items.count
         }
     }
 
+    @Published private(set) var itemsOrderedByIndex = [DataItem]()
     @Published private(set) var itemsCount: Int = 0
-    @Published var widthUpdated: Bool = false
+    @Published fileprivate(set) var widthUpdated: Bool = false
 
-    func setView(_ view: AnyView, at index: Int) {
-        if let item = items[index] {
-            item.view = view
+    func createOrUpdate(tag: Int, index: Int, view: AnyView) {
+        if let dataItem = items[tag] {
+            dataItem.index = index
+            dataItem.view = view
+            items[tag] = dataItem
         } else {
-            items[index] = DataItem(view: view)
+            items[tag] = DataItem(tag: tag, index: index, view: view)
         }
     }
 
-    func setTabViewDelegate(_ tabViewDelegate: PagerTabViewDelegate?, at index: Int) {
-        if let item = items[index] {
-            item.tabViewDelegate = tabViewDelegate
-        } else {
-            items[index] = DataItem(tabViewDelegate: tabViewDelegate)
+    func update(tag: Int, itemWidth: Double) {
+        if let dataItem = items[tag], dataItem.itemWidth != itemWidth, itemWidth > 0 {
+            dataItem.itemWidth = itemWidth
+            items[tag] = dataItem
         }
+        widthUpdated = items.count > 0 && items.filter({ $0.value.itemWidth ?? 0 > 0 }).count == itemsCount
     }
 
-    func setAppear(callback: @escaping () -> Void, at index: Int) {
-        if let item = items[index] {
-            item.appearCallback = callback
-        } else {
-            items[index] = DataItem(view: nil, callback: callback)
-        }
-    }
-
-    func remove(at index: Int) {
-        items[index] = nil
+    func remove(tag: Int) {
+        items[tag]?.tabViewDelegate?.setState(state: .normal)
+        items.removeValue(forKey: tag)
     }
 }

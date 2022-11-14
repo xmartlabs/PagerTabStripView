@@ -20,8 +20,9 @@ internal struct SegmentedNavBarView: View {
         if let internalStyle = style as? SegmentedControlStyle {
             Picker("SegmentedNavBarView", selection: $selection) {
                 if dataStore.itemsCount > 0 && settings.width > 0 {
-                    ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
-                        NavBarItem(id: idx, selection: $selection)
+                    ForEach(dataStore.itemsOrderedByIndex) { item in
+                        NavBarItem(id: item.id, selection: $selection)
+                            .tag(item.index)
                     }
                 }
             }
