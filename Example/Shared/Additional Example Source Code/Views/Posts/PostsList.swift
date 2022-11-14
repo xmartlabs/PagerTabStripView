@@ -24,6 +24,7 @@ struct PostsList: View {
             if isLoading {
                 ProgressView()
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+                    .animation(.default, value: isLoading)
             }
             List {
                 ForEach(items) { item in
@@ -33,6 +34,5 @@ struct PostsList: View {
                 }
             }
         }
-        .animation(.default, value: isLoading)
     }
 }
