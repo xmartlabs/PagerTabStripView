@@ -34,14 +34,16 @@ public struct PagerTabStripView<Content>: View where Content: View {
 
 private struct WrapperPagerTabStripView<Content>: View where Content: View {
 
-    private var content: () -> Content
+    private var content: Content
 
     @StateObject private var dataStore = DataStore()
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
     @Binding var selection: Int {
         didSet {
-            if selection < 0 { selection = oldValue }
+            if selection < 0 {
+                selection = oldValue
+            }
         }
     }
     @State private var currentOffset: CGFloat = 0 {
@@ -53,13 +55,13 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
     public init(swipeGestureEnabled: Binding<Bool>, selection: Binding<Int>, @ViewBuilder content: @escaping () -> Content) {
         self._swipeGestureEnabled = swipeGestureEnabled
         self._selection = selection
-        self.content = content
+        self.content = content()
     }
 
     @MainActor public var body: some View {
         GeometryReader { gproxy in
             LazyHStack(spacing: 0) {
-                content()
+                content
                     .frame(width: gproxy.size.width)
             }
             .coordinateSpace(name: "PagerViewScrollView")
@@ -89,7 +91,7 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
                     if abs(selection - newIndex) > 1 {
                         selection = newIndex > selection ? selection + 1 : selection - 1
                     } else {
-                        selection = newIndex
+                        selection = max(0, newIndex)
                     }
                     if translation > 0 {
                         currentOffset = translation
@@ -107,19 +109,17 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             })
             .onChange(of: selection) { [selection] newIndex in
                 currentOffset = -(CGFloat(newIndex) * gproxy.size.width)
-                dataStore.items[newIndex]?.appearCallback?()
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .normal)
                 if let tabViewDelegate = dataStore.items[newIndex]?.tabViewDelegate, newIndex != selection {
                     tabViewDelegate.setState(state: .selected)
                 }
             }
             .onChange(of: translation) { _ in
-                settings.contentOffset = translation - CGFloat(selection)*gproxy.size.width
+                settings.contentOffset = translation - (CGFloat(selection) * gproxy.size.width)
             }
             .onChange(of: dataStore.itemsCount) { _ in
                 selection = selection >= dataStore.itemsCount ? dataStore.itemsCount - 1 : selection
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .selected)
-                dataStore.items[selection]?.appearCallback?()
             }
         }
         .modifier(NavBarModifier(selection: $selection))

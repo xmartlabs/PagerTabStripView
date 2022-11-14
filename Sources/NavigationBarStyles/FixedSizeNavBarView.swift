@@ -12,7 +12,6 @@ internal struct FixedSizeNavBarView<BG: View>: View {
     @Binding private var selection: Int
     @EnvironmentObject private var dataStore: DataStore
     private var backgroundView: BG
-
     public init(selection: Binding<Int>, background: () -> BG) {
         self._selection = selection
         self.backgroundView = background()
@@ -21,11 +20,10 @@ internal struct FixedSizeNavBarView<BG: View>: View {
     @MainActor var body: some View {
         if let internalStyle = style as? BarButtonStyle {
             HStack(spacing: internalStyle.tabItemSpacing) {
-                if dataStore.itemsCount > 0 && settings.width > 0 {
-                    ForEach(0..<dataStore.itemsCount, id: \.self) { idx in
-                        NavBarItem(id: idx, selection: $selection)
-                            .frame(height: internalStyle.tabItemHeight)
-                    }
+                ForEach(dataStore.itemsOrderedByIndex) { item in
+                    NavBarItem(id: item.id, selection: $selection)
+                        .frame(height: internalStyle.tabItemHeight)
+                        .tag(item.id)
                 }
             }
             .frame(height: internalStyle.tabItemHeight)
