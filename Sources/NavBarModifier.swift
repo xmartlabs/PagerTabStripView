@@ -37,7 +37,7 @@ private struct NavBarWrapperView<SelectionType>: View where SelectionType: Hasha
     @MainActor var body: some View {
         switch style {
         case let barStyle as BarStyle:
-            IndicatorBarView<SelectionType, AnyView>(indicator: barStyle.indicatorView)
+            IndicatorBarView<SelectionType, AnyView>(selection: $selection, indicator: barStyle.indicatorView)
         case is SegmentedControlStyle:
             SegmentedNavBarView(selection: $selection)
         case let indicatorStyle as BarButtonStyle:
@@ -45,7 +45,7 @@ private struct NavBarWrapperView<SelectionType>: View where SelectionType: Hasha
                 ScrollableNavBarView(selection: $selection)
             } else {
                 FixedSizeNavBarView(selection: $selection) { indicatorStyle.barBackgroundView() }
-                IndicatorBarView<SelectionType, AnyView>(indicator: indicatorStyle.indicatorView)
+                IndicatorBarView<SelectionType, AnyView>(selection: $selection, indicator: indicatorStyle.indicatorView)
             }
         default:
             SegmentedNavBarView(selection: $selection)
