@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-internal struct SegmentedNavBarView: View {
-    @Binding private var selection: Int
-    @EnvironmentObject private var dataStore: DataStore
+internal struct SegmentedNavBarView<SelectionType>: View where SelectionType: Hashable{
+    @Binding private var selection: SelectionType
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
 
-    public init(selection: Binding<Int>) {
+    public init(selection: Binding<SelectionType>) {
         self._selection = selection
     }
 
@@ -20,9 +20,9 @@ internal struct SegmentedNavBarView: View {
         if let internalStyle = style as? SegmentedControlStyle {
             Picker("SegmentedNavBarView", selection: $selection) {
                 if dataStore.itemsCount > 0 && settings.width > 0 {
-                    ForEach(dataStore.itemsOrderedByIndex) { item in
-                        NavBarItem(id: item.id, selection: $selection)
-                            .tag(item.index)
+                    ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
+                        NavBarItem(id: tag, selection: $selection)
+                            .tag(tag)
                     }
                 }
             }

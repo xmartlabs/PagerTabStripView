@@ -19,7 +19,7 @@ private struct PageItem: Identifiable {
 struct TwitterView: View {
     @State var swipeGestureEnabled: Bool
     @State var selection = 2
-    @State var toggle = false
+    @State var toggle = true
 
     public init(swipeGestureEnabled: Bool = true) {
         self.swipeGestureEnabled = swipeGestureEnabled
@@ -34,17 +34,24 @@ struct TwitterView: View {
     ]
 
     @MainActor var body: some View {
-        PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
-            ForEach(toggle ? items : items.reversed().dropLast(3), id: \.title) { item in
+       // PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
+        TabView(selection: $selection) {
+            ForEach(toggle ? items : items.dropLast(5), id: \.title) { item in
                 PostsList(items: item.posts, withDescription: item.withDescription)
-                    .pagerTabItem(tag: item.id) {
-                        TwitterNavBarItem(title: item.title)
-                    }
+                    .colorMultiply(Color.red)
+                    .tabItem {
+                        Text(item.title)
+                    }.tag(item.tag)
+                //                    .pagerTabItem(tag: item.tag) {
+                //                        TwitterNavBarItem(title: item.title)
+                //                    }
             }
         }
-        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
-            Rectangle().fill(.blue).cornerRadius(5)
-        }))
+        .tabViewStyle(.page(indexDisplayMode: .always))
+//        }
+//        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
+//            Rectangle().fill(.blue).cornerRadius(5)
+//        }))
         .navigationBarItems(trailing: Button("Refresh") {
             toggle.toggle()
         })

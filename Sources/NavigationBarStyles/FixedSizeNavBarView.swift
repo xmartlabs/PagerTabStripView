@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-internal struct FixedSizeNavBarView<BG: View>: View {
-    @Binding private var selection: Int
-    @EnvironmentObject private var dataStore: DataStore
+internal struct FixedSizeNavBarView<SelectionType, BG>: View where SelectionType: Hashable, BG: View {
+    @Binding private var selection: SelectionType
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
     private var backgroundView: BG
-    public init(selection: Binding<Int>, background: () -> BG) {
+    public init(selection: Binding<SelectionType>, background: () -> BG) {
         self._selection = selection
         self.backgroundView = background()
     }
@@ -20,10 +20,10 @@ internal struct FixedSizeNavBarView<BG: View>: View {
     @MainActor var body: some View {
         if let internalStyle = style as? BarButtonStyle {
             HStack(spacing: internalStyle.tabItemSpacing) {
-                ForEach(dataStore.itemsOrderedByIndex) { item in
-                    NavBarItem(id: item.id, selection: $selection)
+                ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
+                    NavBarItem(id: tag, selection: $selection)
                         .frame(height: internalStyle.tabItemHeight)
-                        .tag(item.id)
+                        .tag(tag)
                 }
             }
             .frame(height: internalStyle.tabItemHeight)
