@@ -10,7 +10,7 @@ import PagerTabStripView
 
 struct CustomStyleView: View {
 
-    @State var selection = 2
+    @State var selection = Color.blue
 
     private let 🌈: [Color] = [
         .red,
@@ -29,7 +29,7 @@ struct CustomStyleView: View {
                     color
                     Text("Any custom View You like")
                 }
-                .pagerTabItem(tag: color.hashValue) {
+                .pagerTabItem(tag: color) {
                     Capsule()
                         .frame(height: 32)
                         .padding(4)
@@ -49,9 +49,9 @@ struct CustomStyleView: View {
                endPoint: .bottomTrailing
            )
            .opacity(0.2)
-           .rotationEffect(selection % 2 == 0 ? Angle(degrees: 0) : Angle(degrees: 180))
+           .rotationEffect([.orange, .green, .purple].contains(selection) ? Angle(degrees: 0) : Angle(degrees: 180))
         }, indicatorView: {
-            Text(selection % 2 == 0 ? "👍🏻" : "👎").offset(x: 0, y: -24)
+            Text([.orange, .green, .purple].contains(selection) ? "👍🏻" : "👎").offset(x: 0, y: -24)
         }))
         .navigationTitle("🌈 Rainbow")
     }

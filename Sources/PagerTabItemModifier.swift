@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct PagerTabItemModifier<NavTabView>: ViewModifier where NavTabView: View {
+struct PagerTabItemModifier<SelectionType, NavTabView>: ViewModifier where SelectionType: Hashable, NavTabView: View {
 
     let navTabView: () -> NavTabView
-    let tag: Int
+    let tag: SelectionType
 
-    init(tag: Int, navTabView: @escaping () -> NavTabView) {
+    init(tag: SelectionType, navTabView: @escaping () -> NavTabView) {
         self.tag = tag
         self.navTabView = navTabView
     }
@@ -36,7 +36,7 @@ struct PagerTabItemModifier<NavTabView>: ViewModifier where NavTabView: View {
         }
     }
 
-    @EnvironmentObject private var dataStore: DataStore
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
     @State private var index = -1
 }
 

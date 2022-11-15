@@ -9,9 +9,16 @@ import SwiftUI
 import PagerTabStripView
 
 struct InstagramView: View {
+    
+    enum Page {
+        case gallery
+        case list
+        case like
+        case saved
+    }
 
-    @State var selection = 1
-    @State var toggle = false
+    @State var selection = Page.list
+    @State var toggle = true
 
     @ObservedObject var galleryModel = GalleryModel()
     @ObservedObject var listModel = ListModel()
@@ -21,7 +28,7 @@ struct InstagramView: View {
     @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
             if toggle {
-                PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem(tag: 0) {
+                PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts).pagerTabItem(tag: Page.gallery) {
                     InstagramNavBarItem(imageName: "gallery")
                 }
                 .onAppear {
@@ -30,7 +37,7 @@ struct InstagramView: View {
                         galleryModel.isLoading = false
                     }
                 }
-                PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false).pagerTabItem(tag: 1) {
+                PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false).pagerTabItem(tag: Page.list) {
                     InstagramNavBarItem(imageName: "list")
                 }
                 .onAppear {
@@ -40,7 +47,7 @@ struct InstagramView: View {
                     }
                 }
             }
-            PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts).pagerTabItem(tag: 2) {
+            PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts).pagerTabItem(tag: Page.like) {
                 InstagramNavBarItem(imageName: "liked")
             }.onAppear {
                 likedModel.isLoading = true
@@ -48,7 +55,7 @@ struct InstagramView: View {
                     likedModel.isLoading = false
                 }
             }
-            PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false).pagerTabItem(tag: 3) {
+            PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false).pagerTabItem(tag: Page.saved) {
                 InstagramNavBarItem(imageName: "saved")
             }.onAppear {
                 savedModel.isLoading = true
