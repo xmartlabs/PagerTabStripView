@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct NavBarItem: View, Identifiable {
-    @EnvironmentObject private var dataStore: DataStore
-    @Binding private var selection: Int
-    var id: Int
+struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashable {
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
+    @Binding private var selection: SelectionType
+    var id: SelectionType
 
-    public init(id: Int, selection: Binding<Int>) {
+    public init(id: SelectionType, selection: Binding<SelectionType>) {
         self.id = id
         self._selection = selection
     }
@@ -21,14 +21,13 @@ struct NavBarItem: View, Identifiable {
         if let dataItem = dataStore.items[id] {
             VStack {
                 Button(action: {
-                    let newIndex = dataItem.index
-                    selection = newIndex
+                    selection = id
                 }, label: {
                     dataStore.items[id]?.view
                 })
                 .buttonStyle(.plain)
                 .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                    dataItem.tabViewDelegate?.setState(state: pressing ? .highlighted : (dataItem.index == selection ? .selected : .normal))
+                    dataItem.tabViewDelegate?.setState(state: pressing ? .highlighted : (dataItem.tag == selection ? .selected : .normal))
                 } perform: {}
             }.background(
                 GeometryReader { geometry in
