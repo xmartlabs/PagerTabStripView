@@ -8,13 +8,12 @@
 import SwiftUI
 import Combine
 
-class DataItem<SelectedType>: Identifiable where SelectedType: Hashable {
-//    static func == (lhs: DataItem, rhs: DataItem) -> Bool {
-//        guard lhs.tag == rhs.tag && lhs.index == rhs.index && lhs.itemWidth == rhs.itemWidth else {
-//            return false
-//        }
-//        return true
-//    }
+class DataItem<SelectedType>: Identifiable, Equatable where SelectedType: Hashable {
+    
+    static func == (lhs: DataItem, rhs: DataItem) -> Bool {
+        return lhs.tag == rhs.tag && lhs.index == rhs.index && lhs.itemWidth == rhs.itemWidth
+    }
+    
     var id: Int {
         tag.hashValue
     }
@@ -25,7 +24,7 @@ class DataItem<SelectedType>: Identifiable where SelectedType: Hashable {
         }
     }
     private(set) var tabViewDelegate: PagerTabViewDelegate?
-    fileprivate(set) var itemWidth: Double?
+    @Published fileprivate(set) var itemWidth: Double?
     fileprivate(set) var index: Int
 
     fileprivate init(tag: SelectedType, index: Int, view: AnyView, itemWidth: Double? = nil) {
@@ -39,18 +38,19 @@ class DataItem<SelectedType>: Identifiable where SelectedType: Hashable {
 
 class DataStore<SelectionType>: ObservableObject where SelectionType: Hashable {
     
-    
-
     @Published private(set) var items = [SelectionType: DataItem<SelectionType>]() {
         didSet {
-            itemsOrderedByIndex = items.values.sorted { $0.index < $1.index }.map {$0.tag }
-            itemsCount = items.count
+            widthUpdated = items.count > 0 && items.allSatisfy{ $0.value.itemWidth ?? 0 > 0 }
+            itemsOrderedByIndex = items.values.sorted { $0.index < $1.index }.map { $0.tag }
+            updatePublisher.send(itemsOrderedByIndex)
         }
     }
+    
+    let updatePublisher = PassthroughSubject<[SelectionType], Never>() // Can be consumed by other classes / objects.
+
 
     @Published private(set) var itemsOrderedByIndex = [SelectionType]()
-    @Published private(set) var itemsCount: Int = 0
-    @Published fileprivate(set) var widthUpdated: Bool = false
+    @Published private(set) var widthUpdated: Bool = false
     
     func createOrUpdate(tag: SelectionType, index: Int, view: AnyView) {
         if let dataItem = items[tag] {
@@ -67,13 +67,11 @@ class DataStore<SelectionType>: ObservableObject where SelectionType: Hashable {
             dataItem.itemWidth = itemWidth
             items[tag] = dataItem
         }
-        widthUpdated = items.count > 0 && items.filter({ $0.value.itemWidth ?? 0 > 0 }).count == items.count
     }
 
     func remove(tag: SelectionType) {
         items[tag]?.tabViewDelegate?.setState(state: .normal)
         items.removeValue(forKey: tag)
-        
     }
     
     func nextSelection(for selection: SelectionType) -> SelectionType {
@@ -88,5 +86,9 @@ class DataStore<SelectionType>: ObservableObject where SelectionType: Hashable {
             return itemsOrderedByIndex.first!
         }
         return itemsOrderedByIndex[safe: selectionIndex - 1] ?? selection
+    }
+    
+    func indexOf(tag: SelectionType) -> Int {
+        return itemsOrderedByIndex.firstIndex(of: tag)!
     }
 }

@@ -13,11 +13,13 @@ struct YoutubeView: View {
     @ObservedObject var homeModel = HomeModel()
     @ObservedObject var trendingModel = HomeModel()
     @ObservedObject var accountModel = AccountModel()
+    
+    @State var selection = 2
 
     @State var toggle: Bool = false
 
     @MainActor var body: some View {
-        PagerTabStripView {
+        PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts)
                 .pagerTabItem(tag: 0) {
                     YoutubeNavBarItem(title: "Home", imageName: "home")
@@ -39,7 +41,8 @@ struct YoutubeView: View {
                     }
                 }
             if toggle {
-                PostDetail(post: accountModel.post).pagerTabItem(tag: 2) {
+                PostDetail(post: accountModel.post)
+                    .pagerTabItem(tag: 2) {
                     YoutubeNavBarItem(title: "Account", imageName: "account")
                 }
             }
