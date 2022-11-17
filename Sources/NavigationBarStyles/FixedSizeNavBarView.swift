@@ -9,9 +9,10 @@ import Foundation
 import SwiftUI
 
 internal struct FixedSizeNavBarView<SelectionType, BG>: View where SelectionType: Hashable, BG: View {
+
     @Binding private var selection: SelectionType
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
     private var backgroundView: BG
+
     public init(selection: Binding<SelectionType>, background: () -> BG) {
         self._selection = selection
         self.backgroundView = background()
@@ -30,7 +31,9 @@ internal struct FixedSizeNavBarView<SelectionType, BG>: View where SelectionType
             .background(backgroundView)
         }
     }
+    
+    @Environment(\.pagerStyle) private var style: PagerStyle
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
 
-    @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }

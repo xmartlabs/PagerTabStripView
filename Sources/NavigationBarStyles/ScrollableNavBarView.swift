@@ -33,17 +33,17 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
                     .frame(height: internalStyle.tabItemHeight)
                 }
                 .padding(internalStyle.padding)
-                .onChange(of: switchAppeared) { _ in
+                .onChange(of: dataStore.widthUpdated) { _ in
+                    guard switchAppeared, let selectedItem = dataStore.items[selection] else { return }
                     // This is necessary because anchor: .center is not working correctly
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                        let selectedItem = dataStore.items[selection]!
-//                        let tags = dataStore.itemsOrderedByIndex
-//                        var remainingItemsWidth = (selectedItem?.itemWidth ?? 0) / 2
-//                        let remaininigItems = tags[(selectedItem + 1)...].map { dataStore.items[$0] }
-//                        remainingItemsWidth += remaininigItems.map {$0.itemWidth ?? 0}.reduce(0, +)
-//                        remainingItemsWidth += CGFloat(dataStore.itemsCount-1 - selectedItem.index)*internalStyle.tabItemSpacing
-//                        let centerSel = remainingItemsWidth > (settings.width / 2)
-//                        value.scrollTo(centerSel ? selection : tags.last, anchor: centerSel ? .center : nil)
+                        let tags = dataStore.itemsOrderedByIndex
+                        var remainingItemsWidth = (selectedItem.itemWidth ?? 0) / 2
+                        let remaininigItems = tags[(selectedItem.index + 1)...].map { dataStore.items[$0] }
+                        remainingItemsWidth += remaininigItems.map { $0?.itemWidth ?? 0}.reduce(0, +)
+                        remainingItemsWidth += CGFloat(dataStore.items.count-1 - selectedItem.index) * internalStyle.tabItemSpacing
+                        let centerSel = remainingItemsWidth > (settings.width / 2)
+                        value.scrollTo(centerSel ? selection : tags.last, anchor: centerSel ? .center : nil)
                     }
                 }
                 .onChange(of: selection) { newSelection in
@@ -80,77 +80,78 @@ internal struct IndicatorScrollableBarView<SelectionType>: View where SelectionT
         if let internalStyle = style as? BarButtonStyle {
             internalStyle.indicatorView()
                 .frame(height: internalStyle.indicatorViewHeight)
-//                .animation(.default, value: appeared)
+                .animation(.default, value: appeared)
                 .frame(width: selectedItemWidth)
                 .position(x: position)
-//                .onAppear {
-//                    appeared = true
-//                }
+                .onAppear {
+                    appeared = true
+                }
                 .onChange(of: dataStore.widthUpdated) { updated in
-                    if updated {
-//                        let selectedItem = dataStore.items[selection]!
-//                        let tags = dataStore.itemsOrderedByIndex
-//                        let tagsBeforeSelected = tags[..<selectedItem.index]
-//                        selectedItemWidth = selectedItem.itemWidth!
-//                        let newPosition = tagsBeforeSelected.map { dataStore.items[$0]?.itemWidth ?? 0}.reduce(0, +)
-//                                            + (internalStyle.tabItemSpacing * CGFloat(selection))
-//                                            + selectedItemWidth/2
-//                        position = newPosition
+                    if updated, let selectedItem = dataStore.items[selection] {
+                        let tags = dataStore.itemsOrderedByIndex
+                        let tagsBeforeSelected = tags[..<selectedItem.index]
+                        selectedItemWidth = selectedItem.itemWidth ?? 0
+                        var newPosition = tagsBeforeSelected.map { dataStore.items[$0]?.itemWidth ?? 0 }.reduce(0, +)
+                        newPosition += (internalStyle.tabItemSpacing * CGFloat(selectedItem.index)) + selectedItemWidth/2
+                        position = newPosition
                     }
                 }
                 .onChange(of: settings.contentOffset) { newValue in
-                    guard dataStore.items.values.allSatisfy({ ($0.itemWidth ?? 0) > 0 }) else {
-                        return
+                    print("contentOffset: \(newValue)")
+                    guard let selectedItem = dataStore.items[selection], dataStore.widthUpdated else { return } //,
+                    let itemsCount = dataStore.items.count
+                    let itemsWidth = dataStore.itemsOrderedByIndex.map { dataStore.items[$0]?.itemWidth ?? 0}
+                    let selectedWidth = selectedItem.itemWidth!
+                    let selectedIndex = dataStore.indexOf(tag: selection)
+                    let spaces = internalStyle.tabItemSpacing * CGFloat(selectedItem.index-1)
+                    let offset = newValue + (settings.width * CGFloat(selectedIndex))
+                    let percentage = offset / settings.width
+                    print("---->percentage \(percentage)")
+                    print("---->selectedIndex \(selectedIndex)")
+                    let items = itemsWidth[0..<selectedIndex]
+                    let lastPosition = items.reduce(0, +) + spaces + (selectedWidth/2)
+                    var nextPosition = items.reduce(0, +)
+                    if percentage == 0 {
+                        withAnimation {
+                            selectedItemWidth = itemsWidth[selectedIndex]
+                            var newPosition = items.reduce(0, +) + (selectedItemWidth/2)
+                            newPosition += (internalStyle.tabItemSpacing * CGFloat(selectedIndex))
+                            position = newPosition
+                        }
+                    } else {
+                        if percentage < 0 { // goes right
+                            nextPosition += selectedWidth + internalStyle.tabItemSpacing * CGFloat(selectedIndex+1)
+                            nextPosition += itemsWidth[min(selectedIndex + 1, itemsCount - 1)] / 2
+                        } else if percentage > 0 { // goes left
+                            nextPosition += internalStyle.tabItemSpacing * CGFloat(max(0, selectedIndex-1))
+                            nextPosition -= itemsWidth[max(0, selectedIndex - 1)] / 2
+                        }
+                        let nextWidth = percentage > 0 ? itemsWidth[max(0, selectedIndex-1)] : itemsWidth[min(selectedIndex+1, itemsCount - 1)]
+                        selectedItemWidth = itemsWidth[selectedIndex] - (itemsWidth[selectedIndex]-nextWidth)*abs(percentage)
+                        position = lastPosition + ((nextPosition - lastPosition)*abs(percentage))
                     }
-//                    let itemsCount = dataStore.items.count
-//                    let iSelection = selection
-//                    let itemsWidth = dataStore.itemsOrderedByIndex.map { $0.itemWidth! }
-//                    let actualWidth = itemsWidth[iSelection]
-//                    let spaces = internalStyle.tabItemSpacing * CGFloat(iSelection-1)
-//                    let pageWidth = settings.width
-//                    let offset = newValue + (pageWidth * CGFloat(iSelection))
-//                    let percentage = offset / pageWidth
-//                    let items = itemsWidth[0..<iSelection]
-//                    let lastPosition = items.reduce(0, +) + spaces + (actualWidth/2)
-//                    var nextPosition = items.reduce(0, +)
-//                    if percentage == 0 {
-//                        withAnimation {
-//                            selectedItemWidth = itemsWidth[iSelection]
-//                            var newPosition = items.reduce(0, +) + (selectedItemWidth/2)
-//                            newPosition += (internalStyle.tabItemSpacing * CGFloat(iSelection))
-//                            position = newPosition
-//                        }
-//                    } else {
-//                        if percentage < 0 { // goes right
-//                            nextPosition += actualWidth + internalStyle.tabItemSpacing * CGFloat(iSelection+1)
-//                            nextPosition += itemsWidth[min(iSelection + 1, itemsCount - 1)] / 2
-//                        } else if percentage > 0 { // goes left
-//                            nextPosition += internalStyle.tabItemSpacing * CGFloat(max(0, iSelection-1))
-//                            nextPosition -= itemsWidth[max(0, iSelection - 1)] / 2
-//                        }
-//                        position = lastPosition + (nextPosition - lastPosition)*abs(percentage)
-//                        let nextWidth = percentage > 0 ? itemsWidth[max(0, iSelection-1)] : itemsWidth[min(iSelection+1, itemsCount - 1)]
-//                        selectedItemWidth = itemsWidth[iSelection] - (itemsWidth[iSelection]-nextWidth)*abs(percentage)
-//                    }
                 }
                 .onChange(of: selection) { newValue in
-//                    let navBarItems = dataStore.itemsOrderedByIndex
-//                    let items = navBarItems.filter { $0.index < newValue }
-//                    withAnimation {
-//                        selectedItemWidth = navBarItems[newValue].itemWidth ?? 0
-//                        var newPosition = items.map { $0.itemWidth ?? 0}.reduce(0, +)
-//                        newPosition += (internalStyle.tabItemSpacing * CGFloat(newValue)) + (selectedItemWidth/2)
-//                        position = newPosition
-//                    }
+                    guard let newSelectedItem = dataStore.items[newValue], dataStore.widthUpdated else { return }
+                    let navBarItems = dataStore.itemsOrderedByIndex
+                    let items = navBarItems[0..<newSelectedItem.index]
+                    withAnimation {
+                        selectedItemWidth = newSelectedItem.itemWidth ?? 0
+                        var newPosition = items.map { dataStore.items[$0]?.itemWidth ?? 0 }.reduce(0, +)
+                        newPosition += (internalStyle.tabItemSpacing * CGFloat(newSelectedItem.index)) + (selectedItemWidth/2)
+                        position = newPosition
+                    }
                 }
-                .onChange(of: dataStore.itemsOrderedByIndex) { navBarItems in
-//                    let selectedItem = dataStore.items[selection]!
-//                    let items = navBarItems[..<selectedItem.index]
-//                    let itemsWidth = items.map { dataStore.items[$0]?.itemWidth ?? 0 }
-//                    selectedItemWidth = selectedItem.itemWidth
-//                    var newPosition = itemsWidth.reduce(0, +)
-//                    newPosition += (internalStyle.tabItemSpacing * CGFloat(selection)) + (selectedItemWidth/2)
-//                    position = newPosition
+                .onReceive(dataStore.updatePublisher) { navBarItems in
+                    guard dataStore.widthUpdated else { return }
+                    guard let selectedItem = dataStore.items[selection] ?? dataStore.items[navBarItems.first!] else { return }
+                    let selectedIndex = dataStore.indexOf(tag: selectedItem.tag)
+                    let items = navBarItems[0..<selectedIndex]
+                    let itemsWidth = items.map { dataStore.items[$0]?.itemWidth ?? 0 }
+                    selectedItemWidth = selectedItem.itemWidth ?? 0
+                    var newPosition = itemsWidth.reduce(0, +)
+                    newPosition += (internalStyle.tabItemSpacing * CGFloat(selectedIndex)) + (selectedItemWidth/2)
+                    position = newPosition
                 }
         }
     }
