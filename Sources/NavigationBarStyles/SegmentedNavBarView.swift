@@ -19,7 +19,7 @@ internal struct SegmentedNavBarView<SelectionType>: View where SelectionType: Ha
     @MainActor var body: some View {
         if let internalStyle = style as? SegmentedControlStyle {
             Picker("SegmentedNavBarView", selection: $selection) {
-                if dataStore.itemsCount > 0 && settings.width > 0 {
+                if dataStore.items.count > 0 && settings.width > 0 {
                     ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
                         NavBarItem(id: tag, selection: $selection)
                             .tag(tag)

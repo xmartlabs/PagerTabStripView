@@ -11,25 +11,32 @@ class PagerSettings: ObservableObject {
     @Published var contentOffset: CGFloat = 0
 }
 
+class SelectionState<SelectionType>: ObservableObject {
+    @Published var selection: SelectionType
+    
+    init(selection: SelectionType) {
+        self.selection = selection
+    }
+}
+
 @available(iOS 14.0, *)
 public struct PagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
     private var content: () -> Content
     private var swipeGestureEnabled: Binding<Bool>
-    
-    private var selection: Binding<SelectionType>?
-    
-    private var selectionState: State<SelectionType>!
+    private var selection: Binding<SelectionType>
+    @ObservedObject private var selectionState: SelectionState<SelectionType>
     @StateObject private var settings: PagerSettings
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
+        self.selectionState = SelectionState(selection: selection.wrappedValue)
         self.selection = selection
         self.content = content
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
 
     @MainActor public var body: some View {
-        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: selection ?? selectionState.projectedValue, content: content)
+        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: selection, content: content)
             .environmentObject(settings)
     }
 }
@@ -38,9 +45,13 @@ extension PagerTabStripView where SelectionType == Int {
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true), @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
-        let initialState = State(initialValue: 0)
-        self.selectionState = initialState
-        self.selection = initialState.projectedValue
+        let selectionState =  SelectionState(selection: 0)
+        self.selectionState = selectionState
+        self.selection = Binding(get: {
+            selectionState.selection
+        }, set: {
+            selectionState.selection = $0
+        })
         self.content = content
         self._settings = StateObject(wrappedValue: PagerSettings())
     }
@@ -94,9 +105,9 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                     }
                 }.onEnded { value in
                     let offset = value.predictedEndTranslation.width / gproxy.size.width
-                    let selectionIndex = dataStore.items[selection]!.index
+                    let selectionIndex = dataStore.items[selection]?.index ?? 0
                     let newPredictedIndex = (CGFloat(selectionIndex) - offset).rounded()
-                    let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.itemsCount - 1)
+                    let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.items.count - 1)
                     if newIndex > selectionIndex {
                         selection =  dataStore.nextSelection(for: selection)
                     } else if newIndex < selectionIndex {
@@ -107,19 +118,25 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                     }
                 }
             )
-            .onAppear(perform: {
-                let geo = gproxy.frame(in: .local)
-                settings.width = geo.width
+            .onAppear {
+                let frame = gproxy.frame(in: .local)
+                settings.width = frame.width
                 if let dataItem = dataStore.items[selection] {
-                    currentOffset = -(CGFloat(dataItem.index) * geo.width)
+                    currentOffset = -(CGFloat(dataItem.index) * frame.width)
                 }
-            })
-            .onChange(of: gproxy.frame(in: .local), perform: { geo in
-                settings.width = geo.width
+            }
+            .onChange(of: dataStore.items) { _ in
+                if dataStore.widthUpdated {
+                    currentOffset = -(CGFloat(dataStore.items[selection]?.index ?? 0) * gproxy.size.width)
+                    dataStore.items[selection]?.tabViewDelegate?.setState(state: .selected)
+                }
+            }
+            .onChange(of: gproxy.frame(in: .local)) { geometry in
+                settings.width = geometry.width
                 if let dataItem = dataStore.items[selection] {
-                    currentOffset = -(CGFloat(dataItem.index) * geo.width)
+                    currentOffset = -(CGFloat(dataItem.index) * geometry.width)
                 }
-            })
+            }
             .onChange(of: selection) { [selection] newSelection in
                 currentOffset = -(CGFloat(dataStore.items[newSelection]?.index ?? 0) * gproxy.size.width)
                 dataStore.items[selection]?.tabViewDelegate?.setState(state: .normal)
@@ -128,9 +145,7 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             .onChange(of: translation) { _ in
                 currentOffset = translation - (CGFloat(dataStore.items[selection]?.index ?? 0) * gproxy.size.width)
             }
-            .onChange(of: dataStore.itemsOrderedByIndex) { _ in
-                dataStore.items[selection]?.tabViewDelegate?.setState(state: .selected)
-            }
+            
         }
         .modifier(NavBarModifier(selection: $selection))
         .environmentObject(dataStore)

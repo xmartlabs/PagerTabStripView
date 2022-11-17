@@ -23,8 +23,8 @@ struct PostsList: View {
         VStack {
             if isLoading {
                 ProgressView()
-                    .animation(.default, value: isLoading)
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+                    .animation(.default, value: isLoading)
                     
             }
             List {
