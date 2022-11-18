@@ -8,20 +8,15 @@
 import SwiftUI
 import Combine
 
-class DataItem<SelectedType>: Identifiable, Equatable where SelectedType: Hashable {
+class DataItem<SelectedType>: Equatable where SelectedType: Hashable {
     
     static func == (lhs: DataItem, rhs: DataItem) -> Bool {
-        return lhs.tag == rhs.tag && lhs.index == rhs.index && lhs.itemWidth == rhs.itemWidth
+        return lhs.tag == rhs.tag
     }
     
-    var id: Int {
-        tag.hashValue
-    }
     private(set) var tag: SelectedType
     fileprivate(set) var view: AnyView? {
-        didSet {
-            tabViewDelegate = view as? PagerTabViewDelegate
-        }
+        didSet { tabViewDelegate = view as? PagerTabViewDelegate }
     }
     private(set) var tabViewDelegate: PagerTabViewDelegate?
     @Published fileprivate(set) var itemWidth: Double?
@@ -88,7 +83,7 @@ class DataStore<SelectionType>: ObservableObject where SelectionType: Hashable {
         return itemsOrderedByIndex[safe: selectionIndex - 1] ?? selection
     }
     
-    func indexOf(tag: SelectionType) -> Int {
-        return itemsOrderedByIndex.firstIndex(of: tag)!
+    func indexOf(tag: SelectionType) -> Int? {
+        return itemsOrderedByIndex.firstIndex(of: tag)
     }
 }
