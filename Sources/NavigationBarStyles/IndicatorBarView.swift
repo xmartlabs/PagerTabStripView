@@ -12,9 +12,10 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
     
     @ViewBuilder var indicator: () -> Indicator
     @Binding private var selection: SelectionType
-    @State private var navBarItemWidth: Double = 0
-    @State private var positionX: Double = 0
-    @State private var tabsWidhtReady = false
+    @State private var indicatorWidth = CGFloat.zero
+    @State private var x = CGFloat.zero
+    @State private var appeared = false
+    
     
     public init(selection: Binding<SelectionType>, indicator: @escaping () -> Indicator){
         self._selection = selection
@@ -22,41 +23,49 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
     }
 
     var body: some View {
-        if let internalStyle = style as? PagerWithIndicatorStyle {
-            HStack {
-                if tabsWidhtReady || style is BarStyle {
-                    indicator()
-                        .animation(.default)
-                        .frame(width: navBarItemWidth)
-                        .position(x: positionX, y: internalStyle.indicatorViewHeight / 2)
-                }
+        if let internalStyle = style as? BarStyle {
+            Group {
+                indicator()
+                    .frame(width: indicatorWidth, height: internalStyle.indicatorViewHeight)
+                    .position(x: x, y: internalStyle.indicatorViewHeight / 2)
+                    .animation(appeared ? .default : .none, value: x)
+                    .onChange(of: settings.width) { width in
+                        guard dataStore.items.count > 0, width > 0 else  {
+                            indicatorWidth = 0
+                            x = 0
+                            return
+                        }
+                        let totalItemWidth = width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
+                        indicatorWidth =  totalItemWidth / CGFloat(dataStore.items.count)
+                        x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
+                    }
+                    .onChange(of: settings.contentOffset) { offset in
+                        guard dataStore.items.count > 0, settings.width > 0 else  {
+                            indicatorWidth = 0
+                            x = 0
+                            return
+                        }
+                        let totalItemWidth = settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
+                        indicatorWidth = totalItemWidth / CGFloat(dataStore.items.count)
+                        x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
+                    }
+                    .onChange(of: dataStore.itemsOrderedByIndex){ items in
+                        guard items.count > 0, settings.width > 0 else  {
+                            indicatorWidth = 0
+                            x = 0
+                            return
+                        }
+                        let totalItemWidth = settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
+                        indicatorWidth = totalItemWidth / CGFloat(dataStore.items.count)
+                        x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
+                    }
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            appeared = true
+                        }
+                    }
             }
             .frame(height: internalStyle.indicatorViewHeight)
-            .onChange(of: settings.width) { width in
-                let totalItemWidth = width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
-                navBarItemWidth = totalItemWidth / CGFloat(dataStore.items.count)
-                positionX = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (navBarItemWidth / 2)
-            }
-            .onChange(of: settings.contentOffset) { offset in
-                let totalItemWidth = settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
-                navBarItemWidth = totalItemWidth / CGFloat(dataStore.items.count)
-                positionX = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (navBarItemWidth / 2)
-            }
-            .onReceive(dataStore.updatePublisher){ items in
-                if dataStore.widthUpdated || style is BarStyle {
-                    let totalItemWidth = settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
-                    navBarItemWidth = totalItemWidth / CGFloat(dataStore.items.count)
-                    positionX = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (navBarItemWidth / 2)
-                }
-            }
-            .onChange(of: dataStore.widthUpdated) { widhtUpdated in
-                tabsWidhtReady = widhtUpdated
-                if tabsWidhtReady {
-                    let totalItemWidth = settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
-                    navBarItemWidth = totalItemWidth / CGFloat(dataStore.items.count)
-                    positionX = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (navBarItemWidth / 2)
-                }
-            }
         }
     }
 

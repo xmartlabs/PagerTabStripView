@@ -6,27 +6,22 @@
 //
 
 import SwiftUI
-import Combine
 
-class DataItem<SelectedType>: Equatable where SelectedType: Hashable {
+struct DataItem<SelectedType>: Identifiable, Equatable where SelectedType: Hashable {
     
-    static func == (lhs: DataItem, rhs: DataItem) -> Bool {
+    static func == (lhs: DataItem<SelectedType>, rhs: DataItem<SelectedType>) -> Bool {
         return lhs.tag == rhs.tag
     }
-    
     private(set) var tag: SelectedType
-    fileprivate(set) var view: AnyView? {
-        didSet { tabViewDelegate = view as? PagerTabViewDelegate }
-    }
-    private(set) var tabViewDelegate: PagerTabViewDelegate?
-    @Published fileprivate(set) var itemWidth: Double?
+    fileprivate(set) var view: AnyView
     fileprivate(set) var index: Int
+    
+    var id: SelectedType { tag }
 
-    fileprivate init(tag: SelectedType, index: Int, view: AnyView, itemWidth: Double? = nil) {
+    fileprivate init(tag: SelectedType, index: Int, view: AnyView) {
         self.tag = tag
         self.index = index
         self.view = view
-        self.itemWidth = itemWidth
     }
 }
 
@@ -35,37 +30,23 @@ class DataStore<SelectionType>: ObservableObject where SelectionType: Hashable {
     
     @Published private(set) var items = [SelectionType: DataItem<SelectionType>]() {
         didSet {
-            widthUpdated = items.count > 0 && items.allSatisfy{ $0.value.itemWidth ?? 0 > 0 }
             itemsOrderedByIndex = items.values.sorted { $0.index < $1.index }.map { $0.tag }
-            updatePublisher.send(itemsOrderedByIndex)
         }
     }
     
-    let updatePublisher = PassthroughSubject<[SelectionType], Never>() // Can be consumed by other classes / objects.
-
-
     @Published private(set) var itemsOrderedByIndex = [SelectionType]()
-    @Published private(set) var widthUpdated: Bool = false
     
-    func createOrUpdate(tag: SelectionType, index: Int, view: AnyView) {
-        if let dataItem = items[tag] {
+    func createOrUpdate<TabView: View>(tag: SelectionType, index: Int, view: TabView) {
+        if var dataItem = items[tag] {
             dataItem.index = index
-            dataItem.view = view
+            dataItem.view = AnyView(view)
             items[tag] = dataItem
         } else {
-            items[tag] = DataItem(tag: tag, index: index, view: view)
-        }
-    }
-
-    func update(tag: SelectionType, itemWidth: Double) {
-        if let dataItem = items[tag], dataItem.itemWidth != itemWidth, itemWidth > 0 {
-            dataItem.itemWidth = itemWidth
-            items[tag] = dataItem
+            items[tag] = DataItem(tag: tag, index: index, view: AnyView(view))
         }
     }
 
     func remove(tag: SelectionType) {
-        items[tag]?.tabViewDelegate?.setState(state: .normal)
         items.removeValue(forKey: tag)
     }
     
