@@ -2,17 +2,14 @@
 //  ScrollableNavBarView.swift
 //  PagerTabStripView
 //
-//  Created by Cecilia Pirotto on 23/8/21.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import Foundation
 import SwiftUI
 
 internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: Hashable {
-    @Binding private var selection: SelectionType
-    @State private var switchAppeared: Bool = false
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
-
+    
     public init(selection: Binding<SelectionType>) {
         self._selection = selection
     }
@@ -21,29 +18,23 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
         if let internalStyle = style as? BarButtonStyle {
             ScrollViewReader { value in
                 ScrollView(.horizontal, showsIndicators: false) {
-                    VStack {
-                        HStack(spacing: internalStyle.tabItemSpacing) {
-                            ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
-                                NavBarItem(id: tag, selection: $selection)
-                                    .tag(tag)
-                            }
+                    ScrollableNavBarViewLayout(spacing: internalStyle.tabItemSpacing) {
+                        ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
+                            NavBarItem(id: tag, selection: $selection)
+                                .tag(tag)
                         }
-                        IndicatorScrollableBarView(selection: $selection)
+                        internalStyle.indicatorView()
+                            .frame(height: internalStyle.indicatorViewHeight)
+                            .layoutValue(key: PagerWidth.self, value: settings.width)
+                            .layoutValue(key: PagerOffset.self, value: settings.contentOffset)
+                            .animation(appeared ? .default : .none, value: settings.contentOffset)
                     }
                     .frame(height: internalStyle.tabItemHeight)
                 }
                 .padding(internalStyle.padding)
-                .onChange(of: dataStore.widthUpdated) { _ in
-                    guard switchAppeared, let selectedItem = dataStore.items[selection], let selectedIndex = dataStore.indexOf(tag: selection) else { return }
-                    // This is necessary because anchor: .center is not working correctly
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        let tags = dataStore.itemsOrderedByIndex
-                        var remainingItemsWidth = (selectedItem.itemWidth ?? 0) / 2
-                        let remaininigItems = tags[(selectedIndex + 1)...].map { dataStore.items[$0] }
-                        remainingItemsWidth += remaininigItems.map { $0?.itemWidth ?? 0}.reduce(0, +)
-                        remainingItemsWidth += CGFloat(dataStore.items.count-1 - selectedIndex) * internalStyle.tabItemSpacing
-                        let centerSel = remainingItemsWidth > (settings.width / 2)
-                        value.scrollTo(centerSel ? selection : tags.last, anchor: centerSel ? .center : nil)
+                .onChange(of: dataStore.itemsOrderedByIndex){ _ in
+                    if let _ = dataStore.items[selection] {
+                        value.scrollTo(selection, anchor: .center)
                     }
                 }
                 .onChange(of: selection) { newSelection in
@@ -53,108 +44,103 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
                         }
                     }
                 }
-            }
-            .onAppear {
-                switchAppeared.toggle()
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        if let _ = dataStore.items[selection] {
+                            value.scrollTo(selection, anchor: .center)
+                        }
+                        appeared = true
+                    }
+                }
             }
         }
     }
+    
+    @Binding private var selection: SelectionType
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
+    @State private var appeared = false
 
-    @Environment(\.pagerStyle) var style: PagerStyle
+    @Environment(\.pagerStyle) private var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
 }
 
-internal struct IndicatorScrollableBarView<SelectionType>: View where SelectionType: Hashable {
+
+struct ScrollableNavBarViewLayout: Layout {
     
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
-    @Binding private var selection: SelectionType
-    @State private var position: Double = 0
-    @State private var selectedItemWidth: Double = 0
-    @State private var appeared: Bool = false
-
-    public init(selection: Binding<SelectionType>) {
-        self._selection = selection
+    private let spacing: CGFloat
+    
+    init(spacing: CGFloat) {
+        self.spacing = spacing
     }
-
-    @MainActor var body: some View {
-        if let internalStyle = style as? BarButtonStyle {
-            internalStyle.indicatorView()
-                .frame(height: internalStyle.indicatorViewHeight)
-                .animation(.default, value: appeared)
-                .frame(width: selectedItemWidth)
-                .position(x: position)
-                .onAppear {
-                    appeared = true
-                }
-                .onChange(of: dataStore.widthUpdated) { updated in
-                    if let selectedItem = dataStore.items[selection], let selectedIndex = dataStore.indexOf(tag: selection), updated {
-                        let tags = dataStore.itemsOrderedByIndex
-                        let tagsBeforeSelected = tags[..<selectedIndex]
-                        selectedItemWidth = selectedItem.itemWidth ?? 0
-                        var newPosition = tagsBeforeSelected.map { dataStore.items[$0]?.itemWidth ?? 0 }.reduce(0, +)
-                        newPosition += (internalStyle.tabItemSpacing * CGFloat(selectedIndex)) + selectedItemWidth/2
-                        position = newPosition
-                    }
-                }
-                .onChange(of: settings.contentOffset) { newValue in
-//                    print("contentOffset: \(newValue)")
-                    guard let selectedItem = dataStore.items[selection], let selectedIndex = dataStore.indexOf(tag: selection), dataStore.widthUpdated else { return } //,
-                    let itemsCount = dataStore.items.count
-                    let itemsWidth = dataStore.itemsOrderedByIndex.map { dataStore.items[$0]?.itemWidth ?? 0}
-                    let selectedWidth = selectedItem.itemWidth!
-                    let spaces = internalStyle.tabItemSpacing * CGFloat(selectedIndex-1)
-                    let offset = newValue + (settings.width * CGFloat(selectedIndex))
-                    let percentage = offset / settings.width
-//                    print("---->percentage \(percentage)")
-//                    print("---->selectedIndex \(selectedIndex)")
-                    let items = itemsWidth[0..<selectedIndex]
-                    let lastPosition = items.reduce(0, +) + spaces + (selectedWidth/2)
-                    var nextPosition = items.reduce(0, +)
-                    if percentage == 0 {
-                        withAnimation {
-                            selectedItemWidth = itemsWidth[selectedIndex]
-                            var newPosition = items.reduce(0, +) + (selectedItemWidth/2)
-                            newPosition += (internalStyle.tabItemSpacing * CGFloat(selectedIndex))
-                            position = newPosition
-                        }
-                    } else {
-                        if percentage < 0 {
-                            nextPosition += selectedWidth + internalStyle.tabItemSpacing * CGFloat(selectedIndex+1)
-                            nextPosition += itemsWidth[min(selectedIndex + 1, itemsCount - 1)] / 2
-                        } else if percentage > 0 {
-                            nextPosition += internalStyle.tabItemSpacing * CGFloat(max(0, selectedIndex-1))
-                            nextPosition -= itemsWidth[max(0, selectedIndex - 1)] / 2
-                        }
-                        let nextWidth = percentage > 0 ? itemsWidth[max(0, selectedIndex-1)] : itemsWidth[min(selectedIndex+1, itemsCount - 1)]
-                        selectedItemWidth = itemsWidth[selectedIndex] - (itemsWidth[selectedIndex]-nextWidth)*abs(percentage)
-                        position = lastPosition + ((nextPosition - lastPosition)*abs(percentage))
-                    }
-                }
-                .onChange(of: selection) { newValue in
-                    guard let selectedItem = dataStore.items[newValue], let selectedIndex = dataStore.indexOf(tag: newValue), dataStore.widthUpdated else { return }
-                    let navBarItems = dataStore.itemsOrderedByIndex
-                    let items = navBarItems[0..<selectedIndex]
-                    withAnimation {
-                        selectedItemWidth = selectedItem.itemWidth ?? 0
-                        var newPosition = items.map { dataStore.items[$0]?.itemWidth ?? 0 }.reduce(0, +)
-                        newPosition += (internalStyle.tabItemSpacing * CGFloat(selectedIndex)) + (selectedItemWidth/2)
-                        position = newPosition
-                    }
-                }
-                .onReceive(dataStore.updatePublisher) { navBarItems in
-                    guard dataStore.widthUpdated else { return }
-                    guard let selectedItem = dataStore.items[selection] ?? dataStore.items[navBarItems.first!] else { return }
-                    let selectedIndex = dataStore.indexOf(tag: selectedItem.tag) ?? 0
-                    let items = navBarItems[0..<selectedIndex]
-                    let itemsWidth = items.map { dataStore.items[$0]?.itemWidth ?? 0 }
-                    selectedItemWidth = selectedItem.itemWidth ?? 0
-                    var newPosition = itemsWidth.reduce(0, +)
-                    newPosition += (internalStyle.tabItemSpacing * CGFloat(selectedIndex)) + (selectedItemWidth/2)
-                    position = newPosition
-                }
+    
+    func sizeThatFits(
+            proposal: ProposedViewSize,
+            subviews: Subviews,
+            cache: inout ()
+    ) -> CGSize {
+        // Calculate and return the size of the layout container.
+        var tabBarIndices = subviews.indices
+        let indicatorIndex = tabBarIndices.removeLast()
+        let tabBarViews = subviews[tabBarIndices]
+        let indicatorSubview = subviews[indicatorIndex]
+        
+        let subviewSize = tabBarViews.map { $0.sizeThatFits(.unspecified) }
+        let maxHeight = subviewSize.map { $0.height }.reduce(CGFloat.zero) { max($0, $1) }
+        let fullSpacing = tabBarViews.count > 1 ?  CGFloat(tabBarViews.count - 1) * self.spacing : CGFloat.zero
+        let height = proposal.replacingUnspecifiedDimensions().height
+        return CGSize(width: subviewSize.map { $0.width }.reduce(0, +) + fullSpacing, height: max(height, maxHeight + indicatorSubview.sizeThatFits(.unspecified).height))
+    }
+    
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()){
+        var tabBarIndices = subviews.indices
+        let indicatorIndex = tabBarIndices.removeLast()
+        let tabBarViews = subviews[tabBarIndices]
+        let indicatorSubview = subviews[indicatorIndex]
+        let indicatorViewSize =  indicatorSubview.sizeThatFits(.unspecified)
+        
+        
+        if tabBarViews.count == 0 { return }
+        let subviewSize = tabBarViews.map { $0.sizeThatFits(.unspecified) }
+        let maxHeight = subviewSize.map { $0.height }.reduce(CGFloat.zero, max)
+        var x = bounds.minX
+        var itemsFrames = [CGRect]()
+        
+        for index in tabBarIndices.indices {
+            let spacing = index < tabBarIndices.indices.last! ? self.spacing : CGFloat.zero
+            let subview = subviews[index]
+            x += subviewSize[index].width / 2
+            let point = CGPoint(x: x, y: bounds.midY - (indicatorViewSize.height / 2))
+            let proposedSize = ProposedViewSize(width: subviewSize[index].width, height: maxHeight)
+            subview.place(at: point, anchor: .center, proposal: proposedSize)
+            itemsFrames.append(CGRect(origin: point, size: CGSize(width: proposedSize.width!, height: proposedSize.height!)))
+            x += subviewSize[index].width / 2 + spacing
         }
+        
+        let contentOffset = -indicatorSubview[PagerOffset.self]
+        let itemsCount = tabBarViews.count
+        let pagerWidth = indicatorSubview[PagerWidth.self]
+        let indexAndPercentage = contentOffset / pagerWidth
+        let percentage = (indexAndPercentage + 1).truncatingRemainder(dividingBy: 1)
+        let lowIndex = floor(indexAndPercentage)
+        guard lowIndex < CGFloat(itemsCount) else {
+            indicatorSubview.place(at: CGPoint(x: 0, y: bounds.maxY - (indicatorViewSize.height / 2)), anchor: .center, proposal: ProposedViewSize.zero)
+            return
+        }
+        let currentWidth = itemsFrames[max(0, Int(lowIndex))].size.width
+        let nextWidth = itemsFrames[min(itemsCount - 1, Int(lowIndex + 1))].size.width
+        let currentPosition = lowIndex >= 0 ? itemsFrames[Int(lowIndex)].origin.x : itemsFrames[0].origin.x - currentWidth
+        let nextPosition = lowIndex + 1 < CGFloat(itemsCount - 1) ? itemsFrames[Int(lowIndex + 1)].origin.x : itemsFrames[Int(itemsCount - 1)].origin.x + nextWidth
+        let proposedWidth = currentWidth + ((nextWidth - currentWidth) * percentage)
+        let proposedPosition = currentPosition + ((nextPosition - currentPosition) * percentage)
+        indicatorSubview.place(at: CGPoint(x: proposedPosition , y: bounds.maxY - (indicatorViewSize.height / 2)), anchor: .center, proposal: ProposedViewSize(width: proposedWidth, height: indicatorViewSize.height))
     }
 
-    @Environment(\.pagerStyle) var style: PagerStyle
-    @EnvironmentObject private var settings: PagerSettings
+}
+
+struct PagerOffset : LayoutValueKey {
+    static let defaultValue: CGFloat = 0
+}
+
+struct PagerWidth: LayoutValueKey {
+    static let defaultValue: CGFloat = 0
 }

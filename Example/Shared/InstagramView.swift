@@ -30,7 +30,7 @@ struct InstagramView: View {
             
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts)
                 .pagerTabItem(tag: Page.gallery) {
-                    InstagramNavBarItem(imageName: "gallery")
+                    InstagramNavBarItem(imageName: "gallery", selection: $selection, tag: Page.gallery)
                 }
                 .onAppear {
                     galleryModel.isLoading = true
@@ -42,7 +42,7 @@ struct InstagramView: View {
             
             PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false)
                 .pagerTabItem(tag: Page.list) {
-                    InstagramNavBarItem(imageName: "list")
+                    InstagramNavBarItem(imageName: "list", selection: $selection, tag: Page.list)
                 }
                 .onAppear {
                     listModel.isLoading = true
@@ -55,7 +55,7 @@ struct InstagramView: View {
                     
                     PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts)
                         .pagerTabItem(tag: Page.like) {
-                            InstagramNavBarItem(imageName: "liked")
+                            InstagramNavBarItem(imageName: "liked", selection: $selection, tag: Page.like)
                         }.onAppear {
                             likedModel.isLoading = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -65,7 +65,7 @@ struct InstagramView: View {
                     
                     PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false)
                     .pagerTabItem(tag: Page.saved) {
-                        InstagramNavBarItem(imageName: "saved")
+                        InstagramNavBarItem(imageName: "saved", selection: $selection, tag: Page.saved)
                     }.onAppear {
                         savedModel.isLoading = true
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -74,8 +74,8 @@ struct InstagramView: View {
                     }
             }
         }
-        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default, tabItemHeight: 50, indicatorView: {
-            Rectangle().fill(Color(.systemGray))
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default, tabItemHeight: 50, indicatorViewHeight: 2, indicatorView: {
+            Rectangle().fill(.blue).cornerRadius(1)
         }))
         .navigationBarItems(trailing: Button("Refresh") {
             toggle.toggle()

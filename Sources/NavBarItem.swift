@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashable {
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
-    @Binding private var selection: SelectionType
+    
     var id: SelectionType
+    @Binding private var selection: SelectionType
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
 
     public init(id: SelectionType, selection: Binding<SelectionType>) {
         self.id = id
@@ -19,23 +20,11 @@ struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashab
 
     @MainActor var body: some View {
         if let dataItem = dataStore.items[id] {
-            VStack {
-                Button(action: {
+            dataItem.view
+                .onTapGesture {
                     selection = id
-                }, label: {
-                    dataStore.items[id]?.view
-                })
-                .buttonStyle(.plain)
-                .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                    dataItem.tabViewDelegate?.setState(state: pressing ? .highlighted : (dataItem.tag == selection ? .selected : .normal))
-                } perform: {}
-            }.background(
-                GeometryReader { geometry in
-                    Color.clear.onAppear {
-                        dataStore.update(tag: id, itemWidth: Double(geometry.size.width))
-                    }
                 }
-            )
         }
     }
 }
+

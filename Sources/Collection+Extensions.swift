@@ -2,16 +2,14 @@
 //  Array+Extensions.swift
 //  PagerTabStripView
 //
-//  Created by Martin Barreto on 11/11/22.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import Foundation
 
-extension Array {
+extension Collection {
     subscript (safe index: Index) -> Element? {
-         guard index >= startIndex, index < endIndex else {
-             return nil
-         }
+         guard index >= startIndex, index < endIndex else { return nil }
          return self[index]
     }
 }

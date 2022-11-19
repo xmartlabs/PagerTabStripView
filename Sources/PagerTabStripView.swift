@@ -19,7 +19,7 @@ class SelectionState<SelectionType>: ObservableObject {
     }
 }
 
-@available(iOS 14.0, *)
+@available(iOS 16.0, *)
 public struct PagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
     private var content: () -> Content
     private var swipeGestureEnabled: Binding<Bool>
@@ -78,13 +78,13 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
     }
 
     @MainActor public var body: some View {
-        GeometryReader { gproxy in
+        GeometryReader { geometryProxy in
             LazyHStack(spacing: 0) {
                 content
-                    .frame(width: gproxy.size.width)
+                    .frame(width: geometryProxy.size.width)
             }
             .coordinateSpace(name: "PagerViewScrollView")
-            .offset(x: -CGFloat(dataStore.itemsOrderedByIndex.firstIndex(of: selection) ?? 0) * gproxy.size.width)
+            .offset(x: -CGFloat(dataStore.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
             .offset(x: translation)
             .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
@@ -92,19 +92,19 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                 DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
                     if selection == dataStore.itemsOrderedByIndex.first && value.translation.width > 0 {
                         let valueWidth = value.translation.width
-                        let normTrans = valueWidth / (gproxy.size.width + 50)
+                        let normTrans = valueWidth / (geometryProxy.size.width + 50)
                         let logValue = log(1 + normTrans)
-                        state = gproxy.size.width/1.5 * logValue
+                        state = geometryProxy.size.width/1.5 * logValue
                     } else if selection == dataStore.itemsOrderedByIndex.last && value.translation.width < 0 {
                         let valueWidth = -value.translation.width
-                        let normTrans = valueWidth / (gproxy.size.width + 50)
+                        let normTrans = valueWidth / (geometryProxy.size.width + 50)
                         let logValue = log(1 + normTrans)
-                        state = -gproxy.size.width / 1.5 * logValue
+                        state = -geometryProxy.size.width / 1.5 * logValue
                     } else {
                         state = value.translation.width
                     }
                 }.onEnded { value in
-                    let offset = value.predictedEndTranslation.width / gproxy.size.width
+                    let offset = value.predictedEndTranslation.width / geometryProxy.size.width
                     let selectionIndex = dataStore.indexOf(tag: selection) ?? 0
                     let newPredictedIndex = (CGFloat(selectionIndex) - offset).rounded()
                     let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.items.count - 1)
@@ -119,33 +119,27 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                 }
             )
             .onAppear {
-                let frame = gproxy.frame(in: .local)
+                let frame = geometryProxy.frame(in: .local)
                 settings.width = frame.width
                 if let index = dataStore.indexOf(tag: selection) {
                     currentOffset = -CGFloat(index) * frame.width
                 }
             }
-            .onChange(of: dataStore.items) { _ in
-                if dataStore.widthUpdated {
-                    currentOffset = -(CGFloat(dataStore.indexOf(tag: selection) ?? 0) * gproxy.size.width)
-                    dataStore.items[selection]?.tabViewDelegate?.setState(state: .selected)
-                }
+            .onChange(of: dataStore.itemsOrderedByIndex) { _ in
+                currentOffset = -(CGFloat(dataStore.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
             }
-            .onChange(of: gproxy.frame(in: .local)) { geometry in
+            .onChange(of: geometryProxy.frame(in: .local)) { geometry in
                 settings.width = geometry.width
                 if let index = dataStore.indexOf(tag: selection){
                     currentOffset = -(CGFloat(index)) * geometry.width
                 }
             }
-            .onChange(of: selection) { [selection] newSelection in
-                currentOffset = -(CGFloat(dataStore.indexOf(tag: newSelection) ?? 0) * gproxy.size.width)
-                dataStore.items[selection]?.tabViewDelegate?.setState(state: .normal)
-                dataStore.items[newSelection]?.tabViewDelegate?.setState(state: .selected)
+            .onChange(of: selection) { newSelection in
+                currentOffset = -(CGFloat(dataStore.indexOf(tag: newSelection) ?? 0) * geometryProxy.size.width)
             }
             .onChange(of: translation) { _ in
-                currentOffset = translation - (CGFloat(dataStore.indexOf(tag: selection) ?? 0) * gproxy.size.width)
+                currentOffset = translation - (CGFloat(dataStore.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
             }
-            
         }
         .modifier(NavBarModifier(selection: $selection))
         .environmentObject(dataStore)
