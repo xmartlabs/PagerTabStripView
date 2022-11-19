@@ -46,7 +46,6 @@ private struct NavBarWrapperView<SelectionType>: View where SelectionType: Hasha
                 ScrollableNavBarView(selection: $selection)
             } else {
                 FixedSizeNavBarView(selection: $selection) { indicatorStyle.barBackgroundView() }
-                IndicatorBarView<SelectionType, AnyView>(selection: $selection, indicator: indicatorStyle.indicatorView)
             }
         default:
             SegmentedNavBarView(selection: $selection)

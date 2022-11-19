@@ -38,7 +38,7 @@ struct TwitterView: View {
             ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
                 PostsList(items: item.posts, withDescription: item.withDescription)
                     .pagerTabItem(tag: item.tag) {
-                        TwitterNavBarItem(title: item.title)
+                        TwitterNavBarItem(title: item.title, selection: $selection, tag: item.tag)
                     }
             }
         }
