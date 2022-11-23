@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-internal struct SegmentedNavBarView<SelectionType>: View where SelectionType: Hashable{
+internal struct SegmentedNavBarView<SelectionType>: View where SelectionType: Hashable {
     @Binding private var selection: SelectionType
     @EnvironmentObject private var dataStore: DataStore<SelectionType>
 

@@ -9,15 +9,14 @@ import Foundation
 import SwiftUI
 
 internal struct IndicatorBarView<SelectionType, Indicator>: View where SelectionType: Hashable, Indicator: View {
-    
+
     @ViewBuilder var indicator: () -> Indicator
     @Binding private var selection: SelectionType
     @State private var indicatorWidth = CGFloat.zero
     @State private var x = CGFloat.zero
     @State private var appeared = false
-    
-    
-    public init(selection: Binding<SelectionType>, indicator: @escaping () -> Indicator){
+
+    public init(selection: Binding<SelectionType>, indicator: @escaping () -> Indicator) {
         self._selection = selection
         self.indicator = indicator
     }
@@ -30,7 +29,7 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
                     .position(x: x, y: internalStyle.indicatorViewHeight / 2)
                     .animation(appeared ? .default : .none, value: x)
                     .onChange(of: settings.width) { width in
-                        guard dataStore.items.count > 0, width > 0 else  {
+                        guard dataStore.items.count > 0, width > 0 else {
                             indicatorWidth = 0
                             x = 0
                             return
@@ -39,8 +38,8 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
                         indicatorWidth =  totalItemWidth / CGFloat(dataStore.items.count)
                         x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
                     }
-                    .onChange(of: settings.contentOffset) { offset in
-                        guard dataStore.items.count > 0, settings.width > 0 else  {
+                    .onChange(of: settings.contentOffset) { _ in
+                        guard dataStore.items.count > 0, settings.width > 0 else {
                             indicatorWidth = 0
                             x = 0
                             return
@@ -49,8 +48,8 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
                         indicatorWidth = totalItemWidth / CGFloat(dataStore.items.count)
                         x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
                     }
-                    .onChange(of: dataStore.itemsOrderedByIndex){ items in
-                        guard items.count > 0, settings.width > 0 else  {
+                    .onChange(of: dataStore.itemsOrderedByIndex) { items in
+                        guard items.count > 0, settings.width > 0 else {
                             indicatorWidth = 0
                             x = 0
                             return

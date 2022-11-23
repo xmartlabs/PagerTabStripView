@@ -9,7 +9,7 @@ import SwiftUI
 import PagerTabStripView
 
 struct InstagramView: View {
-    
+
     enum Page {
         case gallery
         case list
@@ -27,7 +27,6 @@ struct InstagramView: View {
 
     @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
-            
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts)
                 .pagerTabItem(tag: Page.gallery) {
                     InstagramNavBarItem(imageName: "gallery", selection: $selection, tag: Page.gallery)
@@ -38,8 +37,6 @@ struct InstagramView: View {
                         galleryModel.isLoading = false
                     }
                 }
-        
-            
             PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false)
                 .pagerTabItem(tag: Page.list) {
                     InstagramNavBarItem(imageName: "list", selection: $selection, tag: Page.list)
@@ -50,9 +47,7 @@ struct InstagramView: View {
                         listModel.isLoading = false
                     }
                 }
-            
             if toggle {
-                    
                     PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts)
                         .pagerTabItem(tag: Page.like) {
                             InstagramNavBarItem(imageName: "liked", selection: $selection, tag: Page.like)
@@ -62,7 +57,6 @@ struct InstagramView: View {
                                 likedModel.isLoading = false
                             }
                         }
-                    
                     PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false)
                     .pagerTabItem(tag: Page.saved) {
                         InstagramNavBarItem(imageName: "saved", selection: $selection, tag: Page.saved)
@@ -74,7 +68,8 @@ struct InstagramView: View {
                     }
             }
         }
-        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default, tabItemHeight: 50, indicatorViewHeight: 2, indicatorView: {
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default,
+                                           tabItemHeight: 50, indicatorViewHeight: 2, indicatorView: {
             Rectangle().fill(.blue).cornerRadius(1)
         }))
         .navigationBarItems(trailing: Button("Refresh") {

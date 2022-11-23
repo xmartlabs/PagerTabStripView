@@ -13,7 +13,7 @@ struct YoutubeView: View {
     @ObservedObject var homeModel = HomeModel()
     @ObservedObject var trendingModel = HomeModel()
     @ObservedObject var accountModel = AccountModel()
-    
+
     @State var selection = 1
 
     @State var toggle: Bool = false

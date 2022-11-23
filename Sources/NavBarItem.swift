@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashable {
-    
+
     var id: SelectionType
     @Binding private var selection: SelectionType
     @EnvironmentObject private var dataStore: DataStore<SelectionType>
@@ -27,4 +27,3 @@ struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashab
         }
     }
 }
-

@@ -28,7 +28,7 @@ struct NavBarModifier<SelectionType>: ViewModifier where SelectionType: Hashable
             }
         }
     }
-    
+
     @Environment(\.pagerStyle) var style: PagerStyle
 }
 

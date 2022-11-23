@@ -12,8 +12,8 @@ struct TwitterNavBarItem<SelectionType>: View where SelectionType: Hashable {
     let title: String
     @Binding var selection: SelectionType
     let tag: SelectionType
-    
-    public init(title: String, selection: Binding<SelectionType>, tag: SelectionType){
+
+    public init(title: String, selection: Binding<SelectionType>, tag: SelectionType) {
         self.title = title
         self.tag = tag
         _selection = selection
@@ -34,10 +34,8 @@ struct TwitterNavBarItem<SelectionType>: View where SelectionType: Hashable {
     }
 }
 
-
 struct TwitterNavBarItem_Previews: PreviewProvider {
     static var previews: some View {
         TwitterNavBarItem(title: "Tweets", selection: .constant(0), tag: 0)
     }
 }
-

@@ -17,13 +17,12 @@ struct YoutubeNavBarItem<SelectedType>: View where SelectedType: Hashable {
     let image: Image
     @Binding var selection: SelectedType
     let tag: SelectedType
-    
-    init(title: String, imageName: String, selection: Binding<SelectedType>, tag: SelectedType){
+
+    init(title: String, imageName: String, selection: Binding<SelectedType>, tag: SelectedType) {
         self.title = title
         self.image = Image(imageName)
         self.tag = tag
         _selection = selection
-        
     }
 
     @MainActor var body: some View {

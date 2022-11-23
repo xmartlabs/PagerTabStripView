@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: Hashable {
-    
+
     public init(selection: Binding<SelectionType>) {
         self._selection = selection
     }
@@ -32,21 +32,21 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
                     .frame(height: internalStyle.tabItemHeight)
                 }
                 .padding(internalStyle.padding)
-                .onChange(of: dataStore.itemsOrderedByIndex){ _ in
-                    if let _ = dataStore.items[selection] {
+                .onChange(of: dataStore.itemsOrderedByIndex) { _ in
+                    if dataStore.items[selection] != nil {
                         value.scrollTo(selection, anchor: .center)
                     }
                 }
                 .onChange(of: selection) { newSelection in
                     withAnimation {
-                        if let _ = dataStore.items[newSelection] {
+                        if dataStore.items[newSelection] != nil {
                             value.scrollTo(newSelection, anchor: .center)
                         }
                     }
                 }
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        if let _ = dataStore.items[selection] {
+                        if dataStore.items[selection] != nil {
                             value.scrollTo(selection, anchor: .center)
                         }
                         appeared = true
@@ -55,7 +55,7 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
             }
         }
     }
-    
+
     @Binding private var selection: SelectionType
     @EnvironmentObject private var dataStore: DataStore<SelectionType>
     @State private var appeared = false
@@ -64,15 +64,14 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
     @EnvironmentObject private var settings: PagerSettings
 }
 
-
 struct ScrollableNavBarViewLayout: Layout {
-    
+
     private let spacing: CGFloat
-    
+
     init(spacing: CGFloat) {
         self.spacing = spacing
     }
-    
+
     func sizeThatFits(
             proposal: ProposedViewSize,
             subviews: Subviews,
@@ -83,28 +82,28 @@ struct ScrollableNavBarViewLayout: Layout {
         let indicatorIndex = tabBarIndices.removeLast()
         let tabBarViews = subviews[tabBarIndices]
         let indicatorSubview = subviews[indicatorIndex]
-        
+
         let subviewSize = tabBarViews.map { $0.sizeThatFits(.unspecified) }
         let maxHeight = subviewSize.map { $0.height }.reduce(CGFloat.zero) { max($0, $1) }
         let fullSpacing = tabBarViews.count > 1 ?  CGFloat(tabBarViews.count - 1) * self.spacing : CGFloat.zero
         let height = proposal.replacingUnspecifiedDimensions().height
-        return CGSize(width: subviewSize.map { $0.width }.reduce(0, +) + fullSpacing, height: max(height, maxHeight + indicatorSubview.sizeThatFits(.unspecified).height))
+        return CGSize(width: subviewSize.map { $0.width }.reduce(0, +) + fullSpacing,
+                      height: max(height, maxHeight + indicatorSubview.sizeThatFits(.unspecified).height))
     }
-    
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()){
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         var tabBarIndices = subviews.indices
         let indicatorIndex = tabBarIndices.removeLast()
         let tabBarViews = subviews[tabBarIndices]
         let indicatorSubview = subviews[indicatorIndex]
         let indicatorViewSize =  indicatorSubview.sizeThatFits(.unspecified)
-        
-        
+
         if tabBarViews.count == 0 { return }
         let subviewSize = tabBarViews.map { $0.sizeThatFits(.unspecified) }
         let maxHeight = subviewSize.map { $0.height }.reduce(CGFloat.zero, max)
         var x = bounds.minX
         var itemsFrames = [CGRect]()
-        
+
         for index in tabBarIndices.indices {
             let spacing = index < tabBarIndices.indices.last! ? self.spacing : CGFloat.zero
             let subview = subviews[index]
@@ -115,7 +114,7 @@ struct ScrollableNavBarViewLayout: Layout {
             itemsFrames.append(CGRect(origin: point, size: CGSize(width: proposedSize.width!, height: proposedSize.height!)))
             x += subviewSize[index].width / 2 + spacing
         }
-        
+
         let contentOffset = -indicatorSubview[PagerOffset.self]
         let itemsCount = tabBarViews.count
         let pagerWidth = indicatorSubview[PagerWidth.self]
@@ -123,21 +122,27 @@ struct ScrollableNavBarViewLayout: Layout {
         let percentage = (indexAndPercentage + 1).truncatingRemainder(dividingBy: 1)
         let lowIndex = floor(indexAndPercentage)
         guard lowIndex < CGFloat(itemsCount) else {
-            indicatorSubview.place(at: CGPoint(x: 0, y: bounds.maxY - (indicatorViewSize.height / 2)), anchor: .center, proposal: ProposedViewSize.zero)
+            indicatorSubview.place(at: CGPoint(x: 0, y: bounds.maxY - (indicatorViewSize.height / 2)),
+                                   anchor: .center,
+                                   proposal: ProposedViewSize.zero)
             return
         }
         let currentWidth = itemsFrames[max(0, Int(lowIndex))].size.width
         let nextWidth = itemsFrames[min(itemsCount - 1, Int(lowIndex + 1))].size.width
         let currentPosition = lowIndex >= 0 ? itemsFrames[Int(lowIndex)].origin.x : itemsFrames[0].origin.x - currentWidth
-        let nextPosition = lowIndex + 1 < CGFloat(itemsCount - 1) ? itemsFrames[Int(lowIndex + 1)].origin.x : itemsFrames[Int(itemsCount - 1)].origin.x + nextWidth
+        let nextPosition = lowIndex + 1 < CGFloat(itemsCount - 1)
+                                ? itemsFrames[Int(lowIndex + 1)].origin.x
+                                : itemsFrames[Int(itemsCount - 1)].origin.x + nextWidth
         let proposedWidth = currentWidth + ((nextWidth - currentWidth) * percentage)
         let proposedPosition = currentPosition + ((nextPosition - currentPosition) * percentage)
-        indicatorSubview.place(at: CGPoint(x: proposedPosition , y: bounds.maxY - (indicatorViewSize.height / 2)), anchor: .center, proposal: ProposedViewSize(width: proposedWidth, height: indicatorViewSize.height))
+        indicatorSubview.place(at: CGPoint(x: proposedPosition, y: bounds.maxY - (indicatorViewSize.height / 2)),
+                               anchor: .center,
+                               proposal: ProposedViewSize(width: proposedWidth, height: indicatorViewSize.height))
     }
 
 }
 
-struct PagerOffset : LayoutValueKey {
+struct PagerOffset: LayoutValueKey {
     static let defaultValue: CGFloat = 0
 }
 

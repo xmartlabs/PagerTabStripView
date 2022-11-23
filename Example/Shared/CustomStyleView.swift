@@ -49,12 +49,14 @@ struct CustomStyleView: View {
                endPoint: .bottomTrailing
            )
            .opacity(0.2)
-           .rotationEffect([.orange, .green, .purple].contains(selection) ? Angle(degrees: 0) : Angle(degrees: 180))
+           .rotationEffect(even🌈.contains(selection) ? Angle(degrees: 0) : Angle(degrees: 180))
         }, indicatorView: {
-            Text([.orange, .green, .purple].contains(selection) ? "👍🏻" : "👎").offset(x: 0, y: -24)
+            Text(even🌈.contains(selection) ? "👍🏻" : "👎").offset(x: 0, y: -24)
         }))
         .navigationTitle("🌈 Rainbow")
     }
+
+    private let even🌈: [Color] = [.orange, .green, .purple]
 }
 
 struct CustomStyleView_Previews: PreviewProvider {

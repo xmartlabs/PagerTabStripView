@@ -13,7 +13,7 @@ class PagerSettings: ObservableObject {
 
 class SelectionState<SelectionType>: ObservableObject {
     @Published var selection: SelectionType
-    
+
     init(selection: SelectionType) {
         self.selection = selection
     }
@@ -27,7 +27,8 @@ public struct PagerTabStripView<SelectionType, Content>: View where SelectionTyp
     @ObservedObject private var selectionState: SelectionState<SelectionType>
     @StateObject private var settings: PagerSettings
 
-    public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
+    public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<SelectionType>,
+                @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
         self.selectionState = SelectionState(selection: selection.wrappedValue)
         self.selection = selection
@@ -130,7 +131,7 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             }
             .onChange(of: geometryProxy.frame(in: .local)) { geometry in
                 settings.width = geometry.width
-                if let index = dataStore.indexOf(tag: selection){
+                if let index = dataStore.indexOf(tag: selection) {
                     currentOffset = -(CGFloat(index)) * geometry.width
                 }
             }
