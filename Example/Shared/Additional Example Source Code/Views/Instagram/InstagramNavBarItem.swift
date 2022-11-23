@@ -8,13 +8,12 @@
 import SwiftUI
 import PagerTabStripView
 
-
 struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
     var image: Image
     @Binding var selection: SelectionType
     let tag: SelectionType
-    
-    init(imageName: String, selection: Binding<SelectionType>, tag: SelectionType){
+
+    init(imageName: String, selection: Binding<SelectionType>, tag: SelectionType) {
         self.image = Image(imageName)
         _selection = selection
         self.tag = tag
