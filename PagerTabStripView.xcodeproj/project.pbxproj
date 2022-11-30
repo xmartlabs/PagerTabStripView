@@ -12,7 +12,6 @@
 		287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A6D1C4B73BD004566D6 /* PagerTabStripTests.swift */; };
 		28F828881C494B2C00330CF4 /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */; };
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		AB80DE8626BC93720022F57D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB80DE8326BC93720022F57D /* Info.plist */; };
 		C7A02C01269377D400BFE31B /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A02C00269377D400BFE31B /* DataStore.swift */; };
 		E04615E326C4510F0050A5D3 /* SegmentedNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */; };
 		E04615E526C453AD0050A5D3 /* FixedSizeNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */; };
@@ -23,7 +22,6 @@
 		E07FB08026AF39C300CDCFD8 /* NavBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB07F26AF39C300CDCFD8 /* NavBarItem.swift */; };
 		E07FB08526AF3CAA00CDCFD8 /* NavBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FB08426AF3CAA00CDCFD8 /* NavBarModifier.swift */; };
 		E1FA589924C8BC1B0081FBE7 /* PagerTabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA589824C8BC1B0081FBE7 /* PagerTabStripView.swift */; };
-		E1FA589A24C8BC1B0081FBE7 /* PagerTabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA589824C8BC1B0081FBE7 /* PagerTabStripView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -274,7 +272,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB80DE8626BC93720022F57D /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,7 +322,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1FA589A24C8BC1B0081FBE7 /* PagerTabStripView.swift in Sources */,
 				287D0A6E1C4B73BD004566D6 /* PagerTabStripTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
