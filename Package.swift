@@ -1,9 +1,9 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.7
 import PackageDescription
 
 let package = Package(
     name: "PagerTabStripView",
-    platforms: [.iOS(.v14), .macOS(.v11)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(name: "PagerTabStripView", targets: ["PagerTabStripView"])
     ],
