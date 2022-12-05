@@ -20,10 +20,10 @@ struct InstagramView: View {
     @State var selection = Page.list
     @State var toggle = true
 
-    @ObservedObject var galleryModel = GalleryModel()
-    @ObservedObject var listModel = ListModel()
-    @ObservedObject var likedModel = LikedModel()
-    @ObservedObject var savedModel = SavedModel()
+    @StateObject var galleryModel = GalleryModel()
+    @StateObject var listModel = ListModel()
+    @StateObject var likedModel = LikedModel()
+    @StateObject var savedModel = SavedModel()
 
     @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {

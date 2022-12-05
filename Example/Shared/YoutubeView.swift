@@ -10,9 +10,9 @@ import PagerTabStripView
 
 struct YoutubeView: View {
 
-    @ObservedObject var homeModel = HomeModel()
-    @ObservedObject var trendingModel = HomeModel()
-    @ObservedObject var accountModel = AccountModel()
+    @StateObject var homeModel = HomeModel()
+    @StateObject var trendingModel = HomeModel()
+    @StateObject var accountModel = AccountModel()
 
     @State var selection = 1
 

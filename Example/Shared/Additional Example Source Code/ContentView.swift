@@ -65,6 +65,10 @@ struct ContentView: View {
                             .font(.subheadline)
                     }
                 }
+                NavigationLink(destination: SimpleView()) {
+                    Text("Default Style")
+                        .font(.body)
+                }
             }
         }
     }

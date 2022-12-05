@@ -21,16 +21,18 @@ class SelectionState<SelectionType>: ObservableObject {
 
 @available(iOS 16.0, *)
 public struct PagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
+        @StateObject var dataStore = DataStore<SelectionType>()
     private var content: () -> Content
     private var swipeGestureEnabled: Binding<Bool>
     private var selection: Binding<SelectionType>
-    @ObservedObject private var selectionState: SelectionState<SelectionType>
+    @StateObject private var selectionState: SelectionState<SelectionType>
+    
     @StateObject private var settings: PagerSettings
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<SelectionType>,
                 @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
-        self.selectionState = SelectionState(selection: selection.wrappedValue)
+        self._selectionState = StateObject(wrappedValue: SelectionState(selection: selection.wrappedValue))
         self.selection = selection
         self.content = content
         self._settings = StateObject(wrappedValue: PagerSettings())
@@ -47,7 +49,7 @@ extension PagerTabStripView where SelectionType == Int {
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true), @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
         let selectionState =  SelectionState(selection: 0)
-        self.selectionState = selectionState
+        self._selectionState = StateObject(wrappedValue: selectionState)
         self.selection = Binding(get: {
             selectionState.selection
         }, set: {
@@ -61,7 +63,6 @@ extension PagerTabStripView where SelectionType == Int {
 private struct WrapperPagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
 
     private var content: Content
-
     @StateObject private var dataStore = DataStore<SelectionType>()
     @Environment(\.pagerStyle) var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings

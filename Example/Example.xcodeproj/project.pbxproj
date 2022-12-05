@@ -16,6 +16,7 @@
 		2857502C24C21EB400ED22AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857500124C21EB200ED22AD /* ContentView.swift */; };
 		2857502D24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
 		2857502E24C21EB400ED22AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2857500224C21EB400ED22AD /* Assets.xcassets */; };
+		28D041B82930015900234856 /* SimpleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D041B72930015900234856 /* SimpleView.swift */; };
 		AB28D6D9269F58C500679D5E /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6D8269F58C500679D5E /* URLImageView.swift */; };
 		AB28D6DB269F58D600679D5E /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DA269F58D600679D5E /* URLImageModel.swift */; };
 		AB28D6DD269F58E300679D5E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28D6DC269F58E300679D5E /* ImageCache.swift */; };
@@ -106,6 +107,7 @@
 		2857502224C21EB400ED22AD /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2857502624C21EB400ED22AD /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		2857502824C21EB400ED22AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28D041B72930015900234856 /* SimpleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleView.swift; sourceTree = "<group>"; };
 		AB28D6D8269F58C500679D5E /* URLImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageView.swift; sourceTree = "<group>"; };
 		AB28D6DA269F58D600679D5E /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
 		AB28D6DC269F58E300679D5E /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				E0881C5B26C5836F00768CA7 /* SegmentedView.swift */,
 				E0881C5F26C595AC00768CA7 /* BarStyleView.swift */,
 				C44D9C7427DB56890001CD14 /* CustomStyleView.swift */,
+				28D041B72930015900234856 /* SimpleView.swift */,
 				28070C6126B2005C002346E1 /* Additional Example Source Code */,
 				2857500224C21EB400ED22AD /* Assets.xcassets */,
 			);
@@ -568,6 +571,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28D041B82930015900234856 /* SimpleView.swift in Sources */,
 				2857502B24C21EB400ED22AD /* ContentView.swift in Sources */,
 				AB9F880F2682837E00CCBFC3 /* InstagramNavBarItem.swift in Sources */,
 				AB28D6D9269F58C500679D5E /* URLImageView.swift in Sources */,

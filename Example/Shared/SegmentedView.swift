@@ -12,9 +12,9 @@ struct SegmentedView: View {
     @State var toggle = true
     @State var selection = 1
 
-    @ObservedObject var tweetsModel = TweetsModel()
-    @ObservedObject var mediaModel = TweetsModel()
-    @ObservedObject var likesModel = TweetsModel()
+    @StateObject var tweetsModel = TweetsModel()
+    @StateObject var mediaModel = TweetsModel()
+    @StateObject var likesModel = TweetsModel()
 
     @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
