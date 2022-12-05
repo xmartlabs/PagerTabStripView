@@ -18,16 +18,16 @@ struct PagerTabItemModifier<SelectionType, NavTabView>: ViewModifier where Selec
     }
 
     @MainActor func body(content: Content) -> some View {
-        GeometryReader { reader in
+        GeometryReader { geometryProxy in
             content
                 .onAppear {
-                    let frame = reader.frame(in: .named("PagerViewScrollView"))
+                    let frame = geometryProxy.frame(in: .named("PagerViewScrollView"))
                     index = Int(round(frame.minX / frame.width))
                     dataStore.createOrUpdate(tag: tag, index: index, view: navTabView())
                 }.onDisappear {
                     dataStore.remove(tag: tag)
                 }
-                .onChange(of: reader.frame(in: .named("PagerViewScrollView"))) { newFrame in
+                .onChange(of: geometryProxy.frame(in: .named("PagerViewScrollView"))) { newFrame in
                     index = Int(round(newFrame.minX / newFrame.width))
                 }
                 .onChange(of: index) { newIndex in

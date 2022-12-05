@@ -9,14 +9,20 @@ import Foundation
 import SwiftUI
 
 internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: Hashable {
-
+    
+    @Binding var selection: SelectionType
+    @EnvironmentObject private var dataStore: DataStore<SelectionType>
+    @Environment(\.pagerStyle) private var style: PagerStyle
+    @EnvironmentObject private var settings: PagerSettings
+    @State private var appeared = false
+    
     public init(selection: Binding<SelectionType>) {
         self._selection = selection
     }
 
     @MainActor var body: some View {
         if let internalStyle = style as? BarButtonStyle {
-            ScrollViewReader { value in
+            ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     ScrollableNavBarViewLayout(spacing: internalStyle.tabItemSpacing) {
                         ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
@@ -34,20 +40,20 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
                 .padding(internalStyle.padding)
                 .onChange(of: dataStore.itemsOrderedByIndex) { _ in
                     if dataStore.items[selection] != nil {
-                        value.scrollTo(selection, anchor: .center)
+                        proxy.scrollTo(selection, anchor: .center)
                     }
                 }
                 .onChange(of: selection) { newSelection in
                     withAnimation {
                         if dataStore.items[newSelection] != nil {
-                            value.scrollTo(newSelection, anchor: .center)
+                            proxy.scrollTo(newSelection, anchor: .center)
                         }
                     }
                 }
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         if dataStore.items[selection] != nil {
-                            value.scrollTo(selection, anchor: .center)
+                            proxy.scrollTo(selection, anchor: .center)
                         }
                         appeared = true
                     }
@@ -56,12 +62,7 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
         }
     }
 
-    @Binding private var selection: SelectionType
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
-    @State private var appeared = false
 
-    @Environment(\.pagerStyle) private var style: PagerStyle
-    @EnvironmentObject private var settings: PagerSettings
 }
 
 struct ScrollableNavBarViewLayout: Layout {

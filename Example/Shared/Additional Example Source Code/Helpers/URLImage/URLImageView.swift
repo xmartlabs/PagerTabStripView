@@ -10,11 +10,11 @@ import Foundation
 import SwiftUI
 
 struct URLImageView: View {
-    @ObservedObject var urlImageModel: URLImageModel
+    @StateObject var urlImageModel: URLImageModel
     @Environment(\.colorScheme) var colorScheme
 
-    init(urlString: String?) {
-        urlImageModel = URLImageModel(urlString: urlString)
+    init(urlString: String) {
+        _urlImageModel = StateObject(wrappedValue: URLImageModel(urlString: urlString))
     }
 
     @MainActor var body: some View {
