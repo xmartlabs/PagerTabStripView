@@ -9,20 +9,15 @@ import SwiftUI
 import PagerTabStripView
 
 struct SimpleView: View {
-    
-    
+
     let textForColor = [Color.purple: "Swiftable 2022",
                               .green: "SwiftUI",
                              .yellow: "iOS 16.1",
                              .orange: "PagerTabStripView"]
     let colors = [Color.purple, .green, .yellow, .orange]
     @State var selection = Color.green
-    
-    
-    
-    
+
     var body: some View {
-        
         PagerTabStripView(selection: $selection) {
             ForEach(colors, id: \.self) { color in
                 Rectangle()
