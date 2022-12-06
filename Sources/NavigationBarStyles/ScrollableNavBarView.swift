@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 
 internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: Hashable {
-    
+
     @Binding var selection: SelectionType
     @EnvironmentObject private var dataStore: DataStore<SelectionType>
     @Environment(\.pagerStyle) private var style: PagerStyle
     @EnvironmentObject private var settings: PagerSettings
     @State private var appeared = false
-    
+
     public init(selection: Binding<SelectionType>) {
         self._selection = selection
     }
@@ -61,8 +61,6 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
             }
         }
     }
-
-
 }
 
 struct ScrollableNavBarViewLayout: Layout {

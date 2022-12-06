@@ -26,7 +26,6 @@ public struct PagerTabStripView<SelectionType, Content>: View where SelectionTyp
     private var swipeGestureEnabled: Binding<Bool>
     private var selection: Binding<SelectionType>
     @StateObject private var selectionState: SelectionState<SelectionType>
-    
     @StateObject private var settings: PagerSettings
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<SelectionType>,
