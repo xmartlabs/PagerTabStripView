@@ -10,9 +10,9 @@ import PagerTabStripView
 
 struct InstagramView: View {
 
-    enum Page {
-        case gallery
-        case list
+    enum Page: String {
+        case gallery = "photo.stack"
+        case list  = ""
         case like
         case saved
     }
@@ -20,16 +20,16 @@ struct InstagramView: View {
     @State var selection = Page.list
     @State var toggle = true
 
-    @StateObject var galleryModel = GalleryModel()
+    @StateObject var galleryModel = ListModel()
     @StateObject var listModel = ListModel()
-    @StateObject var likedModel = LikedModel()
-    @StateObject var savedModel = SavedModel()
+    @StateObject var likedModel = ListModel()
+    @StateObject var savedModel = ListModel()
 
     @MainActor var body: some View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $galleryModel.isLoading, items: galleryModel.posts)
                 .pagerTabItem(tag: Page.gallery) {
-                    InstagramNavBarItem(imageName: "gallery", selection: $selection, tag: Page.gallery)
+                    InstagramNavBarItem(imageName: "photo.stack", selection: $selection, tag: Page.gallery)
                 }
                 .onAppear {
                     galleryModel.isLoading = true
@@ -39,7 +39,7 @@ struct InstagramView: View {
                 }
             PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false)
                 .pagerTabItem(tag: Page.list) {
-                    InstagramNavBarItem(imageName: "list", selection: $selection, tag: Page.list)
+                    InstagramNavBarItem(imageName: "chart.bar.doc.horizontal" /* "list.bullet" */, selection: $selection, tag: Page.list)
                 }
                 .onAppear {
                     listModel.isLoading = true
@@ -50,7 +50,7 @@ struct InstagramView: View {
             if toggle {
                     PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts)
                         .pagerTabItem(tag: Page.like) {
-                            InstagramNavBarItem(imageName: "liked", selection: $selection, tag: Page.like)
+                            InstagramNavBarItem(imageName: "heart", selection: $selection, tag: Page.like)
                         }.onAppear {
                             likedModel.isLoading = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -58,14 +58,14 @@ struct InstagramView: View {
                             }
                         }
                     PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false)
-                    .pagerTabItem(tag: Page.saved) {
-                        InstagramNavBarItem(imageName: "saved", selection: $selection, tag: Page.saved)
-                    }.onAppear {
-                        savedModel.isLoading = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            savedModel.isLoading = false
+                        .pagerTabItem(tag: Page.saved) {
+                            InstagramNavBarItem(imageName: "photo.stack" /* "bookmark"*/, selection: $selection, tag: Page.saved)
+                        }.onAppear {
+                            savedModel.isLoading = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                savedModel.isLoading = false
+                            }
                         }
-                    }
             }
         }
         .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default,

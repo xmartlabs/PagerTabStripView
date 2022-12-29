@@ -8,7 +8,6 @@
 import SwiftUI
 import PagerTabStripView
 
-let redColor = Color(red: 221/255.0, green: 0/255.0, blue: 19/255.0, opacity: 1.0)
 let unselectedColor = Color(red: 73/255.0, green: 8/255.0, blue: 10/255.0, opacity: 1.0)
 let selectedColor = Color(red: 234/255.0, green: 234/255.0, blue: 234/255.0, opacity: 0.7)
 
@@ -19,9 +18,9 @@ struct YoutubeNavBarItem<SelectedType>: View where SelectedType: Hashable {
     let tag: SelectedType
 
     init(title: String, imageName: String, selection: Binding<SelectedType>, tag: SelectedType) {
-        self.title = title
-        self.image = Image(imageName)
         self.tag = tag
+        self.title = title
+        self.image = Image(systemName: imageName)
         _selection = selection
     }
 
@@ -29,6 +28,8 @@ struct YoutubeNavBarItem<SelectedType>: View where SelectedType: Hashable {
         VStack {
             image
                 .renderingMode(.template)
+                .resizable()
+                .frame(width: 25, height: 25)
                 .foregroundColor(selection == tag ? selectedColor : unselectedColor)
             Text(title.uppercased())
                 .foregroundColor(selection == tag ? selectedColor : unselectedColor)
@@ -41,6 +42,6 @@ struct YoutubeNavBarItem<SelectedType>: View where SelectedType: Hashable {
 
 struct YoutubeNavBarItem_Previews: PreviewProvider {
     static var previews: some View {
-        YoutubeNavBarItem(title: "Home", imageName: "home", selection: .constant(0), tag: 0)
+        YoutubeNavBarItem(title: "Home", imageName: "house", selection: .constant(0), tag: 0)
     }
 }

@@ -14,9 +14,9 @@ struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
     let tag: SelectionType
 
     init(imageName: String, selection: Binding<SelectionType>, tag: SelectionType) {
-        self.image = Image(imageName)
-        _selection = selection
         self.tag = tag
+        self.image = Image(systemName: imageName)
+        _selection = selection
     }
 
     @MainActor var body: some View {
@@ -26,15 +26,14 @@ struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
                 .resizable()
                 .frame(width: 25.0, height: 25)
                 .foregroundColor(selection == tag ? .blue : .gray)
-                .animation(.default, value: selection)
         }
-        .background(Color.white)
+        .animation(.easeInOut, value: selection)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 struct InstagramNavBarItem_Previews: PreviewProvider {
     static var previews: some View {
-        InstagramNavBarItem(imageName: "gallery", selection: .constant(0), tag: 0)
+        InstagramNavBarItem(imageName: "photo.stack", selection: .constant(0), tag: 0)
     }
 }

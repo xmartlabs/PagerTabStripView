@@ -13,11 +13,11 @@ struct PostRow: View {
 
     @MainActor var body: some View {
         HStack(alignment: .top) {
-            post.user.image
-                .cornerRadius(5)
+            Image("defaultImage")
+                .resizable()
                 .frame(width: 70, height: 70, alignment: .leading)
+                .cornerRadius(5)
                 .padding(.vertical)
-
             VStack(alignment: .leading) {
                 if withDescription {
                     Text(post.user.name)
