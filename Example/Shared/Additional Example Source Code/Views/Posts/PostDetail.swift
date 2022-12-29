@@ -13,7 +13,8 @@ struct PostDetail: View {
     @MainActor var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             VStack(alignment: .center) {
-                post.user.image
+                Image("defaultImage")
+                    .resizable()
                     .frame(width: 100.0, height: 100.0)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 4))

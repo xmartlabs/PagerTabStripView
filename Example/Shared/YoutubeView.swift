@@ -22,7 +22,7 @@ struct YoutubeView: View {
         PagerTabStripView(selection: $selection) {
             PostsList(isLoading: $homeModel.isLoading, items: homeModel.posts)
                 .pagerTabItem(tag: 0) {
-                    YoutubeNavBarItem(title: "Home", imageName: "home", selection: $selection, tag: 0)
+                    YoutubeNavBarItem(title: "Home", imageName: "house", selection: $selection, tag: 0)
                 }.onAppear {
                     homeModel.isLoading = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -32,7 +32,7 @@ struct YoutubeView: View {
 
             PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts, withDescription: false)
                 .pagerTabItem(tag: 1) {
-                    YoutubeNavBarItem(title: "Trending", imageName: "trending", selection: $selection, tag: 1)
+                    YoutubeNavBarItem(title: "Trending", imageName: "flame", selection: $selection, tag: 1)
                 }
                 .onAppear {
                     trendingModel.isLoading = true
@@ -43,7 +43,7 @@ struct YoutubeView: View {
             if toggle {
                 PostDetail(post: accountModel.post)
                     .pagerTabItem(tag: 2) {
-                        YoutubeNavBarItem(title: "Account", imageName: "account", selection: $selection, tag: 2)
+                        YoutubeNavBarItem(title: "Account", imageName: "person.fill", selection: $selection, tag: 2)
                     }
             }
         }
