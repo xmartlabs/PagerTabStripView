@@ -17,13 +17,9 @@ private struct PageItem: Identifiable {
 }
 
 struct TwitterView: View {
-    @State var swipeGestureEnabled: Bool
     @State var selection = 4
     @State var toggle = true
-
-    public init(swipeGestureEnabled: Bool = true) {
-        self.swipeGestureEnabled = swipeGestureEnabled
-    }
+    @State var swipeGestureEnabled = true
 
     private var items = [PageItem(tag: 1, title: "First big width", posts: TweetsModel().posts),
                          PageItem(tag: 2, title: "Short", posts: TweetsModel().posts),
@@ -38,16 +34,30 @@ struct TwitterView: View {
             ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
                 PostsList(items: item.posts, withDescription: item.withDescription)
                     .pagerTabItem(tag: item.tag) {
-                        TwitterNavBarItem(title: item.title, selection: $selection, tag: item.tag)
+                        VStack {
+                            Text(item.title)
+                                .foregroundColor(selection == item.tag ? .blue : .gray)
+                                .font(.subheadline)
+                                .frame(maxHeight: .infinity)
+                                .animation(.default, value: selection)
+                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        }
+                        .frame(height: 40)
                     }
             }
         }
         .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
             Rectangle().fill(.blue).cornerRadius(5)
         }))
-        .navigationBarItems(trailing: Button("Refresh") {
-            toggle.toggle()
-        })
+        .navigationBarItems(trailing: HStack {
+                                        Button("Refresh") {
+                                            toggle.toggle()
+                                        }
+                                        Button(swipeGestureEnabled ? "Swipe On": "Swipe Off") {
+                                            swipeGestureEnabled.toggle()
+                                        }
+                                    }
+            )
     }
 }
 

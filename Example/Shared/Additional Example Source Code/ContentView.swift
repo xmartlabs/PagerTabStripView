@@ -47,7 +47,14 @@ struct ContentView: View {
                     Text("Bar style")
                         .font(.body)
                 }
-
+                NavigationLink(destination: PinterestView()) {
+                    Text("Pinterest Style")
+                        .font(.body)
+                }
+                NavigationLink(destination: AudibleView()) {
+                    Text("Audible (amazon) Style")
+                        .font(.body)
+                }
                 NavigationLink(destination: CustomStyleView()) {
                     VStack(alignment: .leading) {
                         Text("Custom style").font(.body).padding(.bottom, 1)
@@ -55,22 +62,8 @@ struct ContentView: View {
                     }
                     .padding([.top, .bottom], 2)
                 }
-
-                NavigationLink(destination: TwitterView(swipeGestureEnabled: false)) {
-                    VStack(alignment: .leading) {
-                        Text("Twitter Style, swipe gesture disabled")
-                            .font(.body)
-                            .padding(.bottom, 1)
-                        Text("Scrolleable BarButtonStyle with Label")
-                            .font(.subheadline)
-                    }
-                }
-//                NavigationLink(destination: PinterestView()) {
-//                    Text("Pinterest Style")
-//                        .font(.body)
-//                }
                 NavigationLink(destination: SimpleView()) {
-                    Text("Default Style")
+                    Text("Custom style 2")
                         .font(.body)
                 }
             }

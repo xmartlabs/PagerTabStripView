@@ -8,18 +8,16 @@
 import Foundation
 import SwiftUI
 
-internal struct FixedSizeNavBarView<SelectionType, BG>: View where SelectionType: Hashable, BG: View {
+internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Hashable {
 
     @Binding private var selection: SelectionType
-    private var backgroundView: BG
     @Environment(\.pagerStyle) private var style: PagerStyle
     @EnvironmentObject private var dataStore: DataStore<SelectionType>
     @EnvironmentObject private var settings: PagerSettings
     @State private var appeared = false
 
-    public init(selection: Binding<SelectionType>, background: () -> BG) {
+    public init(selection: Binding<SelectionType>) {
         self._selection = selection
-        self.backgroundView = background()
     }
 
     @MainActor var body: some View {
