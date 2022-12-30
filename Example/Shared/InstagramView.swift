@@ -31,40 +31,18 @@ struct InstagramView: View {
                 .pagerTabItem(tag: Page.gallery) {
                     InstagramNavBarItem(imageName: "photo.stack", selection: $selection, tag: Page.gallery)
                 }
-                .onAppear {
-                    galleryModel.isLoading = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        galleryModel.isLoading = false
-                    }
-                }
             PostsList(isLoading: $listModel.isLoading, items: listModel.posts, withDescription: false)
                 .pagerTabItem(tag: Page.list) {
                     InstagramNavBarItem(imageName: "chart.bar.doc.horizontal" /* "list.bullet" */, selection: $selection, tag: Page.list)
-                }
-                .onAppear {
-                    listModel.isLoading = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        listModel.isLoading = false
-                    }
                 }
             if toggle {
                     PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts)
                         .pagerTabItem(tag: Page.like) {
                             InstagramNavBarItem(imageName: "heart", selection: $selection, tag: Page.like)
-                        }.onAppear {
-                            likedModel.isLoading = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                likedModel.isLoading = false
-                            }
                         }
                     PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false)
                         .pagerTabItem(tag: Page.saved) {
                             InstagramNavBarItem(imageName: "photo.stack" /* "bookmark"*/, selection: $selection, tag: Page.saved)
-                        }.onAppear {
-                            savedModel.isLoading = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                savedModel.isLoading = false
-                            }
                         }
             }
         }

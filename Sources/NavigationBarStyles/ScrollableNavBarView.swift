@@ -37,6 +37,7 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
                     }
                     .frame(height: internalStyle.tabItemHeight)
                 }
+                .background(internalStyle.barBackgroundView())
                 .padding(internalStyle.padding)
                 .onChange(of: dataStore.itemsOrderedByIndex) { _ in
                     if dataStore.items[selection] != nil {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28049764295DE1C90086C75D /* PinterestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28049763295DE1C90086C75D /* PinterestView.swift */; };
+		28049766295E0EEA0086C75D /* AudibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28049765295E0EEA0086C75D /* AudibleView.swift */; };
 		2857501C24C21EB400ED22AD /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857501B24C21EB400ED22AD /* Tests_iOS.swift */; };
 		2857502924C21EB400ED22AD /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857500024C21EB200ED22AD /* ExampleApp.swift */; };
 		2857502B24C21EB400ED22AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2857500124C21EB200ED22AD /* ContentView.swift */; };
@@ -75,6 +77,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		28049763295DE1C90086C75D /* PinterestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestView.swift; sourceTree = "<group>"; };
+		28049765295E0EEA0086C75D /* AudibleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudibleView.swift; sourceTree = "<group>"; };
 		2857500024C21EB200ED22AD /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; };
 		2857500124C21EB200ED22AD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2857500224C21EB400ED22AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 		28574FFF24C21EB200ED22AD /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				28049765295E0EEA0086C75D /* AudibleView.swift */,
+				28049763295DE1C90086C75D /* PinterestView.swift */,
 				AB89C58826961E9E002E7B28 /* TwitterView.swift */,
 				AB89C57526961A3E002E7B28 /* InstagramView.swift */,
 				AB89C56E26961A0B002E7B28 /* YoutubeView.swift */,
@@ -464,10 +470,12 @@
 				AB89C56F26961A0B002E7B28 /* YoutubeView.swift in Sources */,
 				AB7EEE7C26AB5681008804D4 /* AccountModel.swift in Sources */,
 				E0881C5C26C5836F00768CA7 /* SegmentedView.swift in Sources */,
+				28049764295DE1C90086C75D /* PinterestView.swift in Sources */,
 				AB89C57626961A3E002E7B28 /* InstagramView.swift in Sources */,
 				AB9F87DF26826C2000CCBFC3 /* PostsFactory.swift in Sources */,
 				AB9F87EC26826CB500CCBFC3 /* User.swift in Sources */,
 				AB9F87E726826C4D00CCBFC3 /* Post.swift in Sources */,
+				28049766295E0EEA0086C75D /* AudibleView.swift in Sources */,
 				C44D9C7527DB56890001CD14 /* CustomStyleView.swift in Sources */,
 				AB89C58126961E8E002E7B28 /* TwitterNavBarItem.swift in Sources */,
 			);
