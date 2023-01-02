@@ -19,11 +19,11 @@ struct PagerSetAppearItemModifier: ViewModifier {
         GeometryReader { reader in
             content
                 .onAppear {
-                        let frame = reader.frame(in: .named("PagerViewScrollView"))
-                        index = Int(round(frame.minX / frame.width))
-                        dataStore.setAppear(callback: onPageAppear, at: index)
+                    let frame = reader.frame(in: .named("PagerViewScrollView"))
+                    index = Int(round(frame.minX / frame.width))
+                    dataStore.setAppear(callback: onPageAppear, at: index)
                 }
-            }
+        }
     }
 
     @EnvironmentObject private var dataStore: DataStore

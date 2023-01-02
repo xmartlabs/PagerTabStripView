@@ -9,7 +9,7 @@ import SwiftUI
 
 class DataItem {
     var view: AnyView?
-    var tabViewDelegate: PagerTabViewDelegate?
+    weak var tabViewDelegate: PagerTabViewDelegate?
     var appearCallback: (() -> Void)?
     @Published var itemWidth: Double?
 

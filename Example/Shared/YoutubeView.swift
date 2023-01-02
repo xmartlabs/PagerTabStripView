@@ -27,14 +27,14 @@ struct YoutubeView: View {
 
             PostsList(isLoading: $trendingModel.isLoading, items: trendingModel.posts,
                       withDescription: false).pagerTabItem {
-                YoutubeNavBarItem(title: "Trending", imageName: "trending")
-            }
-            .onPageAppear {
-                trendingModel.isLoading = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    trendingModel.isLoading = false
+                        YoutubeNavBarItem(title: "Trending", imageName: "trending")
+                      }
+                .onPageAppear {
+                    trendingModel.isLoading = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        trendingModel.isLoading = false
+                    }
                 }
-            }
 
             PostDetail(post: accountModel.post).pagerTabItem {
                 YoutubeNavBarItem(title: "Account", imageName: "account")

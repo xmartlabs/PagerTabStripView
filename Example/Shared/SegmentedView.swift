@@ -30,7 +30,13 @@ struct SegmentedView: View {
                     Text("Likes")
                 }
         }
-        .pagerTabStripViewStyle(.segmentedControl(placedInToolbar: false, backgroundColor: .yellow, padding: EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)))
+        .pagerTabStripViewStyle(
+            .segmentedControl(
+                placedInToolbar: false,
+                backgroundColor: .yellow,
+                padding: EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)
+            )
+        )
     }
 }
 
