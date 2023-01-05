@@ -38,20 +38,11 @@ struct PinterestView: View {
                     .pagerTabItem(tag: item.tag) {
                         ZStack {
                             Text(item.title)
-                                .foregroundColor(.black)
+                                .foregroundColor(selection == item.tag ? .black : .white)
                                 .font(.subheadline)
                                 .frame(maxHeight: .infinity)
                                 .animation(.default, value: selection)
                                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                            Text(item.title)
-                                .foregroundColor(.white)
-                                .font(.subheadline)
-                                .frame(maxHeight: .infinity)
-                                .animation(.default, value: selection)
-                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                                .mask {
-                                    Rectangle().fill(Color.black).offset(y: -20)
-                                }
 
                         }
                         .frame(height: 40)
