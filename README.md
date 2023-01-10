@@ -31,8 +31,7 @@ Unlike Apple's TabView it provides:
 2. Each pagerTabItem view can be of different type.
 3. Bar that contains pager tab item is placed on top.
 4. Indicator view indicates selected child view.
-5. `onPageAppear` callback to easily trigger actions when page is selected.
-6. Ability to update pagerTabItem according to highlighted, selected, normal state.
+5. Ability to update pagerTabItem according to highlighted, selected, normal state.
 
 ..and we've planned many more functionalities, we have plans to support each one of the XLPagerTabStrip [styles](https://github.com/xmartlabs/XLPagerTabStrip#pager-types).
 
@@ -296,28 +295,6 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
 <div style="text-align:center">
     <img src="Example/Media/setStateCallback.gif">
 </div>
-
-### onPageAppear modifier
-
-`onPageAppear` callback allows you to trigger some action when a page view gets selected, either by scrolling to it or tapping its tab. This modifier is applied only to its associated page view.
-
-```swift
-struct PagerView: View {
-
-    var body: some View {
-        PagerTabStripView(selection: 1) {
-            MyView(model: myViewModel)
-                .pagerTabItem {
-                    TitleNavBarItem(title: "Tab 1")
-                }
-                .onPageAppear {
-                    model.reload()
-                }
-        }
-        .pagerTabStripViewStyle(.barButton(indicatorBarHeight: 2, indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
-    }
-}
-```
 
 ## Examples
 
