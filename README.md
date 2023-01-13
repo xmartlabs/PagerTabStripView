@@ -226,11 +226,7 @@ The customizable settings are:
 
 #### Custom style
 
-This style uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
-
-The customizable settings are:
-- Placed in toolbar
-- Pager animation when appear
+The styles uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
 
 ```
         .pagerTabStripViewStyle(.barButton(placedInToolbar: false,
