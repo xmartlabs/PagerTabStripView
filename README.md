@@ -48,16 +48,16 @@ struct MyPagerView: View {
 
         PagerTabStripView() {
             MyFirstView()
-                .pagerTabItem(tag: 0) {
+                .pagerTabItem(tag: 1) {
                     TitleNavBarItem(title: "Tab 1")
                 }
             MySecondView()
-                .pagerTabItem(tag: 1) {
+                .pagerTabItem(tag: 2) {
                     TitleNavBarItem(title: "Tab 2")
                 }
             if User.isLoggedIn {
                 MyProfileView()
-                    .pagerTabItem(tag: 2) {
+                    .pagerTabItem(tag: 3) {
                         TitleNavBarItem(title: "Profile")
                     }
             }
@@ -84,7 +84,7 @@ struct MyPagerView: View {
     var body: some View {
         PagerTabStripView(selection: $selection) {
             MyFirstView()
-                .pagerTabItem(tag: 0) {
+                .pagerTabItem(tag: 1) {
                     TitleNavBarItem(title: "Tab 1")
                 }
             ...
@@ -116,11 +116,11 @@ struct PagerView: View {
 	var body: some View {
 		PagerTabStripView(selection: 1) {
 			MyView()
-				.pagerTabItem(tag: 0) {
+				.pagerTabItem(tag: 1) {
 					TitleNavBarItem(title: "First big width")
 				}
 			AnotherView()
-				.pagerTabItem(tag: 1) {
+				.pagerTabItem(tag: 2) {
 					TitleNavBarItem(title: "Short")
 				}
             ...
@@ -154,16 +154,16 @@ struct PagerView: View {
 	var body: some View {
 		PagerTabStripView(selection: 1) {
 			MyView()
-				.pagerTabItem(tag: 0) {
+				.pagerTabItem(tag: 1) {
 					TitleNavBarItem(title: "Tab 1")
 				}
 			AnotherView()
-				.pagerTabItem(tag: 1) {
+				.pagerTabItem(tag: 2) {
 					TitleNavBarItem(title: "Tab 2")
 				}
 			if User.isLoggedIn {
 				ProfileView()
-					.pagerTabItem(tag: 2) {
+					.pagerTabItem(tag: 3) {
 						TitleNavBarItem(title: "Profile")
                     }
 			}
