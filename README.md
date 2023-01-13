@@ -104,8 +104,9 @@ PagerTabStripView provides 5 different ways to show the views. You can select it
 
 #### Scrollable style
 
-In this style you can add as many pages as you want. The tabs are placed in a scroll. The customizable settings are:
+In this style you can add as many pages as you want. The tabs are placed in a scroll.
 
+The customizable settings are:
 - Placed in toolbar
 - Pager animation when appear
 - Spacing between navigation bar items
@@ -151,7 +152,6 @@ In this example, we add some settings like the tab bar height, indicator view an
 #### Button bar style
 
 The customizable settings are:
-
 - Placed in toolbar
 - Pager animation when appear
 - Spacing between navigation bar items
@@ -198,11 +198,13 @@ In this example, we add some settings like the tab bar height, indicator view an
 
 #### Bar style
 
-This style only shows a bar that indicates the current view controller. The customizable settings are:
+This style only shows a bar that indicates the current view controller. 
 
-- Spacing between navigation bar items
-- Indicator bar height
-- Indicator bar color
+The customizable settings are:
+- Placed in toolbar
+- Pager animation when appear
+- Indicator view 
+- Indicator view height
 
 <div style="text-align:center">
     <img src="Example/Media/barStyleExample.gif">
@@ -212,6 +214,12 @@ This style only shows a bar that indicates the current view controller. The cust
 
 This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it to be set in the toolbar.
 
+The customizable settings are:
+- Placed in toolbar
+- Pager animation when appear
+- Background color
+- Padding to insets
+
 <div style="text-align:center">
     <img src="Example/Media/segmentedStyleExample.gif">
 </div>
@@ -219,6 +227,10 @@ This style uses a Segmented Picker to indicate which view is being displayed. Yo
 #### Custom style
 
 This style uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
+
+The customizable settings are:
+- Placed in toolbar
+- Pager animation when appear
 
 ```
         .pagerTabStripViewStyle(
