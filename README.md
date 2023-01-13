@@ -184,7 +184,7 @@ struct PagerView: View {
         .pagerTabStripViewStyle(.barButton(tabItemSpacing: 15, 
 					   tabItemHeight: 50, 
 	    			           indicatorView: {
-            				   	Rectangle().fill(.blue).cornerRadius(5)
+            				   	Rectangle().fill(.gray).cornerRadius(5)
             				   }))
 	}
 }
