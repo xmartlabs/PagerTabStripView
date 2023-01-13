@@ -133,9 +133,11 @@ struct PagerView: View {
             .
 
 		}
-        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 50, indicatorView: {
-            Rectangle().fill(.blue).cornerRadius(5)
-        }))
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, 
+						     tabItemHeight: 50, 
+	    					     indicatorView: {
+            						Rectangle().fill(.blue).cornerRadius(5)
+            					     }))
 	}
 }
 ```
@@ -148,12 +150,16 @@ In this example, we add some settings like the tab bar height, indicator view an
 
 #### Button bar style
 
-In this style, the width of the tabs is equal between the different tabs and doesn't adapt to its content size. The customizable settings are:
+The customizable settings are:
 
+- Placed in toolbar
+- Pager animation when appear
 - Spacing between navigation bar items
-- Navigation bar height
-- Indicator bar height
-- Indicator bar color
+- Navigation bar items height
+- Padding to insets
+- Bar background view
+- Indicator view 
+- Indicator view height
 
 ```swift
 struct PagerView: View {
@@ -175,12 +181,16 @@ struct PagerView: View {
                     }
 			}
 		}
-        .pagerTabStripViewStyle(.barButton(indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.barButton(tabItemSpacing: 15, 
+					   tabItemHeight: 50, 
+	    			           indicatorView: {
+            				   	Rectangle().fill(.blue).cornerRadius(5)
+            				   }))
 	}
 }
 ```
 
-In this example, we add some settings like the tab bar height, indicator bar color and indicator bar height. Let's watch how it looks!
+In this example, we add some settings like the tab bar height, indicator view and indicator bar height. Let's watch how it looks!
 
 <div style="text-align:center">
     <img src="Example/Media/addPagerSettings.gif">
