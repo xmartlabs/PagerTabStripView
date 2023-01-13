@@ -106,10 +106,14 @@ PagerTabStripView provides 5 different ways to show the views. You can select it
 
 In this style you can add as many pages as you want. The tabs are placed in a scroll. The customizable settings are:
 
+- Placed in toolbar
+- Pager animation when appear
 - Spacing between navigation bar items
-- Navigation bar height
-- Indicator bar height
-- Indicator bar color
+- Navigation bar items height
+- Padding to insets
+- Bar background view
+- Indicator view 
+- Indicator view height
 
 ```swift
 struct PagerView: View {
@@ -129,7 +133,7 @@ struct PagerView: View {
             .
 
 		}
-        .pagerTabStripViewStyle(.scrollableBarButton(indicatorBarColor: .blue, tabItemSpacing: 15, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 50))
 	}
 }
 ```
