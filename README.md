@@ -37,7 +37,8 @@ Unlike Apple's TabView it provides:
 
 ## Usage
 
-Creating a page view is super straightforward, you just need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem( _: )` modifier to each one to specify its navigation bar tab item.
+Creating a page view is super straightforward, you just need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem` modifier to each one to specify its navigation bar tab item.
+The `tag` parameter is the value to identify the tab item.
 
 ```swift
 import PagerTabStripView
@@ -74,7 +75,7 @@ struct MyPagerView: View {
 </br>
 </br>
 
-To specify the initial selected page you can pass the `selection` init parameter.
+To specify the initial selected page you can pass the `selection` init parameter (for it to work properly this value have to be equal to some tag value of the tab items).
 
 ```swift
 struct MyPagerView: View {
