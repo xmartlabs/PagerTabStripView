@@ -60,6 +60,7 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
 //    }
     @GestureState private var translation: CGFloat = 0
     @Binding private var swipeGestureEnabled: Bool
+    @State private var swipeOn: Bool = true
 
     public init(swipeGestureEnabled: Binding<Bool>, selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
         self._swipeGestureEnabled = swipeGestureEnabled
@@ -69,6 +70,41 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
 
     @MainActor public var body: some View {
         GeometryReader { geometryProxy in
+            let dragGesture = DragGesture(minimumDistance: 25)
+            .onChanged { value in
+                let isSwipingToLeftFromFirstItem = selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0
+                let isSwipingToRightFromLastItem = selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0
+                swipeOn = !(isSwipingToLeftFromFirstItem || isSwipingToRightFromLastItem)
+            }
+            .updating(self.$translation) { value, state, _ in
+                if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
+                    let valueWidth = value.translation.width
+                    let normTrans = valueWidth / (geometryProxy.size.width + 50)
+                    let logValue = log(1 + normTrans)
+                    state = geometryProxy.size.width/1.5 * logValue
+                } else if selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0 {
+                    let valueWidth = -value.translation.width
+                    let normTrans = valueWidth / (geometryProxy.size.width + 50)
+                    let logValue = log(1 + normTrans)
+                    state = -geometryProxy.size.width / 1.5 * logValue
+                } else {
+                    state = value.translation.width
+                }
+            }.onEnded { value in
+                let offset = value.predictedEndTranslation.width / geometryProxy.size.width
+                let selectionIndex = pagerSettings.indexOf(tag: selection) ?? 0
+                let newPredictedIndex = (CGFloat(selectionIndex) - offset).rounded()
+                let newIndex = min(max(Int(newPredictedIndex), 0), pagerSettings.items.count - 1)
+                if newIndex > selectionIndex {
+                    selection =  pagerSettings.nextSelection(for: selection)
+                } else if newIndex < selectionIndex {
+                    selection = pagerSettings.previousSelection(for: selection)
+                }
+                if translation > 0 {
+                    pagerSettings.contentOffset = translation
+                }
+            }
+            
             LazyHStack(spacing: 0) {
                 content
                     .frame(width: geometryProxy.size.width)
@@ -78,36 +114,7 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             .offset(x: translation)
             .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
-            .gesture(!swipeGestureEnabled ? nil :
-                DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
-                    if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
-                        let valueWidth = value.translation.width
-                        let normTrans = valueWidth / (geometryProxy.size.width + 50)
-                        let logValue = log(1 + normTrans)
-                        state = geometryProxy.size.width/1.5 * logValue
-                    } else if selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0 {
-                        let valueWidth = -value.translation.width
-                        let normTrans = valueWidth / (geometryProxy.size.width + 50)
-                        let logValue = log(1 + normTrans)
-                        state = -geometryProxy.size.width / 1.5 * logValue
-                    } else {
-                        state = value.translation.width
-                    }
-                }.onEnded { value in
-                    let offset = value.predictedEndTranslation.width / geometryProxy.size.width
-                    let selectionIndex = pagerSettings.indexOf(tag: selection) ?? 0
-                    let newPredictedIndex = (CGFloat(selectionIndex) - offset).rounded()
-                    let newIndex = min(max(Int(newPredictedIndex), 0), pagerSettings.items.count - 1)
-                    if newIndex > selectionIndex {
-                        selection =  pagerSettings.nextSelection(for: selection)
-                    } else if newIndex < selectionIndex {
-                        selection = pagerSettings.previousSelection(for: selection)
-                    }
-                    if translation > 0 {
-                        pagerSettings.contentOffset = translation
-                    }
-                }
-            )
+            .gesture(swipeGestureEnabled && swipeOn ? dragGesture : nil)
             .onAppear {
                 let frame = geometryProxy.frame(in: .local)
                 pagerSettings.width = frame.width
@@ -126,9 +133,11 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             }
             .onChange(of: selection) { newSelection in
                 pagerSettings.contentOffset = -(CGFloat(pagerSettings.indexOf(tag: newSelection) ?? 0) * geometryProxy.size.width)
+                swipeOn = true
             }
             .onChange(of: translation) { _ in
                 pagerSettings.contentOffset = translation - (CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
+                swipeOn = true
             }
         }
         .modifier(NavBarModifier(selection: $selection))
