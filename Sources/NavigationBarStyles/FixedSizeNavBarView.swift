@@ -12,8 +12,7 @@ internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Ha
 
     @Binding private var selection: SelectionType
     @Environment(\.pagerStyle) private var style: PagerStyle
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
-    @EnvironmentObject private var settings: PagerSettings
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
     @State private var appeared = false
 
     public init(selection: Binding<SelectionType>) {
@@ -24,15 +23,15 @@ internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Ha
         if let internalStyle = style as? BarButtonStyle {
             Group {
                 FixedSizeNavBarViewLayout(spacing: internalStyle.tabItemSpacing) {
-                    ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
+                    ForEach(pagerSettings.itemsOrderedByIndex, id: \.self) { tag in
                         NavBarItem(id: tag, selection: $selection)
                             .tag(tag)
                     }
                     internalStyle.indicatorView()
                         .frame(height: internalStyle.indicatorViewHeight)
-                        .layoutValue(key: PagerOffset.self, value: settings.contentOffset)
-                        .layoutValue(key: PagerWidth.self, value: settings.width)
-                        .animation(appeared ? .default : .none, value: settings.contentOffset)
+                        .layoutValue(key: PagerOffset.self, value: pagerSettings.contentOffset)
+                        .layoutValue(key: PagerWidth.self, value: pagerSettings.width)
+                        .animation(appeared ? .default : .none, value: pagerSettings.contentOffset)
                 }
                 .frame(height: internalStyle.tabItemHeight)
                 .padding(internalStyle.padding)

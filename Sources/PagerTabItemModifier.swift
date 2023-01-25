@@ -23,19 +23,19 @@ struct PagerTabItemModifier<SelectionType, NavTabView>: ViewModifier where Selec
                 .onAppear {
                     let frame = geometryProxy.frame(in: .named("PagerViewScrollView"))
                     index = Int(round(frame.minX / frame.width))
-                    dataStore.createOrUpdate(tag: tag, index: index, view: navTabView())
+                    pagerSettings.createOrUpdate(tag: tag, index: index, view: navTabView())
                 }.onDisappear {
-                    dataStore.remove(tag: tag)
+                    pagerSettings.remove(tag: tag)
                 }
                 .onChange(of: geometryProxy.frame(in: .named("PagerViewScrollView"))) { newFrame in
                     index = Int(round(newFrame.minX / newFrame.width))
                 }
                 .onChange(of: index) { newIndex in
-                    dataStore.createOrUpdate(tag: tag, index: newIndex, view: navTabView())
+                    pagerSettings.createOrUpdate(tag: tag, index: newIndex, view: navTabView())
                 }
         }
     }
 
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
     @State private var index = -1
 }

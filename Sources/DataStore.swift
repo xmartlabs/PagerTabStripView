@@ -25,7 +25,9 @@ struct DataItem<SelectedType>: Identifiable, Equatable where SelectedType: Hasha
     }
 }
 
-class DataStore<SelectionType>: ObservableObject where SelectionType: Hashable {
+class PagerSettings<SelectionType>: ObservableObject where SelectionType: Hashable {
+    @Published var width: CGFloat = 0
+    @Published var contentOffset: CGFloat = 0
 
     @Published private(set) var items = [SelectionType: DataItem<SelectionType>]() {
         didSet {

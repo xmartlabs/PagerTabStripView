@@ -11,7 +11,7 @@ struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashab
 
     var id: SelectionType
     @Binding private var selection: SelectionType
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
 
     public init(id: SelectionType, selection: Binding<SelectionType>) {
         self.id = id
@@ -19,7 +19,7 @@ struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashab
     }
 
     @MainActor var body: some View {
-        if let dataItem = dataStore.items[id] {
+        if let dataItem = pagerSettings.items[id] {
             dataItem.view
                 .onTapGesture {
                     selection = id

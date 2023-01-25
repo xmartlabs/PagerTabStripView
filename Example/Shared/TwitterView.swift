@@ -34,15 +34,7 @@ struct TwitterView: View {
             ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
                 PostsList(items: item.posts, withDescription: item.withDescription)
                     .pagerTabItem(tag: item.tag) {
-                        VStack {
-                            Text(item.title)
-                                .foregroundColor(selection == item.tag ? .blue : .gray)
-                                .font(.subheadline)
-                                .frame(maxHeight: .infinity)
-                                .animation(.default, value: selection)
-                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                        }
-                        .frame(height: 40)
+                        TabBarView(tag: item.tag, title: item.title, selection: $selection)
                     }
             }
         }
@@ -58,6 +50,32 @@ struct TwitterView: View {
                                         }
                                     }
             )
+    }
+}
+
+private struct TabBarView<SelectionType: Hashable>: View {
+
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
+    @Binding var selection: SelectionType
+    let tag: SelectionType
+    let title: String
+
+    init(tag: SelectionType, title: String, selection: Binding<SelectionType>) {
+        self._selection = selection
+        self.tag = tag
+        self.title = title
+    }
+
+    @MainActor var body: some View {
+        VStack {
+            Text(title)
+                .foregroundColor(Color.white.interpolateTo(color: Color.blue, fraction: pagerSettings.transitionProgress.progressFor(tag: tag)) )
+                .font(.subheadline)
+                .frame(maxHeight: .infinity)
+                .animation(.default, value: selection)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        }
+        .frame(height: 40)
     }
 }
 

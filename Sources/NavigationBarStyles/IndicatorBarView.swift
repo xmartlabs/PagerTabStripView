@@ -28,35 +28,35 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
                     .frame(width: indicatorWidth, height: internalStyle.indicatorViewHeight)
                     .position(x: x, y: internalStyle.indicatorViewHeight / 2)
                     .animation(appeared ? .default : .none, value: x)
-                    .onChange(of: settings.width) { width in
-                        guard dataStore.items.count > 0, width > 0 else {
+                    .onChange(of: pagerSettings.width) { width in
+                        guard pagerSettings.items.count > 0, width > 0 else {
                             indicatorWidth = 0
                             x = 0
                             return
                         }
-                        let totalItemWidth = width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
-                        indicatorWidth =  totalItemWidth / CGFloat(dataStore.items.count)
-                        x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
+                        let totalItemWidth = width - (internalStyle.tabItemSpacing * CGFloat(pagerSettings.items.count - 1))
+                        indicatorWidth =  totalItemWidth / CGFloat(pagerSettings.items.count)
+                        x = (-pagerSettings.contentOffset / CGFloat(pagerSettings.items.count)) + (indicatorWidth / 2)
                     }
-                    .onChange(of: settings.contentOffset) { _ in
-                        guard dataStore.items.count > 0, settings.width > 0 else {
+                    .onChange(of: pagerSettings.contentOffset) { _ in
+                        guard pagerSettings.items.count > 0, pagerSettings.width > 0 else {
                             indicatorWidth = 0
                             x = 0
                             return
                         }
-                        let totalItemWidth = settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
-                        indicatorWidth = totalItemWidth / CGFloat(dataStore.items.count)
-                        x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
+                        let totalItemWidth = pagerSettings.width - (internalStyle.tabItemSpacing * CGFloat(pagerSettings.items.count - 1))
+                        indicatorWidth = totalItemWidth / CGFloat(pagerSettings.items.count)
+                        x = (-pagerSettings.contentOffset / CGFloat(pagerSettings.items.count)) + (indicatorWidth / 2)
                     }
-                    .onChange(of: dataStore.itemsOrderedByIndex) { items in
-                        guard items.count > 0, settings.width > 0 else {
+                    .onChange(of: pagerSettings.itemsOrderedByIndex) { items in
+                        guard items.count > 0, pagerSettings.width > 0 else {
                             indicatorWidth = 0
                             x = 0
                             return
                         }
-                        let totalItemWidth = settings.width - (internalStyle.tabItemSpacing * CGFloat(dataStore.items.count - 1))
-                        indicatorWidth = totalItemWidth / CGFloat(dataStore.items.count)
-                        x = (-settings.contentOffset / CGFloat(dataStore.items.count)) + (indicatorWidth / 2)
+                        let totalItemWidth = pagerSettings.width - (internalStyle.tabItemSpacing * CGFloat(pagerSettings.items.count - 1))
+                        indicatorWidth = totalItemWidth / CGFloat(pagerSettings.items.count)
+                        x = (-pagerSettings.contentOffset / CGFloat(pagerSettings.items.count)) + (indicatorWidth / 2)
                     }
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -69,6 +69,5 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
     }
 
     @Environment(\.pagerStyle) private var style: PagerStyle
-    @EnvironmentObject private var settings: PagerSettings
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
 }

@@ -21,8 +21,6 @@ struct AudibleView: View {
     @State var selection = 4
     @State var toggle = true
 
-    public init() {}
-
     private var items = [PageItem(tag: 1, title: "First big width", posts: TweetsModel().posts),
                          PageItem(tag: 2, title: "Short", posts: TweetsModel().posts),
                          PageItem(tag: 3, title: "Medium width", posts: TweetsModel().posts, withDescription: false),
@@ -36,31 +34,11 @@ struct AudibleView: View {
             ForEach(toggle ? items : items.reversed().dropLast(5), id: \.tag) { item in
                 PostsList(items: item.posts, withDescription: item.withDescription)
                     .pagerTabItem(tag: item.tag) {
-                        if selection == item.tag {
-                            ZStack {
-                                Text(item.title)
-                                    .foregroundColor(.black)
-                                    .animation(.default, value: selection)
-                                    .font(.system(size: 30))
-                                    .frame(maxHeight: .infinity)
-                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                            }
-                            .frame(height: 40)
-                        } else {
-                            ZStack {
-                                Text(item.title)
-                                    .foregroundColor(.black)
-                                    .animation(.default, value: selection)
-                                    .font(.system(size: 20))
-                                    .frame(maxHeight: .infinity)
-                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                            }
-                            .frame(height: 40)
-                        }
+                        TabBarView(tag: item.tag, title: item.title, selection: $selection)
                     }
             }
         }
-        .pagerTabStripViewStyle(.scrollableBarButton(pagerAnimation: nil, tabItemSpacing: 15,
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15,
                                                      tabItemHeight: 60,
                                                      padding: EdgeInsets(),
                                                      barBackgroundView: { Color.white },
@@ -71,8 +49,40 @@ struct AudibleView: View {
     }
 }
 
+private struct TabBarView<SelectionType: Hashable>: View {
+
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
+    @Binding var selection: SelectionType
+    let tag: SelectionType
+    let title: String
+
+    init(tag: SelectionType, title: String, selection: Binding<SelectionType>) {
+        self._selection = selection
+        self.tag = tag
+        self.title = title
+    }
+
+    @MainActor var body: some View {
+            ZStack {
+                Text(title)
+                    .foregroundColor(.black)
+                    .animation(.easeInOut, value: pagerSettings.transitionProgress)
+                    .font(.system(size: Double.interpolate(a: 30, b: 15, progress: pagerSettings.transitionProgress.progressFor(tag: tag))))
+                    .frame(maxHeight: .infinity)
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            }
+            .frame(height: 40)
+    }
+}
+
 struct AudibleView_Previews: PreviewProvider {
     static var previews: some View {
         AudibleView()
+    }
+}
+
+extension Double {
+    static func interpolate(a: Double, b: Double, progress: Double) -> Double {
+        return (a * progress) + (b * (1 - progress))
     }
 }
