@@ -11,9 +11,8 @@ import SwiftUI
 internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: Hashable {
 
     @Binding var selection: SelectionType
-    @EnvironmentObject private var dataStore: DataStore<SelectionType>
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
     @Environment(\.pagerStyle) private var style: PagerStyle
-    @EnvironmentObject private var settings: PagerSettings
     @State private var appeared = false
 
     public init(selection: Binding<SelectionType>) {
@@ -25,35 +24,35 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     ScrollableNavBarViewLayout(spacing: internalStyle.tabItemSpacing) {
-                        ForEach(dataStore.itemsOrderedByIndex, id: \.self) { tag in
+                        ForEach(pagerSettings.itemsOrderedByIndex, id: \.self) { tag in
                             NavBarItem(id: tag, selection: $selection)
                                 .tag(tag)
                         }
                         internalStyle.indicatorView()
                             .frame(height: internalStyle.indicatorViewHeight)
-                            .layoutValue(key: PagerWidth.self, value: settings.width)
-                            .layoutValue(key: PagerOffset.self, value: settings.contentOffset)
-                            .animation(appeared ? .default : .none, value: settings.contentOffset)
+                            .layoutValue(key: PagerWidth.self, value: pagerSettings.width)
+                            .layoutValue(key: PagerOffset.self, value: pagerSettings.contentOffset)
+                            .animation(appeared ? .default : .none, value: pagerSettings.contentOffset)
                     }
                     .frame(height: internalStyle.tabItemHeight)
                 }
                 .background(internalStyle.barBackgroundView())
                 .padding(internalStyle.padding)
-                .onChange(of: dataStore.itemsOrderedByIndex) { _ in
-                    if dataStore.items[selection] != nil {
+                .onChange(of: pagerSettings.itemsOrderedByIndex) { _ in
+                    if pagerSettings.items[selection] != nil {
                         proxy.scrollTo(selection, anchor: .center)
                     }
                 }
                 .onChange(of: selection) { newSelection in
                     withAnimation {
-                        if dataStore.items[newSelection] != nil {
+                        if pagerSettings.items[newSelection] != nil {
                             proxy.scrollTo(newSelection, anchor: .center)
                         }
                     }
                 }
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        if dataStore.items[selection] != nil {
+                        if pagerSettings.items[selection] != nil {
                             proxy.scrollTo(selection, anchor: .center)
                         }
                         appeared = true

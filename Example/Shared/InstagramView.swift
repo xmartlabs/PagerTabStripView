@@ -56,6 +56,33 @@ struct InstagramView: View {
     }
 }
 
+struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
+    
+    var image: Image
+    @Binding var selection: SelectionType
+    let tag: SelectionType
+
+    init(imageName: String, selection: Binding<SelectionType>, tag: SelectionType) {
+        self.tag = tag
+        self.image = Image(systemName: imageName)
+        _selection = selection
+    }
+
+    @MainActor var body: some View {
+        VStack {
+            image
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 25.0, height: 25)
+                .foregroundColor(.gray.interpolateTo(color: .blue, fraction: pagerSettings.transitionProgress.progressFor(tag: tag)))
+        }
+        .animation(.easeInOut, value: selection)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+                       
+
 struct InstagramView_Previews: PreviewProvider {
     static var previews: some View {
         InstagramView()

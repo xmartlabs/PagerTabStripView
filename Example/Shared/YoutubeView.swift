@@ -59,6 +59,42 @@ struct YoutubeView: View {
     }
 }
 
+private let selectedColor = Color(red: 234/255.0, green: 234/255.0, blue: 234/255.0, opacity: 0.7)
+
+private struct YoutubeNavBarItem<SelectionType>: View where SelectionType: Hashable {
+    
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
+    
+    let unselectedColor = Color(red: 73/255.0, green: 8/255.0, blue: 10/255.0, opacity: 1.0)
+    
+    let title: String
+    let image: Image
+    @Binding var selection: SelectionType
+    let tag: SelectionType
+
+    init(title: String, imageName: String, selection: Binding<SelectionType>, tag: SelectionType) {
+        self.tag = tag
+        self.title = title
+        self.image = Image(systemName: imageName)
+        _selection = selection
+    }
+
+    @MainActor var body: some View {
+        VStack {
+            image
+                .renderingMode(.template)
+                .resizable()
+                .frame(width: 25, height: 25)
+                .foregroundColor(unselectedColor.interpolateTo(color: selectedColor, fraction: pagerSettings.transitionProgress.progressFor(tag: tag)))
+            Text(title.uppercased())
+                .foregroundColor(unselectedColor.interpolateTo(color: selectedColor, fraction: pagerSettings.transitionProgress.progressFor(tag: tag)))
+                .fontWeight(.semibold)
+        }
+        .animation(.default, value: selection)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
 struct YoutubeView_Previews: PreviewProvider {
     static var previews: some View {
         YoutubeView()
