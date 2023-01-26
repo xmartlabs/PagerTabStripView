@@ -28,8 +28,8 @@ struct DataItem<SelectedType>: Identifiable, Equatable where SelectedType: Hasha
 public enum TransitionProgress<SelectionType: Hashable>: Equatable {
     case none
     case transition(from: SelectionType?, to: SelectionType?, percentage: Double)
-    
-    fileprivate init(from: SelectionType?, to: SelectionType?, percentage: Double){
+
+    fileprivate init(from: SelectionType?, to: SelectionType?, percentage: Double) {
         if from == nil && to == nil {
             self = .none
         }
@@ -39,7 +39,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
     public static func == (lhs: TransitionProgress<SelectionType>, rhs: TransitionProgress<SelectionType>) -> Bool {
         switch (lhs, rhs) {
         case (.none, .transition),
-            (.transition, .none):
+             (.transition, .none):
             return false
         case (.none, .none):
             return true
@@ -104,63 +104,63 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
 
 public class PagerSettings<SelectionType>: ObservableObject where SelectionType: Hashable {
 
-        @Published var width: CGFloat = 0 {
-            didSet {
-                recalculateTransition()
-            }
-        }
-
-        @Published var contentOffset: CGFloat = 0 {
-            didSet {
-                recalculateTransition()
-            }
-        }
-
-        @Published private(set) public var transition = TransitionProgress<SelectionType>.none
-
-        @Published private(set) var items = [SelectionType: DataItem<SelectionType>]() {
-            didSet {
-                itemsOrderedByIndex = items.values.sorted { $0.index < $1.index }.map { $0.tag }
-            }
-        }
-        @Published private(set) var itemsOrderedByIndex = [SelectionType]()
-
-        private func recalculateTransition() {
-            let indexAndPercentage = -contentOffset / width
-            let percentage = (indexAndPercentage + 1).truncatingRemainder(dividingBy: 1)
-            let lowIndex = Int(floor(indexAndPercentage))
-            transition = TransitionProgress(from: itemsOrderedByIndex[safe: lowIndex], to: itemsOrderedByIndex[safe: lowIndex+1], percentage: percentage)
-        }
-
-        func createOrUpdate<TabView: View>(tag: SelectionType, index: Int, view: TabView) {
-            if var dataItem = items[tag] {
-                dataItem.index = index
-                dataItem.view = AnyView(view)
-                items[tag] = dataItem
-            } else {
-                items[tag] = DataItem(tag: tag, index: index, view: AnyView(view))
-            }
-        }
-
-        func remove(tag: SelectionType) {
-            items.removeValue(forKey: tag)
-        }
-
-        func nextSelection(for selection: SelectionType) -> SelectionType {
-            guard let selectionIndex = itemsOrderedByIndex.firstIndex(of: selection) else {
-                return self.itemsOrderedByIndex.first!
-            }
-            return itemsOrderedByIndex[safe: selectionIndex + 1] ?? selection
-        }
-
-        func previousSelection(for selection: SelectionType) -> SelectionType {
-            guard let selectionIndex = itemsOrderedByIndex.firstIndex(of: selection) else {
-                return itemsOrderedByIndex.first!
-            }
-            return itemsOrderedByIndex[safe: selectionIndex - 1] ?? selection
-        }
-
-        func indexOf(tag: SelectionType) -> Int? {
-            return itemsOrderedByIndex.firstIndex(of: tag)
+    @Published var width: CGFloat = 0 {
+        didSet {
+            recalculateTransition()
         }
     }
+
+    @Published var contentOffset: CGFloat = 0 {
+        didSet {
+            recalculateTransition()
+        }
+    }
+
+    @Published private(set) public var transition = TransitionProgress<SelectionType>.none
+
+    @Published private(set) var items = [SelectionType: DataItem<SelectionType>]() {
+        didSet {
+            itemsOrderedByIndex = items.values.sorted { $0.index < $1.index }.map { $0.tag }
+        }
+    }
+    @Published private(set) var itemsOrderedByIndex = [SelectionType]()
+
+    private func recalculateTransition() {
+        let indexAndPercentage = -contentOffset / width
+        let percentage = (indexAndPercentage + 1).truncatingRemainder(dividingBy: 1)
+        let lowIndex = Int(floor(indexAndPercentage))
+        transition = TransitionProgress(from: itemsOrderedByIndex[safe: lowIndex], to: itemsOrderedByIndex[safe: lowIndex+1], percentage: percentage)
+    }
+
+    func createOrUpdate<TabView: View>(tag: SelectionType, index: Int, view: TabView) {
+        if var dataItem = items[tag] {
+            dataItem.index = index
+            dataItem.view = AnyView(view)
+            items[tag] = dataItem
+        } else {
+            items[tag] = DataItem(tag: tag, index: index, view: AnyView(view))
+        }
+    }
+
+    func remove(tag: SelectionType) {
+        items.removeValue(forKey: tag)
+    }
+
+    func nextSelection(for selection: SelectionType) -> SelectionType {
+        guard let selectionIndex = itemsOrderedByIndex.firstIndex(of: selection) else {
+            return self.itemsOrderedByIndex.first!
+        }
+        return itemsOrderedByIndex[safe: selectionIndex + 1] ?? selection
+    }
+
+    func previousSelection(for selection: SelectionType) -> SelectionType {
+        guard let selectionIndex = itemsOrderedByIndex.firstIndex(of: selection) else {
+            return itemsOrderedByIndex.first!
+        }
+        return itemsOrderedByIndex[safe: selectionIndex - 1] ?? selection
+    }
+
+    func indexOf(tag: SelectionType) -> Int? {
+        return itemsOrderedByIndex.firstIndex(of: tag)
+    }
+}

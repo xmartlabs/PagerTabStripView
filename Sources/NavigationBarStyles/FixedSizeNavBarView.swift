@@ -59,9 +59,9 @@ struct FixedSizeNavBarViewLayout: Layout {
     }
 
     func sizeThatFits(
-            proposal: ProposedViewSize,
-            subviews: Subviews,
-            cache: inout ()
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout ()
     ) -> CGSize {
         // Calculate and return the size of the layout container.
         var tabsIndices = subviews.indices

@@ -16,14 +16,14 @@ class SelectionState<SelectionType>: ObservableObject {
 
 public struct HorizontalContainerEdge: OptionSet {
     public let rawValue: Int
-    
+
     public init(rawValue: Int) {
         self.rawValue = rawValue
     }
-    
+
     public static let left = HorizontalContainerEdge(rawValue: 1 << 0)
     public static let right = HorizontalContainerEdge(rawValue: 1 << 1)
-    
+
     public static let both: HorizontalContainerEdge = [.left, .right]
 }
 
@@ -102,32 +102,32 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(swipeGestureEnabled && swipeOn ?
-                     DragGesture(minimumDistance: 25).onChanged { value in
-                         swipeOn = !(edgeSwipeGestureDisabled.contains(.left) && (selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0)  || edgeSwipeGestureDisabled.contains(.right) && (selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0))
-                     }.updating($translation) { value, state, _ in
-                         if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
-                             let normTrans = value.translation.width / (geometryProxy.size.width + 50)
-                             let logValue = log(1 + normTrans)
-                             state = geometryProxy.size.width/1.5 * logValue
-                         } else if selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0 {
-                             let normTrans = -value.translation.width / (geometryProxy.size.width + 50)
-                             let logValue = log(1 + normTrans)
-                             state = -geometryProxy.size.width / 1.5 * logValue
-                         } else {
-                             state = value.translation.width
-                         }
-                     }.onEnded { value in
-                         let offset = value.predictedEndTranslation.width / geometryProxy.size.width
-                         let selectionIndex = pagerSettings.indexOf(tag: selection) ?? 0
-                         let newPredictedIndex = (CGFloat(selectionIndex) - offset).rounded()
-                         let newIndex = min(max(Int(newPredictedIndex), 0), pagerSettings.items.count - 1)
-                         if newIndex > selectionIndex {
-                             selection =  pagerSettings.nextSelection(for: selection)
-                         } else if newIndex < selectionIndex {
-                             selection = pagerSettings.previousSelection(for: selection)
-                         }
-                     }
-                     : nil)
+                        DragGesture(minimumDistance: 25).onChanged { value in
+                            swipeOn = !(edgeSwipeGestureDisabled.contains(.left) && (selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0)  || edgeSwipeGestureDisabled.contains(.right) && (selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0))
+                        }.updating($translation) { value, state, _ in
+                            if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
+                                let normTrans = value.translation.width / (geometryProxy.size.width + 50)
+                                let logValue = log(1 + normTrans)
+                                state = geometryProxy.size.width/1.5 * logValue
+                            } else if selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0 {
+                                let normTrans = -value.translation.width / (geometryProxy.size.width + 50)
+                                let logValue = log(1 + normTrans)
+                                state = -geometryProxy.size.width / 1.5 * logValue
+                            } else {
+                                state = value.translation.width
+                            }
+                        }.onEnded { value in
+                            let offset = value.predictedEndTranslation.width / geometryProxy.size.width
+                            let selectionIndex = pagerSettings.indexOf(tag: selection) ?? 0
+                            let newPredictedIndex = (CGFloat(selectionIndex) - offset).rounded()
+                            let newIndex = min(max(Int(newPredictedIndex), 0), pagerSettings.items.count - 1)
+                            if newIndex > selectionIndex {
+                                selection =  pagerSettings.nextSelection(for: selection)
+                            } else if newIndex < selectionIndex {
+                                selection = pagerSettings.previousSelection(for: selection)
+                            }
+                        }
+                        : nil)
             .onAppear {
                 let frame = geometryProxy.frame(in: .local)
                 pagerSettings.width = frame.width

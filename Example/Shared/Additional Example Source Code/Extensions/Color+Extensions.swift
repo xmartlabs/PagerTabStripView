@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension Color {
-    
+
     var components: (r: Double, g: Double, b: Double, o: Double)? {
         let uiColor: UIColor
         var r: CGFloat = 0
@@ -33,12 +33,12 @@ extension Color {
     func interpolateTo(color: Color, fraction: Double) -> Color {
         let s = self.components!
         let t = color.components!
-        
+
         let r: Double = s.r + (t.r - s.r) * fraction
         let g: Double = s.g + (t.g - s.g) * fraction
         let b: Double = s.b + (t.b - s.b) * fraction
         let o: Double = s.o + (t.o - s.o) * fraction
-        
+
         return Color(red: r, green: g, blue: b, opacity: o)
     }
 }

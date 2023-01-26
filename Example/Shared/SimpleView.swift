@@ -11,9 +11,9 @@ import PagerTabStripView
 struct SimpleView: View {
 
     let textForColor = [Color.purple: "Swiftable 2022",
-                              .green: "SwiftUI",
-                             .yellow: "iOS 16.1",
-                             .orange: "PagerTabStripView"]
+                        .green: "SwiftUI",
+                        .yellow: "iOS 16.1",
+                        .orange: "PagerTabStripView"]
     let colors = [Color.purple, .green, .yellow, .orange]
     @State var selection = Color.green
 
@@ -33,12 +33,12 @@ struct SimpleView: View {
                                  tabItemHeight: 50,
                                  indicatorViewHeight: 13,
                                  indicatorView: {
-            Circle()
-                .offset(y: -5)
-                .foregroundColor(selection)
-                .animation(.linear(duration: 0.5)
-                           .repeatForever(autoreverses: true),
-                           value: selection)
+                                    Circle()
+                                        .offset(y: -5)
+                                        .foregroundColor(selection)
+                                        .animation(.linear(duration: 0.5)
+                                                    .repeatForever(autoreverses: true),
+                                                   value: selection)
                                  }))
     }
 

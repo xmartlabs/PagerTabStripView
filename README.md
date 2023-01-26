@@ -143,7 +143,7 @@ struct PagerView: View {
 }
 ```
 
-In this example, we add some settings like the tab bar height, indicator view and tab item spaces. Let's watch how it looks!
+In this example, we add some settings like the tab bar height, indicator view and tab item spaces. Let's see how it looks!
 
 <div style="text-align:center">
     <img src="Example/Media/scrollableStyleExample.gif">
@@ -190,7 +190,7 @@ struct PagerView: View {
 }
 ```
 
-In this example, we add some settings like the tab bar height, indicator view and indicator bar height. Let's watch how it looks!
+In this example, we add some settings like the tab bar height, indicator view and indicator bar height. Let's see how it looks!
 
 <div style="text-align:center">
     <img src="Example/Media/addPagerSettings.gif">

@@ -63,15 +63,15 @@ private struct TabBarView<SelectionType: Hashable>: View {
     }
 
     @MainActor var body: some View {
-            ZStack {
-                Text(title)
-                    .foregroundColor(.black)
-                    .animation(.easeInOut, value: pagerSettings.transition)
-                    .font(.system(size: Double.interpolate(a: 30, b: 15, progress: pagerSettings.transition.progress(for: tag))))
-                    .frame(maxHeight: .infinity)
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-            }
-            .frame(height: 40)
+        ZStack {
+            Text(title)
+                .foregroundColor(.black)
+                .animation(.easeInOut, value: pagerSettings.transition)
+                .font(.system(size: Double.interpolate(a: 30, b: 15, progress: pagerSettings.transition.progress(for: tag))))
+                .frame(maxHeight: .infinity)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        }
+        .frame(height: 40)
     }
 }
 

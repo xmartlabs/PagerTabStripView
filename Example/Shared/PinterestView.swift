@@ -54,8 +54,8 @@ struct PinterestView: View {
                                                      padding: EdgeInsets(),
                                                      barBackgroundView: { Color.black },
                                                      indicatorView: {
-            Rectangle().fill(.white).frame(height: 50).cornerRadius(25).offset(y: -30).zIndex(-1)
-        }))
+                                                        Rectangle().fill(.white).frame(height: 50).cornerRadius(25).offset(y: -30).zIndex(-1)
+                                                     }))
         .navigationBarItems(trailing: Button("Refresh") {
             toggle.toggle()
         })
@@ -64,12 +64,12 @@ struct PinterestView: View {
     private func HoleShapeMask(in rect: CGRect) -> Path {
         return
             Path { path in
-            path.move(to: CGPoint(x: rect.minX, y: rect.minY))
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
-        }
+                path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+                path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+                path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+                path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+                path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+            }
     }
 }
 

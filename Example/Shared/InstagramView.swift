@@ -36,20 +36,20 @@ struct InstagramView: View {
                     InstagramNavBarItem(imageName: "chart.bar.doc.horizontal" /* "list.bullet" */, selection: $selection, tag: Page.list)
                 }
             if toggle {
-                    PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts)
-                        .pagerTabItem(tag: Page.like) {
-                            InstagramNavBarItem(imageName: "heart", selection: $selection, tag: Page.like)
-                        }
-                    PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false)
-                        .pagerTabItem(tag: Page.saved) {
-                            InstagramNavBarItem(imageName: "photo.stack" /* "bookmark"*/, selection: $selection, tag: Page.saved)
-                        }
+                PostsList(isLoading: $likedModel.isLoading, items: likedModel.posts)
+                    .pagerTabItem(tag: Page.like) {
+                        InstagramNavBarItem(imageName: "heart", selection: $selection, tag: Page.like)
+                    }
+                PostsList(isLoading: $savedModel.isLoading, items: savedModel.posts, withDescription: false)
+                    .pagerTabItem(tag: Page.saved) {
+                        InstagramNavBarItem(imageName: "photo.stack" /* "bookmark"*/, selection: $selection, tag: Page.saved)
+                    }
             }
         }
         .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default,
                                            tabItemHeight: 50, indicatorViewHeight: 2, indicatorView: {
-            Rectangle().fill(.blue).cornerRadius(1)
-        }))
+                                            Rectangle().fill(.blue).cornerRadius(1)
+                                           }))
         .navigationBarItems(trailing: Button("Refresh") {
             toggle.toggle()
         })
@@ -58,7 +58,7 @@ struct InstagramView: View {
 
 struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
     @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
-    
+
     var image: Image
     @Binding var selection: SelectionType
     let tag: SelectionType
@@ -81,7 +81,6 @@ struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-                       
 
 struct InstagramView_Previews: PreviewProvider {
     static var previews: some View {
