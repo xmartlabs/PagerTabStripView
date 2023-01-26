@@ -75,7 +75,7 @@ struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 25.0, height: 25)
-                .foregroundColor(.gray.interpolateTo(color: .blue, fraction: pagerSettings.transitionProgress.progressFor(tag: tag)))
+                .foregroundColor(.gray.interpolateTo(color: .blue, fraction: pagerSettings.transition.progress(for: tag)))
         }
         .animation(.easeInOut, value: selection)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

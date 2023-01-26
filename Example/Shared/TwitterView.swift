@@ -69,7 +69,7 @@ private struct TabBarView<SelectionType: Hashable>: View {
     @MainActor var body: some View {
         VStack {
             Text(title)
-                .foregroundColor(Color.white.interpolateTo(color: Color.blue, fraction: pagerSettings.transitionProgress.progressFor(tag: tag)) )
+                .foregroundColor(Color.white.interpolateTo(color: Color.blue, fraction: pagerSettings.transition.progress(for: tag)) )
                 .font(.subheadline)
                 .frame(maxHeight: .infinity)
                 .animation(.default, value: selection)
