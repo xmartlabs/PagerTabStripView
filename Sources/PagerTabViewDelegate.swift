@@ -13,6 +13,6 @@ public enum PagerTabViewState {
     case normal
 }
 
-public protocol PagerTabViewDelegate {
+public protocol PagerTabViewDelegate: AnyObject {
     func setState(state: PagerTabViewState)
 }

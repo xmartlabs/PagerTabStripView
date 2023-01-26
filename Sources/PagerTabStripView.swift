@@ -67,35 +67,33 @@ private struct WrapperPagerTabStripView<Content>: View where Content: View {
             .offset(x: self.translation)
             .animation(style.pagerAnimation, value: selection)
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
-            .gesture(!swipeGestureEnabled ? nil :
-                DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
-                    if selection == 0 && value.translation.width > 0 {
-                        let valueWidth = value.translation.width
-                        let normTrans = valueWidth / (gproxy.size.width + 50)
-                        let logValue = log(1 + normTrans)
-                        state = gproxy.size.width/1.5 * logValue
-                    } else if selection == dataStore.itemsCount - 1 && value.translation.width < 0 {
-                        let valueWidth = -value.translation.width
-                        let normTrans = valueWidth / (gproxy.size.width + 50)
-                        let logValue = log(1 + normTrans)
-                        state = -gproxy.size.width / 1.5 * logValue
-                    } else {
-                        state = value.translation.width
-                    }
-                }.onEnded { value in
-                    let offset = value.predictedEndTranslation.width / gproxy.size.width
-                    let newPredictedIndex = (CGFloat(selection) - offset).rounded()
-                    let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.itemsCount - 1)
-                    if abs(selection - newIndex) > 1 {
-                        selection = newIndex > selection ? selection + 1 : selection - 1
-                    } else {
-                        selection = newIndex
-                    }
-                    if translation > 0 {
-                        self.currentOffset = translation
-                    }
+            .gesture(!swipeGestureEnabled ? nil : DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
+                if selection == 0 && value.translation.width > 0 {
+                    let valueWidth = value.translation.width
+                    let normTrans = valueWidth / (gproxy.size.width + 50)
+                    let logValue = log(1 + normTrans)
+                    state = gproxy.size.width/1.5 * logValue
+                } else if selection == dataStore.itemsCount - 1 && value.translation.width < 0 {
+                    let valueWidth = -value.translation.width
+                    let normTrans = valueWidth / (gproxy.size.width + 50)
+                    let logValue = log(1 + normTrans)
+                    state = -gproxy.size.width / 1.5 * logValue
+                } else {
+                    state = value.translation.width
                 }
-            )
+            }.onEnded { value in
+                let offset = value.predictedEndTranslation.width / gproxy.size.width
+                let newPredictedIndex = (CGFloat(selection) - offset).rounded()
+                let newIndex = min(max(Int(newPredictedIndex), 0), dataStore.itemsCount - 1)
+                if abs(selection - newIndex) > 1 {
+                    selection = newIndex > selection ? selection + 1 : selection - 1
+                } else {
+                    selection = newIndex
+                }
+                if translation > 0 {
+                    self.currentOffset = translation
+                }
+            })
             .onAppear(perform: {
                 let geo = gproxy.frame(in: .local)
                 settings.width = geo.width
