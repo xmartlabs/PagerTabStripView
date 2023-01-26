@@ -58,6 +58,9 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
                         appeared = true
                     }
                 }
+                .onDisappear {
+                    appeared = false
+                }
             }
         }
     }

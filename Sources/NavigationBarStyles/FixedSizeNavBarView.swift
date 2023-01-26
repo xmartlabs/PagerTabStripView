@@ -40,6 +40,9 @@ internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Ha
                         appeared = true
                     }
                 }
+                .onDisappear {
+                    appeared = false
+                }
             }
             .background(internalStyle.barBackgroundView())
         }
