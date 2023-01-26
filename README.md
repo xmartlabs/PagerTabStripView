@@ -98,7 +98,7 @@ struct MyPagerView: View {
 
 As you may've already noticed, everything is SwiftUI code, so you can update the child views according to SwiftUI state objects as shown above with `if User.isLoggedIn`.
 
-The user can also configure if the swipe action is enable or not (the swipe is based in a drag gesture) and setup what edges have the gesture disabled.
+The user can also configure if the swipe action is enable or not (the swipe is based on a drag gesture) and setup what edges have the gesture disabled.
 
 Params: * `swipeGestureEnabled`: swipe is enabled or not (default is true).
         * `edgeSwipeGestureDisabled`: is an HorizontalContainerEdge (OptionSet) value where the array could have this options: .left, .right, .both or be empty.
