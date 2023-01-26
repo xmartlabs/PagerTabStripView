@@ -42,14 +42,14 @@ struct TwitterView: View {
             Rectangle().fill(.blue).cornerRadius(5)
         }))
         .navigationBarItems(trailing: HStack {
-                                        Button("Refresh") {
-                                            toggle.toggle()
-                                        }
-                                        Button(swipeGestureEnabled ? "Swipe On": "Swipe Off") {
-                                            swipeGestureEnabled.toggle()
-                                        }
-                                    }
-            )
+            Button("Refresh") {
+                toggle.toggle()
+            }
+            Button(swipeGestureEnabled ? "Swipe On": "Swipe Off") {
+                swipeGestureEnabled.toggle()
+            }
+        }
+        )
     }
 }
 

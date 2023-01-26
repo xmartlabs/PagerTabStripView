@@ -43,15 +43,15 @@ struct CustomStyleView: View {
                                                                               blendDuration: 0.25),
                                            tabItemHeight: 48,
                                            barBackgroundView: {
-            LinearGradient(
-               colors: 🌈,
-               startPoint: .topLeading,
-               endPoint: .bottomTrailing
-           )
-           .opacity(0.2)
-        }, indicatorView: {
-            Text([.orange, .green, .purple].contains(selection) ? "👍🏻" : "👎").offset(x: 0, y: -24)
-        }))
+                                            LinearGradient(
+                                                colors: 🌈,
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                            .opacity(0.2)
+                                           }, indicatorView: {
+                                            Text([.orange, .green, .purple].contains(selection) ? "👍🏻" : "👎").offset(x: 0, y: -24)
+                                           }))
         .navigationTitle("🌈 Rainbow")
     }
 }

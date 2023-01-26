@@ -48,11 +48,11 @@ struct YoutubeView: View {
             }
         }
         .pagerTabStripViewStyle(.barButton(tabItemHeight: 80, padding: EdgeInsets(), indicatorViewHeight: 5, barBackgroundView: {
-                                                Color(red: 221/255.0, green: 0/255.0, blue: 19/255.0, opacity: 1.0)
-                                           },
-                                           indicatorView: {
-                                            Rectangle().fill(selectedColor)
-                                        }))
+            Color(red: 221/255.0, green: 0/255.0, blue: 19/255.0, opacity: 1.0)
+        },
+        indicatorView: {
+            Rectangle().fill(selectedColor)
+        }))
         .navigationBarItems(trailing: Button(toggle ? "Hide Pofile" : "Show Profile") {
             toggle.toggle()
         })
@@ -62,11 +62,11 @@ struct YoutubeView: View {
 private let selectedColor = Color(red: 234/255.0, green: 234/255.0, blue: 234/255.0, opacity: 0.7)
 
 private struct YoutubeNavBarItem<SelectionType>: View where SelectionType: Hashable {
-    
+
     @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
-    
+
     let unselectedColor = Color(red: 73/255.0, green: 8/255.0, blue: 10/255.0, opacity: 1.0)
-    
+
     let title: String
     let image: Image
     @Binding var selection: SelectionType

@@ -75,9 +75,9 @@ struct ScrollableNavBarViewLayout: Layout {
     }
 
     func sizeThatFits(
-            proposal: ProposedViewSize,
-            subviews: Subviews,
-            cache: inout ()
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout ()
     ) -> CGSize {
         // Calculate and return the size of the layout container.
         var tabBarIndices = subviews.indices
@@ -133,8 +133,8 @@ struct ScrollableNavBarViewLayout: Layout {
         let nextWidth = itemsFrames[min(itemsCount - 1, Int(lowIndex + 1))].size.width
         let currentPosition = lowIndex >= 0 ? itemsFrames[Int(lowIndex)].origin.x : itemsFrames[0].origin.x - currentWidth
         let nextPosition = lowIndex + 1 < CGFloat(itemsCount - 1)
-                                ? itemsFrames[Int(lowIndex + 1)].origin.x
-                                : itemsFrames[Int(itemsCount - 1)].origin.x + nextWidth
+            ? itemsFrames[Int(lowIndex + 1)].origin.x
+            : itemsFrames[Int(itemsCount - 1)].origin.x + nextWidth
         let proposedWidth = currentWidth + ((nextWidth - currentWidth) * percentage)
         let proposedPosition = currentPosition + ((nextPosition - currentPosition) * percentage)
         indicatorSubview.place(at: CGPoint(x: proposedPosition, y: bounds.maxY - (indicatorViewSize.height / 2)),
