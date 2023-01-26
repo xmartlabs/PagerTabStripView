@@ -102,7 +102,7 @@ The user can also configure if the swipe action is enable or not (the swipe is b
 
 Params:
 - `swipeGestureEnabled`: swipe is enabled or not (default is true).
-- `edgeSwipeGestureDisabled`: is an HorizontalContainerEdge (OptionSet) value where the array could have this options: .left, .right, .both or be empty.
+- `edgeSwipeGestureDisabled`: is an HorizontalContainerEdge (OptionSet) value where the array could have this options: .left, .right, .both or be empty (default is an empty array).
 
 What is the importance to have this parameter?
 Regarding the next PagerTabStripView example in `MyPagerView2`: if the pager is in the first page and the user try to swipe to the left, is possible to catch a parent view gesture (where this pager is embebbed) instead of catching the actual pager swipe gesture because it is disabled with the `edgeSwipeGestureDisabled` paramenter.
