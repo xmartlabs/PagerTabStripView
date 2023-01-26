@@ -21,25 +21,25 @@ public struct HorizontalContainerEdge: OptionSet {
         self.rawValue = rawValue
     }
     
-    static let left = HorizontalContainerEdge(rawValue: 1 << 0)
-    static let right = HorizontalContainerEdge(rawValue: 1 << 1)
+    public static let left = HorizontalContainerEdge(rawValue: 1 << 0)
+    public static let right = HorizontalContainerEdge(rawValue: 1 << 1)
     
-    static let both: HorizontalContainerEdge = [.left, .right]
+    public static let both: HorizontalContainerEdge = [.left, .right]
 }
 
 @available(iOS 16.0, *)
 public struct PagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
     private var content: () -> Content
     private var swipeGestureEnabled: Binding<Bool>
-    private var containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge>
+    private var edgeSwipeGestureDisabled: Binding<HorizontalContainerEdge>
     private var selection: Binding<SelectionType>
     @StateObject private var selectionState: SelectionState<SelectionType>
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true),
-                containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant([]),
+                edgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant([]),
                 selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
-        self.containerEdgeSwipeGestureDisabled = containerEdgeSwipeGestureDisabled
+        self.edgeSwipeGestureDisabled = edgeSwipeGestureDisabled
         self._selectionState = StateObject(wrappedValue: SelectionState(selection: selection.wrappedValue))
         self.selection = selection
         self.content = content
@@ -47,7 +47,7 @@ public struct PagerTabStripView<SelectionType, Content>: View where SelectionTyp
 
     @MainActor public var body: some View {
         WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled,
-                                 containerEdgeSwipeGestureDisabled: containerEdgeSwipeGestureDisabled,
+                                 edgeSwipeGestureDisabled: edgeSwipeGestureDisabled,
                                  selection: selection, content: content)
     }
 }
@@ -55,10 +55,10 @@ public struct PagerTabStripView<SelectionType, Content>: View where SelectionTyp
 extension PagerTabStripView where SelectionType == Int {
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true),
-                containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant([]),
+                edgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant([]),
                 @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
-        self.containerEdgeSwipeGestureDisabled = containerEdgeSwipeGestureDisabled
+        self.edgeSwipeGestureDisabled = edgeSwipeGestureDisabled
         let selectionState =  SelectionState(selection: 0)
         self._selectionState = StateObject(wrappedValue: selectionState)
         self.selection = Binding(get: {
@@ -78,14 +78,14 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
     @Binding private var selection: SelectionType
     @GestureState private var translation: CGFloat = 0
     @Binding private var swipeGestureEnabled: Bool
-    @Binding private var containerEdgeSwipeGestureDisabled: HorizontalContainerEdge
+    @Binding private var edgeSwipeGestureDisabled: HorizontalContainerEdge
     @State private var swipeOn: Bool = true
 
     public init(swipeGestureEnabled: Binding<Bool>,
-                containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge>,
+                edgeSwipeGestureDisabled: Binding<HorizontalContainerEdge>,
                 selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
         self._swipeGestureEnabled = swipeGestureEnabled
-        self._containerEdgeSwipeGestureDisabled = containerEdgeSwipeGestureDisabled
+        self._edgeSwipeGestureDisabled = edgeSwipeGestureDisabled
         self._selection = selection
         self.content = content()
     }
@@ -103,24 +103,7 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(swipeGestureEnabled && swipeOn ?
                      DragGesture(minimumDistance: 25).onChanged { value in
-                        guard !containerEdgeSwipeGestureDisabled.isEmpty else {
-                             swipeOn = true
-                             return
-                         }
-                         
-                         let isSwipingToLeftFromFirstItem = selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0
-                         let isSwipingToRightFromLastItem = selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0
-                         
-                         switch containerEdgeSwipeGestureDisabled {
-                         case .both:
-                             swipeOn = !(isSwipingToLeftFromFirstItem || isSwipingToRightFromLastItem)
-                         case .left:
-                             swipeOn = !isSwipingToLeftFromFirstItem
-                         case .right:
-                             swipeOn = !isSwipingToRightFromLastItem
-                         default:
-                             break
-                         }
+                         swipeOn = !(edgeSwipeGestureDisabled.contains(.left) && (selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0)  || edgeSwipeGestureDisabled.contains(.right) && (selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0))
                      }.updating($translation) { value, state, _ in
                          if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
                              let normTrans = value.translation.width / (geometryProxy.size.width + 50)
@@ -142,9 +125,6 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                              selection =  pagerSettings.nextSelection(for: selection)
                          } else if newIndex < selectionIndex {
                              selection = pagerSettings.previousSelection(for: selection)
-                         }
-                         if translation > 0 {
-                             pagerSettings.contentOffset = translation
                          }
                      }
                      : nil)
