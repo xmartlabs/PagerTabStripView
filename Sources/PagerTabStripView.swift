@@ -86,6 +86,8 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
 
     @MainActor public var body: some View {
         GeometryReader { geometryProxy in
+            
+            // For swipe action
             let dragGesture = DragGesture(minimumDistance: 25)
                 .onChanged { value in
                     guard containerEdgeSwipeGestureDisabled != .none else {
