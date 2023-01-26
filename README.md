@@ -101,7 +101,7 @@ As you may've already noticed, everything is SwiftUI code, so you can update the
 The user can also configure if the swipe action is enable or not (the swipe is based on a drag gesture) and setup what edges have the gesture disabled.
 
 Params: * `swipeGestureEnabled`: swipe is enabled or not (default is true).
-        * `edgeSwipeGestureDisabled`: is an HorizontalContainerEdge (OptionSet) value where the array could have this options: .left, .right, .both or be empty.
+	* `edgeSwipeGestureDisabled`: is an HorizontalContainerEdge (OptionSet) value where the array could have this options: .left, .right, .both or be empty.
 
 What is the importance to have this parameter?
 Regarding the next PagerTabStripView example in `MyPagerView2`: if the pager is in the first page and the user try to swipe to the left, is possible to catch a parent view gesture (where this pager is embebbed) instead of catching the actual pager swipe gesture because it is disabled with the `edgeSwipeGestureDisabled` paramenter.
