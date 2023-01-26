@@ -29,7 +29,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
     case none
     case transition(from: SelectionType?, to: SelectionType?, percentage: Double)
     
-    init(from: SelectionType?, to: SelectionType?, percentage: Double){
+    fileprivate init(from: SelectionType?, to: SelectionType?, percentage: Double){
         if from == nil && to == nil {
             self = .none
         }
@@ -65,7 +65,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
         return true
     }
 
-    public var percetage: Double {
+    private var percetage: Double {
         switch self {
         case .none:
             return 0
@@ -74,7 +74,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
         }
     }
 
-    public var fromSelection: SelectionType? {
+    private var fromSelection: SelectionType? {
         switch self {
         case .none:
             return nil
@@ -83,7 +83,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
         }
     }
 
-    var toSelection: SelectionType? {
+    private var toSelection: SelectionType? {
         switch self {
         case .none:
             return nil
@@ -92,7 +92,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
         }
     }
 
-    public func progressFor(tag: SelectionType) -> Double {
+    public func progress(for tag: SelectionType) -> Double {
         if let fromSelection, fromSelection == tag {
             return 1 - percetage
         } else if let toSelection, toSelection == tag {
@@ -116,7 +116,7 @@ public class PagerSettings<SelectionType>: ObservableObject where SelectionType:
             }
         }
 
-        @Published private(set) public var transitionProgress = TransitionProgress<SelectionType>.none
+        @Published private(set) public var transition = TransitionProgress<SelectionType>.none
 
         @Published private(set) var items = [SelectionType: DataItem<SelectionType>]() {
             didSet {
@@ -129,7 +129,7 @@ public class PagerSettings<SelectionType>: ObservableObject where SelectionType:
             let indexAndPercentage = -contentOffset / width
             let percentage = (indexAndPercentage + 1).truncatingRemainder(dividingBy: 1)
             let lowIndex = Int(floor(indexAndPercentage))
-            transitionProgress = TransitionProgress(from: itemsOrderedByIndex[safe: lowIndex], to: itemsOrderedByIndex[safe: lowIndex+1], percentage: percentage)
+            transition = TransitionProgress(from: itemsOrderedByIndex[safe: lowIndex], to: itemsOrderedByIndex[safe: lowIndex+1], percentage: percentage)
         }
 
         func createOrUpdate<TabView: View>(tag: SelectionType, index: Int, view: TabView) {
