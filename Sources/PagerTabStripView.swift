@@ -14,30 +14,42 @@ class SelectionState<SelectionType>: ObservableObject {
     }
 }
 
+public enum HorizontalContainerEdge {
+    case left, right, both, none
+}
+
 @available(iOS 16.0, *)
 public struct PagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
     private var content: () -> Content
     private var swipeGestureEnabled: Binding<Bool>
+    private var containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge>
     private var selection: Binding<SelectionType>
     @StateObject private var selectionState: SelectionState<SelectionType>
 
-    public init(swipeGestureEnabled: Binding<Bool> = .constant(true), selection: Binding<SelectionType>,
-                @ViewBuilder content: @escaping () -> Content) {
+    public init(swipeGestureEnabled: Binding<Bool> = .constant(true),
+                containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant(.none),
+                selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
+        self.containerEdgeSwipeGestureDisabled = containerEdgeSwipeGestureDisabled
         self._selectionState = StateObject(wrappedValue: SelectionState(selection: selection.wrappedValue))
         self.selection = selection
         self.content = content
     }
 
     @MainActor public var body: some View {
-        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled, selection: selection, content: content)
+        WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled,
+                                 containerEdgeSwipeGestureDisabled: containerEdgeSwipeGestureDisabled,
+                                 selection: selection, content: content)
     }
 }
 
 extension PagerTabStripView where SelectionType == Int {
 
-    public init(swipeGestureEnabled: Binding<Bool> = .constant(true), @ViewBuilder content: @escaping () -> Content) {
+    public init(swipeGestureEnabled: Binding<Bool> = .constant(true),
+                containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant(.none),
+                @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
+        self.containerEdgeSwipeGestureDisabled = containerEdgeSwipeGestureDisabled
         let selectionState =  SelectionState(selection: 0)
         self._selectionState = StateObject(wrappedValue: selectionState)
         self.selection = Binding(get: {
@@ -60,26 +72,44 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
 //    }
     @GestureState private var translation: CGFloat = 0
     @Binding private var swipeGestureEnabled: Bool
+    @Binding private var containerEdgeSwipeGestureDisabled: HorizontalContainerEdge
+    @State private var swipeOn: Bool = true
 
-    public init(swipeGestureEnabled: Binding<Bool>, selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
+    public init(swipeGestureEnabled: Binding<Bool>,
+                containerEdgeSwipeGestureDisabled: Binding<HorizontalContainerEdge>,
+                selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
         self._swipeGestureEnabled = swipeGestureEnabled
+        self._containerEdgeSwipeGestureDisabled = containerEdgeSwipeGestureDisabled
         self._selection = selection
         self.content = content()
     }
 
     @MainActor public var body: some View {
         GeometryReader { geometryProxy in
-            LazyHStack(spacing: 0) {
-                content
-                    .frame(width: geometryProxy.size.width)
-            }
-            .coordinateSpace(name: "PagerViewScrollView")
-            .offset(x: -CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
-            .offset(x: translation)
-            .animation(style.pagerAnimation, value: selection)
-            .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
-            .gesture(!swipeGestureEnabled ? nil :
-                DragGesture(minimumDistance: 25).updating(self.$translation) { value, state, _ in
+            
+            // For swipe action
+            let dragGesture = DragGesture(minimumDistance: 25)
+                .onChanged { value in
+                    guard containerEdgeSwipeGestureDisabled != .none else {
+                        swipeOn = true
+                        return
+                    }
+                    
+                    let isSwipingToLeftFromFirstItem = selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0
+                    let isSwipingToRightFromLastItem = selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0
+                    
+                    switch containerEdgeSwipeGestureDisabled {
+                    case .both:
+                        swipeOn = !(isSwipingToLeftFromFirstItem || isSwipingToRightFromLastItem)
+                    case .left:
+                        swipeOn = !isSwipingToLeftFromFirstItem
+                    case .right:
+                        swipeOn = !isSwipingToRightFromLastItem
+                    default:
+                        break
+                    }
+                }
+                .updating(self.$translation) { value, state, _ in
                     if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
                         let valueWidth = value.translation.width
                         let normTrans = valueWidth / (geometryProxy.size.width + 50)
@@ -107,7 +137,17 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                         pagerSettings.contentOffset = translation
                     }
                 }
-            )
+            
+            LazyHStack(spacing: 0) {
+                content
+                    .frame(width: geometryProxy.size.width)
+            }
+            .coordinateSpace(name: "PagerViewScrollView")
+            .offset(x: -CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
+            .offset(x: translation)
+            .animation(style.pagerAnimation, value: selection)
+            .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
+            .gesture(swipeGestureEnabled && swipeOn ? dragGesture : nil)
             .onAppear {
                 let frame = geometryProxy.frame(in: .local)
                 pagerSettings.width = frame.width
@@ -126,9 +166,11 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             }
             .onChange(of: selection) { newSelection in
                 pagerSettings.contentOffset = -(CGFloat(pagerSettings.indexOf(tag: newSelection) ?? 0) * geometryProxy.size.width)
+                swipeOn = true
             }
             .onChange(of: translation) { _ in
                 pagerSettings.contentOffset = translation - (CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
+                swipeOn = true
             }
         }
         .modifier(NavBarModifier(selection: $selection))
