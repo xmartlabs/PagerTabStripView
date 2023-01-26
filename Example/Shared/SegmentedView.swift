@@ -10,7 +10,8 @@ import PagerTabStripView
 
 struct SegmentedView: View {
     @State var toggle = true
-    @State var selection = 1
+    @State var selection = 2
+    @State var selection2 = 0
 
     @StateObject var tweetsModel = TweetsModel()
     @StateObject var mediaModel = TweetsModel()
@@ -23,10 +24,26 @@ struct SegmentedView: View {
                     Text("Tweets")
                 }
             if toggle {
-                PostsList(isLoading: $mediaModel.isLoading, items: mediaModel.posts)
-                    .pagerTabItem(tag: 1) {
-                        Text("Media")
-                    }
+                PagerTabStripView(edgeSwipeGestureDisabled: .constant([.left, .right]), selection: $selection2) {
+                    PostsList(isLoading: $tweetsModel.isLoading, items: tweetsModel.posts)
+                        .pagerTabItem(tag: 0) {
+                            Text("Tweets")
+                        }
+                    PostsList(isLoading: $mediaModel.isLoading, items: mediaModel.posts)
+                        .pagerTabItem(tag: 1) {
+                            Text("Media")
+                        }
+                    PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false)
+                        .pagerTabItem(tag: 2) {
+                            Text("Likes")
+                        }
+                }
+                .pagerTabStripViewStyle(.segmentedControl(placedInToolbar: false,
+                                                          backgroundColor: .blue,
+                                                          padding: EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)))
+                .pagerTabItem(tag: 1) {
+                    Text("Embedded")
+                }
             }
             PostsList(isLoading: $likesModel.isLoading, items: likesModel.posts, withDescription: false)
                 .pagerTabItem(tag: 2) {
