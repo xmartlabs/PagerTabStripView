@@ -15,7 +15,10 @@ let package = Package(
         .testTarget(
             name: "PagerTabStripViewTests",
             dependencies: ["PagerTabStripView"],
-            path: "Tests"
+            path: "PagerTabStripViewTests",
+            linkerSettings: [
+                .linkedFramework("CoreGraphics", .when(platforms: [.macOS, .iOS]))
+            ]
         )
     ]
 )

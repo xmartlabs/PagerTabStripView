@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28F828861C494B2C00330CF4"
+               BlueprintIdentifier = "280497802983F8ED0086C75D"
                BuildableName = "PagerTabStripViewTests.xctest"
                BlueprintName = "PagerTabStripViewTests"
                ReferencedContainer = "container:PagerTabStripView.xcodeproj">
