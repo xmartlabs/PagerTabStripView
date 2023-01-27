@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: macos-12
     steps:
-    - uses: fwal/setup-swift@2040b795e5c453c3a05fcb8316496afc8a74f192
+    - uses: wift-actions/setup-swift@v1
       with:
         swift-version: "5.7.2"
     - uses: actions/checkout@v3
