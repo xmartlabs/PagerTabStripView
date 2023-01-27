@@ -87,8 +87,6 @@
 		2857501724C21EB400ED22AD /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2857501B24C21EB400ED22AD /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
 		2857501D24C21EB400ED22AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2857502624C21EB400ED22AD /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
-		2857502824C21EB400ED22AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28B743AD2953625A003BCC18 /* Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Example.entitlements; sourceTree = "<group>"; };
 		28D041B72930015900234856 /* SimpleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleView.swift; sourceTree = "<group>"; };
 		AB7EEE7B26AB5681008804D4 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 				2857500924C21EB400ED22AD /* iOS */,
 				2857501024C21EB400ED22AD /* macOS */,
 				2857501A24C21EB400ED22AD /* Tests iOS */,
-				2857502524C21EB400ED22AD /* Tests macOS */,
 				2857500824C21EB400ED22AD /* Products */,
 				E1F58C4124D0848100A3E642 /* Frameworks */,
 			);
@@ -217,15 +214,6 @@
 				2857501D24C21EB400ED22AD /* Info.plist */,
 			);
 			path = "Tests iOS";
-			sourceTree = "<group>";
-		};
-		2857502524C21EB400ED22AD /* Tests macOS */ = {
-			isa = PBXGroup;
-			children = (
-				2857502624C21EB400ED22AD /* Tests_macOS.swift */,
-				2857502824C21EB400ED22AD /* Info.plist */,
-			);
-			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
 		AB7EEE8126AB5CA2008804D4 /* Models */ = {
