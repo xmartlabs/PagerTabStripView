@@ -16,8 +16,6 @@ jobs:
         xcode-version: '14.2'
     - name: Build
       run: swift build -v
-    - name: Say Hello
-      run: swift --version
     - name: Run tests
       run: xcodebuild test -project PagerTabStripView.xcodeproj -scheme PagerTabStrip -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
     - name: Run linter
