@@ -2,15 +2,15 @@
 //  NavBarModifier.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 
-struct NavBarModifier: ViewModifier {
-    @Binding private var selection: Int
+struct NavBarModifier<SelectionType>: ViewModifier where SelectionType: Hashable {
+    @Binding private var selection: SelectionType
 
-    public init(selection: Binding<Int>) {
+    public init(selection: Binding<SelectionType>) {
         self._selection = selection
     }
 
@@ -28,24 +28,24 @@ struct NavBarModifier: ViewModifier {
             }
         }
     }
+
     @Environment(\.pagerStyle) var style: PagerStyle
 }
 
-private struct NavBarWrapperView: View {
-    @Binding var selection: Int
+private struct NavBarWrapperView<SelectionType>: View where SelectionType: Hashable {
+    @Binding var selection: SelectionType
 
     @MainActor var body: some View {
         switch style {
         case let barStyle as BarStyle:
-            IndicatorBarView(indicator: barStyle.indicatorView)
+            IndicatorBarView<SelectionType, AnyView>(selection: $selection, indicator: barStyle.indicatorView)
         case is SegmentedControlStyle:
             SegmentedNavBarView(selection: $selection)
         case let indicatorStyle as BarButtonStyle:
             if indicatorStyle.scrollable {
                 ScrollableNavBarView(selection: $selection)
             } else {
-                FixedSizeNavBarView(selection: $selection) { indicatorStyle.barBackgroundView() }
-                IndicatorBarView(indicator: indicatorStyle.indicatorView)
+                FixedSizeNavBarView(selection: $selection)
             }
         default:
             SegmentedNavBarView(selection: $selection)

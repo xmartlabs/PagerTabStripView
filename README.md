@@ -1,7 +1,6 @@
 # PagerTabStripView
 
 <p align="left">
-<!-- <a href="https://travis-ci.org/xmartlabs/PagerTabStrip"><img src="https://travis-ci.org/xmartlabs/PagerTabStrip.svg?branch=master" alt="Build status" /></a> -->
 <a href="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml"><img src="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml/badge.svg" alt="build and test" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
 <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift5-compatible-4BC51D.svg?style=flat" alt="Swift 5 compatible" /></a>
@@ -31,14 +30,14 @@ Unlike Apple's TabView it provides:
 2. Each pagerTabItem view can be of different type.
 3. Bar that contains pager tab item is placed on top.
 4. Indicator view indicates selected child view.
-5. `onPageAppear` callback to easily trigger actions when page is selected.
-6. Ability to update pagerTabItem according to highlighted, selected, normal state.
+5. Ability to update pagerTabItem according to highlighted, selected, normal state.
 
 ..and we've planned many more functionalities, we have plans to support each one of the XLPagerTabStrip [styles](https://github.com/xmartlabs/XLPagerTabStrip#pager-types).
 
 ## Usage
 
-Creating a page view is super straightforward, you just need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem( _: )` modifier to each one to specify its navigation bar tab item.
+Creating a page view is super straightforward, you just need to place your custom tab views into a `PagerTabStripView` view and apply the `pagerTabItem` modifier to each one to specify its navigation bar tab item.
+The `tag` parameter is the value to identify the tab item.
 
 ```swift
 import PagerTabStripView
@@ -49,16 +48,16 @@ struct MyPagerView: View {
 
         PagerTabStripView() {
             MyFirstView()
-                .pagerTabItem {
+                .pagerTabItem(tag: 1) {
                     TitleNavBarItem(title: "Tab 1")
                 }
             MySecondView()
-                .pagerTabItem {
+                .pagerTabItem(tag: 2) {
                     TitleNavBarItem(title: "Tab 2")
                 }
             if User.isLoggedIn {
                 MyProfileView()
-                    .pagerTabItem {
+                    .pagerTabItem(tag: 3) {
                         TitleNavBarItem(title: "Profile")
                     }
             }
@@ -75,7 +74,7 @@ struct MyPagerView: View {
 </br>
 </br>
 
-To specify the initial selected page you can pass the `selection` init parameter.
+To specify the initial selected page you can pass the `selection` init parameter (for it to work properly this value have to be equal to some tag value of the tab items).
 
 ```swift
 struct MyPagerView: View {
@@ -85,7 +84,7 @@ struct MyPagerView: View {
     var body: some View {
         PagerTabStripView(selection: $selection) {
             MyFirstView()
-                .pagerTabItem {
+                .pagerTabItem(tag: 1) {
                     TitleNavBarItem(title: "Tab 1")
                 }
             ...
@@ -98,18 +97,54 @@ struct MyPagerView: View {
 
 As you may've already noticed, everything is SwiftUI code, so you can update the child views according to SwiftUI state objects as shown above with `if User.isLoggedIn`.
 
+The user can also configure if the swipe action is enable or not (the swipe is based on a drag gesture) and setup what edges have the gesture disabled.
+
+Params:
+- `swipeGestureEnabled`: swipe is enabled or not (default is true).
+- `edgeSwipeGestureDisabled`: is an HorizontalContainerEdge (OptionSet) value where the array could have this options: .left, .right, .both or be empty (default is an empty array).
+
+What is the importance to have this parameter?
+Regarding the next PagerTabStripView example in `MyPagerView2`: if the pager is in the first page and the user try to swipe to the left, is possible to catch a parent view gesture (where this pager is embebbed) instead of catching the actual pager swipe gesture because it is disabled with the `edgeSwipeGestureDisabled` paramenter.
+
+```swift
+struct MyPagerView2: View {
+
+    @State var selection = 1
+
+    var body: some View {
+        PagerTabStripView(swipeGestureEnabled: .constant(true),	
+			  edgeSwipeGestureDisabled: .constant([.left]),
+			  selection: $selection) {
+            MyFirstView()
+                .pagerTabItem(tag: 1) {
+                    TitleNavBarItem(title: "Tab 1")
+                }
+            ...
+            ..
+            .
+        }
+    }
+}
+```
+
+
 ### Customize pager style
 
 PagerTabStripView provides 5 different ways to show the views. You can select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier.
 
 #### Scrollable style
 
-In this style you can add as many pages as you want. The tabs are placed in a scroll. The customizable settings are:
+In this style you can add as many pages as you want. The tabs are placed in a scroll.
 
+The customizable settings are:
+- Placed in toolbar
+- Pager animation when appear
 - Spacing between navigation bar items
-- Navigation bar height
-- Indicator bar height
-- Indicator bar color
+- Navigation bar items height
+- Padding to insets
+- Bar background view
+- Indicator view 
+- Indicator view height
 
 ```swift
 struct PagerView: View {
@@ -117,11 +152,11 @@ struct PagerView: View {
 	var body: some View {
 		PagerTabStripView(selection: 1) {
 			MyView()
-				.pagerTabItem {
+				.pagerTabItem(tag: 1) {
 					TitleNavBarItem(title: "First big width")
 				}
 			AnotherView()
-				.pagerTabItem {
+				.pagerTabItem(tag: 2) {
 					TitleNavBarItem(title: "Short")
 				}
             ...
@@ -129,12 +164,16 @@ struct PagerView: View {
             .
 
 		}
-        .pagerTabStripViewStyle(.scrollableBarButton(indicatorBarColor: .blue, tabItemSpacing: 15, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, 
+						     tabItemHeight: 50, 
+	    					     indicatorView: {
+            						Rectangle().fill(.blue).cornerRadius(5)
+            					     }))
 	}
 }
 ```
 
-In this example, we add some settings like the tab bar height, indicator bar color and tab item spaces. Let's watch how it looks!
+In this example, we add some settings like the tab bar height, indicator view and tab item spaces. Let's see how it looks!
 
 <div style="text-align:center">
     <img src="Example/Media/scrollableStyleExample.gif">
@@ -142,12 +181,15 @@ In this example, we add some settings like the tab bar height, indicator bar col
 
 #### Button bar style
 
-In this style, the width of the tabs is equal between the different tabs and doesn't adapt to its content size. The customizable settings are:
-
+The customizable settings are:
+- Placed in toolbar
+- Pager animation when appear
 - Spacing between navigation bar items
-- Navigation bar height
-- Indicator bar height
-- Indicator bar color
+- Navigation bar items height
+- Padding to insets
+- Bar background view
+- Indicator view 
+- Indicator view height
 
 ```swift
 struct PagerView: View {
@@ -155,26 +197,30 @@ struct PagerView: View {
 	var body: some View {
 		PagerTabStripView(selection: 1) {
 			MyView()
-				.pagerTabItem {
+				.pagerTabItem(tag: 1) {
 					TitleNavBarItem(title: "Tab 1")
 				}
 			AnotherView()
-				.pagerTabItem {
+				.pagerTabItem(tag: 2) {
 					TitleNavBarItem(title: "Tab 2")
 				}
 			if User.isLoggedIn {
 				ProfileView()
-					.pagerTabItem {
+					.pagerTabItem(tag: 3) {
 						TitleNavBarItem(title: "Profile")
                     }
 			}
 		}
-        .pagerTabStripViewStyle(.barButton(indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
+        .pagerTabStripViewStyle(.barButton(tabItemSpacing: 15, 
+					   tabItemHeight: 50, 
+	    			           indicatorView: {
+            				   	Rectangle().fill(.gray).cornerRadius(5)
+            				   }))
 	}
 }
 ```
 
-In this example, we add some settings like the tab bar height, indicator bar color and indicator bar height. Let's watch how it looks!
+In this example, we add some settings like the tab bar height, indicator view and indicator bar height. Let's see how it looks!
 
 <div style="text-align:center">
     <img src="Example/Media/addPagerSettings.gif">
@@ -182,11 +228,13 @@ In this example, we add some settings like the tab bar height, indicator bar col
 
 #### Bar style
 
-This style only shows a bar that indicates the current view controller. The customizable settings are:
+This style only shows a bar that indicates the current view controller. 
 
-- Spacing between navigation bar items
-- Indicator bar height
-- Indicator bar color
+The customizable settings are:
+- Placed in toolbar
+- Pager animation when appear
+- Indicator view 
+- Indicator view height
 
 <div style="text-align:center">
     <img src="Example/Media/barStyleExample.gif">
@@ -196,32 +244,36 @@ This style only shows a bar that indicates the current view controller. The cust
 
 This style uses a Segmented Picker to indicate which view is being displayed. You can indicate the selected color, its padding and if you want it to be set in the toolbar.
 
+The customizable settings are:
+- Placed in toolbar
+- Pager animation when appear
+- Background color
+- Padding to insets
+
 <div style="text-align:center">
     <img src="Example/Media/segmentedStyleExample.gif">
 </div>
 
 #### Custom style
 
-This style uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
+The styles uses the provided view to indicate and background Views to create the item bar. You can use any and fully customized Views for the indicator and the background view in any way you need.
 
 ```
-        .pagerTabStripViewStyle(
-            .custom(
-                tabItemHeight: 48,
-                indicator: {
-                    Text("👍🏻")
-                        .offset(x: 0, y: -24)
-                },
-                background: {
-                    LinearGradient(
-                        colors: 🌈,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                    .opacity(0.2)
-                }
-            )
-        )
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false,
+                                           pagerAnimation: .interactiveSpring(response: 0.5,
+                                                                              dampingFraction: 1.00,
+                                                                              blendDuration: 0.25),
+                                           tabItemHeight: 48,
+                                           barBackgroundView: {
+            LinearGradient(
+               colors: 🌈,
+               startPoint: .topLeading,
+               endPoint: .bottomTrailing
+           )
+           .opacity(0.2)
+        }, indicatorView: {
+            Text("👍🏻").offset(x: 0, y: -24)
+        }))
 ```
 
 See how it looks:
@@ -297,28 +349,6 @@ struct TitleNavBarItem: View, PagerTabViewDelegate {
     <img src="Example/Media/setStateCallback.gif">
 </div>
 
-### onPageAppear modifier
-
-`onPageAppear` callback allows you to trigger some action when a page view gets selected, either by scrolling to it or tapping its tab. This modifier is applied only to its associated page view.
-
-```swift
-struct PagerView: View {
-
-    var body: some View {
-        PagerTabStripView(selection: 1) {
-            MyView(model: myViewModel)
-                .pagerTabItem {
-                    TitleNavBarItem(title: "Tab 1")
-                }
-                .onPageAppear {
-                    model.reload()
-                }
-        }
-        .pagerTabStripViewStyle(.barButton(indicatorBarHeight: 2, indicatorBarColor: .gray, tabItemSpacing: 0, tabItemHeight: 50))
-    }
-}
-```
-
 ## Examples
 
 Follow these 3 steps to run Example project
@@ -334,7 +364,7 @@ Follow these 3 steps to run Example project
 To install PagerTabStripView using CocoaPods, simply add the following line to your Podfile:
 
 ```ruby
-pod 'PagerTabStripView', '~> 2.0'
+pod 'PagerTabStripView', '~> 4.0'
 ```
 
 ### Carthage
@@ -342,13 +372,13 @@ pod 'PagerTabStripView', '~> 2.0'
 To install PagerTabStripView using Carthage, simply add the following line to your Cartfile:
 
 ```ruby
-github "xmartlabs/PagerTabStripView" ~> 2.0
+github "xmartlabs/PagerTabStripView" ~> 4.0
 ```
 
 ## Requirements
 
-- iOS 14+
-- Xcode 13.X
+- iOS 16+
+- Xcode 14.2+
 
 ## Author
 

@@ -16,10 +16,10 @@ private struct PageItem: Identifiable {
     var withDescription: Bool = true
 }
 
-struct TwitterView: View {
+struct AudibleView: View {
+
     @State var selection = 4
     @State var toggle = true
-    @State var swipeGestureEnabled = true
 
     private var items = [PageItem(tag: 1, title: "First big width", posts: TweetsModel().posts),
                          PageItem(tag: 2, title: "Short", posts: TweetsModel().posts),
@@ -30,26 +30,22 @@ struct TwitterView: View {
     ]
 
     @MainActor var body: some View {
-        PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
-            ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
+        PagerTabStripView(selection: $selection) {
+            ForEach(toggle ? items : items.reversed().dropLast(5), id: \.tag) { item in
                 PostsList(items: item.posts, withDescription: item.withDescription)
                     .pagerTabItem(tag: item.tag) {
                         TabBarView(tag: item.tag, title: item.title, selection: $selection)
                     }
             }
         }
-        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
-            Rectangle().fill(.blue).cornerRadius(5)
-        }))
-        .navigationBarItems(trailing: HStack {
-            Button("Refresh") {
-                toggle.toggle()
-            }
-            Button(swipeGestureEnabled ? "Swipe On": "Swipe Off") {
-                swipeGestureEnabled.toggle()
-            }
-        }
-        )
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15,
+                                                     tabItemHeight: 60,
+                                                     padding: EdgeInsets(),
+                                                     barBackgroundView: { Color.white },
+                                                     indicatorView: { Rectangle().frame(height: 0) }))
+        .navigationBarItems(trailing: Button("Refresh") {
+            toggle.toggle()
+        })
     }
 }
 
@@ -67,20 +63,26 @@ private struct TabBarView<SelectionType: Hashable>: View {
     }
 
     @MainActor var body: some View {
-        VStack {
+        ZStack {
             Text(title)
-                .foregroundColor(Color.white.interpolateTo(color: Color.blue, fraction: pagerSettings.transition.progress(for: tag)) )
-                .font(.subheadline)
+                .foregroundColor(.black)
+                .animation(.easeInOut, value: pagerSettings.transition)
+                .font(.system(size: Double.interpolate(a: 30, b: 15, progress: pagerSettings.transition.progress(for: tag))))
                 .frame(maxHeight: .infinity)
-                .animation(.default, value: selection)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         }
         .frame(height: 40)
     }
 }
 
-struct TwitterView_Previews: PreviewProvider {
+struct AudibleView_Previews: PreviewProvider {
     static var previews: some View {
-        TwitterView()
+        AudibleView()
+    }
+}
+
+extension Double {
+    static func interpolate(a: Double, b: Double, progress: Double) -> Double {
+        return (a * progress) + (b * (1 - progress))
     }
 }

@@ -5,8 +5,7 @@
         "created_at":"2014-04-17T00:45:40.556Z",
         "user":{
             "id":9,
-            "name":"Lisa Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Lisa_Simpsons.png"
+            "name":"Lisa Simpson"
         }
     },
     {
@@ -15,8 +14,7 @@
         "created_at":"2014-04-09T21:29:59.982Z",
         "user":{
             "id":7,
-            "name":"Bart Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Bart_Simpsons.png"
+            "name":"Bart Simpson"
         }
     },
     {
@@ -26,7 +24,6 @@
         "user":{
             "id":5,
             "name":"Ned Flanders",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Ned_Flanders.png"
         }
     },
     {
@@ -36,7 +33,6 @@
         "user":{
             "id":8,
             "name":"Homer Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Homer_Simpsons.png"
         }
     },
     {
@@ -46,7 +42,6 @@
         "user":{
             "id":8,
             "name":"Homer Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Homer_Simpsons.png"
         }
     },
     {
@@ -55,8 +50,7 @@
         "created_at":"2014-04-02T03:48:56.381Z",
         "user":{
             "id":3,
-            "name":"Marge Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Marge_Simpsons.png"
+            "name":"Marge Simpson"
         }
     },
     {
@@ -65,8 +59,7 @@
         "created_at":"2014-03-28T05:23:24.657Z",
         "user":{
             "id":4,
-            "name":"Montgomery Burns",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Montgomery_Burns.png"
+            "name":"Montgomery Burns"
         }
     },
     {
@@ -75,8 +68,7 @@
         "created_at":"2014-03-22T14:24:22.408Z",
         "user":{
             "id":3,
-            "name":"Marge Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Marge_Simpsons.png"
+            "name":"Marge Simpson"
         }
     },
     {
@@ -85,8 +77,7 @@
         "created_at":"2014-03-21T08:39:20.764Z",
         "user":{
             "id":5,
-            "name":"Ned Flanders",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Ned_Flanders.png"
+            "name":"Ned Flanders"
         }
     },
     {
@@ -95,8 +86,7 @@
         "created_at":"2014-03-20T02:44:28.075Z",
         "user":{
             "id":8,
-            "name":"Homer Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Homer_Simpsons.png"
+            "name":"Homer Simpson"
         }
     },
     {
@@ -105,8 +95,7 @@
         "created_at":"2014-03-18T08:25:14.507Z",
         "user":{
             "id":4,
-            "name":"Montgomery Burns",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Montgomery_Burns.png"
+            "name":"Montgomery Burns"
         }
     },
     {
@@ -115,8 +104,7 @@
         "created_at":"2014-03-03T19:02:56.032Z",
         "user":{
             "id":8,
-            "name":"Homer Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Homer_Simpsons.png"
+            "name":"Homer Simpson"
         }
     },
     {
@@ -125,8 +113,7 @@
         "created_at":"2014-02-24T14:09:00.912Z",
         "user":{
             "id":1,
-            "name":"Apu Nahasapeemapetilon",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Apu_Nahasapeemapetilon.png"
+            "name":"Apu Nahasapeemapetilon"
         }
     },
     {
@@ -135,8 +122,7 @@
         "created_at":"2014-02-18T16:38:37.958Z",
         "user":{
             "id":7,
-            "name":"Bart Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Bart_Simpsons.png"
+            "name":"Bart Simpson"
         }
     },
     {
@@ -145,8 +131,7 @@
         "created_at":"2014-02-16T22:11:33.236Z",
         "user":{
             "id":2,
-            "name":"Maggie Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Maggie_Simpsons.png"
+            "name":"Maggie Simpson"
         }
     },
     {
@@ -155,8 +140,7 @@
         "created_at":"2014-02-16T19:09:55.062Z",
         "user":{
             "id":8,
-            "name":"Homer Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Homer_Simpsons.png"
+            "name":"Homer Simpson"
         }
     },
     {
@@ -165,8 +149,7 @@
         "created_at":"2014-02-16T13:50:25.313Z",
         "user":{
             "id":3,
-            "name":"Marge Simpson",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Marge_Simpsons.png"
+            "name":"Marge Simpson"
         }
     },
     {
@@ -175,8 +158,7 @@
         "created_at":"2014-02-13T06:51:57.549Z",
         "user":{
             "id":4,
-            "name":"Montgomery Burns",
-            "imageURL":"http://obscure-refuge-3149.herokuapp.com/images/Montgomery_Burns.png"
+            "name":"Montgomery Burns"
         }
     }
 ]

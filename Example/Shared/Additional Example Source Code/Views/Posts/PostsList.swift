@@ -2,7 +2,7 @@
 //  PostsList.swift
 //  Example (iOS)
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ struct PostsList: View {
     var items: [Post]
     var withDescription: Bool
 
-    init(isLoading: Binding<Bool>, items: [Post], withDescription: Bool = true) {
+    init(isLoading: Binding<Bool> = .constant(false), items: [Post], withDescription: Bool = true) {
         self._isLoading = isLoading
         self.items = items
         self.withDescription = withDescription
@@ -24,6 +24,7 @@ struct PostsList: View {
             if isLoading {
                 ProgressView()
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+                    .animation(.default, value: isLoading)
             }
             List {
                 ForEach(items) { item in
@@ -33,6 +34,5 @@ struct PostsList: View {
                 }
             }
         }
-        .animation(.default, value: isLoading)
     }
 }

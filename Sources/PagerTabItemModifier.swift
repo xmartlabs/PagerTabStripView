@@ -2,37 +2,40 @@
 //  PagerTabItemModifier.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import SwiftUI
 
-struct PagerTabItemModifier<NavTabView: View>: ViewModifier {
+struct PagerTabItemModifier<SelectionType, NavTabView>: ViewModifier where SelectionType: Hashable, NavTabView: View {
 
-    private var navTabView: () -> NavTabView
+    let navTabView: () -> NavTabView
+    let tag: SelectionType
 
-    init(navTabView: @escaping () -> NavTabView) {
+    init(tag: SelectionType, navTabView: @escaping () -> NavTabView) {
+        self.tag = tag
         self.navTabView = navTabView
     }
 
     @MainActor func body(content: Content) -> some View {
-        GeometryReader { reader in
+        GeometryReader { geometryProxy in
             content
                 .onAppear {
-                    let frame = reader.frame(in: .named("PagerViewScrollView"))
+                    let frame = geometryProxy.frame(in: .named("PagerViewScrollView"))
                     index = Int(round(frame.minX / frame.width))
-                    let tabView = navTabView()
-                    let tabViewDelegate = tabView as? PagerTabViewDelegate
-                    dataStore.setView(AnyView(tabView), at: index)
-                    dataStore.setTabViewDelegate(tabViewDelegate, at: index)
+                    pagerSettings.createOrUpdate(tag: tag, index: index, view: navTabView())
                 }.onDisappear {
-                    dataStore.items[index]?.tabViewDelegate?.setState(state: .normal)
-                    dataStore.remove(at: index)
+                    pagerSettings.remove(tag: tag)
+                }
+                .onChange(of: geometryProxy.frame(in: .named("PagerViewScrollView"))) { newFrame in
+                    index = Int(round(newFrame.minX / newFrame.width))
+                }
+                .onChange(of: index) { newIndex in
+                    pagerSettings.createOrUpdate(tag: tag, index: newIndex, view: navTabView())
                 }
         }
     }
 
-    @EnvironmentObject private var dataStore: DataStore
-    @EnvironmentObject private var settings: PagerSettings
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
     @State private var index = -1
 }

@@ -2,26 +2,27 @@
 //  SegmentedNavBarView.swift
 //  PagerTabStripView
 //
-//  Copyright © 2021 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
 import Foundation
 import SwiftUI
 
-internal struct SegmentedNavBarView: View {
-    @Binding private var selection: Int
-    @EnvironmentObject private var dataStore: DataStore
+internal struct SegmentedNavBarView<SelectionType>: View where SelectionType: Hashable {
+    @Binding private var selection: SelectionType
+    @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
 
-    public init(selection: Binding<Int>) {
+    public init(selection: Binding<SelectionType>) {
         self._selection = selection
     }
 
     @MainActor var body: some View {
         if let internalStyle = style as? SegmentedControlStyle {
             Picker("SegmentedNavBarView", selection: $selection) {
-                if dataStore.itemsCount > 0 && settings.width > 0 {
-                    ForEach(0...dataStore.itemsCount-1, id: \.self) { idx in
-                        NavBarItem(id: idx, selection: $selection)
+                if pagerSettings.items.count > 0 && pagerSettings.width > 0 {
+                    ForEach(pagerSettings.itemsOrderedByIndex, id: \.self) { tag in
+                        NavBarItem(id: tag, selection: $selection)
+                            .tag(tag)
                     }
                 }
             }
@@ -32,5 +33,4 @@ internal struct SegmentedNavBarView: View {
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle
-    @EnvironmentObject private var settings: PagerSettings
 }

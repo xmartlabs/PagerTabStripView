@@ -10,7 +10,7 @@ import PagerTabStripView
 
 struct CustomStyleView: View {
 
-    @State var selection = 2
+    @State var selection = Color.blue
 
     private let 🌈: [Color] = [
         .red,
@@ -29,7 +29,7 @@ struct CustomStyleView: View {
                     color
                     Text("Any custom View You like")
                 }
-                .pagerTabItem {
+                .pagerTabItem(tag: color) {
                     Capsule()
                         .frame(height: 32)
                         .padding(4)
@@ -37,25 +37,21 @@ struct CustomStyleView: View {
                 }
             }
         }
-        .pagerTabStripViewStyle(
-            .barButton(
-                placedInToolbar: false,
-                pagerAnimation: .interactiveSpring(response: 0.5, dampingFraction: 1.00, blendDuration: 0.25),
-                tabItemHeight: 48,
-                barBackgroundView: {
-                    LinearGradient(
-                        colors: 🌈,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                    .opacity(0.2)
-                    .rotationEffect(selection % 2 == 0 ? Angle(degrees: 0) : Angle(degrees: 180))
-                },
-                indicatorView: {
-                    Text(selection % 2 == 0 ? "👍🏻" : "👎").offset(x: 0, y: -24)
-                }
-            )
-        )
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false,
+                                           pagerAnimation: .interactiveSpring(response: 0.5,
+                                                                              dampingFraction: 1.00,
+                                                                              blendDuration: 0.25),
+                                           tabItemHeight: 48,
+                                           barBackgroundView: {
+                                            LinearGradient(
+                                                colors: 🌈,
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                            .opacity(0.2)
+                                           }, indicatorView: {
+                                            Text([.orange, .green, .purple].contains(selection) ? "👍🏻" : "👎").offset(x: 0, y: -24)
+                                           }))
         .navigationTitle("🌈 Rainbow")
     }
 }
