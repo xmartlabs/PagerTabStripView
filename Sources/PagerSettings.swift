@@ -36,6 +36,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
         self = .transition(from: from, to: to, percentage: percentage)
     }
 
+    // swiftlint:disable cyclomatic_complexity
     public static func == (lhs: TransitionProgress<SelectionType>, rhs: TransitionProgress<SelectionType>) -> Bool {
         switch (lhs, rhs) {
         case (.none, .transition),
@@ -57,7 +58,7 @@ public enum TransitionProgress<SelectionType: Hashable>: Equatable {
             case (.some, .none), (.none, .some):
                 return false
             case (.some(let lhs), .some(let rhs)):
-                guard  lhs == rhs else { return false }
+                guard lhs == rhs else { return false }
             case (.none, .none):
                 break
             }

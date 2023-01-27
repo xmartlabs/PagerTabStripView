@@ -103,7 +103,10 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
             .gesture(swipeGestureEnabled && swipeOn ?
                         DragGesture(minimumDistance: 25).onChanged { value in
-                            swipeOn = !(edgeSwipeGestureDisabled.contains(.left) && (selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0)  || edgeSwipeGestureDisabled.contains(.right) && (selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0))
+                            swipeOn = !(edgeSwipeGestureDisabled.contains(.left) &&
+                                            (selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0) ||
+                                            edgeSwipeGestureDisabled.contains(.right) &&
+                                            (selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0))
                         }.updating($translation) { value, state, _ in
                             if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
                                 let normTrans = value.translation.width / (geometryProxy.size.width + 50)

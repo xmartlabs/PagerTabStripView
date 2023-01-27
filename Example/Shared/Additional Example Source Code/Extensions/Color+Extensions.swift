@@ -5,6 +5,8 @@
 //  Created by Martin Barreto on 25/1/23.
 //
 
+// swiftlint:disable large_tuple
+
 import SwiftUI
 
 extension Color {
