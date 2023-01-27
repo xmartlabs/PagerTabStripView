@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		280497842983F8ED0086C75D /* PagerTabStripViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280497832983F8ED0086C75D /* PagerTabStripViewTests.swift */; };
 		280497852983F8ED0086C75D /* PagerTabStripView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */; };
+		2804978D29840CE80086C75D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2804978C29840CE80086C75D /* Foundation.framework */; };
 		28070C6026B1AF52002346E1 /* PagerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28070C5F26B1AF52002346E1 /* PagerStyle.swift */; };
 		285A6894291EE43E009810C8 /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285A6893291EE43E009810C8 /* Collection+Extensions.swift */; };
 		AB80DE8426BC93720022F57D /* PagerTabStripView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB80DE8226BC93720022F57D /* PagerTabStripView.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		280497812983F8ED0086C75D /* PagerTabStripViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagerTabStripViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		280497832983F8ED0086C75D /* PagerTabStripViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerTabStripViewTests.swift; sourceTree = "<group>"; };
+		2804978C29840CE80086C75D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		28070C5F26B1AF52002346E1 /* PagerStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerStyle.swift; sourceTree = "<group>"; };
 		285A6893291EE43E009810C8 /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
 		28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2804978D29840CE80086C75D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +82,14 @@
 				280497832983F8ED0086C75D /* PagerTabStripViewTests.swift */,
 			);
 			path = PagerTabStripViewTests;
+			sourceTree = "<group>";
+		};
+		2804978B29840CE70086C75D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2804978C29840CE80086C75D /* Foundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		285A6892291EE40E009810C8 /* Extensions */ = {
@@ -104,6 +115,7 @@
 				AB80DE8126BC93720022F57D /* PagerTabStripView */,
 				280497822983F8ED0086C75D /* PagerTabStripViewTests */,
 				28F8287E1C494B2C00330CF4 /* Products */,
+				2804978B29840CE70086C75D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
