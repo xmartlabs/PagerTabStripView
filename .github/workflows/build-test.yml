@@ -18,6 +18,8 @@ jobs:
         xcode-version: '14.2'
     - name: Build
       run: swift build -v
+    - name: Say Hello
+      run: swift --version
     - name: Run tests
       run: swift test -v
     - name: Run linter
