@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.authors          = { "Xmartlabs SRL" => "swift@xmartlabs.com" }
   s.source           = { git: "https://github.com/xmartlabs/PagerTabStripView.git", tag: s.version.to_s }
   s.social_media_url = 'https://twitter.com/xmartlabs'
-  s.ios.deployment_target = '14.0'
+  s.ios.deployment_target = '16.0'
   s.swift_version = '5.7'
   s.requires_arc = true
   s.ios.source_files = 'Sources/**/*.{swift}'
