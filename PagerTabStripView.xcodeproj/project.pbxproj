@@ -44,7 +44,6 @@
 		28F8287D1C494B2C00330CF4 /* PagerTabStripView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagerTabStripView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB80DE8226BC93720022F57D /* PagerTabStripView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerTabStripView.h; sourceTree = "<group>"; };
 		AB80DE8326BC93720022F57D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C7894FB72984157E00ADCBD3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7A02C00269377D400BFE31B /* PagerSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerSettings.swift; sourceTree = "<group>"; };
 		E04615E226C4510F0050A5D3 /* SegmentedNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedNavBarView.swift; sourceTree = "<group>"; };
 		E04615E426C453AD0050A5D3 /* FixedSizeNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedSizeNavBarView.swift; sourceTree = "<group>"; };
@@ -80,7 +79,6 @@
 		280497822983F8ED0086C75D /* PagerTabStripViewTests */ = {
 			isa = PBXGroup;
 			children = (
-				C7894FB72984157E00ADCBD3 /* Info.plist */,
 				280497832983F8ED0086C75D /* PagerTabStripViewTests.swift */,
 			);
 			path = PagerTabStripViewTests;
@@ -361,8 +359,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "$(SRCROOT)/PagerTabStripViewTests/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -392,8 +389,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "$(SRCROOT)/PagerTabStripViewTests/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
