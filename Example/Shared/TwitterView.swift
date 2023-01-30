@@ -38,7 +38,7 @@ struct TwitterView: View {
                     }
             }
         }
-        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 40, indicatorView: {
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 50, indicatorViewHeight: 3, indicatorView: {
             Rectangle().fill(.blue).cornerRadius(5)
         }))
         .navigationBarItems(trailing: HStack {
