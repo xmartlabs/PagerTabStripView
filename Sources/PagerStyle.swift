@@ -71,7 +71,7 @@ extension PagerStyle where Self == BarButtonStyle {
                                  padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10),
                                  indicatorViewHeight: CGFloat = 2,
                                  @ViewBuilder barBackgroundView: @escaping () -> some View = { EmptyView() },
-                                 @ViewBuilder indicatorView: @escaping () -> some View = { Rectangle().fill(Color(UIColor.systemBlue)) }) -> BarButtonStyle {
+                                 @ViewBuilder indicatorView: @escaping () -> some View = { Rectangle().fill(.blue) }) -> BarButtonStyle {
         return BarButtonStyle(placedInToolbar: placedInToolbar,
                               pagerAnimation: pagerAnimation,
                               tabItemSpacing: tabItemSpacing,
