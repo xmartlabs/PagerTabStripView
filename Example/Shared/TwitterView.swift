@@ -71,7 +71,7 @@ private struct TabBarView<SelectionType: Hashable>: View {
         VStack {
             let selectedColor = colorScheme == .dark ? Color.white : Color.black
             Text(title)
-                .foregroundColor(Color.gray.interpolateTo(color: selection == tag ? selectedColor : Color.gray,
+                .foregroundColor(Color.gray.interpolateTo(color: selection == tag ? selectedColor : Color(UIColor.systemGray),
                                                           fraction: pagerSettings.transition.progress(for: tag)))
                 .font(.subheadline.bold())
                 .frame(maxHeight: .infinity)

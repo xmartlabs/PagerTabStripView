@@ -85,9 +85,11 @@ private struct YoutubeNavBarItem<SelectionType>: View where SelectionType: Hasha
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 25, height: 25)
-                .foregroundColor(unselectedColor.interpolateTo(color: selectedColor, fraction: pagerSettings.transition.progress(for: tag)))
+                .foregroundColor(unselectedColor.interpolateTo(color: selectedColor,
+                                                               fraction: pagerSettings.transition.progress(for: tag)))
             Text(title.uppercased())
-                .foregroundColor(unselectedColor.interpolateTo(color: selectedColor, fraction: pagerSettings.transition.progress(for: tag)))
+                .foregroundColor(unselectedColor.interpolateTo(color: selectedColor,
+                                                               fraction: pagerSettings.transition.progress(for: tag)))
                 .fontWeight(.semibold)
         }
         .animation(.default, value: selection)
