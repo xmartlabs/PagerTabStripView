@@ -56,6 +56,7 @@ struct TwitterView: View {
 private struct TabBarView<SelectionType: Hashable>: View {
 
     @EnvironmentObject private var pagerSettings: PagerSettings<SelectionType>
+    @Environment(\.colorScheme) var colorScheme
     @Binding var selection: SelectionType
     let tag: SelectionType
     let title: String
@@ -68,9 +69,11 @@ private struct TabBarView<SelectionType: Hashable>: View {
 
     @MainActor var body: some View {
         VStack {
+            let selectedColor = colorScheme == .dark ? Color.white : Color.black
             Text(title)
-                .foregroundColor(Color.white.interpolateTo(color: Color.blue, fraction: pagerSettings.transition.progress(for: tag)) )
-                .font(.subheadline)
+                .foregroundColor(Color.gray.interpolateTo(color: selection == tag ? selectedColor : Color.gray,
+                                                          fraction: pagerSettings.transition.progress(for: tag)))
+                .font(.subheadline.bold())
                 .frame(maxHeight: .infinity)
                 .animation(.default, value: selection)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
