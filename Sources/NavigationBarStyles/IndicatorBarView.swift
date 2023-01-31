@@ -63,6 +63,9 @@ internal struct IndicatorBarView<SelectionType, Indicator>: View where Selection
                             appeared = true
                         }
                     }
+                    .onDisappear {
+                        appeared = false
+                    }
             }
             .frame(height: internalStyle.indicatorViewHeight)
         }
