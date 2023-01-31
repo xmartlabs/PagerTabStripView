@@ -176,12 +176,6 @@ public struct BarButtonStyle: PagerWithIndicatorStyle {
     }
 }
 
-struct CustomStyle: PagerStyle {
-    var placedInToolbar: Bool
-    var pagerAnimationOnTap: Animation?
-    var pagerAnimationOnSwipe: Animation?
-}
-
 private struct PagerStyleKey: EnvironmentKey {
     static let defaultValue: PagerStyle = .barButton()
 }
