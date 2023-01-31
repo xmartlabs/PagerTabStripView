@@ -14,6 +14,11 @@ public protocol PagerStyle {
     var pagerAnimationOnSwipe: Animation? { get }
 }
 
+public struct DefaultPagerAnimation {
+    public static let onTap: Animation = .default
+    public static let onSwipe: Animation = .timingCurve(0.4, 0.0, 0.2, 1.0, duration: 0.25)
+}
+
 public protocol PagerWithIndicatorStyle: PagerStyle {
     var barBackgroundView: () -> AnyView { get }
     var indicatorView: () -> AnyView { get }
@@ -23,8 +28,8 @@ public protocol PagerWithIndicatorStyle: PagerStyle {
 
 extension PagerStyle where Self == BarStyle {
     public static func bar(placedInToolbar: Bool = false,
-                           pagerAnimationOnTap: Animation? = .default,
-                           pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
+                           pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
+                           pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
                            indicatorViewHeight: CGFloat = 10,
                            indicatorView: @escaping () -> some View = { Rectangle() }) -> BarStyle {
         return BarStyle(placedInToolbar: placedInToolbar,
@@ -37,8 +42,8 @@ extension PagerStyle where Self == BarStyle {
 
 extension PagerStyle where Self == SegmentedControlStyle {
     public static func segmentedControl(placedInToolbar: Bool = false,
-                                        pagerAnimationOnTap: Animation? = .default,
-                                        pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
+                                        pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
+                                        pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
                                         backgroundColor: Color = .white,
                                         padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)) -> SegmentedControlStyle {
         return SegmentedControlStyle(placedInToolbar: placedInToolbar,
@@ -51,8 +56,8 @@ extension PagerStyle where Self == SegmentedControlStyle {
 
 extension PagerStyle where Self == BarButtonStyle {
     public static func scrollableBarButton(placedInToolbar: Bool = false,
-                                           pagerAnimationOnTap: Animation? = .default,
-                                           pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
+                                           pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
+                                           pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
                                            tabItemSpacing: CGFloat = 0,
                                            tabItemHeight: CGFloat = 50,
                                            padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10),
@@ -72,8 +77,8 @@ extension PagerStyle where Self == BarButtonStyle {
     }
 
     public static func barButton(placedInToolbar: Bool = false,
-                                 pagerAnimationOnTap: Animation? = .default,
-                                 pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
+                                 pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
+                                 pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
                                  tabItemSpacing: CGFloat = 0,
                                  tabItemHeight: CGFloat = 50,
                                  padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10),
@@ -100,8 +105,8 @@ public struct SegmentedControlStyle: PagerStyle {
     public var padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
     public init(placedInToolbar: Bool = false,
-                pagerAnimationOnTap: Animation? = .default,
-                pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
+                pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
+                pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
                 backgroundColor: Color = .white,
                 padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)) {
         self.backgroundColor = backgroundColor
@@ -124,8 +129,8 @@ public struct BarStyle: PagerWithIndicatorStyle {
     @ViewBuilder public var indicatorView: () -> AnyView
 
     public init(placedInToolbar: Bool,
-                pagerAnimationOnTap: Animation? = .default,
-                pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
+                pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
+                pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
                 indicatorViewHeight: CGFloat = 8,
                 barBackgroundView: @escaping (() -> AnyView) = { AnyView(EmptyView()) },
                 indicatorView: @escaping (() -> AnyView) = { AnyView(Rectangle()) }) {
@@ -153,8 +158,8 @@ public struct BarButtonStyle: PagerWithIndicatorStyle {
     @ViewBuilder public var barBackgroundView: () -> AnyView
 
     public init(placedInToolbar: Bool = false,
-                pagerAnimationOnTap: Animation? = .default,
-                pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
+                pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
+                pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
                 tabItemSpacing: CGFloat = 0,
                 tabItemHeight: CGFloat = 50,
                 scrollable: Bool = false,
