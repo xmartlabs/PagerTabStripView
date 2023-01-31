@@ -99,8 +99,8 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
             .coordinateSpace(name: "PagerViewScrollView")
             .offset(x: -CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
             .offset(x: translation)
-            .animation(style.pagerAnimation, value: selection)
-            .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25), value: translation)
+            .animation(style.pagerAnimationOnTap, value: selection)
+            .animation(style.pagerAnimationOnSwipe, value: translation)
             .gesture(swipeGestureEnabled && swipeOn ?
                         DragGesture(minimumDistance: 25).onChanged { value in
                             swipeOn = !(edgeSwipeGestureDisabled.contains(.left) &&

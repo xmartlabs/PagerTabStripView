@@ -46,9 +46,9 @@ struct InstagramView: View {
                     }
             }
         }
-        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimation: .default,
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimationOnTap: .default,
                                            tabItemHeight: 50, indicatorViewHeight: 2,
-                                           indicatorView: { Rectangle().fill(Color(UIColor.systemBlue)).cornerRadius(1) }))
+                                           indicatorView: { Rectangle().fill(Color(.systemBlue)).cornerRadius(1) }))
         .navigationBarItems(trailing: Button("Refresh") {
             toggle.toggle()
         })
@@ -74,7 +74,7 @@ struct InstagramNavBarItem<SelectionType>: View where SelectionType: Hashable {
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 25.0, height: 25)
-                .foregroundColor(Color(UIColor.systemGray).interpolateTo(color: Color(UIColor.systemBlue), fraction: pagerSettings.transition.progress(for: tag)))
+                .foregroundColor(Color(.systemGray).interpolateTo(color: Color(.systemBlue), fraction: pagerSettings.transition.progress(for: tag)))
         }
         .animation(.easeInOut, value: selection)
         .frame(maxWidth: .infinity, maxHeight: .infinity)

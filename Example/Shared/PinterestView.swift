@@ -52,7 +52,7 @@ struct PinterestView: View {
         .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15,
                                                      tabItemHeight: 60,
                                                      padding: EdgeInsets(),
-                                                     barBackgroundView: { Color(UIColor.systemBackground) },
+                                                     barBackgroundView: { Color(.systemBackground) },
                                                      indicatorView: {
                                                         Rectangle().fill(.white).frame(height: 50).cornerRadius(25).offset(y: -30).zIndex(-1)
                                                      }))
