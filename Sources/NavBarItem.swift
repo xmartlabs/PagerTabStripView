@@ -24,6 +24,7 @@ struct NavBarItem<SelectionType>: View, Identifiable where SelectionType: Hashab
                 .onTapGesture {
                     selection = id
                 }
+                .accessibilityAddTraits(id == selection ? .isSelected : [])
         }
     }
 }
