@@ -15,7 +15,7 @@ struct SimpleView: View {
                         .yellow: "iOS 16.1",
                         .orange: "PagerTabStripView"]
     let colors = [Color.purple, .green, .yellow, .orange]
-    @State var selection = Color.green
+    @State var selection: Color = .green
 
     var body: some View {
         PagerTabStripView(selection: $selection) {

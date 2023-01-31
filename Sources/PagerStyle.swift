@@ -10,7 +10,8 @@ import SwiftUI
 
 public protocol PagerStyle {
     var placedInToolbar: Bool { get }
-    var pagerAnimation: Animation? { get }
+    var pagerAnimationOnTap: Animation? { get }
+    var pagerAnimationOnSwipe: Animation? { get }
 }
 
 public protocol PagerWithIndicatorStyle: PagerStyle {
@@ -22,11 +23,13 @@ public protocol PagerWithIndicatorStyle: PagerStyle {
 
 extension PagerStyle where Self == BarStyle {
     public static func bar(placedInToolbar: Bool = false,
-                           pagerAnimation: Animation? = .default,
+                           pagerAnimationOnTap: Animation? = .default,
+                           pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
                            indicatorViewHeight: CGFloat = 10,
                            indicatorView: @escaping () -> some View = { Rectangle() }) -> BarStyle {
         return BarStyle(placedInToolbar: placedInToolbar,
-                        pagerAnimation: pagerAnimation,
+                        pagerAnimationOnTap: pagerAnimationOnTap,
+                        pagerAnimationOnSwipe: pagerAnimationOnSwipe,
                         indicatorViewHeight: indicatorViewHeight,
                         indicatorView: { .init(indicatorView()) })
     }
@@ -34,11 +37,13 @@ extension PagerStyle where Self == BarStyle {
 
 extension PagerStyle where Self == SegmentedControlStyle {
     public static func segmentedControl(placedInToolbar: Bool = false,
-                                        pagerAnimation: Animation? = .default,
+                                        pagerAnimationOnTap: Animation? = .default,
+                                        pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
                                         backgroundColor: Color = .white,
                                         padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)) -> SegmentedControlStyle {
         return SegmentedControlStyle(placedInToolbar: placedInToolbar,
-                                     pagerAnimation: pagerAnimation,
+                                     pagerAnimationOnTap: pagerAnimationOnTap,
+                                     pagerAnimationOnSwipe: pagerAnimationOnSwipe,
                                      backgroundColor: backgroundColor,
                                      padding: padding)
     }
@@ -46,7 +51,8 @@ extension PagerStyle where Self == SegmentedControlStyle {
 
 extension PagerStyle where Self == BarButtonStyle {
     public static func scrollableBarButton(placedInToolbar: Bool = false,
-                                           pagerAnimation: Animation? = .default,
+                                           pagerAnimationOnTap: Animation? = .default,
+                                           pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
                                            tabItemSpacing: CGFloat = 0,
                                            tabItemHeight: CGFloat = 50,
                                            padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10),
@@ -54,7 +60,8 @@ extension PagerStyle where Self == BarButtonStyle {
                                            @ViewBuilder barBackgroundView: @escaping () -> some View = { EmptyView() },
                                            @ViewBuilder indicatorView: @escaping () -> some View = { Rectangle().fill(.blue) }) -> BarButtonStyle {
         return BarButtonStyle(placedInToolbar: placedInToolbar,
-                              pagerAnimation: pagerAnimation,
+                              pagerAnimationOnTap: pagerAnimationOnTap,
+                              pagerAnimationOnSwipe: pagerAnimationOnSwipe,
                               tabItemSpacing: tabItemSpacing,
                               tabItemHeight: tabItemHeight,
                               scrollable: true,
@@ -65,7 +72,8 @@ extension PagerStyle where Self == BarButtonStyle {
     }
 
     public static func barButton(placedInToolbar: Bool = false,
-                                 pagerAnimation: Animation? = .default,
+                                 pagerAnimationOnTap: Animation? = .default,
+                                 pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
                                  tabItemSpacing: CGFloat = 0,
                                  tabItemHeight: CGFloat = 50,
                                  padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10),
@@ -73,7 +81,8 @@ extension PagerStyle where Self == BarButtonStyle {
                                  @ViewBuilder barBackgroundView: @escaping () -> some View = { EmptyView() },
                                  @ViewBuilder indicatorView: @escaping () -> some View = { Rectangle().fill(.blue) }) -> BarButtonStyle {
         return BarButtonStyle(placedInToolbar: placedInToolbar,
-                              pagerAnimation: pagerAnimation,
+                              pagerAnimationOnTap: pagerAnimationOnTap,
+                              pagerAnimationOnSwipe: pagerAnimationOnSwipe,
                               tabItemSpacing: tabItemSpacing,
                               tabItemHeight: tabItemHeight,
                               scrollable: false,
@@ -85,25 +94,29 @@ extension PagerStyle where Self == BarButtonStyle {
 
 public struct SegmentedControlStyle: PagerStyle {
     public var placedInToolbar: Bool
-    public var pagerAnimation: Animation?
+    public var pagerAnimationOnTap: Animation?
+    public var pagerAnimationOnSwipe: Animation?
     public var backgroundColor: Color
     public var padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
     public init(placedInToolbar: Bool = false,
-                pagerAnimation: Animation? = .default,
+                pagerAnimationOnTap: Animation? = .default,
+                pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
                 backgroundColor: Color = .white,
                 padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)) {
         self.backgroundColor = backgroundColor
         self.placedInToolbar = placedInToolbar
         self.padding = padding
-        self.pagerAnimation = pagerAnimation
+        self.pagerAnimationOnTap = pagerAnimationOnTap
+        self.pagerAnimationOnSwipe = pagerAnimationOnSwipe
     }
 
 }
 
 public struct BarStyle: PagerWithIndicatorStyle {
     public var placedInToolbar: Bool
-    public var pagerAnimation: Animation? = .default
+    public var pagerAnimationOnTap: Animation?
+    public var pagerAnimationOnSwipe: Animation?
     public var tabItemSpacing: CGFloat = 0
     public var indicatorViewHeight: CGFloat
 
@@ -111,12 +124,14 @@ public struct BarStyle: PagerWithIndicatorStyle {
     @ViewBuilder public var indicatorView: () -> AnyView
 
     public init(placedInToolbar: Bool,
-                pagerAnimation: Animation? = .default,
+                pagerAnimationOnTap: Animation? = .default,
+                pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
                 indicatorViewHeight: CGFloat = 8,
                 barBackgroundView: @escaping (() -> AnyView) = { AnyView(EmptyView()) },
                 indicatorView: @escaping (() -> AnyView) = { AnyView(Rectangle()) }) {
         self.placedInToolbar = placedInToolbar
-        self.pagerAnimation = pagerAnimation
+        self.pagerAnimationOnTap = pagerAnimationOnTap
+        self.pagerAnimationOnSwipe = pagerAnimationOnSwipe
         self.indicatorViewHeight = indicatorViewHeight
         self.barBackgroundView = barBackgroundView
         self.indicatorView = indicatorView
@@ -126,7 +141,8 @@ public struct BarStyle: PagerWithIndicatorStyle {
 public struct BarButtonStyle: PagerWithIndicatorStyle {
 
     public var placedInToolbar: Bool
-    public var pagerAnimation: Animation?
+    public var pagerAnimationOnSwipe: Animation?
+    public var pagerAnimationOnTap: Animation?
     public var tabItemSpacing: CGFloat
     public var tabItemHeight: CGFloat
     public var scrollable: Bool
@@ -137,7 +153,8 @@ public struct BarButtonStyle: PagerWithIndicatorStyle {
     @ViewBuilder public var barBackgroundView: () -> AnyView
 
     public init(placedInToolbar: Bool = false,
-                pagerAnimation: Animation? = .default,
+                pagerAnimationOnTap: Animation? = .default,
+                pagerAnimationOnSwipe: Animation? = .interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25),
                 tabItemSpacing: CGFloat = 0,
                 tabItemHeight: CGFloat = 50,
                 scrollable: Bool = false,
@@ -146,7 +163,8 @@ public struct BarButtonStyle: PagerWithIndicatorStyle {
                 @ViewBuilder barBackgroundView: @escaping (() -> AnyView) = { AnyView(EmptyView()) },
                 @ViewBuilder indicatorView: @escaping (() -> AnyView) = { AnyView(Rectangle().fill(.blue)) }) {
         self.placedInToolbar = placedInToolbar
-        self.pagerAnimation = pagerAnimation
+        self.pagerAnimationOnTap = pagerAnimationOnTap
+        self.pagerAnimationOnSwipe = pagerAnimationOnSwipe
         self.tabItemSpacing = tabItemSpacing
         self.tabItemHeight = tabItemHeight
         self.scrollable = scrollable
@@ -156,11 +174,6 @@ public struct BarButtonStyle: PagerWithIndicatorStyle {
         self.indicatorViewHeight = indicatorViewHeight
 
     }
-}
-
-struct CustomStyle: PagerStyle {
-    var placedInToolbar: Bool
-    var pagerAnimation: Animation?
 }
 
 private struct PagerStyleKey: EnvironmentKey {

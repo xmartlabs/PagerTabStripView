@@ -17,7 +17,7 @@ struct PostDetail: View {
                     .resizable()
                     .frame(width: 100.0, height: 100.0)
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                    .overlay(Circle().stroke(.white, lineWidth: 4))
                     .shadow(radius: 7)
                     .padding(.top, 100)
                 Spacer()

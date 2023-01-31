@@ -22,7 +22,7 @@ struct AudibleView: View {
     @State var toggle = true
 
     @Environment(\.colorScheme) var colorScheme
-    
+
     private var items = [PageItem(tag: 1, title: "First big width", posts: TweetsModel().posts),
                          PageItem(tag: 2, title: "Short", posts: TweetsModel().posts),
                          PageItem(tag: 3, title: "Medium width", posts: TweetsModel().posts, withDescription: false),
@@ -43,7 +43,7 @@ struct AudibleView: View {
         .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15,
                                                      tabItemHeight: 60,
                                                      padding: EdgeInsets(),
-                                                     barBackgroundView: { colorScheme == .dark ? Color.black : Color.white},
+                                                     barBackgroundView: { colorScheme == .dark ? Color.black : .white},
                                                      indicatorView: { Rectangle().frame(height: 0) }))
         .navigationBarItems(trailing: Button("Refresh") {
             toggle.toggle()
@@ -68,7 +68,7 @@ private struct TabBarView<SelectionType: Hashable>: View {
     @MainActor var body: some View {
         ZStack {
             Text(title)
-                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                .foregroundColor(colorScheme == .dark ? .white : .black)
                 .animation(.easeInOut, value: pagerSettings.transition)
                 .font(.system(size: Double.interpolate(a: 30, b: 15, progress: pagerSettings.transition.progress(for: tag))))
                 .frame(maxHeight: .infinity)

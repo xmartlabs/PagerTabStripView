@@ -10,7 +10,7 @@ import PagerTabStripView
 
 struct CustomStyleView: View {
 
-    @State var selection = Color(UIColor.systemBlue)
+    @State var selection = Color(.systemBlue)
 
     private let 🌈: [Color] = [
         .red,
@@ -38,9 +38,9 @@ struct CustomStyleView: View {
             }
         }
         .pagerTabStripViewStyle(.barButton(placedInToolbar: false,
-                                           pagerAnimation: .interactiveSpring(response: 0.5,
-                                                                              dampingFraction: 1.00,
-                                                                              blendDuration: 0.25),
+                                           pagerAnimationOnTap: .interactiveSpring(response: 0.5,
+                                                                                   dampingFraction: 1.00,
+                                                                                   blendDuration: 0.25),
                                            tabItemHeight: 48,
                                            barBackgroundView: {
                                             LinearGradient(
