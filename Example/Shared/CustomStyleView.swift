@@ -10,7 +10,7 @@ import PagerTabStripView
 
 struct CustomStyleView: View {
 
-    @State var selection = Color.blue
+    @State var selection = Color(UIColor.systemBlue)
 
     private let 🌈: [Color] = [
         .red,
