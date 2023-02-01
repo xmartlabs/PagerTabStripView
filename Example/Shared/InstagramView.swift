@@ -46,7 +46,7 @@ struct InstagramView: View {
                     }
             }
         }
-        .pagerTabStripViewStyle(.barButton(placedInToolbar: false, pagerAnimationOnTap: .default,
+        .pagerTabStripViewStyle(.barButton(placedInToolbar: false,
                                            tabItemHeight: 50, indicatorViewHeight: 2,
                                            indicatorView: { Rectangle().fill(Color(.systemBlue)).cornerRadius(1) }))
         .navigationBarItems(trailing: Button("Refresh") {
