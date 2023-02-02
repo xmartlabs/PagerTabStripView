@@ -18,7 +18,7 @@ All notable changes to PagerTabStrip will be documented in this file.
 - Fixed errors on reordering, adding and deleting pages. Now it works perfectly. 
 - `public func onPageAppear(perform action: (() -> Void)?) -> some View` was removed. You should use onAppear native callback or use selection state variable.
 - Refactor enable disable swipe gesture. It's a Binding parameter from now. 
-- `PagerTabViewDelegate` and `PagerTabViewState` deleted. Yu should use `selection` state or `pagerSettings.transition.progress(for: tag)` to get notification on selection and scroll progress changes. 
+- `PagerTabViewDelegate` and `PagerTabViewState` deleted. You should use `selection` state or `pagerSettings.transition.progress(for: tag)` to get a notification on selection and scroll progress changes. 
 
 
 ### [3.2.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/3.2.0)
