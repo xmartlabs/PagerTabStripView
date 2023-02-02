@@ -4,7 +4,7 @@ All notable changes to PagerTabStrip will be documented in this file.
 
 ### [4.0.0](https://github.com/xmartlabs/PagerTabStrip/releases/tag/4.0.0)
 
-<!-- Released on 2022-10-18. -->
+<!-- Released on 2023-02-02. -->
 
 - Xcode 14+, iOS 16+ now is required.
 - Clean up code by using Swift 5.7 capabilities. 
