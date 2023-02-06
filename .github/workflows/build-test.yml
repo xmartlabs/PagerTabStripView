@@ -16,9 +16,15 @@ jobs:
         xcode-version: '14.2'
     - name: Get swift version
       run: swift --version # Swift 5.7.2
-    - name: Build
-      run: swift build -v
+    - name: Build PagerTabStrip
+      run: xcodebuild build -workspace PagerTabStripView.xcworkspace -scheme PagerTabStrip
+    - name: Build Example App
+      run: >
+        xcodebuild build -workspace PagerTabStripView.xcworkspace -scheme Example
+        CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
     - name: Run tests
-      run: xcodebuild test -project PagerTabStripView.xcodeproj -scheme PagerTabStrip -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+      run: >
+          xcodebuild test -workspace PagerTabStripView.xcworkspace -scheme PagerTabStrip
+          -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
     - name: Run linter
       run: swiftlint
