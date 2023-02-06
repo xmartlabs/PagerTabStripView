@@ -30,26 +30,32 @@ struct TwitterView: View {
     ]
 
     @MainActor var body: some View {
-        PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
-            ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
-                PostsList(items: item.posts, withDescription: item.withDescription)
-                    .pagerTabItem(tag: item.tag) {
-                        TabBarView(tag: item.tag, title: item.title, selection: $selection)
-                    }
+        ScrollView(.vertical) {
+
+            PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
+                ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
+                    PostsList(items: item.posts, withDescription: item.withDescription)
+                    Text(item.title)
+                        .pagerTabItem(tag: item.tag) {
+                            TabBarView(tag: item.tag, title: item.title, selection: $selection)
+                        }
+                }
             }
+            .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 50, indicatorViewHeight: 3, indicatorView: {
+                Rectangle().fill(.blue).cornerRadius(5)
+            }))
+            .navigationBarItems(trailing: HStack {
+                Button("Refresh") {
+                    toggle.toggle()
+                }
+                Button(swipeGestureEnabled ? "Swipe On": "Swipe Off") {
+                    swipeGestureEnabled.toggle()
+                }
+            }
+            ).frame(height: 400)
+
         }
-        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 50, indicatorViewHeight: 3, indicatorView: {
-            Rectangle().fill(.blue).cornerRadius(5)
-        }))
-        .navigationBarItems(trailing: HStack {
-            Button("Refresh") {
-                toggle.toggle()
-            }
-            Button(swipeGestureEnabled ? "Swipe On": "Swipe Off") {
-                swipeGestureEnabled.toggle()
-            }
-        }
-        )
+        
     }
 }
 
