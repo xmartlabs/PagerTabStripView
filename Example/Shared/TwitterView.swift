@@ -31,7 +31,6 @@ struct TwitterView: View {
 
     @MainActor var body: some View {
         ScrollView(.vertical) {
-
             PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
                 ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
                     PostsList(items: item.posts, withDescription: item.withDescription)
@@ -52,10 +51,8 @@ struct TwitterView: View {
                     swipeGestureEnabled.toggle()
                 }
             }
-            ).frame(height: 400)
-
+            ).frame(width: 300, height: 400)
         }
-        
     }
 }
 
