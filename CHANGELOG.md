@@ -10,14 +10,14 @@ All notable changes to PagerTabStrip will be documented in this file.
 - Clean up code by using Swift 5.7 capabilities. 
 - `.pagerTabItem(tag: SelectionType)` modifier now requires tag parameter which identifies the pager tab item. 
 - `pagerTabStripViewStyle(_ style: PagerStyle)` is the new modifier to set up pager style. 
-- Selection value, which indicates which is the selected page, can be any Hashable value and not just an Int like it was in the previous version.
-- Fix scroll behavior when pager is added inside another pager or scrollable container. Whenever child page reaches its edges, parent scrollable container scrolls. Basically we added a parameter to disable edge scroll gesture so parent gesture is triggered. 
-- Added several complex examples showing new functionality. 
-- Scrollable style page now uses iOS 16 native layout engine through Layout protocol.
-- Fixed indicator initial animation and position issue when presenting the page. 
-- Fixed errors on reordering, adding and deleting pages. Now it works perfectly. 
+- The Selection value indicating the selected page now supports any Hashable value, not just an Int as in the previous version.
+- Improved the scroll behavior when the pager is added within another pager or scrollable container. When a child page reaches its edges, the parent scrollable container will scroll. Basically, we added a parameter to disable the edge scroll gesture to trigger the parent gesture.
+- Added several complex examples to showcase new functionality.
+- The scrollable style page now utilizes the iOS 16 native layout engine through the Layout protocol.
+- Fixed the initial animation and position issue of the indicator when presenting the page.
+- Resolved errors when reordering, adding, and deleting pages. Now it works perfectly.
 - `public func onPageAppear(perform action: (() -> Void)?) -> some View` was removed. You should use onAppear native callback or use selection state variable.
-- Refactor enable disable swipe gesture. It's a Binding parameter from now. 
+- Refactored the enable/disable swipe gesture. Now it's a Binding parameter.
 - `PagerTabViewDelegate` and `PagerTabViewState` deleted. You should use `selection` state or `pagerSettings.transition.progress(for: tag)` to get a notification on selection and scroll progress changes. 
 
 
