@@ -1,4 +1,4 @@
-# PagerTabStripView
+![PagerTabStripView: First pager view built in pure SwiftUI]()
 
 <p align="left">
 <a href="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml"><img src="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml/badge.svg" alt="build and test" /></a>
@@ -103,8 +103,8 @@ Params:
 - `swipeGestureEnabled`: swipe is enabled or not (default is true).
 - `edgeSwipeGestureDisabled`: is an HorizontalContainerEdge (OptionSet) value where the set could have this options: .left, .right (default is an empty set).
 
-What is the importance to have this parameter?
-Regarding the next PagerTabStripView example in `MyPagerView2`: if the pager is in the first page and the user try to swipe to the left, it's posible trigger parent view container since  drag gesture is possible to catch a parent view gesture (where this pager is embebbed) instead of catching the actual pager swipe gesture because it is disabled with the `edgeSwipeGestureDisabled` paramenter.
+Why is this parameter important?
+This parameter is important in the context of the next PagerTabStripView example in `MyPagerView2`. If the pager is on the first page and the user tries to swipe left, it's posible that the parent view container will be triggered instead of the pager's swipe gesture, since the drag gesture can catch the parent view gesture. The `edgeSwipeGestureDisabled` paramenter prevents this from happening.
 
 ```swift
 struct MyPagerView2: View {
@@ -127,23 +127,23 @@ struct MyPagerView2: View {
 ```
 
 
-### Customize pager style
+### Customizing the pager style
 
-PagerTabStripView provides 5 different ways to show the views. You can select it and customize some aspects of each one using the `pagerTabStripViewStyle` modifier.
+PagerTabStripView provides 5 different ways to display the views, which can be selected and customized using the `pagerTabStripViewStyle` modifier.
 
 #### Scrollable style
 
-In this style you can add as many pages as you want. The tabs are placed inside a horizontal scroll so its ideal when pager has a huge amount of pages.
+This style allows you to add as many pages as you want. The tabs are placed inside a horizontal scroll for large number of pages.
 
 The customizable settings are:
-- `placedInToolbar`: If true TabBar items are placed in the NavigationBar. Pager must be a added inside a NavigationView.
-- `pagerAnimationOnTap`: Animation used when selection changes. 
-- `pagerAnimationOnSwipe`: Animation used on drag gesture traslation changes. 
-- `tabItemSpacing`: Horizontal margin among tabbar items 
-- `tabItemHeight`: TabBar items continer height
-- `padding`: TabBar items continer padding
-- `barBackgroundView`: TabBar items container background view. 
-- `indicatorViewHeight`: Indicator view height
+- `placedInToolbar`: If true TabBar items are placed in the NavigationBar. The pager must be a added inside a NavigationView.
+- `pagerAnimationOnTap`: Animation used when the selection changes. 
+- `pagerAnimationOnSwipe`: Animation used when the drag gesture changes the transaltion. 
+- `tabItemSpacing`: Horizontal margin between TabBar items 
+- `tabItemHeight`: Height of the TabBar items continer.
+- `padding`: Padding of the TabBar items continer.
+- `barBackgroundView`: Background view of the TabBar items container. 
+- `indicatorViewHeight`: Height of the indicator view.
 - `indicatorView`: View representing the indicator view. 
 
 ```swift
@@ -183,7 +183,7 @@ In this example, we add some settings like the tab bar height, indicator view an
 
 #### Button bar style
 
-This style place all tabbar items in a container, each tab bar items has the same width. Ideal when poges has 2, 3, 4 or few pages.
+This style places all TabBar items in a container, with each item having the same width. It is ideal for pages with 2-4 pages. The same settings as the Scrollable style can be customized.
 
 The customizable settings are:
 - `placedInToolbar`: If true TabBar items are placed in the NavigationBar. Pager must be a added inside a NavigationView.
@@ -235,13 +235,13 @@ In this example, we add some settings like the tab bar height, indicator view an
 
 #### Bar style
 
-This style only shows a bar that indicates the current selected page. 
+This style only displays a bar that indicates the current selected page. 
 
 The customizable settings are:
-- `placedInToolbar`: If true TabBar items are placed in the NavigationBar. Pager must be a added inside a NavigationView.
-- `pagerAnimationOnTap`: Animation used when selection changes. 
-- `pagerAnimationOnSwipe`: Animation used on drag gesture traslation changes. 
-- `indicatorViewHeight`: Indicator view height.
+- `placedInToolbar`: If set to true, the TabBar items will be placed in the NavigationBar. The Pager must be a added inside a NavigationView.
+- `pagerAnimationOnTap`: Animation used when the selection changes. 
+- `pagerAnimationOnSwipe`: Animation used when the drag gesture changes the traslation. 
+- `indicatorViewHeight`: Height of the Indicator view.
 - `indicatorView`: View representing the indicator view. 
 
 <div style="text-align:center">
@@ -250,14 +250,14 @@ The customizable settings are:
 
 #### Segmented style
 
-This style uses a Segmented Picker to indicate which page is selected. You can indicate the segmented color, its padding and if you want it to be plced inside the toolbar.
+This style uses a Segmented Picker to indicate the selected page. You can indicate the segmented color, its padding and if you want it to be plced inside the toolbar.
 
 The customizable settings are:
-- `placedInToolbar`: If true TabBar items are placed in the NavigationBar. Pager must be a added inside a NavigationView.
-- `pagerAnimationOnTap`: Animation used when selection changes. 
-- `pagerAnimationOnSwipe`: Animation used on drag gesture traslation changes.
-- `backgroundColor`: Segmented picker style color.
-- `padding`: Segmented picker style padding.
+- `placedInToolbar`: If true TabBar items are placed in the NavigationBar. The Pager must be a added inside a NavigationView.
+- `pagerAnimationOnTap`: Animation used when the selection changes. 
+- `pagerAnimationOnSwipe`: Animation used when the drag gesture changes the traslation.
+- `backgroundColor`: Color of the segmented picker.
+- `padding`: Padding of the Segmented picker.
 
 <div style="text-align:center">
     <img src="Example/Media/segmentedStyleExample.gif">
@@ -355,10 +355,10 @@ github "xmartlabs/PagerTabStripView" ~> 4.0
 
 ## Getting involved
 
-- If you **want to contribute** please feel free to **submit pull requests**.
+- If you **want to contribute** feel free to **submit pull requests**.
 - If you **have a feature request** please **open an issue**.
 - If you **found a bug** or **need help** please **check older issues and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/PagerTabStripView) (Tag 'PagerTabStripView') before submitting an issue**.
 
-Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStripView/blob/master/CONTRIBUTING.md) file for more info.
+Before contributing, be sure to check the [CONTRIBUTING](https://github.com/xmartlabs/PagerTabStripView/blob/master/CONTRIBUTING.md) file for more info.
 
-If you use **PagerTabStripView** in your app We would love to hear about it! Drop us a line on [Twitter](https://twitter.com/xmartlabs).
+We'd love to hear about your experience with **PagerTabStripView**. If you use it in your app, drop us a line on [Twitter](https://twitter.com/xmartlabs).
