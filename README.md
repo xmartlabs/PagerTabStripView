@@ -1,4 +1,4 @@
-# PagerTabStripView
+![PagerTabStripView: First pager view built in pure SwiftUI]()
 
 <p align="left">
 <a href="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml"><img src="https://github.com/xmartlabs/PagerTabStripView/actions/workflows/build-test.yml/badge.svg" alt="build and test" /></a>
