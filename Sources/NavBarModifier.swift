@@ -42,10 +42,14 @@ private struct NavBarWrapperView<SelectionType>: View where SelectionType: Hasha
         case is SegmentedControlStyle:
             SegmentedNavBarView(selection: $selection)
         case let indicatorStyle as BarButtonStyle:
-            if indicatorStyle.scrollable {
-                ScrollableNavBarView(selection: $selection)
+            if #available(iOS 16, *) {
+                if indicatorStyle.scrollable {
+                    ScrollableNavBarView(selection: $selection)
+                } else {
+                    FixedSizeNavBarView(selection: $selection)
+                }
             } else {
-                FixedSizeNavBarView(selection: $selection)
+                SegmentedNavBarView(selection: $selection)
             }
         default:
             SegmentedNavBarView(selection: $selection)
