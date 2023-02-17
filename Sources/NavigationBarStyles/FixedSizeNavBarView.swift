@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@available(iOS 16.0, *)
 internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Hashable {
 
     @Binding private var selection: SelectionType
@@ -50,6 +51,7 @@ internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Ha
 
 }
 
+@available(iOS 16.0, *)
 struct FixedSizeNavBarViewLayout: Layout {
 
     let spacing: CGFloat

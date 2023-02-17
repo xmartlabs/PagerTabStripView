@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "PagerTabStripView",
-    platforms: [.iOS(.v16), .macOS(.v13)],
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(name: "PagerTabStripView", targets: ["PagerTabStripView"])
     ],

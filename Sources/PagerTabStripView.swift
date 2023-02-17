@@ -27,7 +27,7 @@ public struct HorizontalContainerEdge: OptionSet {
     public static let both: HorizontalContainerEdge = [.left, .right]
 }
 
-@available(iOS 16.0, *)
+@available(iOS 15.0, *)
 public struct PagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
     private var content: () -> Content
     private var swipeGestureEnabled: Binding<Bool>

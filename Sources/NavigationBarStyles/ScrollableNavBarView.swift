@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@available(iOS 16.0, *)
 internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: Hashable {
 
     @Binding var selection: SelectionType
@@ -66,6 +67,7 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
     }
 }
 
+@available(iOS 16.0, *)
 struct ScrollableNavBarViewLayout: Layout {
 
     private let spacing: CGFloat
