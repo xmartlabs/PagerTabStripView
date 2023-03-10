@@ -54,8 +54,8 @@ struct TwitterView: View {
                     print("Debug -> selection: \(selection), offset: \(offset)")
                 })
         }
-        .coordinateSpace(name: "ScrollViewCoordinateSpace")
         .tabViewStyle(PageTabViewStyle.page(indexDisplayMode: .never))
+        .coordinateSpace(name: "ScrollViewCoordinateSpace")
     }
 }
 
