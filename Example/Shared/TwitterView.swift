@@ -34,16 +34,16 @@ struct TwitterView: View {
             ForEach(items, id: \.tag) { item in
                 PostsList(items: item.posts, withDescription: item.withDescription)
                     .tag(item.tag)
+                    .overlay(
+                        GeometryReader { geo in
+                            Color.clear
+                                .preference(key: ScrollViewOffsetPreferenceKey.self, value: geo.frame(in: .named("ScrollViewCoordinateSpace")).minX)
+                        }
+                    )
+                    .onPreferenceChange(ScrollViewOffsetPreferenceKey.self, perform: { offset in
+                        print("id: \(item.tag), selection: \(selection), offset: \(offset)")
+                    })
             }
-            .overlay(
-                GeometryReader { geo in
-                    Color.clear
-                        .preference(key: ScrollViewOffsetPreferenceKey.self, value: geo.frame(in: .named("ScrollViewCoordinateSpace")).minX)
-                }
-            )
-            .onPreferenceChange(ScrollViewOffsetPreferenceKey.self, perform: { offset in
-                print("selection \(selection), offset: \(offset)")
-            })
         }
         .coordinateSpace(name: "ScrollViewCoordinateSpace")
         .tabViewStyle(PageTabViewStyle.page(indexDisplayMode: .never))
