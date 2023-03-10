@@ -89,7 +89,84 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
         self._selection = selection
         self.content = content()
     }
+    
+    @MainActor public var body: some View {
+        GeometryReader { geometryProxy in
+            TabView(selection: $selection) {
+                content
+                    .overlay(
+                        GeometryReader { geo in
+                            Color.clear
+                                .preference(key: ScrollViewOffsetPreferenceKey.self, value: geo.frame(in: .named("PagerView")).minX)
+                        }
+                    )
+                    .onPreferenceChange(ScrollViewOffsetPreferenceKey.self, perform: { offset in
+                        print("Debug -> selection: \(selection), offset: \(offset)")
+                    })
+            }
+            .tabViewStyle(PageTabViewStyle.page(indexDisplayMode: .never))
+            .coordinateSpace(name: "PagerView")
+            .gesture(swipeGestureEnabled && swipeOn ?
+                        DragGesture(minimumDistance: 25).onChanged { value in
+                            swipeOn = !(edgeSwipeGestureDisabled.contains(.left) &&
+                                            (selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0) ||
+                                            edgeSwipeGestureDisabled.contains(.right) &&
+                                            (selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0))
+                        }.updating($translation) { value, state, _ in
+                            if selection == pagerSettings.itemsOrderedByIndex.first && value.translation.width > 0 {
+                                let normTrans = value.translation.width / (geometryProxy.size.width + 50)
+                                let logValue = log(1 + normTrans)
+                                state = geometryProxy.size.width/1.5 * logValue
+                            } else if selection == pagerSettings.itemsOrderedByIndex.last && value.translation.width < 0 {
+                                let normTrans = -value.translation.width / (geometryProxy.size.width + 50)
+                                let logValue = log(1 + normTrans)
+                                state = -geometryProxy.size.width / 1.5 * logValue
+                            } else {
+                                state = value.translation.width
+                            }
+                        }.onEnded { value in
+                            let offset = value.predictedEndTranslation.width / geometryProxy.size.width
+                            let selectionIndex = pagerSettings.indexOf(tag: selection) ?? 0
+                            let newPredictedIndex = (CGFloat(selectionIndex) - offset).rounded()
+                            let newIndex = min(max(Int(newPredictedIndex), 0), pagerSettings.items.count - 1)
+                            if newIndex > selectionIndex {
+                                selection =  pagerSettings.nextSelection(for: selection)
+                            } else if newIndex < selectionIndex {
+                                selection = pagerSettings.previousSelection(for: selection)
+                            }
+                        }
+                        : nil)
+            .onAppear {
+                let frame = geometryProxy.frame(in: .local)
+                pagerSettings.width = frame.width
+                if let index = pagerSettings.indexOf(tag: selection) {
+                    pagerSettings.contentOffset = -CGFloat(index) * frame.width
+                }
+            }
+            .onChange(of: pagerSettings.itemsOrderedByIndex) { _ in
+                pagerSettings.contentOffset = -(CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
+            }
+            .onChange(of: geometryProxy.frame(in: .local)) { geometry in
+                pagerSettings.width = geometry.width
+                if let index = pagerSettings.indexOf(tag: selection) {
+                    pagerSettings.contentOffset = -(CGFloat(index)) * geometry.width
+                }
+            }
+            .onChange(of: selection) { newSelection in
+                pagerSettings.contentOffset = -(CGFloat(pagerSettings.indexOf(tag: newSelection) ?? 0) * geometryProxy.size.width)
+                swipeOn = true
+            }
+            .onChange(of: translation) { _ in
+                pagerSettings.contentOffset = translation - (CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
+                swipeOn = true
+            }
+        }
+        .modifier(NavBarModifier(selection: $selection))
+        .environmentObject(pagerSettings)
+        .clipped()
+    }
 
+    /*
     @MainActor public var body: some View {
         GeometryReader { geometryProxy in
             LazyHStack(spacing: 0) {
@@ -160,5 +237,14 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
         .environmentObject(pagerSettings)
         .clipped()
     }
+     */
+}
 
+fileprivate struct ScrollViewOffsetPreferenceKey: PreferenceKey {
+    
+    static var defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
 }

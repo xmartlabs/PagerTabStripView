@@ -17,7 +17,7 @@ private struct PageItem: Identifiable {
 }
 
 struct TwitterView: View {
-    @State var selection = 4
+    @State var selection = 1
     @State var toggle = true
     @State var swipeGestureEnabled = true
 
@@ -28,43 +28,28 @@ struct TwitterView: View {
                          PageItem(tag: 5, title: "Second Medium", posts: TweetsModel().posts, withDescription: false),
                          PageItem(tag: 6, title: "Mini", posts: TweetsModel().posts)
     ]
-    
-    private var content: some View {
-        ForEach(items, id: \.tag) { item in
-            PostsList(items: item.posts, withDescription: item.withDescription)
-                .onAppear {
-                    print("Debug -> Appear: \(item.tag)")
-                }
-                .onDisappear {
-                    print("Debug -> Dissapear: \(item.tag)")
-                }
-        }
-    }
-    
-    @MainActor var body: some View {
-        TabView(selection: $selection) {
-            content
-                .overlay(
-                    GeometryReader { geo in
-                        Color.clear
-                            .preference(key: ScrollViewOffsetPreferenceKey.self, value: geo.frame(in: .named("ScrollViewCoordinateSpace")).minX)
-                    }
-                )
-                .onPreferenceChange(ScrollViewOffsetPreferenceKey.self, perform: { offset in
-                    print("Debug -> selection: \(selection), offset: \(offset)")
-                })
-        }
-        .tabViewStyle(PageTabViewStyle.page(indexDisplayMode: .never))
-        .coordinateSpace(name: "ScrollViewCoordinateSpace")
-    }
-}
 
-struct ScrollViewOffsetPreferenceKey: PreferenceKey {
-    
-    static var defaultValue: CGFloat = 0
-    
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
+    @MainActor var body: some View {
+        PagerTabStripView(swipeGestureEnabled: $swipeGestureEnabled, selection: $selection) {
+            ForEach(toggle ? items : items.reversed().dropLast(5), id: \.title) { item in
+                PostsList(items: item.posts, withDescription: item.withDescription)
+                    .pagerTabItem(tag: item.tag) {
+                        TabBarView(tag: item.tag, title: item.title, selection: $selection)
+                    }
+            }
+        }
+        .pagerTabStripViewStyle(.scrollableBarButton(tabItemSpacing: 15, tabItemHeight: 50, indicatorViewHeight: 3, indicatorView: {
+            Rectangle().fill(.blue).cornerRadius(5)
+        }))
+        .navigationBarItems(trailing: HStack {
+            Button("Refresh") {
+                toggle.toggle()
+            }
+            Button(swipeGestureEnabled ? "Swipe On": "Swipe Off") {
+                swipeGestureEnabled.toggle()
+            }
+        }
+        )
     }
 }
 
