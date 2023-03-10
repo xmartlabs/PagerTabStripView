@@ -28,22 +28,31 @@ struct TwitterView: View {
                          PageItem(tag: 5, title: "Second Medium", posts: TweetsModel().posts, withDescription: false),
                          PageItem(tag: 6, title: "Mini", posts: TweetsModel().posts)
     ]
-
+    
+    private var content: some View {
+        ForEach(items, id: \.tag) { item in
+            PostsList(items: item.posts, withDescription: item.withDescription)
+                .onAppear {
+                    print("Debug -> Appear: \(item.tag)")
+                }
+                .onDisappear {
+                    print("Debug -> Dissapear: \(item.tag)")
+                }
+        }
+    }
+    
     @MainActor var body: some View {
         TabView(selection: $selection) {
-            ForEach(items, id: \.tag) { item in
-                PostsList(items: item.posts, withDescription: item.withDescription)
-                    .tag(item.tag)
-                    .overlay(
-                        GeometryReader { geo in
-                            Color.clear
-                                .preference(key: ScrollViewOffsetPreferenceKey.self, value: geo.frame(in: .named("ScrollViewCoordinateSpace")).minX)
-                        }
-                    )
-                    .onPreferenceChange(ScrollViewOffsetPreferenceKey.self, perform: { offset in
-                        print("id: \(item.tag), selection: \(selection), offset: \(offset)")
-                    })
-            }
+            content
+                .overlay(
+                    GeometryReader { geo in
+                        Color.clear
+                            .preference(key: ScrollViewOffsetPreferenceKey.self, value: geo.frame(in: .named("ScrollViewCoordinateSpace")).minX)
+                    }
+                )
+                .onPreferenceChange(ScrollViewOffsetPreferenceKey.self, perform: { offset in
+                    print("Debug -> selection: \(selection), offset: \(offset)")
+                })
         }
         .coordinateSpace(name: "ScrollViewCoordinateSpace")
         .tabViewStyle(PageTabViewStyle.page(indexDisplayMode: .never))
