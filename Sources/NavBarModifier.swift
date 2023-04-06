@@ -5,6 +5,7 @@
 //  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
 
+#if os(iOS)
 import SwiftUI
 
 struct NavBarModifier<SelectionType>: ViewModifier where SelectionType: Hashable {
@@ -17,12 +18,12 @@ struct NavBarModifier<SelectionType>: ViewModifier where SelectionType: Hashable
     @MainActor func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             if !style.placedInToolbar {
-                NavBarWrapperView(selection: $selection)
+                NavBarWrapperView<SelectionType>(selection: $selection)
                 content
             } else {
                 content.toolbar(content: {
                     ToolbarItem(placement: .principal) {
-                        NavBarWrapperView(selection: $selection)
+                        NavBarWrapperView<SelectionType>(selection: $selection)
                     }
                 })
             }
@@ -40,21 +41,22 @@ private struct NavBarWrapperView<SelectionType>: View where SelectionType: Hasha
         case let barStyle as BarStyle:
             IndicatorBarView<SelectionType, AnyView>(selection: $selection, indicator: barStyle.indicatorView)
         case is SegmentedControlStyle:
-            SegmentedNavBarView(selection: $selection)
+            SegmentedNavBarView<SelectionType>(selection: $selection)
         case let indicatorStyle as BarButtonStyle:
             if #available(iOS 16, *) {
                 if indicatorStyle.scrollable {
-                    ScrollableNavBarView(selection: $selection)
+                    ScrollableNavBarView<SelectionType>(selection: $selection)
                 } else {
-                    FixedSizeNavBarView(selection: $selection)
+                    FixedSizeNavBarView<SelectionType>(selection: $selection)
                 }
             } else {
-                SegmentedNavBarView(selection: $selection)
+                SegmentedNavBarView<SelectionType>(selection: $selection)
             }
         default:
-            SegmentedNavBarView(selection: $selection)
+            SegmentedNavBarView<SelectionType>(selection: $selection)
         }
     }
 
     @Environment(\.pagerStyle) var style: PagerStyle
 }
+#endif

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Hashable {
 
     @Binding private var selection: SelectionType
@@ -25,8 +25,11 @@ internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Ha
             Group {
                 FixedSizeNavBarViewLayout(spacing: internalStyle.tabItemSpacing) {
                     ForEach(pagerSettings.itemsOrderedByIndex, id: \.self) { tag in
-                        NavBarItem(id: tag, selection: $selection)
-                            .tag(tag)
+                        if let dataItem = pagerSettings.items[tag] {
+                            NavBarItem(id: tag, selection: $selection)
+                                .tag(tag)
+                                .id(dataItem.id)
+                        }
                     }
                     internalStyle.indicatorView()
                         .frame(height: internalStyle.indicatorViewHeight)
@@ -51,7 +54,7 @@ internal struct FixedSizeNavBarView<SelectionType>: View where SelectionType: Ha
 
 }
 
-@available(iOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, *)
 struct FixedSizeNavBarViewLayout: Layout {
 
     let spacing: CGFloat
