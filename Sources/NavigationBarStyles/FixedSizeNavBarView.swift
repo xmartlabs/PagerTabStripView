@@ -86,7 +86,7 @@ struct FixedSizeNavBarViewLayout: Layout {
         cache: inout ()
     ) {
         // Tell each subview where to appear.
-        guard subviews.count > 1 else { return }
+        guard subviews.count > 1, let proposedWidth = proposal.width else { return }
 
         var tabsIndices = subviews.indices
         let indicatorIndex = tabsIndices.removeLast()
@@ -98,8 +98,8 @@ struct FixedSizeNavBarViewLayout: Layout {
         let totalSpacing = tabsViews.count > 1 ?  CGFloat(tabsViews.count - 1) * self.spacing : CGFloat.zero
         let maxHeight = tabsSize.map { $0.height }.reduce(CGFloat.zero) { max($0, $1) }
 
-        let sizeProposal = ProposedViewSize(width: (proposal.width! - totalSpacing) / CGFloat(tabsViews.count), height: maxHeight)
-        let fixedWidhtSubview = (proposal.width! - totalSpacing) / CGFloat(tabsViews.count)
+        let sizeProposal = ProposedViewSize(width: (proposedWidth - totalSpacing) / CGFloat(tabsViews.count), height: maxHeight)
+        let fixedWidhtSubview = (proposedWidth - totalSpacing) / CGFloat(tabsViews.count)
         var x = bounds.minX + fixedWidhtSubview / 2
 
         for index in tabsViews.indices {
@@ -120,8 +120,8 @@ struct FixedSizeNavBarViewLayout: Layout {
             return
         }
 
-        let indicatorWidth = proposal.width! / CGFloat(itemsCount)
-        let indicatorX =  bounds.minX + ((contentOffset * (proposal.width! / pagerWidth)) / CGFloat(itemsCount)) + (indicatorWidth / 2)
+        let indicatorWidth = proposedWidth / CGFloat(itemsCount)
+        let indicatorX =  bounds.minX + ((contentOffset * (proposedWidth / pagerWidth)) / CGFloat(itemsCount)) + (indicatorWidth / 2)
         indicatorSubview.place(at: CGPoint(x: indicatorX, y: bounds.maxY - (indicatorViewSize.height / 2)),
                                anchor: .center,
                                proposal: ProposedViewSize(width: indicatorWidth, height: indicatorViewSize.height))
