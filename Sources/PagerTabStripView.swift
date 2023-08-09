@@ -4,6 +4,7 @@
 //
 //  Copyright © 2022 Xmartlabs SRL. All rights reserved.
 //
+#if os(iOS)
 import SwiftUI
 
 class SelectionState<SelectionType>: ObservableObject {
@@ -27,7 +28,7 @@ public struct HorizontalContainerEdge: OptionSet {
     public static let both: HorizontalContainerEdge = [.left, .right]
 }
 
-@available(iOS 16.0, *)
+@available(iOS 15.0, *)
 public struct PagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
     private var content: () -> Content
     private var swipeGestureEnabled: Binding<Bool>
@@ -37,7 +38,8 @@ public struct PagerTabStripView<SelectionType, Content>: View where SelectionTyp
 
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true),
                 edgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant([]),
-                selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
+                selection: Binding<SelectionType>,
+                @ViewBuilder content: @escaping () -> Content) {
         self.swipeGestureEnabled = swipeGestureEnabled
         self.edgeSwipeGestureDisabled = edgeSwipeGestureDisabled
         self._selectionState = StateObject(wrappedValue: SelectionState(selection: selection.wrappedValue))
@@ -48,12 +50,12 @@ public struct PagerTabStripView<SelectionType, Content>: View where SelectionTyp
     @MainActor public var body: some View {
         WrapperPagerTabStripView(swipeGestureEnabled: swipeGestureEnabled,
                                  edgeSwipeGestureDisabled: edgeSwipeGestureDisabled,
-                                 selection: selection, content: content)
+                                 selection: selection,
+                                 content: content)
     }
 }
 
 extension PagerTabStripView where SelectionType == Int {
-
     public init(swipeGestureEnabled: Binding<Bool> = .constant(true),
                 edgeSwipeGestureDisabled: Binding<HorizontalContainerEdge> = .constant([]),
                 @ViewBuilder content: @escaping () -> Content) {
@@ -71,7 +73,6 @@ extension PagerTabStripView where SelectionType == Int {
 }
 
 private struct WrapperPagerTabStripView<SelectionType, Content>: View where SelectionType: Hashable, Content: View {
-
     private var content: Content
     @StateObject private var pagerSettings = PagerSettings<SelectionType>()
     @Environment(\.pagerStyle) var style: PagerStyle
@@ -80,10 +81,13 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
     @Binding private var swipeGestureEnabled: Bool
     @Binding private var edgeSwipeGestureDisabled: HorizontalContainerEdge
     @State private var swipeOn: Bool = true
+    @State private var selectionOffset: CGFloat = 0
+    @State private var opacity: CGFloat = 0
 
     public init(swipeGestureEnabled: Binding<Bool>,
                 edgeSwipeGestureDisabled: Binding<HorizontalContainerEdge>,
-                selection: Binding<SelectionType>, @ViewBuilder content: @escaping () -> Content) {
+                selection: Binding<SelectionType>,
+                @ViewBuilder content: @escaping () -> Content) {
         self._swipeGestureEnabled = swipeGestureEnabled
         self._edgeSwipeGestureDisabled = edgeSwipeGestureDisabled
         self._selection = selection
@@ -97,9 +101,10 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                     .frame(width: geometryProxy.size.width)
             }
             .coordinateSpace(name: "PagerViewScrollView")
-            .offset(x: -CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
+//            .offset(x: -CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
+            .offset(x: selectionOffset)
             .offset(x: translation)
-            .animation(style.pagerAnimationOnTap, value: selection)
+//            .animation(style.pagerAnimationOnTap, value: selection)
             .animation(style.pagerAnimationOnSwipe, value: translation)
             .gesture(swipeGestureEnabled && swipeOn ?
                         DragGesture(minimumDistance: 25).onChanged { value in
@@ -147,18 +152,33 @@ private struct WrapperPagerTabStripView<SelectionType, Content>: View where Sele
                     pagerSettings.contentOffset = -(CGFloat(index)) * geometry.width
                 }
             }
-            .onChange(of: selection) { newSelection in
+            .onChange(of: selection) { [oldSelection = selection] newSelection in
                 pagerSettings.contentOffset = -(CGFloat(pagerSettings.indexOf(tag: newSelection) ?? 0) * geometryProxy.size.width)
                 swipeOn = true
+                if pagerSettings.indexOf(tag: oldSelection) == nil {
+                    selectionOffset = -CGFloat(pagerSettings.indexOf(tag: newSelection) ?? 0) * geometryProxy.size.width
+                } else {
+                    withAnimation(style.pagerAnimationOnTap) {
+                        selectionOffset = -CGFloat(pagerSettings.indexOf(tag: newSelection) ?? 0) * geometryProxy.size.width
+                    }
+                }
+                withAnimation(.easeOut) {
+                    opacity = pagerSettings.indexOf(tag: selection) == nil ? 0 : 1
+                }
             }
             .onChange(of: translation) { _ in
                 pagerSettings.contentOffset = translation - (CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width)
                 swipeOn = true
             }
+            .task {
+                selectionOffset = -CGFloat(pagerSettings.indexOf(tag: selection) ?? 0) * geometryProxy.size.width
+                opacity = pagerSettings.indexOf(tag: selection) == nil ? 0 : 1
+            }
+            .opacity(opacity)
         }
         .modifier(NavBarModifier(selection: $selection))
         .environmentObject(pagerSettings)
         .clipped()
     }
-
 }
+#endif

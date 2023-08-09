@@ -44,11 +44,13 @@ extension PagerStyle where Self == SegmentedControlStyle {
     public static func segmentedControl(placedInToolbar: Bool = false,
                                         pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
                                         pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
+                                        navBarID: String? = nil,
                                         backgroundColor: Color = .white,
                                         padding: EdgeInsets = EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)) -> SegmentedControlStyle {
         return SegmentedControlStyle(placedInToolbar: placedInToolbar,
                                      pagerAnimationOnTap: pagerAnimationOnTap,
                                      pagerAnimationOnSwipe: pagerAnimationOnSwipe,
+                                     navBarID: navBarID,
                                      backgroundColor: backgroundColor,
                                      padding: padding)
     }
@@ -101,21 +103,23 @@ public struct SegmentedControlStyle: PagerStyle {
     public var placedInToolbar: Bool
     public var pagerAnimationOnTap: Animation?
     public var pagerAnimationOnSwipe: Animation?
+    public var navBarID: String? = nil
     public var backgroundColor: Color
     public var padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
     public init(placedInToolbar: Bool = false,
                 pagerAnimationOnTap: Animation? = DefaultPagerAnimation.onTap,
                 pagerAnimationOnSwipe: Animation? = DefaultPagerAnimation.onSwipe,
+                navBarID: String? = nil,
                 backgroundColor: Color = .white,
                 padding: EdgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)) {
         self.backgroundColor = backgroundColor
+        self.navBarID = navBarID
         self.placedInToolbar = placedInToolbar
         self.padding = padding
         self.pagerAnimationOnTap = pagerAnimationOnTap
         self.pagerAnimationOnSwipe = pagerAnimationOnSwipe
     }
-
 }
 
 public struct BarStyle: PagerWithIndicatorStyle {

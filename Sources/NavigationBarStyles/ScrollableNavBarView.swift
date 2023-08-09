@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@available(iOS 16.0, macOS 13.0, *)
 internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: Hashable {
 
     @Binding var selection: SelectionType
@@ -25,8 +26,11 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
                 ScrollView(.horizontal, showsIndicators: false) {
                     ScrollableNavBarViewLayout(spacing: internalStyle.tabItemSpacing) {
                         ForEach(pagerSettings.itemsOrderedByIndex, id: \.self) { tag in
-                            NavBarItem(id: tag, selection: $selection)
-                                .tag(tag)
+                            if let dataItem = pagerSettings.items[tag] {
+                                NavBarItem(id: tag, selection: $selection)
+                                   .tag(tag)
+                                   .id(dataItem.id)
+                            }
                         }
                         internalStyle.indicatorView()
                             .frame(height: internalStyle.indicatorViewHeight)
@@ -66,6 +70,7 @@ internal struct ScrollableNavBarView<SelectionType>: View where SelectionType: H
     }
 }
 
+@available(iOS 16.0, macOS 13.0, *)
 struct ScrollableNavBarViewLayout: Layout {
 
     private let spacing: CGFloat

@@ -21,8 +21,14 @@ internal struct SegmentedNavBarView<SelectionType>: View where SelectionType: Ha
             Picker("SegmentedNavBarView", selection: $selection) {
                 if pagerSettings.items.count > 0 && pagerSettings.width > 0 {
                     ForEach(pagerSettings.itemsOrderedByIndex, id: \.self) { tag in
-                        NavBarItem(id: tag, selection: $selection)
-                            .tag(tag)
+                        if let dataItem = pagerSettings.items[tag] {
+                            NavBarItem(id: tag, selection: $selection)
+                                .tag(tag)
+                                .id(dataItem.id)
+                        } else {
+                            NavBarItem(id: tag, selection: $selection)
+                                .tag(tag)
+                        }
                     }
                 }
             }

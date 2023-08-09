@@ -8,18 +8,20 @@
 import SwiftUI
 
 struct DataItem<SelectedType>: Identifiable, Equatable where SelectedType: Hashable {
-
     static func == (lhs: DataItem<SelectedType>, rhs: DataItem<SelectedType>) -> Bool {
-        return lhs.tag == rhs.tag
+        return lhs.tag == rhs.tag && lhs.id == rhs.id
     }
     private(set) var tag: SelectedType
+    fileprivate(set) var id: String?
     fileprivate(set) var view: AnyView
     fileprivate(set) var index: Int
 
-    var id: SelectedType { tag }
+//    var id: SelectedType { tag }
+//    var id: SelectedType { tag }
 
-    fileprivate init(tag: SelectedType, index: Int, view: AnyView) {
+    fileprivate init(tag: SelectedType, id: String?, index: Int, view: AnyView) {
         self.tag = tag
+        self.id = id
         self.index = index
         self.view = view
     }
@@ -127,19 +129,21 @@ public class PagerSettings<SelectionType>: ObservableObject where SelectionType:
     @Published private(set) var itemsOrderedByIndex = [SelectionType]()
 
     private func recalculateTransition() {
+        guard width > 0 else { return }
         let indexAndPercentage = -contentOffset / width
         let percentage = (indexAndPercentage + 1).truncatingRemainder(dividingBy: 1)
         let lowIndex = Int(floor(indexAndPercentage))
         transition = TransitionProgress(from: itemsOrderedByIndex[safe: lowIndex], to: itemsOrderedByIndex[safe: lowIndex+1], percentage: percentage)
     }
 
-    func createOrUpdate<TabView: View>(tag: SelectionType, index: Int, view: TabView) {
+    func createOrUpdate<TabView: View>(tag: SelectionType, id: String?, index: Int, view: TabView) {
         if var dataItem = items[tag] {
+            dataItem.id = id
             dataItem.index = index
             dataItem.view = AnyView(view)
             items[tag] = dataItem
         } else {
-            items[tag] = DataItem(tag: tag, index: index, view: AnyView(view))
+            items[tag] = DataItem(tag: tag, id: id, index: index, view: AnyView(view))
         }
     }
 
