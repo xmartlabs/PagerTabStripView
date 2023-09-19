@@ -127,7 +127,7 @@ public class PagerSettings<SelectionType>: ObservableObject where SelectionType:
     @Published private(set) var itemsOrderedByIndex = [SelectionType]()
 
     private func recalculateTransition() {
-        let indexAndPercentage = -contentOffset / width
+        let indexAndPercentage = width == 0 ? 0 : -contentOffset / width
         let percentage = (indexAndPercentage + 1).truncatingRemainder(dividingBy: 1)
         let lowIndex = Int(floor(indexAndPercentage))
         transition = TransitionProgress(from: itemsOrderedByIndex[safe: lowIndex], to: itemsOrderedByIndex[safe: lowIndex+1], percentage: percentage)
