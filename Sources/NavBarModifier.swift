@@ -9,16 +9,23 @@ import SwiftUI
 
 struct NavBarModifier<SelectionType>: ViewModifier where SelectionType: Hashable {
     @Binding private var selection: SelectionType
+	private let isStickToBottom: Bool
 
-    public init(selection: Binding<SelectionType>) {
-        self._selection = selection
-    }
+	public init(selection: Binding<SelectionType>, isStickToBottom: Bool) {
+		self._selection = selection
+		self.isStickToBottom = isStickToBottom
+	}
 
     @MainActor func body(content: Content) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             if !style.placedInToolbar {
-                NavBarWrapperView(selection: $selection)
-                content
+				if isStickToBottom {
+					content
+					NavBarWrapperView(selection: $selection)
+				} else {
+					NavBarWrapperView(selection: $selection)
+					content
+				}
             } else {
                 content.toolbar(content: {
                     ToolbarItem(placement: .principal) {
